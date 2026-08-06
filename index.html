@@ -103,6 +103,8 @@ body{font-family:"Assistant","Segoe UI",system-ui,-apple-system,sans-serif;line-
 <script>
 /* ---------- colors per base ---------- */
 var C={osaka:"#B85428",kyoto:"#7A4E86",gujo:"#2E7D8A",matsumoto:"#274B8C",fuji:"#4A6FA5",tokyo:"#A03E5C"};
+var BASEKEY={osaka:"osaka",kyoto:"kyoto",gujo:"gujo",matsumoto:"matsumoto",fuji:"gotemba",tokyo:"tokyo"};
+var BASENAME={osaka:"אוסקה",kyoto:"קיוטו",gujo:"גוג׳ו",matsumoto:"מטסומוטו",fuji:"גוטמבה",tokyo:"טוקיו"};
 var HOTEL={
   osaka:"Meander Osaka · Namba",kyoto:"Miru Kyoto Gion",gujo:"Fairfield Gifu Gujō (Yamato)",
   matsumoto:"Matsumoto Jujo · אמבט פתוח",fuji:"edit×seven Fuji Gotemba",tokyo:"Metropolitan Edmont · Iidabashi"
@@ -280,11 +282,12 @@ function render(){
       +'<span class="tag">🛏️ '+HOTEL[day.base]+'</span></div></div><div class="items">';
     day.items.forEach(function(it,i){
       var lg=it.leg,dr=it.drive&&R?R.drives[it.drive]:null;
-      if(dr)lg={mode:"car",hrs:dr.hrs,km:dr.km,txt:null};
-      if(lg&&i>0){
-        var prev=day.items[i-1],dirs="";
-        if(R&&it.k&&prev.k&&R.coords[it.k]&&R.coords[prev.k])
-          dirs=' · <a href="https://www.google.com/maps/dir/'+R.coords[prev.k]+'/'+R.coords[it.k]+'" target="_blank" rel="noopener">הוראות הגעה ›</a>';
+      /* a drive on the first item starts from that day's base, not from a previous stop */
+      if(dr)lg={mode:"car",hrs:dr.hrs,km:dr.km,txt:i===0?("מ"+BASENAME[day.base]):(it.leg&&it.leg.txt)};
+      if(lg){
+        var fromK=i>0?(day.items[i-1]||{}).k:BASEKEY[day.base],dirs="";
+        if(R&&it.k&&fromK&&R.coords[it.k]&&R.coords[fromK])
+          dirs=' · <a href="https://www.google.com/maps/dir/'+R.coords[fromK]+'/'+R.coords[it.k]+'" target="_blank" rel="noopener">הוראות הגעה ›</a>';
         html+='<div class="leg"><span class="m">'+MODE[lg.mode]+'</span> '+fmt(lg.hrs)
           +(lg.km?' · '+lg.km+' ק״מ':'')+(lg.txt?' · '+lg.txt:'')+dirs+'</div>';
       }else if(i>0)html+='<div style="height:7px"></div>';
