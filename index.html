@@ -9,7 +9,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#EEF0F3;--card:#fff;--sunk:#E7EAEF;--ink:#0F1317;--ink2:#586273;--ink3:#8A93A2;
-  --line:#DDE1E8;--accent:#274B8C;--accent-soft:#E6ECF8;--r:16px;
+  --line:#DDE1E8;--accent:#274B8C;--accent-soft:#E6ECF8;
   --sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme:dark){:root{
@@ -20,203 +20,313 @@ html,body{background:var(--bg);color:var(--ink)}
 body{font-family:"Assistant","Segoe UI",system-ui,-apple-system,sans-serif;line-height:1.5;
   -webkit-font-smoothing:antialiased}
 .en{direction:ltr;unicode-bidi:isolate;display:inline-block}
-.wrap{max-width:620px;margin:0 auto;padding-bottom:calc(24px + var(--sab))}
+.app{max-width:620px;margin:0 auto;padding-bottom:calc(30px + var(--sab))}
 
-/* header */
-.head{padding:calc(14px + var(--sat)) 16px 10px}
-.head h1{font-size:22px;font-weight:800;letter-spacing:-.2px}
-.head p{font-size:13px;color:var(--ink2);margin-top:2px}
+.head{padding:calc(12px + var(--sat)) 16px 8px}
+.head h1{font-size:19px;font-weight:800}
+.head p{font-size:12.5px;color:var(--ink2)}
 
-/* map */
-#map{height:44vh;min-height:300px;width:100%;background:var(--sunk);z-index:1}
-#map.mapfail{display:flex;align-items:center;justify-content:center;text-align:center;
-  height:auto;min-height:0;padding:18px 16px;border-radius:0}
-.mapmsg{font-size:13px;color:var(--ink2);line-height:1.6}
-.mapmsg a{color:var(--accent);font-weight:700}
-.pin{background:none;border:none}
-.pin span{display:flex;width:26px;height:26px;border-radius:50%;background:var(--c);border:2.5px solid #fff;
-  color:#fff;font-weight:800;font-size:12px;align-items:center;justify-content:center;
-  box-shadow:0 1px 5px rgba(0,0,0,.45)}
-.leaflet-popup-content{font-family:inherit;direction:rtl;font-size:13px;margin:9px 12px}
-.leaflet-popup-content b{font-size:14px}
+#map{height:40vh;min-height:280px;width:100%;background:var(--sunk);z-index:1}
+#map.mapfail{display:flex;align-items:center;justify-content:center;text-align:center;height:auto;min-height:0;padding:16px}
+.mapmsg{font-size:13px;color:var(--ink2)}.mapmsg a{color:var(--accent);font-weight:700}
+.pin span{display:flex;width:26px;height:26px;border-radius:50%;background:var(--c,#274B8C);border:2.5px solid #fff;
+  color:#fff;font-weight:800;font-size:12px;align-items:center;justify-content:center;box-shadow:0 1px 5px rgba(0,0,0,.45)}
+.pin.sm span{width:19px;height:19px;font-size:10px;border-width:2px;opacity:.95}
+.leaflet-popup-content{font-family:inherit;direction:rtl;font-size:13px;margin:8px 11px}
 
-/* card grid */
-.gridwrap{padding:14px 12px 0}
-.gridwrap h2{font-size:13px;font-weight:700;color:var(--ink3);margin:6px 4px 10px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
-  cursor:pointer;text-align:right;transition:transform .12s,box-shadow .12s}
-.card:active{transform:scale(.98)}
-.card:hover{box-shadow:0 4px 16px rgba(0,0,0,.12)}
-.card .top{height:76px;background:var(--c);display:flex;align-items:center;justify-content:center;
-  font-size:34px;position:relative}
-.card .num{position:absolute;top:8px;right:10px;width:22px;height:22px;border-radius:50%;
-  background:rgba(255,255,255,.28);color:#fff;font-size:12px;font-weight:800;display:flex;
-  align-items:center;justify-content:center}
-.card .body{padding:10px 12px 12px}
-.card .cn{font-weight:800;font-size:16px;line-height:1.2}
-.card .cn .he{color:var(--ink2);font-weight:600;font-size:13px}
-.card .cd{font-size:12.5px;color:var(--ink2);margin:3px 0 8px}
-.chips{display:flex;flex-wrap:wrap;gap:5px}
-.pill{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--sunk);color:var(--ink2)}
-.pill.c{background:var(--c);color:#fff;opacity:.92}
+/* day chips */
+.daybar{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);
+  padding:9px 0 8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.daybar::-webkit-scrollbar{display:none}
+.daybar .row{display:flex;gap:7px;padding:0 14px;width:max-content}
+.chip{flex:none;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:6px 11px;
+  cursor:pointer;text-align:center;min-width:52px;font-family:inherit;color:var(--ink)}
+.chip .dw{font-size:10.5px;color:var(--ink3);font-weight:700;display:block;line-height:1.3}
+.chip .dn{font-size:14.5px;font-weight:800;display:block;line-height:1.25}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.chip.on .dw{color:rgba(255,255,255,.85)}
+.chip.all{min-width:auto;display:flex;align-items:center;font-size:13px;font-weight:800;padding:6px 13px}
 
-/* detail overlay */
-.scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;
-  transition:opacity .2s;z-index:1000}
-.scrim.on{opacity:1;pointer-events:auto}
-.sheet{position:fixed;inset:0;z-index:1001;background:var(--bg);transform:translateY(100%);
-  transition:transform .26s cubic-bezier(.2,.8,.2,1);overflow-y:auto;display:flex;flex-direction:column}
-.sheet.on{transform:none}
-.sheet .shead{position:sticky;top:0;padding:calc(14px + var(--sat)) 16px 14px;color:#fff;background:var(--c)}
-.sheet .back{position:absolute;top:calc(14px + var(--sat));inset-inline-start:14px;background:rgba(255,255,255,.22);
-  border:none;color:#fff;width:34px;height:34px;border-radius:50%;font-size:18px;cursor:pointer}
-.sheet h2{font-size:24px;font-weight:800}
-.sheet .shead .sub{font-size:13.5px;opacity:.92;margin-top:3px}
-.sbody{max-width:620px;margin:0 auto;width:100%;padding:14px 16px calc(30px + var(--sab))}
-.hdr{font-size:12.5px;font-weight:700;color:var(--ink3);margin:16px 4px 8px}
-.hdr:first-child{margin-top:4px}
-.day{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:8px}
-.day .t{font-weight:700;font-size:15px}
-.day .s{font-size:13px;color:var(--ink2);margin-top:2px}
-.book{background:var(--accent-soft);border-radius:12px;padding:11px 13px;font-size:13px}
-.book b{font-weight:700}
-.gmap{display:inline-flex;align-items:center;gap:7px;margin-top:12px;background:var(--accent);color:#fff;
-  text-decoration:none;font-weight:700;font-size:14px;padding:11px 16px;border-radius:12px}
-.note{background:var(--sunk);border-radius:12px;padding:10px 13px;font-size:12.5px;color:var(--ink2);margin-top:10px}
-.foot{padding:22px 16px;font-size:11.5px;color:var(--ink3);text-align:center}
+/* day header */
+.dayhead{padding:14px 16px 4px}
+.dayhead h2{font-size:20px;font-weight:800;line-height:1.25}
+.dayhead .meta{font-size:13px;color:var(--ink2);margin-top:2px}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;
+  background:var(--sunk);color:var(--ink2);margin-inline-end:5px}
+.tag.c{background:var(--c);color:#fff}
+
+/* items */
+.items{padding:8px 14px 0}
+.item{display:flex;gap:11px;background:var(--card);border:1px solid var(--line);border-radius:13px;
+  padding:11px 12px;cursor:pointer;align-items:flex-start}
+.item:hover{box-shadow:0 3px 12px rgba(0,0,0,.10)}
+.badge{flex:none;width:24px;height:24px;border-radius:50%;background:var(--c,#274B8C);color:#fff;
+  font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.badge.bed{background:var(--sunk);color:var(--ink2);font-size:13px}
+.ib{flex:1;min-width:0}
+.iname{font-weight:700;font-size:15.5px;line-height:1.3}
+.isub{font-size:13px;color:var(--ink2);margin-top:2px}
+.itime{font-size:11px;font-weight:700;color:var(--accent);background:var(--accent-soft);
+  border-radius:6px;padding:2px 7px;display:inline-block;margin-top:6px}
+.opt{font-size:10.5px;font-weight:700;color:var(--ink3);border:1px dashed var(--line);
+  border-radius:6px;padding:1px 6px;margin-inline-start:6px}
+
+/* travel connector */
+.leg{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink2);padding:7px 12px 7px 0;
+  margin-inline-start:11px;border-inline-start:2px dotted var(--line)}
+.leg a{color:var(--accent);font-weight:700;text-decoration:none}
+.leg .m{font-weight:700}
+
+.note{background:var(--sunk);border-radius:12px;padding:10px 13px;font-size:12.5px;color:var(--ink2);
+  margin:10px 14px 0;line-height:1.55}
+.note.warn{background:#FBEAE0;color:#7a3a1c}
+@media (prefers-color-scheme:dark){.note.warn{background:#2E1B12;color:#E8A583}}
+.foot{padding:20px 16px;font-size:11px;color:var(--ink3);text-align:center;line-height:1.7}
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="app">
   <div class="head">
     <h1>יפן 2026 · בר ונועה</h1>
-    <p>4–20 באוקטובר · 16 לילות · שש תחנות. הקישו תחנה על המפה או על כרטיס.</p>
+    <p>4–20 באוקטובר · 16 לילות · שש תחנות</p>
   </div>
   <div id="map"></div>
-  <div class="gridwrap">
-    <h2>התחנות</h2>
-    <div class="grid" id="grid"></div>
+  <div class="daybar"><div class="row" id="daybar"></div></div>
+  <div id="content"></div>
+  <div class="foot">
+    מפה · <span class="en">Leaflet + OpenStreetMap</span> · מסלולי נהיגה אמיתיים מחושבים מראש (<span class="en">OSRM</span>)<br>
+    זמני נהיגה מחושבים ללא עצירות ותנועה · עדכון 6 באוגוסט 2026
   </div>
-  <div class="foot">מפה · <span class="en">Leaflet + OpenStreetMap</span> · עדכון 6 באוגוסט 2026</div>
 </div>
-
-<div class="scrim" id="scrim"></div>
-<div class="sheet" id="sheet"></div>
 
 <script src="vendor/leaflet.js"></script>
 <script>
-var STOPS=[
- {id:"osaka",en:"Ōsaka",he:"אוסקה",d:"4–7/10",n:"3 לילות",ic:"🍜",c:"#B85428",ll:[34.6666,135.5010],
-  hotel:"Meander Osaka · 4–7/10 · בסיס Namba",
-  days:[
-   {t:"יום עיר · Namba / Horie",s:"Nakazakichō, Tenjinbashisuji, Horie — רחובות, קפה, אוכל. ערב ב-Ura-Namba."},
-   {t:"טיול יום (לפי מזג)",s:"Nara \"כמו שצריך\" (Naramachi/יער, לא רק איילים) · Ine ביום צלול · Minoh+Katsuo-ji חצי יום."}
-  ]},
- {id:"kyoto",en:"Kyoto",he:"קיוטו",d:"7–9/10",n:"2 לילות",ic:"⛩️",c:"#7A4E86",ll:[35.0037,135.7788],
-  hotel:"Miru Gion · 7–8 Deluxe + 8–9 Superior · ייתכן מעבר חדר בבוקר 8/10",
-  days:[
-   {t:"7 · ערב Higashiyama",s:"Kiyomizu לפנות ערב, Sannenzaka/Ninenzaka, סמטאות גיון, Shirakawa, נהר Kamo."},
-   {t:"8 · בוקר מוקדם — אטרקציית חובה בשעה ריקה",s:"Fushimi Inari 07:00 (לפני הקהל) או Arashiyama בזריחה, ואז יום גמיש."},
-   {t:"9 · בוקר קצר → איסוף רכב",s:"09:30 Corolla ב-Sanjo Keihan, יוצאים לגוג׳ו."}
-  ]},
- {id:"gujo",en:"Gujō",he:"גוג׳ו",d:"9–10/10",n:"לילה",ic:"💧",c:"#2E7D8A",ll:[35.7486,136.9635],
-  hotel:"Fairfield by Marriott Gifu Gujo · 9–10/10 · Gujō-Yamato",
-  days:[
-   {t:"עיירת מים",s:"Igawa Komichi, Sōgi-sui, סמטאות ותעלות, בתי קפה, אוכל מקומי. ערב מוקדם (עיירה שקטה)."},
-   {t:"נסיעה למטסומוטו · דרך Kiso",s:"עצירה אחת — Narai-juku. ~3–3.5 ש׳. לא דרך Takayama."}
-  ]},
- {id:"matsumoto",en:"Matsumoto",he:"מטסומוטו",d:"10–13/10",n:"3 לילות",ic:"🏔️",c:"#274B8C",ll:[36.2381,137.9720],
-  hotel:"Matsumoto Jujo · 10–13/10 · אמבט פתוח",
-  days:[
-   {t:"יום עיר",s:"הטירה + Nakamachi/Nawate, קפה ואוכל. Alps Park ביום עם ראות."},
-   {t:"יום טבע גדול · Kamikōchi",s:"שיא שלכת — נסיעה ל-Sawando, אוטובוס פנימה, Taishō-ike → Kappa-bashi."},
-   {t:"יום גמיש (לפי מזג)",s:"Utsukushigahara ביום צלול · Azumino + Daiō Wasabi (חצי יום)."}
-  ],
-  note:"⚠️ חג Sports Day (12/10) + פסטיבל הסובה (10–12) בטירה — עיר מלאה. להזמין ארוחות ערב מראש (~8–12/9), עדיף דרך המלון."},
- {id:"fuji",en:"Fuji",he:"פוג׳י · Gotemba",d:"13–15/10",n:"2 לילות",ic:"🗻",c:"#4A6FA5",ll:[35.3084,138.9335],
-  hotel:"edit×seven Fuji Gotemba · 13–15/10 · Fuji View",
-  days:[
-   {t:"מודולרי לפי ראות · GR Yaris",s:"A צלול — Yamanakako/Panorama-dai/Oshino/Ōishi Park. B חלקי — נשארים קרוב. C מוסתר → Hakone."},
-   {t:"פוג׳י הוא הר של בקרים",s:"נראות גוברת על סדר העצירות. לבדוק עננות בערב-קודם ובבוקר."}
-  ]},
- {id:"tokyo",en:"Tokyo",he:"טוקיו",d:"15–20/10",n:"5 לילות",ic:"🏙️",c:"#A03E5C",ll:[35.7006,139.7440],
-  hotel:"Hotel Metropolitan Edmont (Iidabashi) · 15–20/10 · Kagurazaka",
-  days:[
-   {t:"15 · הגעה + Kagurazaka",s:"מגוטמבה, החזרת רכב, צ׳ק-אין, ערב בסמטאות Kagurazaka."},
-   {t:"16 · Yanaka / Nezu",s:"Senso-ji מוקדם + Kappabashi + Nezu-jinja + Yanaka Ginza."},
-   {t:"17 · Shimokitazawa + Kichijōji",s:"Inokashira, וינטג׳, תקליטים, קפה, הופעת אינדי בערב."},
-   {t:"18 · Koenji + Nakano",s:"Nakano Broadway (מקורה) + Koenji: יד-שנייה, מוזיקה, ברים."},
-   {t:"19 · Meiji מוקדם + Shibuya קצר + Daikanyama/Nakameguro",s:"מקדש מוקדם, סימון-וי ב-Shibuya, אחה\"צ/ערב לאורך נהר Meguro."},
-   {t:"20 · יציאה",s:"בוקר קליל, NRT 18:00 (לצאת ~14:30)."}
-  ]}
+/* ---------- colors per base ---------- */
+var C={osaka:"#B85428",kyoto:"#7A4E86",gujo:"#2E7D8A",matsumoto:"#274B8C",fuji:"#4A6FA5",tokyo:"#A03E5C"};
+var HOTEL={
+  osaka:"Meander Osaka · Namba",kyoto:"Miru Kyoto Gion",gujo:"Fairfield Gifu Gujō (Yamato)",
+  matsumoto:"Matsumoto Jujo · אמבט פתוח",fuji:"edit×seven Fuji Gotemba",tokyo:"Metropolitan Edmont · Iidabashi"
+};
+
+/* ---------- the trip, day by day ----------
+   k = key into route.json coords (gets a numbered map pin) */
+var DAYS=[
+{d:4,dow:"א׳",base:"osaka",t:"נחיתה + ערב ב-Namba",items:[
+  {n:"נחיתה ב-KIX",s:"11:40 · הגירה, מזוודות, רכבת/לימוזין לעיר",t:"11:40"},
+  {k:"osaka",n:"Meander Osaka · צ׳ק-אין",s:"מורידים תיקים, יום רך אחרי הטיסה",leg:{mode:"rail",hrs:0.85,txt:"KIX → Namba"}},
+  {n:"ערב · Ura-Namba / Hōzenji Yokochō",s:"סמטאות איזקאיה, ארוחה קלה, מוקדם לישון"}],
+  note:"יום נחיתה — בלי סייטסיאינג גדול ובלי הזמנות."},
+{d:5,dow:"ב׳",base:"osaka",t:"יום גמיש · עיר או טיול יום",items:[
+  {k:"osaka",n:"אופציה A · יום עיר",s:"Nakazakichō, Tenjinbashisuji, Nakanoshima, Horie — קפה, רחובות, אוכל"},
+  {k:"nara",n:"אופציה B · נארה \"כמו שצריך\"",s:"Naramachi, גנים, יער Kasugayama — לא רק פארק האיילים",opt:1,leg:{mode:"rail",hrs:0.8,txt:"אוסקה → נארה"}},
+  {k:"minoh",n:"אופציה C · מפלי Minoh + Katsuo-ji",s:"חצי יום טבע, שלכת מוקדמת ביער",opt:1}],
+  note:"בוחרים לפי מזג האוויר: יום צלול → טיול יום. יום פחות טוב → שכונות אוסקה."},
+{d:6,dow:"ג׳",base:"osaka",t:"יום גמיש · האופציה השנייה",items:[
+  {k:"osaka",n:"אוסקה · שכונות ואוכל",s:"מה שלא עשינו אתמול — Horie, Shinsaibashi, Tenma לערב"},
+  {k:"ine",n:"אופציונלי · Ine no Funaya",s:"כפר הדייגים על המים — יום ארוך (~3 ש׳ לכל כיוון), רק ביום צלול מאוד",opt:1}],
+  note:"Ine דורש רכב ליום או סיור מאורגן — להחליט מראש, לא ספונטני."},
+{d:7,dow:"ד׳",base:"kyoto",t:"מעבר לקיוטו + ערב Higashiyama",items:[
+  {k:"osaka",n:"בוקר אחרון באוסקה",s:"קפה, אריזה, צ׳ק-אאוט"},
+  {k:"kyoto",n:"Miru Kyoto Gion · צ׳ק-אין",s:"מזוודות למלון בגיון",leg:{mode:"rail",hrs:0.5,txt:"אוסקה → קיוטו"}},
+  {k:"kiyomizu",n:"Kiyomizu-dera לפנות ערב",s:"ואז Sannenzaka / Ninenzaka במורד"},
+  {n:"ערב · סמטאות גיון",s:"תעלת Shirakawa, נהר Kamo, ארוחה ב-Gion / Pontochō"}],
+  note:"רק מזרח קיוטו היום — לא לנסות לשלב Arashiyama או Fushimi."},
+{d:8,dow:"ה׳",base:"kyoto",t:"יום מלא · הבוקר המוקדם",items:[
+  {k:"fushimi",n:"Fushimi Inari · 07:00",s:"אטרקציית החובה בשעה ריקה — השערים לפני ההמון",t:"07:00"},
+  {k:"arashiyama",n:"Arashiyama (אופציה)",s:"חורש הבמבוק, נהר, Ōkōchi Sansō — או במקום: יום שכונתי-קולינרי",opt:1},
+  {n:"אחה״צ · Nishiki ומרכז",s:"שוק, סמטאות, קפה — קצב רגוע"},
+  {n:"ערב · חזרה לגיון",s:"ארוחה באזור המלון"}],
+  note:"ייתכן מעבר חדר ב-MIRU הבוקר — משאירים מזוודות בקבלה."},
+{d:9,dow:"ו׳",base:"gujo",t:"אוספים רכב → גוג׳ו",items:[
+  {k:"sanjo",n:"איסוף Corolla Sport · 09:30",s:"Sanjo Keihan-Kita · בדיקת רכב + ETC · מונית קצרה מגיון עם המזוודות",t:"09:30"},
+  {k:"gujo",n:"Gujō-Hachiman · העיר העתיקה",s:"Igawa Komichi, Sōgi-sui, תעלות מים, בתי קפה, צהריים מקומי",drive:"kyoto_gujo"},
+  {n:"ערב · ארוחה מוקדמת",s:"גוג׳ו שקטה בערב — לוודא מקום פתוח מראש"}],
+  note:"המלון (Fairfield) ב-Gujō-Yamato, ~15–20 דק׳ מהעיר העתיקה."},
+{d:10,dow:"ש׳",base:"matsumoto",t:"דרך עמק Kiso למטסומוטו",items:[
+  {k:"gujo",n:"בוקר קצר בגוג׳ו",s:"סיבוב אחרון, קפה, יוצאים"},
+  {k:"narai",n:"Narai-juku · העצירה היחידה",s:"עיירת דואר משומרת — צהריים והליכה ברחוב הראשי",drive:"gujo_matsumoto"},
+  {k:"matsumoto",n:"Matsumoto Jujo · צ׳ק-אין",s:"מגיעים ~16:30–17:00 · הערב שמור למלון ולאמבט"}],
+  note:"לא דרך Takayama (צפיפות פסטיבל). לא לנסות Magome+Tsumago+Narai באותו יום."},
+{d:11,dow:"א׳",base:"matsumoto",t:"יום הטבע הגדול",items:[
+  {k:"sawando",n:"נסיעה ל-Sawando",s:"חניון park & ride — רכב פרטי אסור בקמיקוצ׳י",drive:"dt_sawando"},
+  {k:"kamikochi",n:"Kamikōchi · Kappa-bashi",s:"אוטובוס פנימה. Taishō-ike → Kappa-bashi → Myōjin אם יש כוח. שיא השלכת",leg:{mode:"bus",hrs:0.5,txt:"Sawando → Kamikōchi (אוטובוס בלבד)"}},
+  {k:"utsukushi",n:"חלופה · Utsukushigahara",s:"רמה בגובה ~2,000מ׳, נסיעה נופית (Venus Line) — אם מעדיפים רכב על אוטובוס",opt:1}],
+  note:"⚠️ אוטובוס Kamikōchi בהזמנה מראש (National Park Liner). בוחרים ערב קודם לפי תחזית."},
+{d:12,dow:"ב׳",base:"matsumoto",t:"מטסומוטו · חג + פסטיבל הסובה",items:[
+  {k:"matsumoto",n:"טירת Matsumoto + פסטיבל הסובה",s:"הפסטיבל בפארק הטירה (10–12/10). להגיע לפני שיא הצהריים",t:"בוקר"},
+  {n:"Nawate + Nakamachi",s:"רחוב הצפרדעים לאורך התעלה, מחסני kura, קרמיקה, קפה"},
+  {k:"daio",n:"אופציונלי · Azumino + Daiō Wasabi",s:"חצי יום כפרי — נחלים, חוות וסאבי, אופניים",opt:1,leg:{mode:"car",hrs:0.4,km:17.6,txt:"מטסומוטו → Azumino"}}],
+  note:"⚠️ Sports Day — העיר, החניה והמסעדות עמוסות. ארוחת ערב חייבת הזמנה מראש."},
+{d:13,dow:"ג׳",base:"fuji",t:"לגוטמבה + החלפת רכב",items:[
+  {k:"matsumoto",n:"יוצאים מוקדם ממטסומוטו",s:"עצירה אחת לכל היותר (Suwa / Yatsugatake / Kiyosato)"},
+  {k:"gotemba",n:"החלפת רכב · 14:30",s:"מזוודות ל-edit×seven → מחזירים Corolla → אוספים GR Yaris 🏁",t:"14:30",drive:"matsumoto_gotemba"},
+  {k:"yamanakako",n:"לולאה ראשונה · Yamanakako",s:"נקודת שקיעה אחת טובה — לא לרדוף אחרי כמה אגמים"}],
+  note:"מזוודות נשארות במלון — לא ב-GR Yaris (תא מטען קטן)."},
+{d:14,dow:"ד׳",base:"fuji",t:"יום פוג׳י · מודולרי לפי ראות",items:[
+  {k:"panoramadai",n:"גרסה A · ראות מצוינת",s:"Panorama-dai → Oshino Hakkai מוקדם → צפון Kawaguchiko → Ōishi Park",drive:"fuji_loop"},
+  {k:"oshino",n:"גרסה B · מעונן חלקית",s:"נשארים קרוב: Gotemba, Yamanakako, Oshino, מזרח Kawaguchiko",opt:1},
+  {k:"hakone",n:"גרסה C · פוג׳י מוסתר → Hakone",s:"יום נהיגה נופי: אגם Ashi, Ōwakudani, המוזיאון הפתוח",opt:1}],
+  note:"פוג׳י הוא הר של בקרים — בודקים עננות בערב הקודם ובבוקר, ומחליטים אז."},
+{d:15,dow:"ה׳",base:"tokyo",t:"בוקר פוג׳י אחרון → טוקיו",items:[
+  {k:"gotemba",n:"בוקר אחרון + החזרת GR Yaris",s:"נקודה מזרחית אם ההר נראה · תדלוק אוקטן גבוה · החזרה 14:30",t:"14:30"},
+  {k:"tokyo",n:"Metropolitan Edmont · צ׳ק-אין",s:"Iidabashi",leg:{mode:"rail",hrs:1.6,txt:"גוטמבה → טוקיו (אוטובוס/שינקנסן דרך Mishima)"}},
+  {k:"kagurazaka",n:"ערב · Kagurazaka",s:"עלייה ברחוב הראשי, סמטאות מרוצפות, ביסטרו/איזקאיה"}]},
+{d:16,dow:"ו׳",base:"tokyo",t:"טוקיו הישנה · Yanaka",items:[
+  {k:"asakusa",n:"Senso-ji · 07:00–08:00",s:"לפני שהדוכנים נפתחים — המקום ריק",t:"07:00"},
+  {k:"kappabashi",n:"Kappabashi",s:"רחוב המטבח — סכינים, קרמיקה, כלי מטבח"},
+  {k:"yanaka",n:"Nezu → Yanaka Ginza",s:"Nezu-jinja (מנהרת טוריים), בית הקברות, רחוב מסחר ישן, קיסאטן"}],
+  note:"גשם: Tokyo National Museum ב-Ueno (סגור בשני — היום חמישי, בסדר)."},
+{d:17,dow:"ש׳",base:"tokyo",t:"Shimokitazawa + Kichijōji",items:[
+  {k:"kichijoji",n:"בוקר · Kichijōji",s:"פארק Inokashira, Harmonica Yokochō, רחובות קניות",opt:1},
+  {k:"shimokita",n:"Shimokitazawa",s:"וינטג׳, תקליטים, ספרים, קפה, Bonus Track, תיאטרונים קטנים"},
+  {n:"ערב · קארי + הופעה",s:"live house אינדי/רוק — לבדוק לוח הופעות מראש"}]},
+{d:18,dow:"א׳",base:"tokyo",t:"Koenji + Nakano",items:[
+  {k:"nakano",n:"Nakano Broadway",s:"רטרו, אספנות, וינטג׳ — מקורה, טוב גם לגשם",opt:1},
+  {k:"koenji",n:"Koenji",s:"יד-שנייה, תקליטים, ארקדות, קפה, מוזיקה"},
+  {n:"ערב · בר / יאקיטורי / הופעה",s:"סצנת live-house חזקה"}]},
+{d:19,dow:"ב׳",base:"tokyo",t:"Meiji מוקדם + Shibuya קצר + Nakameguro",items:[
+  {k:"meiji",n:"Meiji Jingū · 08:00",s:"יער שקט, שבילי חצץ — אמצע שבוע = רגוע",t:"08:00"},
+  {k:"shibuya",n:"Shibuya · סימון וי",s:"Hachiko והמעבר — שעה עד שעה וחצי, לא יותר"},
+  {k:"daikanyama",n:"Daikanyama · צהריים",s:"T-Site, בוטיקים, רחובות רגועים"},
+  {k:"nakameguro",n:"Nakameguro · נהר Meguro",s:"אחה״צ וערב לאורך הנהר — קפה, ברים, ארוחה (או Ebisu)"}],
+  note:"teamLab אופציונלי בערב — היה עמוס בתיירים, לבדוק יום/שעה."},
+{d:20,dow:"ג׳",base:"tokyo",t:"יציאה · NRT 18:00",items:[
+  {k:"kagurazaka",n:"בוקר קליל ליד המלון",s:"ארוחת בוקר, קניות אחרונות, קפה"},
+  {n:"יציאה לנמל התעופה",s:"לצאת ~14:30 · טיסה 18:00 מ-NRT",t:"~14:30",leg:{mode:"rail",hrs:1.3,txt:"טוקיו → NRT"}}],
+  note:"בלי אזור או טיול גדול — מרווח ביטחון לשדה."}
 ];
 
-/* ---------- 1. cards first ----------
-   The itinerary must render even if the map library fails to load. */
-var grid=document.getElementById("grid");
-STOPS.forEach(function(s,i){
-  var el=document.createElement("div");
-  el.className="card";el.setAttribute("role","button");el.tabIndex=0;
-  el.style.cssText="--c:"+s.c;
-  el.innerHTML='<div class="top"><span class="num">'+(i+1)+'</span>'+s.ic+'</div>'
-    +'<div class="body"><div class="cn"><span class="en">'+s.en+'</span> <span class="he">'+s.he+'</span></div>'
-    +'<div class="cd">'+s.d+'</div>'
-    +'<div class="chips"><span class="pill c">'+s.n+'</span><span class="pill">'+s.days.length+' ימים</span></div></div>';
-  el.addEventListener("click",function(){openStop(s);});
-  el.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();openStop(s);}});
-  grid.appendChild(el);
-});
+/* ---------- helpers ---------- */
+function fmt(h){var m=Math.round(h*60);return m<60?m+" ד׳":Math.floor(m/60)+" ש׳ "+(m%60?(m%60)+" ד׳":"").trim();}
+var MODE={car:"🚗 נהיגה",rail:"🚆 רכבת",bus:"🚌 אוטובוס",walk:"🚶 הליכה"};
 
-/* ---------- 2. map (optional enhancement) ---------- */
-var map=null,markers={},mapReady=false;
+var R=null,map=null,layer=null,mapReady=false,sel="all";
+
+/* ---------- map ---------- */
 try{
   if(typeof L==="undefined") throw new Error("Leaflet failed to load");
   map=L.map("map",{scrollWheelZoom:false});
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     {maxZoom:18,attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
-  L.polyline(STOPS.map(function(s){return s.ll;}),
-    {color:"#274B8C",weight:2.5,dashArray:"5 5",opacity:.7}).addTo(map);
-  STOPS.forEach(function(s,i){
-    var icon=L.divIcon({className:"pin",html:'<span style="--c:'+s.c+'">'+(i+1)+'</span>',iconSize:[26,26],iconAnchor:[13,13]});
-    var m=L.marker(s.ll,{icon:icon}).addTo(map).bindPopup("<b>"+s.en+" · "+s.he+"</b><br>"+s.d+" · "+s.n);
-    m.on("click",function(){openStop(s);});
-    markers[s.id]=m;
-  });
-  map.fitBounds(STOPS.map(function(s){return s.ll;}),{padding:[40,40]});
+  map.setView([36.3,137.9],6);
+  layer=L.layerGroup().addTo(map);
   mapReady=true;
 }catch(err){
   console.error("map init failed:",err);
-  var mEl=document.getElementById("map");
-  mEl.className="mapfail";
-  mEl.innerHTML='<div class="mapmsg">🗺️ המפה לא נטענה — ייתכן שאין חיבור לאינטרנט.<br>'
-    +'התוכנית והכרטיסים למטה עובדים כרגיל.<br>'
-    +'<a href="https://www.google.com/maps/dir/'+STOPS.map(function(s){return s.ll[0]+","+s.ll[1];}).join("/")
-    +'" target="_blank" rel="noopener">פתח את המסלול ב-Google Maps ›</a></div>';
+  var mEl=document.getElementById("map");mEl.className="mapfail";
+  mEl.innerHTML='<div class="mapmsg">🗺️ המפה לא נטענה — התוכנית למטה עובדת כרגיל.</div>';
 }
 
-/* ---------- 3. stop detail sheet ---------- */
-var scrim=document.getElementById("scrim"),sheet=document.getElementById("sheet");
-function openStop(s){
-  var days=s.days.map(function(d){return '<div class="day"><div class="t">'+d.t+'</div><div class="s">'+d.s+'</div></div>';}).join("");
-  var note=s.note?'<div class="note">'+s.note+'</div>':'';
-  var q=s.ll[0]+","+s.ll[1];
-  sheet.style.cssText="--c:"+s.c;
-  sheet.innerHTML='<div class="shead"><button class="back" aria-label="חזרה">✕</button>'
-    +'<h2><span class="en">'+s.en+'</span> · '+s.he+'</h2>'
-    +'<div class="sub">'+s.d+' · '+s.n+'</div></div>'
-    +'<div class="sbody">'
-    +'<div class="hdr">ימים</div>'+days+note
-    +'<div class="hdr">לינה</div><div class="book"><b>'+s.hotel.split(" · ")[0]+'</b><br>'+s.hotel.split(" · ").slice(1).join(" · ")+'</div>'
-    +'<a class="gmap" href="https://www.google.com/maps/search/?api=1&query='+q+'" target="_blank" rel="noopener">🗺️ פתח ב-Google Maps</a>'
-    +'</div>';
-  sheet.querySelector(".back").addEventListener("click",close);
-  scrim.classList.add("on");sheet.classList.add("on");
-  if(mapReady){ map.setView(s.ll,9,{animate:true}); if(markers[s.id]) markers[s.id].openPopup(); }
+function pin(ll,label,color,small,popup){
+  var m=L.marker(ll,{icon:L.divIcon({className:"pin"+(small?" sm":""),
+    html:'<span style="--c:'+color+'">'+label+'</span>',
+    iconSize:small?[19,19]:[26,26],iconAnchor:small?[10,10]:[13,13]})});
+  if(popup)m.bindPopup(popup);
+  return m;
 }
-function close(){scrim.classList.remove("on");sheet.classList.remove("on");}
-scrim.addEventListener("click",close);
-document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});
+function drawAll(){
+  if(!mapReady||!R)return;
+  layer.clearLayers();var pts=[];
+  ["kyoto_gujo","gujo_matsumoto","matsumoto_gotemba"].forEach(function(id){
+    if(R.drives[id])L.polyline(R.drives[id].line,{color:"#274B8C",weight:4,opacity:.85}).addTo(layer);
+  });
+  [["osaka","kyoto"],["gotemba","tokyo"]].forEach(function(p){
+    L.polyline([R.coords[p[0]],R.coords[p[1]]],{color:"#8A93A2",weight:2.5,dashArray:"6 6",opacity:.9}).addTo(layer);
+  });
+  [["osaka","1 · אוסקה"],["kyoto","2 · קיוטו"],["gujo","3 · גוג׳ו"],["matsumoto","4 · מטסומוטו"],
+   ["gotemba","5 · פוג׳י"],["tokyo","6 · טוקיו"]].forEach(function(b,i){
+    var c=[C.osaka,C.kyoto,C.gujo,C.matsumoto,C.fuji,C.tokyo][i];
+    pin(R.coords[b[0]],i+1,c,false,"<b>"+b[1]+"</b>").addTo(layer);pts.push(R.coords[b[0]]);
+  });
+  map.fitBounds(pts,{padding:[35,35]});
+}
+function drawDay(day){
+  if(!mapReady||!R)return;
+  layer.clearLayers();var pts=[],c=C[day.base],n=0;
+  day.items.forEach(function(it){if(it.drive&&R.drives[it.drive]){
+    L.polyline(R.drives[it.drive].line,{color:c,weight:4,opacity:.85}).addTo(layer);
+    R.drives[it.drive].line.forEach(function(p){pts.push(p);});}});
+  day.items.forEach(function(it){
+    if(!it.k||!R.coords[it.k])return;n++;
+    pin(R.coords[it.k],n,c,false,"<b>"+it.n+"</b>").addTo(layer);pts.push(R.coords[it.k]);
+  });
+  if(pts.length)map.fitBounds(pts,{padding:[38,38],maxZoom:13});
+}
+
+/* ---------- render ---------- */
+function render(){
+  var el=document.getElementById("content");
+  if(sel==="all"){
+    var rows=[["osaka","אוסקה","4–7/10","3 לילות"],["kyoto","קיוטו","7–9/10","2 לילות"],
+      ["gujo","גוג׳ו","9–10/10","לילה"],["matsumoto","מטסומוטו","10–13/10","3 לילות"],
+      ["fuji","פוג׳י · גוטמבה","13–15/10","2 לילות"],["tokyo","טוקיו","15–20/10","5 לילות"]];
+    var legs=R?[["kyoto_gujo","קיוטו → גוג׳ו"],["gujo_matsumoto","גוג׳ו → Narai → מטסומוטו"],
+      ["matsumoto_gotemba","מטסומוטו → גוטמבה"]]:[];
+    el.innerHTML='<div class="dayhead"><h2>כל הטיול</h2><div class="meta">שש תחנות · 16 לילות · שתי מכוניות</div></div>'
+      +'<div class="items">'+rows.map(function(r,i){
+        return '<div class="item" style="--c:'+C[r[0]]+'" data-jump="'+r[0]+'"><span class="badge">'+(i+1)+'</span>'
+          +'<div class="ib"><div class="iname">'+r[1]+'</div><div class="isub">'+r[2]+' · '+r[3]+' · '+HOTEL[r[0]]+'</div></div></div>'
+          +(i<rows.length-1?'<div style="height:7px"></div>':'');
+      }).join("")+'</div>'
+      +(legs.length?'<div class="note"><b>רגלי הנהיגה (מחושב על הכביש בפועל):</b><br>'
+        +legs.map(function(l){var d=R.drives[l[0]];return "· "+l[1]+" — <b>"+d.km+" ק״מ · "+fmt(d.hrs)+"</b>";}).join("<br>")
+        +'<br><span style="opacity:.8">אוסקה→קיוטו וגוטמבה→טוקיו ברכבת (קו מקווקו במפה).</span></div>':"")
+      +'<div class="note">בחרו יום מהסרגל למעלה כדי לראות את העצירות של אותו יום על המפה.</div>';
+    drawAll();
+  }else{
+    var day=DAYS[sel],c=C[day.base],n=0;
+    var html='<div class="dayhead"><h2>'+day.t+'</h2><div class="meta">'
+      +'<span class="tag c" style="--c:'+c+'">'+day.dow+' · '+day.d+'/10</span>'
+      +'<span class="tag">🛏️ '+HOTEL[day.base]+'</span></div></div><div class="items">';
+    day.items.forEach(function(it,i){
+      var lg=it.leg,dr=it.drive&&R?R.drives[it.drive]:null;
+      if(dr)lg={mode:"car",hrs:dr.hrs,km:dr.km,txt:null};
+      if(lg&&i>0){
+        var prev=day.items[i-1],dirs="";
+        if(R&&it.k&&prev.k&&R.coords[it.k]&&R.coords[prev.k])
+          dirs=' · <a href="https://www.google.com/maps/dir/'+R.coords[prev.k]+'/'+R.coords[it.k]+'" target="_blank" rel="noopener">הוראות הגעה ›</a>';
+        html+='<div class="leg"><span class="m">'+MODE[lg.mode]+'</span> '+fmt(lg.hrs)
+          +(lg.km?' · '+lg.km+' ק״מ':'')+(lg.txt?' · '+lg.txt:'')+dirs+'</div>';
+      }else if(i>0)html+='<div style="height:7px"></div>';
+      if(it.k)n++;
+      html+='<div class="item" style="--c:'+c+'"'+(it.k?' data-jump="'+it.k+'"':'')+'>'
+        +'<span class="badge">'+(it.k?n:"·")+'</span><div class="ib">'
+        +'<div class="iname">'+it.n+(it.opt?'<span class="opt">אופציונלי</span>':'')+'</div>'
+        +'<div class="isub">'+it.s+'</div>'+(it.t?'<div class="itime">'+it.t+'</div>':'')+'</div></div>';
+    });
+    html+='<div style="height:7px"></div><div class="item"><span class="badge bed">🛏️</span><div class="ib">'
+      +'<div class="iname">'+HOTEL[day.base]+'</div><div class="isub">לינה</div></div></div></div>';
+    if(day.note)html+='<div class="note'+(day.note.indexOf("⚠️")===0?" warn":"")+'">'+day.note+'</div>';
+    el.innerHTML=html;
+    drawDay(day);
+  }
+  el.querySelectorAll("[data-jump]").forEach(function(node){
+    node.addEventListener("click",function(){
+      var k=node.dataset.jump;
+      if(mapReady&&R&&R.coords[k]){map.setView(R.coords[k],12,{animate:true});
+        document.getElementById("map").scrollIntoView({behavior:"smooth",block:"start"});}
+    });
+  });
+}
+
+/* ---------- day chips ---------- */
+var bar=document.getElementById("daybar");
+function chip(label,val,isAll){
+  var b=document.createElement("button");
+  b.className="chip"+(isAll?" all":"")+(val===sel?" on":"");
+  b.innerHTML=isAll?label:'<span class="dw">'+label.dow+'</span><span class="dn">'+label.d+'</span>';
+  b.addEventListener("click",function(){
+    sel=val;bar.querySelectorAll(".chip").forEach(function(x){x.classList.remove("on");});
+    b.classList.add("on");render();
+  });
+  return b;
+}
+bar.appendChild(chip("כל הטיול","all",true));
+DAYS.forEach(function(d,i){bar.appendChild(chip(d,i));});
+
+/* ---------- load baked route data, then render ---------- */
+fetch("data/route.json").then(function(r){return r.json();}).then(function(j){R=j;render();})
+  .catch(function(e){console.error("route data failed:",e);render();});
 </script>
 </body>
 </html>
