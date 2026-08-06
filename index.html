@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>יפן 2026 · בר ונועה</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#EEF0F3;--card:#fff;--sunk:#E7EAEF;--ink:#0F1317;--ink2:#586273;--ink3:#8A93A2;
+  --line:#DDE1E8;--accent:#274B8C;--accent-soft:#E6ECF8;--r:16px;
+  --sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0A0C0F;--card:#161A20;--sunk:#1E232B;--ink:#E9ECF1;--ink2:#9BA5B4;--ink3:#6B7484;
+  --line:#252B34;--accent:#89A9E8;--accent-soft:#16203A;
+}}
+html,body{background:var(--bg);color:var(--ink)}
+body{font-family:"Assistant","Segoe UI",system-ui,-apple-system,sans-serif;line-height:1.5;
+  -webkit-font-smoothing:antialiased}
+.en{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.wrap{max-width:620px;margin:0 auto;padding-bottom:calc(24px + var(--sab))}
+
+/* header */
+.head{padding:calc(14px + var(--sat)) 16px 10px}
+.head h1{font-size:22px;font-weight:800;letter-spacing:-.2px}
+.head p{font-size:13px;color:var(--ink2);margin-top:2px}
+
+/* map */
+#map{height:44vh;min-height:300px;width:100%;background:var(--sunk);z-index:1}
+.pin{background:none;border:none}
+.pin span{display:flex;width:26px;height:26px;border-radius:50%;background:var(--c);border:2.5px solid #fff;
+  color:#fff;font-weight:800;font-size:12px;align-items:center;justify-content:center;
+  box-shadow:0 1px 5px rgba(0,0,0,.45)}
+.leaflet-popup-content{font-family:inherit;direction:rtl;font-size:13px;margin:9px 12px}
+.leaflet-popup-content b{font-size:14px}
+
+/* card grid */
+.gridwrap{padding:14px 12px 0}
+.gridwrap h2{font-size:13px;font-weight:700;color:var(--ink3);margin:6px 4px 10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+  cursor:pointer;text-align:right;transition:transform .12s,box-shadow .12s}
+.card:active{transform:scale(.98)}
+.card:hover{box-shadow:0 4px 16px rgba(0,0,0,.12)}
+.card .top{height:76px;background:var(--c);display:flex;align-items:center;justify-content:center;
+  font-size:34px;position:relative}
+.card .num{position:absolute;top:8px;right:10px;width:22px;height:22px;border-radius:50%;
+  background:rgba(255,255,255,.28);color:#fff;font-size:12px;font-weight:800;display:flex;
+  align-items:center;justify-content:center}
+.card .body{padding:10px 12px 12px}
+.card .cn{font-weight:800;font-size:16px;line-height:1.2}
+.card .cn .he{color:var(--ink2);font-weight:600;font-size:13px}
+.card .cd{font-size:12.5px;color:var(--ink2);margin:3px 0 8px}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.pill{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--sunk);color:var(--ink2)}
+.pill.c{background:var(--c);color:#fff;opacity:.92}
+
+/* detail overlay */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;
+  transition:opacity .2s;z-index:1000}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;inset:0;z-index:1001;background:var(--bg);transform:translateY(100%);
+  transition:transform .26s cubic-bezier(.2,.8,.2,1);overflow-y:auto;display:flex;flex-direction:column}
+.sheet.on{transform:none}
+.sheet .shead{position:sticky;top:0;padding:calc(14px + var(--sat)) 16px 14px;color:#fff;background:var(--c)}
+.sheet .back{position:absolute;top:calc(14px + var(--sat));inset-inline-start:14px;background:rgba(255,255,255,.22);
+  border:none;color:#fff;width:34px;height:34px;border-radius:50%;font-size:18px;cursor:pointer}
+.sheet h2{font-size:24px;font-weight:800}
+.sheet .shead .sub{font-size:13.5px;opacity:.92;margin-top:3px}
+.sbody{max-width:620px;margin:0 auto;width:100%;padding:14px 16px calc(30px + var(--sab))}
+.hdr{font-size:12.5px;font-weight:700;color:var(--ink3);margin:16px 4px 8px}
+.hdr:first-child{margin-top:4px}
+.day{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:8px}
+.day .t{font-weight:700;font-size:15px}
+.day .s{font-size:13px;color:var(--ink2);margin-top:2px}
+.book{background:var(--accent-soft);border-radius:12px;padding:11px 13px;font-size:13px}
+.book b{font-weight:700}
+.gmap{display:inline-flex;align-items:center;gap:7px;margin-top:12px;background:var(--accent);color:#fff;
+  text-decoration:none;font-weight:700;font-size:14px;padding:11px 16px;border-radius:12px}
+.note{background:var(--sunk);border-radius:12px;padding:10px 13px;font-size:12.5px;color:var(--ink2);margin-top:10px}
+.foot{padding:22px 16px;font-size:11.5px;color:var(--ink3);text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>יפן 2026 · בר ונועה</h1>
+    <p>4–20 באוקטובר · 16 לילות · שש תחנות. הקישו תחנה על המפה או על כרטיס.</p>
+  </div>
+  <div id="map"></div>
+  <div class="gridwrap">
+    <h2>התחנות</h2>
+    <div class="grid" id="grid"></div>
+  </div>
+  <div class="foot">מפה חיה · <span class="en">Leaflet + OpenStreetMap</span> · עדכון 6 באוגוסט 2026</div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJ2p4LbQBrRhWvUf+1WkoOG5rP4pM=" crossorigin=""></script>
+<script>
+var STOPS=[
+ {id:"osaka",en:"Ōsaka",he:"אוסקה",d:"4–7/10",n:"3 לילות",ic:"🍜",c:"#B85428",ll:[34.6666,135.5010],
+  hotel:"Meander Osaka · 4–7/10 · בסיס Namba",
+  days:[
+   {t:"יום עיר · Namba / Horie",s:"Nakazakichō, Tenjinbashisuji, Horie — רחובות, קפה, אוכל. ערב ב-Ura-Namba."},
+   {t:"טיול יום (לפי מזג)",s:"Nara \"כמו שצריך\" (Naramachi/יער, לא רק איילים) · Ine ביום צלול · Minoh+Katsuo-ji חצי יום."}
+  ]},
+ {id:"kyoto",en:"Kyoto",he:"קיוטו",d:"7–9/10",n:"2 לילות",ic:"⛩️",c:"#7A4E86",ll:[35.0037,135.7788],
+  hotel:"Miru Gion · 7–8 Deluxe + 8–9 Superior · ייתכן מעבר חדר בבוקר 8/10",
+  days:[
+   {t:"7 · ערב Higashiyama",s:"Kiyomizu לפנות ערב, Sannenzaka/Ninenzaka, סמטאות גיון, Shirakawa, נהר Kamo."},
+   {t:"8 · בוקר מוקדם — אטרקציית חובה בשעה ריקה",s:"Fushimi Inari 07:00 (לפני הקהל) או Arashiyama בזריחה, ואז יום גמיש."},
+   {t:"9 · בוקר קצר → איסוף רכב",s:"09:30 Corolla ב-Sanjo Keihan, יוצאים לגוג׳ו."}
+  ]},
+ {id:"gujo",en:"Gujō",he:"גוג׳ו",d:"9–10/10",n:"לילה",ic:"💧",c:"#2E7D8A",ll:[35.7486,136.9635],
+  hotel:"Fairfield by Marriott Gifu Gujo · 9–10/10 · Gujō-Yamato",
+  days:[
+   {t:"עיירת מים",s:"Igawa Komichi, Sōgi-sui, סמטאות ותעלות, בתי קפה, אוכל מקומי. ערב מוקדם (עיירה שקטה)."},
+   {t:"נסיעה למטסומוטו · דרך Kiso",s:"עצירה אחת — Narai-juku. ~3–3.5 ש׳. לא דרך Takayama."}
+  ]},
+ {id:"matsumoto",en:"Matsumoto",he:"מטסומוטו",d:"10–13/10",n:"3 לילות",ic:"🏔️",c:"#274B8C",ll:[36.2381,137.9720],
+  hotel:"Matsumoto Jujo · 10–13/10 · אמבט פתוח",
+  days:[
+   {t:"יום עיר",s:"הטירה + Nakamachi/Nawate, קפה ואוכל. Alps Park ביום עם ראות."},
+   {t:"יום טבע גדול · Kamikōchi",s:"שיא שלכת — נסיעה ל-Sawando, אוטובוס פנימה, Taishō-ike → Kappa-bashi."},
+   {t:"יום גמיש (לפי מזג)",s:"Utsukushigahara ביום צלול · Azumino + Daiō Wasabi (חצי יום)."}
+  ],
+  note:"⚠️ חג Sports Day (12/10) + פסטיבל הסובה (10–12) בטירה — עיר מלאה. להזמין ארוחות ערב מראש (~8–12/9), עדיף דרך המלון."},
+ {id:"fuji",en:"Fuji",he:"פוג׳י · Gotemba",d:"13–15/10",n:"2 לילות",ic:"🗻",c:"#4A6FA5",ll:[35.3084,138.9335],
+  hotel:"edit×seven Fuji Gotemba · 13–15/10 · Fuji View",
+  days:[
+   {t:"מודולרי לפי ראות · GR Yaris",s:"A צלול — Yamanakako/Panorama-dai/Oshino/Ōishi Park. B חלקי — נשארים קרוב. C מוסתר → Hakone."},
+   {t:"פוג׳י הוא הר של בקרים",s:"נראות גוברת על סדר העצירות. לבדוק עננות בערב-קודם ובבוקר."}
+  ]},
+ {id:"tokyo",en:"Tokyo",he:"טוקיו",d:"15–20/10",n:"5 לילות",ic:"🏙️",c:"#A03E5C",ll:[35.7006,139.7440],
+  hotel:"Hotel Metropolitan Edmont (Iidabashi) · 15–20/10 · Kagurazaka",
+  days:[
+   {t:"15 · הגעה + Kagurazaka",s:"מגוטמבה, החזרת רכב, צ׳ק-אין, ערב בסמטאות Kagurazaka."},
+   {t:"16 · Yanaka / Nezu",s:"Senso-ji מוקדם + Kappabashi + Nezu-jinja + Yanaka Ginza."},
+   {t:"17 · Shimokitazawa + Kichijōji",s:"Inokashira, וינטג׳, תקליטים, קפה, הופעת אינדי בערב."},
+   {t:"18 · Koenji + Nakano",s:"Nakano Broadway (מקורה) + Koenji: יד-שנייה, מוזיקה, ברים."},
+   {t:"19 · Meiji מוקדם + Shibuya קצר + Daikanyama/Nakameguro",s:"מקדש מוקדם, סימון-וי ב-Shibuya, אחה\"צ/ערב לאורך נהר Meguro."},
+   {t:"20 · יציאה",s:"בוקר קליל, NRT 18:00 (לצאת ~14:30)."}
+  ]}
+];
+
+var map=L.map("map",{scrollWheelZoom:false}).setView([36.3,137.9],6);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  {maxZoom:18,attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
+L.polyline(STOPS.map(function(s){return s.ll;}),
+  {color:"#274B8C",weight:2.5,dashArray:"5 5",opacity:.7}).addTo(map);
+
+var markers={};
+STOPS.forEach(function(s,i){
+  var icon=L.divIcon({className:"pin",html:'<span style="--c:'+s.c+'">'+(i+1)+'</span>',iconSize:[26,26],iconAnchor:[13,13]});
+  var m=L.marker(s.ll,{icon:icon}).addTo(map)
+    .bindPopup("<b>"+s.en+" · "+s.he+"</b><br>"+s.d+" · "+s.n);
+  m.on("click",function(){openStop(s);});
+  markers[s.id]=m;
+});
+map.fitBounds(STOPS.map(function(s){return s.ll;}),{padding:[40,40]});
+
+var grid=document.getElementById("grid");
+STOPS.forEach(function(s,i){
+  var el=document.createElement("div");
+  el.className="card";el.setAttribute("role","button");el.tabIndex=0;
+  el.style.cssText="--c:"+s.c;
+  el.innerHTML='<div class="top"><span class="num">'+(i+1)+'</span>'+s.ic+'</div>'
+    +'<div class="body"><div class="cn"><span class="en">'+s.en+'</span> <span class="he">'+s.he+'</span></div>'
+    +'<div class="cd">'+s.d+'</div>'
+    +'<div class="chips"><span class="pill c">'+s.n+'</span><span class="pill">'+s.days.length+' ימים</span></div></div>';
+  el.addEventListener("click",function(){openStop(s);});
+  el.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();openStop(s);}});
+  grid.appendChild(el);
+});
+
+var scrim=document.getElementById("scrim"),sheet=document.getElementById("sheet");
+function openStop(s){
+  var days=s.days.map(function(d){return '<div class="day"><div class="t">'+d.t+'</div><div class="s">'+d.s+'</div></div>';}).join("");
+  var note=s.note?'<div class="note">'+s.note+'</div>':'';
+  var q=s.ll[0]+","+s.ll[1];
+  sheet.style.cssText="--c:"+s.c;
+  sheet.innerHTML='<div class="shead"><button class="back" aria-label="חזרה">✕</button>'
+    +'<h2><span class="en">'+s.en+'</span> · '+s.he+'</h2>'
+    +'<div class="sub">'+s.d+' · '+s.n+'</div></div>'
+    +'<div class="sbody">'
+    +'<div class="hdr">ימים</div>'+days+note
+    +'<div class="hdr">לינה</div><div class="book"><b>'+s.hotel.split(" · ")[0]+'</b><br>'+s.hotel.split(" · ").slice(1).join(" · ")+'</div>'
+    +'<a class="gmap" href="https://www.google.com/maps/search/?api=1&query='+q+'" target="_blank" rel="noopener">🗺️ פתח ב-Google Maps</a>'
+    +'</div>';
+  sheet.querySelector(".back").addEventListener("click",close);
+  scrim.classList.add("on");sheet.classList.add("on");
+  map.setView(s.ll,9,{animate:true});markers[s.id].openPopup();
+}
+function close(){scrim.classList.remove("on");sheet.classList.remove("on");}
+scrim.addEventListener("click",close);
+document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});
+</script>
+</body>
+</html>
