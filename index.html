@@ -4,8 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>יפן 2026 · בר ונועה</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<link rel="stylesheet" href="vendor/leaflet.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -30,6 +29,10 @@ body{font-family:"Assistant","Segoe UI",system-ui,-apple-system,sans-serif;line-
 
 /* map */
 #map{height:44vh;min-height:300px;width:100%;background:var(--sunk);z-index:1}
+#map.mapfail{display:flex;align-items:center;justify-content:center;text-align:center;
+  height:auto;min-height:0;padding:18px 16px;border-radius:0}
+.mapmsg{font-size:13px;color:var(--ink2);line-height:1.6}
+.mapmsg a{color:var(--accent);font-weight:700}
 .pin{background:none;border:none}
 .pin span{display:flex;width:26px;height:26px;border-radius:50%;background:var(--c);border:2.5px solid #fff;
   color:#fff;font-weight:800;font-size:12px;align-items:center;justify-content:center;
@@ -95,14 +98,13 @@ body{font-family:"Assistant","Segoe UI",system-ui,-apple-system,sans-serif;line-
     <h2>התחנות</h2>
     <div class="grid" id="grid"></div>
   </div>
-  <div class="foot">מפה חיה · <span class="en">Leaflet + OpenStreetMap</span> · עדכון 6 באוגוסט 2026</div>
+  <div class="foot">מפה · <span class="en">Leaflet + OpenStreetMap</span> · עדכון 6 באוגוסט 2026</div>
 </div>
 
 <div class="scrim" id="scrim"></div>
 <div class="sheet" id="sheet"></div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-  integrity="sha256-20nQCchB9co0qIjJ2p4LbQBrRhWvUf+1WkoOG5rP4pM=" crossorigin=""></script>
+<script src="vendor/leaflet.js"></script>
 <script>
 var STOPS=[
  {id:"osaka",en:"Ōsaka",he:"אוסקה",d:"4–7/10",n:"3 לילות",ic:"🍜",c:"#B85428",ll:[34.6666,135.5010],
@@ -150,22 +152,8 @@ var STOPS=[
   ]}
 ];
 
-var map=L.map("map",{scrollWheelZoom:false}).setView([36.3,137.9],6);
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-  {maxZoom:18,attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
-L.polyline(STOPS.map(function(s){return s.ll;}),
-  {color:"#274B8C",weight:2.5,dashArray:"5 5",opacity:.7}).addTo(map);
-
-var markers={};
-STOPS.forEach(function(s,i){
-  var icon=L.divIcon({className:"pin",html:'<span style="--c:'+s.c+'">'+(i+1)+'</span>',iconSize:[26,26],iconAnchor:[13,13]});
-  var m=L.marker(s.ll,{icon:icon}).addTo(map)
-    .bindPopup("<b>"+s.en+" · "+s.he+"</b><br>"+s.d+" · "+s.n);
-  m.on("click",function(){openStop(s);});
-  markers[s.id]=m;
-});
-map.fitBounds(STOPS.map(function(s){return s.ll;}),{padding:[40,40]});
-
+/* ---------- 1. cards first ----------
+   The itinerary must render even if the map library fails to load. */
 var grid=document.getElementById("grid");
 STOPS.forEach(function(s,i){
   var el=document.createElement("div");
@@ -180,6 +168,34 @@ STOPS.forEach(function(s,i){
   grid.appendChild(el);
 });
 
+/* ---------- 2. map (optional enhancement) ---------- */
+var map=null,markers={},mapReady=false;
+try{
+  if(typeof L==="undefined") throw new Error("Leaflet failed to load");
+  map=L.map("map",{scrollWheelZoom:false});
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {maxZoom:18,attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
+  L.polyline(STOPS.map(function(s){return s.ll;}),
+    {color:"#274B8C",weight:2.5,dashArray:"5 5",opacity:.7}).addTo(map);
+  STOPS.forEach(function(s,i){
+    var icon=L.divIcon({className:"pin",html:'<span style="--c:'+s.c+'">'+(i+1)+'</span>',iconSize:[26,26],iconAnchor:[13,13]});
+    var m=L.marker(s.ll,{icon:icon}).addTo(map).bindPopup("<b>"+s.en+" · "+s.he+"</b><br>"+s.d+" · "+s.n);
+    m.on("click",function(){openStop(s);});
+    markers[s.id]=m;
+  });
+  map.fitBounds(STOPS.map(function(s){return s.ll;}),{padding:[40,40]});
+  mapReady=true;
+}catch(err){
+  console.error("map init failed:",err);
+  var mEl=document.getElementById("map");
+  mEl.className="mapfail";
+  mEl.innerHTML='<div class="mapmsg">🗺️ המפה לא נטענה — ייתכן שאין חיבור לאינטרנט.<br>'
+    +'התוכנית והכרטיסים למטה עובדים כרגיל.<br>'
+    +'<a href="https://www.google.com/maps/dir/'+STOPS.map(function(s){return s.ll[0]+","+s.ll[1];}).join("/")
+    +'" target="_blank" rel="noopener">פתח את המסלול ב-Google Maps ›</a></div>';
+}
+
+/* ---------- 3. stop detail sheet ---------- */
 var scrim=document.getElementById("scrim"),sheet=document.getElementById("sheet");
 function openStop(s){
   var days=s.days.map(function(d){return '<div class="day"><div class="t">'+d.t+'</div><div class="s">'+d.s+'</div></div>';}).join("");
@@ -196,7 +212,7 @@ function openStop(s){
     +'</div>';
   sheet.querySelector(".back").addEventListener("click",close);
   scrim.classList.add("on");sheet.classList.add("on");
-  map.setView(s.ll,9,{animate:true});markers[s.id].openPopup();
+  if(mapReady){ map.setView(s.ll,9,{animate:true}); if(markers[s.id]) markers[s.id].openPopup(); }
 }
 function close(){scrim.classList.remove("on");sheet.classList.remove("on");}
 scrim.addEventListener("click",close);
