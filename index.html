@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>יפן 2026 · בר ונועה</title>
-<link rel="stylesheet" href="vendor/leaflet.css">
+<link rel="stylesheet" href="vendor/maplibre-gl.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -31,8 +31,11 @@ body{font-family:"Assistant","Segoe UI",system-ui,-apple-system,sans-serif;line-
 .mapmsg{font-size:13px;color:var(--ink2)}.mapmsg a{color:var(--accent);font-weight:700}
 .pin span{display:flex;width:26px;height:26px;border-radius:50%;background:var(--c,#274B8C);border:2.5px solid #fff;
   color:#fff;font-weight:800;font-size:12px;align-items:center;justify-content:center;box-shadow:0 1px 5px rgba(0,0,0,.45)}
-.pin.sm span{width:19px;height:19px;font-size:10px;border-width:2px;opacity:.95}
-.leaflet-popup-content{font-family:inherit;direction:rtl;font-size:13px;margin:8px 11px}
+.pin{cursor:pointer}
+.maplibregl-popup-content{font-family:inherit;direction:rtl;font-size:13px;padding:7px 11px;border-radius:9px;
+  box-shadow:0 2px 10px rgba(0,0,0,.22);color:#0F1317}
+.maplibregl-ctrl-attrib{font-size:10px}
+.maplibregl-ctrl-attrib a{color:#4a5568}
 
 /* day chips */
 .daybar{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);
@@ -99,7 +102,7 @@ body{font-family:"Assistant","Segoe UI",system-ui,-apple-system,sans-serif;line-
   </div>
 </div>
 
-<script src="vendor/leaflet.js"></script>
+<script src="vendor/maplibre-gl.js"></script>
 <script>
 /* ---------- colors per base ---------- */
 var C={osaka:"#B85428",kyoto:"#7A4E86",gujo:"#2E7D8A",matsumoto:"#274B8C",fuji:"#4A6FA5",tokyo:"#A03E5C"};
@@ -127,19 +130,25 @@ var DAYS=[
   {k:"osaka",n:"אוסקה · שכונות ואוכל",s:"מה שלא עשינו אתמול — Horie, Shinsaibashi, Tenma לערב"},
   {k:"ine",n:"אופציונלי · Ine no Funaya",s:"כפר הדייגים על המים — יום ארוך (~3 ש׳ לכל כיוון), רק ביום צלול מאוד",opt:1}],
   note:"Ine דורש רכב ליום או סיור מאורגן — להחליט מראש, לא ספונטני."},
-{d:7,dow:"ד׳",base:"kyoto",t:"מעבר לקיוטו + ערב Higashiyama",items:[
+{d:7,dow:"ד׳",base:"kyoto",t:"מעבר לקיוטו · ערב בגיון",items:[
   {k:"osaka",n:"בוקר אחרון באוסקה",s:"קפה, אריזה, צ׳ק-אאוט"},
   {k:"kyoto",n:"Miru Kyoto Gion · צ׳ק-אין",s:"מזוודות למלון בגיון",leg:{mode:"rail",hrs:0.5,txt:"אוסקה → קיוטו"}},
-  {k:"kiyomizu",n:"Kiyomizu-dera לפנות ערב",s:"ואז Sannenzaka / Ninenzaka במורד"},
-  {n:"ערב · סמטאות גיון",s:"תעלת Shirakawa, נהר Kamo, ארוחה ב-Gion / Pontochō"}],
-  note:"רק מזרח קיוטו היום — לא לנסות לשלב Arashiyama או Fushimi."},
-{d:8,dow:"ה׳",base:"kyoto",t:"יום מלא · הבוקר המוקדם",items:[
-  {k:"fushimi",n:"Fushimi Inari · 07:00",s:"אטרקציית החובה בשעה ריקה — השערים לפני ההמון",t:"07:00"},
-  {k:"arashiyama",n:"Arashiyama (אופציה)",s:"חורש הבמבוק, נהר, Ōkōchi Sansō — או במקום: יום שכונתי-קולינרי",opt:1},
-  {n:"אחה״צ · Nishiki ומרכז",s:"שוק, סמטאות, קפה — קצב רגוע"},
-  {n:"ערב · חזרה לגיון",s:"ארוחה באזור המלון"}],
-  note:"ייתכן מעבר חדר ב-MIRU הבוקר — משאירים מזוודות בקבלה."},
-{d:9,dow:"ו׳",base:"gujo",t:"אוספים רכב → גוג׳ו",items:[
+  {k:"shirakawa",n:"Gion Shirakawa והסמטאות",s:"תעלת Shirakawa, Furumonzen, רחובות קטנים — בלי יעד ממוקד"},
+  {k:"kamo",n:"נהר Kamo לפנות ערב",s:"הליכה על הגדה סביב Sanjō"},
+  {k:"pontocho",n:"ערב · ארוחה",s:"Gion / Pontochō / Kawaramachi"}],
+  note:"יום הגעה — בלי מקדש גדול ובלי אטרקציה עם שעת סגירה. Kiyomizu-dera ירד מהיום הזה."},
+{d:8,dow:"ה׳",base:"kyoto",t:"מזרח קיוטו · מצפון לדרום",items:[
+  {k:"honenin",n:"Hōnen-in · מוקדם",s:"שער האזוב והחצר לפני שהאזור מתמלא",t:"07:30"},
+  {n:"שביל הפילוסופים · קטע",s:"חיבור הליכה נעים דרומה — לא מוסיפים את Ginkaku-ji רק כי הוא קרוב"},
+  {k:"eikando",n:"Eikandō · סביב שעת הפתיחה",s:"המקדש המרכזי של היום — ואחריו לא עוד מקדשים גדולים",t:"~09:00"},
+  {n:"Hinode Udon · צהריים מוקדמים",s:"להגיע קצת לפני הפתיחה · מזומן בלבד · בלי הזמנות · <span class=\"en\">Nanzenji Kitanobōchō 36</span>",t:"~10:45"},
+  {k:"nanzenji",n:"Nanzen-ji ואמת המים Suirokaku",s:"רק אם נשאר כוח וזמן",opt:1},
+  {k:"gyojabashi",n:"Gyōjabashi · הגשר הצר",s:"גשר האבן מעל Shirakawa ליד תחנת Higashiyama"},
+  {k:"shirakawa",n:"Furumonzen → Shirakawa → Gion",s:"חנויות עתיקות, סמטאות וקפה בדרך חזרה למלון"},
+  {k:"kamo",n:"נהר Kamo · אחה״צ־ערב",s:"מנוחה על הגדה, ארוחה בגיון / Pontochō / Kawaramachi"}],
+  note:"⚠️ לאמת לקראת הנסיעה: שעות Eikandō, ושעות + ימי סגירה של Hinode Udon. ייתכן מעבר חדר ב-MIRU הבוקר — משאירים מזוודות בקבלה. Fushimi Inari ו-Arashiyama ירדו מהיום הזה."},
+{d:9,dow:"ו׳",base:"gujo",t:"בוקר שקט בקיוטו → גוג׳ו",items:[
+  {k:"kamo",n:"הליכה שקטה מוקדמת",s:"גיון או גדת נהר Kamo לפני שהעיר מתעוררת · קפה ובוקר"},
   {k:"sanjo",n:"איסוף Corolla Sport · 09:30",s:"Sanjo Keihan-Kita · בדיקת רכב + ETC · מונית קצרה מגיון עם המזוודות",t:"09:30"},
   {k:"gujo",n:"Gujō-Hachiman · העיר העתיקה",s:"Igawa Komichi, Sōgi-sui, תעלות מים, בתי קפה, צהריים מקומי",drive:"kyoto_gujo"},
   {n:"ערב · ארוחה מוקדמת",s:"גוג׳ו שקטה בערב — לוודא מקום פתוח מראש"}],
@@ -202,16 +211,32 @@ var DAYS=[
 function fmt(h){var m=Math.round(h*60);return m<60?m+" ד׳":Math.floor(m/60)+" ש׳ "+(m%60?(m%60)+" ד׳":"").trim();}
 var MODE={car:"🚗 נהיגה",rail:"🚆 רכבת",bus:"🚌 אוטובוס",walk:"🚶 הליכה"};
 
-var R=null,map=null,layer=null,mapReady=false,sel="all";
+var R=null,map=null,mapReady=false,styleReady=false,pendingDraw=null,markers=[],sel="all";
 
-/* ---------- map ---------- */
+/* ---------- map ----------
+   Vector tiles (MapLibre + OpenFreeMap) rather than raster, so labels can be forced
+   to Latin script — data/style-liberty-latin.json is Liberty with every name-based
+   text-field rewritten to coalesce(name:latin, name_en, name). */
 try{
-  if(typeof L==="undefined") throw new Error("Leaflet failed to load");
-  map=L.map("map",{scrollWheelZoom:false});
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    {maxZoom:18,attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
-  map.setView([36.3,137.9],6);
-  layer=L.layerGroup().addTo(map);
+  if(typeof maplibregl==="undefined") throw new Error("MapLibre failed to load");
+  map=new maplibregl.Map({
+    container:"map",
+    style:"data/style-liberty-latin.json",
+    center:[137.9,36.3],zoom:4.6,
+    attributionControl:{compact:true,
+      customAttribution:'<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a>'}
+  });
+  map.addControl(new maplibregl.NavigationControl({showCompass:false}),"top-left");
+  map.scrollZoom.disable();          // page scroll must win on mobile
+  map.dragRotate.disable();          // keep it north-up like a paper itinerary
+  map.touchZoomRotate.disableRotation();
+  map.on("error",function(e){console.warn("map:",e&&e.error&&e.error.message);});
+  /* "style.load", not "load": load also waits for the first rendered frame, which never
+     comes in a background tab (no requestAnimationFrame) — the overlays would stay undrawn. */
+  map.on("style.load",function(){
+    styleReady=true;addRouteLayers();
+    if(pendingDraw){var f=pendingDraw;pendingDraw=null;f();}
+  });
   mapReady=true;
 }catch(err){
   console.error("map init failed:",err);
@@ -219,40 +244,77 @@ try{
   mEl.innerHTML='<div class="mapmsg">🗺️ המפה לא נטענה — התוכנית למטה עובדת כרגיל.</div>';
 }
 
-function pin(ll,label,color,small,popup){
-  var m=L.marker(ll,{icon:L.divIcon({className:"pin"+(small?" sm":""),
-    html:'<span style="--c:'+color+'">'+label+'</span>',
-    iconSize:small?[19,19]:[26,26],iconAnchor:small?[10,10]:[13,13]})});
-  if(popup)m.bindPopup(popup);
-  return m;
+var EMPTY={type:"FeatureCollection",features:[]};
+function addRouteLayers(){
+  if(map.getSource("routes"))return;
+  map.addSource("routes",{type:"geojson",data:EMPTY});
+  map.addLayer({id:"routes-dash",type:"line",source:"routes",filter:["==",["get","dash"],true],
+    layout:{"line-cap":"round","line-join":"round"},
+    paint:{"line-color":["get","color"],"line-width":2.6,"line-opacity":.9,"line-dasharray":[2,2]}});
+  map.addLayer({id:"routes-solid",type:"line",source:"routes",filter:["!=",["get","dash"],true],
+    layout:{"line-cap":"round","line-join":"round"},
+    paint:{"line-color":["get","color"],"line-width":4.5,"line-opacity":.9}});
 }
+/* run fn once the style is ready; MapLibre rejects addSource before "load" */
+function onMap(fn){ if(!mapReady)return; if(styleReady)fn(); else pendingDraw=fn; }
+
+/* route.json stores [lat,lon]; GeoJSON and MapLibre want [lon,lat] */
+function line(latlngs,color,dash){
+  return {type:"Feature",properties:{color:color,dash:!!dash},
+    geometry:{type:"LineString",coordinates:latlngs.map(function(p){return [p[1],p[0]];})}};
+}
+function setRoutes(feats){
+  var s=map.getSource("routes");if(s)s.setData({type:"FeatureCollection",features:feats});
+}
+function clearPins(){markers.forEach(function(m){m.remove();});markers=[];}
+function pin(ll,label,color,popup){
+  var el=document.createElement("div");el.className="pin";
+  el.innerHTML='<span style="--c:'+color+'">'+label+'</span>';
+  var m=new maplibregl.Marker({element:el,anchor:"center"}).setLngLat([ll[1],ll[0]]);
+  if(popup)m.setPopup(new maplibregl.Popup({offset:16,closeButton:false}).setHTML(popup));
+  m.addTo(map);markers.push(m);
+}
+function fit(pts,maxZoom){
+  if(!pts.length)return;
+  var b=new maplibregl.LngLatBounds();
+  pts.forEach(function(p){b.extend([p[1],p[0]]);});
+  map.fitBounds(b,{padding:{top:46,bottom:34,left:34,right:34},maxZoom:maxZoom||14,duration:650});
+}
+
 function drawAll(){
-  if(!mapReady||!R)return;
-  layer.clearLayers();var pts=[];
-  ["kyoto_gujo","gujo_matsumoto","matsumoto_gotemba"].forEach(function(id){
-    if(R.drives[id])L.polyline(R.drives[id].line,{color:"#274B8C",weight:4,opacity:.85}).addTo(layer);
+  if(!R)return;
+  onMap(function(){
+    clearPins();var pts=[],feats=[];
+    ["kyoto_gujo","gujo_matsumoto","matsumoto_gotemba"].forEach(function(id){
+      if(R.drives[id])feats.push(line(R.drives[id].line,"#274B8C"));
+    });
+    [["osaka","kyoto"],["gotemba","tokyo"]].forEach(function(p){
+      if(R.coords[p[0]]&&R.coords[p[1]])feats.push(line([R.coords[p[0]],R.coords[p[1]]],"#8A93A2",true));
+    });
+    setRoutes(feats);
+    [["osaka","1 · אוסקה"],["kyoto","2 · קיוטו"],["gujo","3 · גוג׳ו"],["matsumoto","4 · מטסומוטו"],
+     ["gotemba","5 · פוג׳י"],["tokyo","6 · טוקיו"]].forEach(function(b,i){
+      var c=[C.osaka,C.kyoto,C.gujo,C.matsumoto,C.fuji,C.tokyo][i];
+      if(!R.coords[b[0]])return;
+      pin(R.coords[b[0]],i+1,c,"<b>"+b[1]+"</b>");pts.push(R.coords[b[0]]);
+    });
+    fit(pts,9);
   });
-  [["osaka","kyoto"],["gotemba","tokyo"]].forEach(function(p){
-    L.polyline([R.coords[p[0]],R.coords[p[1]]],{color:"#8A93A2",weight:2.5,dashArray:"6 6",opacity:.9}).addTo(layer);
-  });
-  [["osaka","1 · אוסקה"],["kyoto","2 · קיוטו"],["gujo","3 · גוג׳ו"],["matsumoto","4 · מטסומוטו"],
-   ["gotemba","5 · פוג׳י"],["tokyo","6 · טוקיו"]].forEach(function(b,i){
-    var c=[C.osaka,C.kyoto,C.gujo,C.matsumoto,C.fuji,C.tokyo][i];
-    pin(R.coords[b[0]],i+1,c,false,"<b>"+b[1]+"</b>").addTo(layer);pts.push(R.coords[b[0]]);
-  });
-  map.fitBounds(pts,{padding:[35,35]});
 }
 function drawDay(day){
-  if(!mapReady||!R)return;
-  layer.clearLayers();var pts=[],c=C[day.base],n=0;
-  day.items.forEach(function(it){if(it.drive&&R.drives[it.drive]){
-    L.polyline(R.drives[it.drive].line,{color:c,weight:4,opacity:.85}).addTo(layer);
-    R.drives[it.drive].line.forEach(function(p){pts.push(p);});}});
-  day.items.forEach(function(it){
-    if(!it.k||!R.coords[it.k])return;n++;
-    pin(R.coords[it.k],n,c,false,"<b>"+it.n+"</b>").addTo(layer);pts.push(R.coords[it.k]);
+  if(!R)return;
+  onMap(function(){
+    clearPins();var pts=[],feats=[],c=C[day.base],n=0;
+    day.items.forEach(function(it){if(it.drive&&R.drives[it.drive]){
+      feats.push(line(R.drives[it.drive].line,c));
+      R.drives[it.drive].line.forEach(function(p){pts.push(p);});}});
+    setRoutes(feats);
+    day.items.forEach(function(it){
+      if(!it.k||!R.coords[it.k])return;n++;
+      pin(R.coords[it.k],n,c,"<b>"+it.n+"</b>");pts.push(R.coords[it.k]);
+    });
+    fit(pts,13);
   });
-  if(pts.length)map.fitBounds(pts,{padding:[38,38],maxZoom:13});
 }
 
 /* ---------- render ---------- */
@@ -306,7 +368,8 @@ function render(){
   el.querySelectorAll("[data-jump]").forEach(function(node){
     node.addEventListener("click",function(){
       var k=node.dataset.jump;
-      if(mapReady&&R&&R.coords[k]){map.setView(R.coords[k],12,{animate:true});
+      if(mapReady&&R&&R.coords[k]){
+        map.flyTo({center:[R.coords[k][1],R.coords[k][0]],zoom:12,duration:800});
         document.getElementById("map").scrollIntoView({behavior:"smooth",block:"start"});}
     });
   });
