@@ -1,34 +1,160 @@
-// Bakes a Latin-label-only MapLibre style from OpenFreeMap "Liberty".
-// Liberty ships "Latin\nJapanese" labels; we want Latin only so the map is readable.
-// Output is committed so the app has one less runtime dependency.
-import { writeFileSync } from "node:fs";
+/* build-style.mjs — regenerates data/style-liberty-latin.json and data/style-liberty-dark.json
+ *
+ *   node build-style.mjs
+ *
+ * Source of truth is upstream OpenFreeMap "Liberty". Two transforms are applied:
+ *
+ *   1. LATIN LABELS (unchanged from the original script)
+ *      Every *name-based* symbol layer has its text-field rewritten to
+ *      coalesce(name:latin, name_en, name). The 3 highway-shield layers use `ref`
+ *      and are left alone.
+ *
+ *   2. DARK VARIANT (new)
+ *      A second pass recolours background / fill / line paint by layer id prefix.
+ *      Nothing structural changes — same layer list, same order, same filters —
+ *      so the route overlay code and the pin geometry keep working identically.
+ *      Label halos flip to the dark surface colour so Latin place names stay legible.
+ *
+ * Do not hand-edit the generated JSON.
+ */
 
-const STYLE_URL = "https://tiles.openfreemap.org/styles/liberty";
-const style = await (await fetch(STYLE_URL)).json();
+import { readFile, writeFile } from "node:fs/promises";
 
-// Prefer the transliterated Latin name, then the English name, then whatever exists.
+const UPSTREAM = "https://tiles.openfreemap.org/styles/liberty";
+const OUT_LIGHT = "data/style-liberty-latin.json";
+const OUT_DARK  = "data/style-liberty-dark.json";
+
 const LATIN = ["coalesce", ["get", "name:latin"], ["get", "name_en"], ["get", "name"]];
 
-let patched = 0, skipped = [];
-for (const layer of style.layers) {
-  const tf = layer.layout && layer.layout["text-field"];
-  if (!tf) continue;
-  const s = JSON.stringify(tf);
-  // Only touch name-based labels. Shields/ref labels must keep their own expression.
-  if (!/name:latin|name_en|"name"/.test(s)) { skipped.push(layer.id); continue; }
-  layer.layout["text-field"] = LATIN;
-  patched++;
-}
+/* layers keyed off `ref` (route shields) must keep their text-field */
+const REF_LAYERS = /^(highway-shield|road-shield|highway-name-motorway)/;
 
-// Japanese place names transliterate long; give labels a bit more room.
-for (const layer of style.layers) {
-  if (layer.type === "symbol" && layer.layout && layer.layout["text-field"]) {
-    layer.layout["text-max-width"] = layer.layout["text-max-width"] ?? 8;
+function latinise(style) {
+  let n = 0;
+  for (const l of style.layers) {
+    if (l.type !== "symbol" || !l.layout || !l.layout["text-field"]) continue;
+    if (REF_LAYERS.test(l.id)) continue;
+    const tf = JSON.stringify(l.layout["text-field"]);
+    if (!/name/.test(tf) || /\bref\b/.test(tf)) continue;
+    l.layout["text-field"] = LATIN;
+    n++;
   }
+  console.log(`latinised ${n} symbol layers`);
+  return style;
 }
 
-const out = "D:/japan-trip/web/data/style-liberty-latin.json";
-writeFileSync(out, JSON.stringify(style));
-console.log(`patched ${patched} name-based label layers`);
-console.log(`left alone (non-name labels): ${skipped.join(", ") || "none"}`);
-console.log(`wrote ${out} (${(JSON.stringify(style).length / 1024).toFixed(0)} KB)`);
+/* ---------- dark palette ----------
+ * Tuned against the app's dark surface (#0C0F13) so that the six per-base colours
+ * — Ōsaka #B85428, Kyōto #7A4E86, Gujō #2E7D8A, Matsumoto #274B8C, Fuji #4A6FA5,
+ * Tōkyō #A03E5C — all stay readable as route lines and pin plates on top of it.
+ * Roads are deliberately de-emphasised: the route overlay is the figure, the
+ * basemap is ground.
+ */
+const DARK = {
+  background:   "#0F131A",
+  water:        "#0A1420",
+  waterway:     "#0E1A28",
+  landuse:      "#141922",
+  park:         "#121D19",
+  wood:         "#101A16",
+  sand:         "#1A1A17",
+  glacier:      "#1B222B",
+  building:     "#181D26",
+  buildingLine: "#1E2530",
+  motorway:     "#2A323F",
+  trunk:        "#262E3A",
+  primary:      "#232A35",
+  secondary:    "#1F2530",
+  minor:        "#1B212A",
+  path:         "#1A2028",
+  rail:         "#232A34",
+  boundary:     "#39424F",
+  aeroway:      "#1A2029",
+  label:        "#98A1B0",
+  labelStrong:  "#C9D1DC",
+  halo:         "#0C0F13",
+  waterLabel:   "#5E7A96",
+  parkLabel:    "#5F8570"
+};
+
+/* id-prefix → colour, first match wins */
+const FILL_RULES = [
+  [/^background/,                          DARK.background],
+  [/^(water|ocean|sea)/,                   DARK.water],
+  [/^waterway/,                            DARK.waterway],
+  [/(park|grass|golf|pitch|cemetery)/,     DARK.park],
+  [/(wood|forest)/,                        DARK.wood],
+  [/(sand|beach)/,                         DARK.sand],
+  [/(glacier|ice)/,                        DARK.glacier],
+  [/^building/,                            DARK.building],
+  [/^landcover|^landuse/,                  DARK.landuse],
+  [/^aeroway/,                             DARK.aeroway]
+];
+
+const LINE_RULES = [
+  [/motorway/,                             DARK.motorway],
+  [/trunk/,                                DARK.trunk],
+  [/primary/,                              DARK.primary],
+  [/secondary|tertiary/,                   DARK.secondary],
+  [/(path|pedestrian|track|footway)/,      DARK.path],
+  [/(rail|transit|subway)/,                DARK.rail],
+  [/boundary|admin/,                       DARK.boundary],
+  [/^building/,                            DARK.buildingLine],
+  [/^water|^waterway/,                     DARK.waterway],
+  [/^road|^bridge|^tunnel|^highway/,       DARK.minor]
+];
+
+function pick(rules, id) {
+  for (const [re, col] of rules) if (re.test(id)) return col;
+  return null;
+}
+
+/* replace a paint value that may be a plain colour or a zoom/data expression */
+function recolour(value, col) {
+  if (typeof value === "string") return col;
+  if (Array.isArray(value)) return col;   // flatten interpolations — dark map is flat by design
+  if (value && typeof value === "object" && value.stops) return col;
+  return col;
+}
+
+function darken(style) {
+  style.id = "liberty-latin-dark";
+  style.name = "Liberty (Latin) · dark";
+  for (const l of style.layers) {
+    l.paint = l.paint || {};
+    if (l.type === "background") {
+      l.paint["background-color"] = DARK.background;
+      delete l.paint["background-pattern"];
+    } else if (l.type === "fill" || l.type === "fill-extrusion") {
+      const col = pick(FILL_RULES, l.id) || DARK.landuse;
+      const key = l.type === "fill" ? "fill-color" : "fill-extrusion-color";
+      l.paint[key] = recolour(l.paint[key], col);
+      if (l.paint["fill-outline-color"] !== undefined) l.paint["fill-outline-color"] = DARK.buildingLine;
+      delete l.paint["fill-pattern"];
+    } else if (l.type === "line") {
+      const col = pick(LINE_RULES, l.id) || DARK.minor;
+      l.paint["line-color"] = recolour(l.paint["line-color"], col);
+    } else if (l.type === "symbol") {
+      const strong = /(place|country|state|city|town)/.test(l.id);
+      const water  = /(water|ocean|sea|marine)/.test(l.id);
+      const park   = /(park|forest|wood)/.test(l.id);
+      l.paint["text-color"] = water ? DARK.waterLabel : park ? DARK.parkLabel : strong ? DARK.labelStrong : DARK.label;
+      l.paint["text-halo-color"] = DARK.halo;
+      l.paint["text-halo-width"] = 1.1;
+      l.paint["text-halo-blur"]  = 0.3;
+      if (l.paint["icon-color"]) l.paint["icon-color"] = DARK.label;
+      if (l.paint["icon-halo-color"]) l.paint["icon-halo-color"] = DARK.halo;
+    }
+  }
+  return style;
+}
+
+const upstream = await (await fetch(UPSTREAM)).json();
+
+const light = latinise(structuredClone(upstream));
+await writeFile(OUT_LIGHT, JSON.stringify(light));
+console.log("wrote", OUT_LIGHT);
+
+const dark = darken(latinise(structuredClone(upstream)));
+await writeFile(OUT_DARK, JSON.stringify(dark));
+console.log("wrote", OUT_DARK);
