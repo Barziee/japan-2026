@@ -68,12 +68,18 @@ button{font-family:inherit;color:inherit;border:0;background:none;cursor:pointer
   border-radius:999px;padding:7px 12px;font-size:12px;font-weight:700;color:var(--ink2)}
 .rail{display:flex;gap:8px;padding:6px 20px 10px}
 .chip{flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
-  width:54px;height:64px;border-radius:var(--r-md);background:var(--card);box-shadow:var(--sh-sm)}
-.chip.all{width:62px;gap:2px}
+  width:60px;height:86px;border-radius:var(--r-md);background:var(--card);box-shadow:var(--sh-sm)}
+.chip.all{width:64px;gap:2px}
 .chip .dw{font-size:10.5px;font-weight:600;opacity:.62;line-height:1.2}
 .chip .dn{font-size:19px;font-weight:800;line-height:1.15}
 .chip .dt{display:block;width:5px;height:5px;border-radius:50%;margin-top:2px}
-.chip .cl{font-size:10px;font-weight:700;line-height:1.2}
+.chip .cl{font-size:9.5px;font-weight:700;line-height:1.2;opacity:.68;max-width:56px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* content signature — what the day actually holds */
+.sig{display:flex;align-items:center;justify-content:center;gap:2px;height:15px;margin-top:1px}
+.sig .sg{display:flex;color:var(--ink2);opacity:.75}
+.chip[aria-selected="true"] .sig .sg,.chip.on .sig .sg{opacity:1}
+.chip.all .sig{display:none}
 
 /* ---- content -------------------------------------------------------------- */
 .body{flex:1;min-height:0;padding:16px 20px 20px}
@@ -153,6 +159,28 @@ a.grow:hover .extico{color:var(--accent)}
   min-width:46px;min-height:46px;color:var(--ink3);font-weight:600}
 .tab[aria-selected="true"]{color:var(--accent);font-weight:700}
 .tab span{font-size:9.5px;line-height:1.1}
+
+/* ---- overview scan list: all 17 days, grouped by base --------------------- */
+.scan{padding:2px 16px 0}
+.grp{margin-top:14px}
+.ghd{display:flex;align-items:center;gap:7px;padding:0 2px 7px}
+.gdot{width:9px;height:9px;border-radius:50%;background:var(--c);flex:none}
+.gnm{font-size:14.5px;font-weight:800;color:var(--ink)}
+.gmt{font-size:11.5px;color:var(--ink3);font-weight:600;min-width:0;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.drow{display:flex;align-items:center;gap:11px;width:100%;text-align:start;background:var(--card);
+  border-radius:var(--r-sm);padding:10px 12px;margin-bottom:6px;box-shadow:var(--sh-sm);
+  border-inline-start:3px solid var(--c);min-height:56px}
+.drow:hover{box-shadow:var(--sh-md)}
+.drow .dd{flex:none;display:flex;flex-direction:column;align-items:center;width:30px;line-height:1.1}
+.drow .dd b{font-size:17px;font-weight:800}
+.drow .dd i{font-size:10px;font-style:normal;font-weight:600;color:var(--ink3)}
+.drow .dbd{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.drow .dtt{font-size:13.5px;font-weight:700;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.drow .dmt{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--ink3);font-weight:600}
+.drow .dmt .sig{height:auto;margin:0}
+.drow .dmt .sg{color:var(--c);opacity:.95}
+.drow .dwn{flex:none;color:var(--alert);display:flex}
 
 /* ---- settings sheet ------------------------------------------------------- */
 .gear{width:34px;height:34px;border-radius:999px;background:var(--card);box-shadow:var(--sh-sm);
@@ -271,93 +299,93 @@ var MODE = { car:"נהיגה", rail:"רכבת", bus:"אוטובוס", walk:"הל
 
 var DAYS = [
 {d:4,dow:"א׳",base:"osaka",t:"נחיתה + ערב ב-Namba",items:[
-  {n:"נחיתה ב-KIX",s:"11:40 · הגירה, מזוודות, רכבת/לימוזין לעיר",t:"11:40"},
-  {k:"osaka",n:"Meander Osaka · צ׳ק-אין",s:"מורידים תיקים, יום רך אחרי הטיסה",leg:{mode:"rail",hrs:0.85,txt:"KIX → Namba"}},
-  {n:"ערב · Ura-Namba / Hōzenji Yokochō",s:"סמטאות איזקאיה, ארוחה קלה, מוקדם לישון"}],
+  {c:"air",n:"נחיתה ב-KIX",s:"11:40 · הגירה, מזוודות, רכבת/לימוזין לעיר",t:"11:40"},
+  {c:"stay",k:"osaka",n:"Meander Osaka · צ׳ק-אין",s:"מורידים תיקים, יום רך אחרי הטיסה",leg:{mode:"rail",hrs:0.85,txt:"KIX → Namba"}},
+  {c:"town",n:"ערב · Ura-Namba / Hōzenji Yokochō",s:"סמטאות איזקאיה, ארוחה קלה, מוקדם לישון"}],
   note:"יום נחיתה — בלי סייטסיאינג גדול ובלי הזמנות."},
 {d:5,dow:"ב׳",base:"osaka",t:"יום גמיש · עיר או טיול יום",items:[
-  {k:"osaka",n:"אופציה A · יום עיר",s:"Nakazakichō, Tenjinbashisuji, Nakanoshima, Horie — קפה, רחובות, אוכל"},
-  {k:"nara",n:"אופציה B · נארה \"כמו שצריך\"",s:"Naramachi, גנים, יער Kasugayama — לא רק פארק האיילים",opt:1,leg:{mode:"rail",hrs:0.8,txt:"אוסקה → נארה"}},
-  {k:"minoh",n:"אופציה C · מפלי Minoh + Katsuo-ji",s:"חצי יום טבע, שלכת מוקדמת ביער",opt:1}],
+  {c:"town",k:"osaka",n:"אופציה A · יום עיר",s:"Nakazakichō, Tenjinbashisuji, Nakanoshima, Horie — קפה, רחובות, אוכל"},
+  {c:"town",k:"nara",n:"אופציה B · נארה \"כמו שצריך\"",s:"Naramachi, גנים, יער Kasugayama — לא רק פארק האיילים",opt:1,leg:{mode:"rail",hrs:0.8,txt:"אוסקה → נארה"}},
+  {c:"nature",k:"minoh",n:"אופציה C · מפלי Minoh + Katsuo-ji",s:"חצי יום טבע, שלכת מוקדמת ביער",opt:1}],
   note:"בוחרים לפי מזג האוויר: יום צלול → טיול יום. יום פחות טוב → שכונות אוסקה."},
 {d:6,dow:"ג׳",base:"osaka",t:"יום גמיש · האופציה השנייה",items:[
-  {k:"osaka",n:"אוסקה · שכונות ואוכל",s:"מה שלא עשינו אתמול — Horie, Shinsaibashi, Tenma לערב"},
-  {k:"ine",n:"אופציונלי · Ine no Funaya",s:"כפר הדייגים על המים — יום ארוך (~3 ש׳ לכל כיוון), רק ביום צלול מאוד",opt:1}],
+  {c:"food",k:"osaka",n:"אוסקה · שכונות ואוכל",s:"מה שלא עשינו אתמול — Horie, Shinsaibashi, Tenma לערב"},
+  {c:"water",k:"ine",n:"אופציונלי · Ine no Funaya",s:"כפר הדייגים על המים — יום ארוך (~3 ש׳ לכל כיוון), רק ביום צלול מאוד",opt:1}],
   note:"Ine דורש רכב ליום או סיור מאורגן — להחליט מראש, לא ספונטני."},
 {d:7,dow:"ד׳",base:"kyoto",t:"מעבר לקיוטו · ערב בגיון",items:[
-  {k:"osaka",n:"בוקר אחרון באוסקה",s:"קפה, אריזה, צ׳ק-אאוט"},
-  {k:"kyoto",n:"Miru Kyoto Gion · צ׳ק-אין",s:"מזוודות למלון בגיון",leg:{mode:"rail",hrs:0.5,txt:"אוסקה → קיוטו"}},
-  {k:"shirakawa",n:"Gion Shirakawa והסמטאות",s:"תעלת Shirakawa, Furumonzen, רחובות קטנים — בלי יעד ממוקד"},
-  {k:"kamo",n:"נהר Kamo לפנות ערב",s:"הליכה על הגדה סביב Sanjō"},
-  {k:"pontocho",n:"ערב · ארוחה",s:"Gion / Pontochō / Kawaramachi"}],
+  {c:"town",k:"osaka",n:"בוקר אחרון באוסקה",s:"קפה, אריזה, צ׳ק-אאוט"},
+  {c:"stay",k:"kyoto",n:"Miru Kyoto Gion · צ׳ק-אין",s:"מזוודות למלון בגיון",leg:{mode:"rail",hrs:0.5,txt:"אוסקה → קיוטו"}},
+  {c:"town",k:"shirakawa",n:"Gion Shirakawa והסמטאות",s:"תעלת Shirakawa, Furumonzen, רחובות קטנים — בלי יעד ממוקד"},
+  {c:"water",k:"kamo",n:"נהר Kamo לפנות ערב",s:"הליכה על הגדה סביב Sanjō"},
+  {c:"food",k:"pontocho",n:"ערב · ארוחה",s:"Gion / Pontochō / Kawaramachi"}],
   note:"יום הגעה — בלי מקדש גדול ובלי אטרקציה עם שעת סגירה. Kiyomizu-dera ירד מהיום הזה."},
 {d:8,dow:"ה׳",base:"kyoto",t:"מזרח קיוטו · מצפון לדרום",items:[
-  {k:"honenin",n:"Hōnen-in · מוקדם",s:"שער האזוב והחצר לפני שהאזור מתמלא",t:"07:30"},
-  {n:"שביל הפילוסופים · קטע",s:"חיבור הליכה נעים דרומה — לא מוסיפים את Ginkaku-ji רק כי הוא קרוב"},
-  {k:"eikando",n:"Eikandō · סביב שעת הפתיחה",s:"המקדש המרכזי של היום — ואחריו לא עוד מקדשים גדולים",t:"~09:00"},
-  {n:"Hinode Udon · צהריים מוקדמים",s:"להגיע קצת לפני הפתיחה · מזומן בלבד · בלי הזמנות · Nanzenji Kitanobōchō 36",t:"~10:45"},
-  {k:"nanzenji",n:"Nanzen-ji ואמת המים Suirokaku",s:"רק אם נשאר כוח וזמן",opt:1},
-  {k:"gyojabashi",n:"Gyōjabashi · הגשר הצר",s:"גשר האבן מעל Shirakawa ליד תחנת Higashiyama"},
-  {k:"shirakawa",n:"Furumonzen → Shirakawa → Gion",s:"חנויות עתיקות, סמטאות וקפה בדרך חזרה למלון"},
-  {k:"kamo",n:"נהר Kamo · אחה״צ־ערב",s:"מנוחה על הגדה, ארוחה בגיון / Pontochō / Kawaramachi"}],
+  {c:"sight",k:"honenin",n:"Hōnen-in · מוקדם",s:"שער האזוב והחצר לפני שהאזור מתמלא",t:"07:30"},
+  {c:"walk",n:"שביל הפילוסופים · קטע",s:"חיבור הליכה נעים דרומה — לא מוסיפים את Ginkaku-ji רק כי הוא קרוב"},
+  {c:"sight",k:"eikando",n:"Eikandō · סביב שעת הפתיחה",s:"המקדש המרכזי של היום — ואחריו לא עוד מקדשים גדולים",t:"~09:00"},
+  {c:"food",n:"Hinode Udon · צהריים מוקדמים",s:"להגיע קצת לפני הפתיחה · מזומן בלבד · בלי הזמנות · Nanzenji Kitanobōchō 36",t:"~10:45"},
+  {c:"sight",k:"nanzenji",n:"Nanzen-ji ואמת המים Suirokaku",s:"רק אם נשאר כוח וזמן",opt:1},
+  {c:"sight",k:"gyojabashi",n:"Gyōjabashi · הגשר הצר",s:"גשר האבן מעל Shirakawa ליד תחנת Higashiyama"},
+  {c:"town",k:"shirakawa",n:"Furumonzen → Shirakawa → Gion",s:"חנויות עתיקות, סמטאות וקפה בדרך חזרה למלון"},
+  {c:"water",k:"kamo",n:"נהר Kamo · אחה״צ־ערב",s:"מנוחה על הגדה, ארוחה בגיון / Pontochō / Kawaramachi"}],
   note:"⚠️ לאמת לקראת הנסיעה: שעות Eikandō, ושעות + ימי סגירה של Hinode Udon. ייתכן מעבר חדר ב-MIRU הבוקר — משאירים מזוודות בקבלה. Fushimi Inari ו-Arashiyama ירדו מהיום הזה."},
 {d:9,dow:"ו׳",base:"gujo",t:"בוקר שקט בקיוטו → גוג׳ו",items:[
-  {k:"kamo",n:"הליכה שקטה מוקדמת",s:"גיון או גדת נהר Kamo לפני שהעיר מתעוררת · קפה ובוקר"},
-  {k:"sanjo",n:"איסוף Corolla Sport · 09:30",s:"Sanjo Keihan-Kita · בדיקת רכב + ETC · מונית קצרה מגיון עם המזוודות",t:"09:30"},
-  {k:"gujo",n:"Gujō-Hachiman · העיר העתיקה",s:"Igawa Komichi, Sōgi-sui, תעלות מים, בתי קפה, צהריים מקומי",drive:"kyoto_gujo"},
-  {n:"ערב · ארוחה מוקדמת",s:"גוג׳ו שקטה בערב — לוודא מקום פתוח מראש"}],
+  {c:"walk",k:"kamo",n:"הליכה שקטה מוקדמת",s:"גיון או גדת נהר Kamo לפני שהעיר מתעוררת · קפה ובוקר"},
+  {c:"drive",k:"sanjo",n:"איסוף Corolla Sport · 09:30",s:"Sanjo Keihan-Kita · בדיקת רכב + ETC · מונית קצרה מגיון עם המזוודות",t:"09:30"},
+  {c:"town",k:"gujo",n:"Gujō-Hachiman · העיר העתיקה",s:"Igawa Komichi, Sōgi-sui, תעלות מים, בתי קפה, צהריים מקומי",drive:"kyoto_gujo"},
+  {c:"food",n:"ערב · ארוחה מוקדמת",s:"גוג׳ו שקטה בערב — לוודא מקום פתוח מראש"}],
   note:"המלון (Fairfield) ב-Gujō-Yamato, ~15–20 דק׳ מהעיר העתיקה."},
 {d:10,dow:"ש׳",base:"matsumoto",t:"דרך עמק Kiso למטסומוטו",items:[
-  {k:"gujo",n:"בוקר קצר בגוג׳ו",s:"סיבוב אחרון, קפה, יוצאים"},
-  {k:"narai",n:"Narai-juku · העצירה היחידה",s:"עיירת דואר משומרת — צהריים והליכה ברחוב הראשי",drive:"gujo_matsumoto"},
-  {k:"matsumoto",n:"Matsumoto Jujo · צ׳ק-אין",s:"מגיעים ~16:30–17:00 · הערב שמור למלון ולאמבט"}],
+  {c:"town",k:"gujo",n:"בוקר קצר בגוג׳ו",s:"סיבוב אחרון, קפה, יוצאים"},
+  {c:"town",k:"narai",n:"Narai-juku · העצירה היחידה",s:"עיירת דואר משומרת — צהריים והליכה ברחוב הראשי",drive:"gujo_matsumoto"},
+  {c:"stay",k:"matsumoto",n:"Matsumoto Jujo · צ׳ק-אין",s:"מגיעים ~16:30–17:00 · הערב שמור למלון ולאמבט"}],
   note:"לא דרך Takayama (צפיפות פסטיבל). לא לנסות Magome+Tsumago+Narai באותו יום."},
 {d:11,dow:"א׳",base:"matsumoto",t:"יום הטבע הגדול",items:[
-  {k:"sawando",n:"נסיעה ל-Sawando",s:"חניון park & ride — רכב פרטי אסור בקמיקוצ׳י",drive:"dt_sawando"},
-  {k:"kamikochi",n:"Kamikōchi · Kappa-bashi",s:"אוטובוס פנימה. Taishō-ike → Kappa-bashi → Myōjin אם יש כוח. שיא השלכת",leg:{mode:"bus",hrs:0.5,txt:"Sawando → Kamikōchi (אוטובוס בלבד)"}},
-  {k:"utsukushi",n:"חלופה · Utsukushigahara",s:"רמה בגובה ~2,000מ׳, נסיעה נופית (Venus Line) — אם מעדיפים רכב על אוטובוס",opt:1}],
+  {c:"drive",k:"sawando",n:"נסיעה ל-Sawando",s:"חניון park & ride — רכב פרטי אסור בקמיקוצ׳י",drive:"dt_sawando"},
+  {c:"nature",k:"kamikochi",n:"Kamikōchi · Kappa-bashi",s:"אוטובוס פנימה. Taishō-ike → Kappa-bashi → Myōjin אם יש כוח. שיא השלכת",leg:{mode:"bus",hrs:0.5,txt:"Sawando → Kamikōchi (אוטובוס בלבד)"}},
+  {c:"nature",k:"utsukushi",n:"חלופה · Utsukushigahara",s:"רמה בגובה ~2,000מ׳, נסיעה נופית (Venus Line) — אם מעדיפים רכב על אוטובוס",opt:1}],
   note:"⚠️ אוטובוס Kamikōchi בהזמנה מראש (National Park Liner). בוחרים ערב קודם לפי תחזית."},
 {d:12,dow:"ב׳",base:"matsumoto",t:"מטסומוטו · חג + פסטיבל הסובה",items:[
-  {k:"matsumoto",n:"טירת Matsumoto + פסטיבל הסובה",s:"הפסטיבל בפארק הטירה (10–12/10). להגיע לפני שיא הצהריים",t:"בוקר"},
-  {n:"Nawate + Nakamachi",s:"רחוב הצפרדעים לאורך התעלה, מחסני kura, קרמיקה, קפה"},
-  {k:"daio",n:"אופציונלי · Azumino + Daiō Wasabi",s:"חצי יום כפרי — נחלים, חוות וסאבי, אופניים",opt:1,leg:{mode:"car",hrs:0.4,km:17.6,txt:"מטסומוטו → Azumino"}}],
+  {c:"sight",k:"matsumoto",n:"טירת Matsumoto + פסטיבל הסובה",s:"הפסטיבל בפארק הטירה (10–12/10). להגיע לפני שיא הצהריים",t:"בוקר"},
+  {c:"town",n:"Nawate + Nakamachi",s:"רחוב הצפרדעים לאורך התעלה, מחסני kura, קרמיקה, קפה"},
+  {c:"nature",k:"daio",n:"אופציונלי · Azumino + Daiō Wasabi",s:"חצי יום כפרי — נחלים, חוות וסאבי, אופניים",opt:1,leg:{mode:"car",hrs:0.4,km:17.6,txt:"מטסומוטו → Azumino"}}],
   note:"⚠️ Sports Day — העיר, החניה והמסעדות עמוסות. ארוחת ערב חייבת הזמנה מראש."},
 {d:13,dow:"ג׳",base:"fuji",t:"לגוטמבה + החלפת רכב",items:[
-  {k:"matsumoto",n:"יוצאים מוקדם ממטסומוטו",s:"עצירה אחת לכל היותר (Suwa / Yatsugatake / Kiyosato)"},
-  {k:"gotemba",n:"החלפת רכב · 14:30",s:"מזוודות ל-edit×seven → מחזירים Corolla → אוספים GR Yaris",t:"14:30",drive:"matsumoto_gotemba"},
-  {k:"yamanakako",n:"לולאה ראשונה · Yamanakako",s:"נקודת שקיעה אחת טובה — לא לרדוף אחרי כמה אגמים"}],
+  {c:"drive",k:"matsumoto",n:"יוצאים מוקדם ממטסומוטו",s:"עצירה אחת לכל היותר (Suwa / Yatsugatake / Kiyosato)"},
+  {c:"drive",k:"gotemba",n:"החלפת רכב · 14:30",s:"מזוודות ל-edit×seven → מחזירים Corolla → אוספים GR Yaris",t:"14:30",drive:"matsumoto_gotemba"},
+  {c:"drive",k:"yamanakako",n:"לולאה ראשונה · Yamanakako",s:"נקודת שקיעה אחת טובה — לא לרדוף אחרי כמה אגמים"}],
   note:"מזוודות נשארות במלון — לא ב-GR Yaris (תא מטען קטן)."},
 {d:14,dow:"ד׳",base:"fuji",t:"יום פוג׳י · מודולרי לפי ראות",items:[
-  {k:"panoramadai",n:"גרסה A · ראות מצוינת",s:"Panorama-dai → Oshino Hakkai מוקדם → צפון Kawaguchiko → Ōishi Park",drive:"fuji_loop"},
-  {k:"oshino",n:"גרסה B · מעונן חלקית",s:"נשארים קרוב: Gotemba, Yamanakako, Oshino, מזרח Kawaguchiko",opt:1},
-  {k:"hakone",n:"גרסה C · פוג׳י מוסתר → Hakone",s:"יום נהיגה נופי: אגם Ashi, Ōwakudani, המוזיאון הפתוח",opt:1}],
+  {c:"nature",k:"panoramadai",n:"גרסה A · ראות מצוינת",s:"Panorama-dai → Oshino Hakkai מוקדם → צפון Kawaguchiko → Ōishi Park",drive:"fuji_loop"},
+  {c:"nature",k:"oshino",n:"גרסה B · מעונן חלקית",s:"נשארים קרוב: Gotemba, Yamanakako, Oshino, מזרח Kawaguchiko",opt:1},
+  {c:"nature",k:"hakone",n:"גרסה C · פוג׳י מוסתר → Hakone",s:"יום נהיגה נופי: אגם Ashi, Ōwakudani, המוזיאון הפתוח",opt:1}],
   note:"פוג׳י הוא הר של בקרים — בודקים עננות בערב הקודם ובבוקר, ומחליטים אז."},
 {d:15,dow:"ה׳",base:"tokyo",t:"בוקר פוג׳י אחרון → טוקיו",items:[
-  {k:"gotemba",n:"בוקר אחרון + החזרת GR Yaris",s:"נקודה מזרחית אם ההר נראה · תדלוק אוקטן גבוה · החזרה 14:30",t:"14:30"},
-  {k:"tokyo",n:"Metropolitan Edmont · צ׳ק-אין",s:"Iidabashi",leg:{mode:"rail",hrs:1.6,txt:"גוטמבה → טוקיו (אוטובוס/שינקנסן דרך Mishima)"}},
-  {k:"kagurazaka",n:"ערב · Kagurazaka",s:"עלייה ברחוב הראשי, סמטאות מרוצפות, ביסטרו/איזקאיה"}]},
+  {c:"drive",k:"gotemba",n:"בוקר אחרון + החזרת GR Yaris",s:"נקודה מזרחית אם ההר נראה · תדלוק אוקטן גבוה · החזרה 14:30",t:"14:30"},
+  {c:"stay",k:"tokyo",n:"Metropolitan Edmont · צ׳ק-אין",s:"Iidabashi",leg:{mode:"rail",hrs:1.6,txt:"גוטמבה → טוקיו (אוטובוס/שינקנסן דרך Mishima)"}},
+  {c:"town",k:"kagurazaka",n:"ערב · Kagurazaka",s:"עלייה ברחוב הראשי, סמטאות מרוצפות, ביסטרו/איזקאיה"}]},
 {d:16,dow:"ו׳",base:"tokyo",t:"טוקיו הישנה · Yanaka",items:[
-  {k:"asakusa",n:"Senso-ji · 07:00–08:00",s:"לפני שהדוכנים נפתחים — המקום ריק",t:"07:00"},
-  {k:"kappabashi",n:"Kappabashi",s:"רחוב המטבח — סכינים, קרמיקה, כלי מטבח"},
-  {k:"yanaka",n:"Nezu → Yanaka Ginza",s:"Nezu-jinja (מנהרת טוריים), בית הקברות, רחוב מסחר ישן, קיסאטן"}],
+  {c:"sight",k:"asakusa",n:"Senso-ji · 07:00–08:00",s:"לפני שהדוכנים נפתחים — המקום ריק",t:"07:00"},
+  {c:"shop",k:"kappabashi",n:"Kappabashi",s:"רחוב המטבח — סכינים, קרמיקה, כלי מטבח"},
+  {c:"sight",k:"yanaka",n:"Nezu → Yanaka Ginza",s:"Nezu-jinja (מנהרת טוריים), בית הקברות, רחוב מסחר ישן, קיסאטן"}],
   note:"גשם: Tokyo National Museum ב-Ueno (סגור בשני — היום חמישי, בסדר)."},
 {d:17,dow:"ש׳",base:"tokyo",t:"Shimokitazawa + Kichijōji",items:[
-  {k:"kichijoji",n:"בוקר · Kichijōji",s:"פארק Inokashira, Harmonica Yokochō, רחובות קניות",opt:1},
-  {k:"shimokita",n:"Shimokitazawa",s:"וינטג׳, תקליטים, ספרים, קפה, Bonus Track, תיאטרונים קטנים"},
-  {n:"ערב · קארי + הופעה",s:"live house אינדי/רוק — לבדוק לוח הופעות מראש"}]},
+  {c:"town",k:"kichijoji",n:"בוקר · Kichijōji",s:"פארק Inokashira, Harmonica Yokochō, רחובות קניות",opt:1},
+  {c:"town",k:"shimokita",n:"Shimokitazawa",s:"וינטג׳, תקליטים, ספרים, קפה, Bonus Track, תיאטרונים קטנים"},
+  {c:"food",n:"ערב · קארי + הופעה",s:"live house אינדי/רוק — לבדוק לוח הופעות מראש"}]},
 {d:18,dow:"א׳",base:"tokyo",t:"Koenji + Nakano",items:[
-  {k:"nakano",n:"Nakano Broadway",s:"רטרו, אספנות, וינטג׳ — מקורה, טוב גם לגשם",opt:1},
-  {k:"koenji",n:"Koenji",s:"יד-שנייה, תקליטים, ארקדות, קפה, מוזיקה"},
-  {n:"ערב · בר / יאקיטורי / הופעה",s:"סצנת live-house חזקה"}]},
+  {c:"shop",k:"nakano",n:"Nakano Broadway",s:"רטרו, אספנות, וינטג׳ — מקורה, טוב גם לגשם",opt:1},
+  {c:"town",k:"koenji",n:"Koenji",s:"יד-שנייה, תקליטים, ארקדות, קפה, מוזיקה"},
+  {c:"food",n:"ערב · בר / יאקיטורי / הופעה",s:"סצנת live-house חזקה"}]},
 {d:19,dow:"ב׳",base:"tokyo",t:"Meiji מוקדם + Shibuya קצר + Nakameguro",items:[
-  {k:"meiji",n:"Meiji Jingū · 08:00",s:"יער שקט, שבילי חצץ — אמצע שבוע = רגוע",t:"08:00"},
-  {k:"shibuya",n:"Shibuya · סימון וי",s:"Hachiko והמעבר — שעה עד שעה וחצי, לא יותר"},
-  {k:"daikanyama",n:"Daikanyama · צהריים",s:"T-Site, בוטיקים, רחובות רגועים"},
-  {k:"nakameguro",n:"Nakameguro · נהר Meguro",s:"אחה״צ וערב לאורך הנהר — קפה, ברים, ארוחה (או Ebisu)"}],
+  {c:"sight",k:"meiji",n:"Meiji Jingū · 08:00",s:"יער שקט, שבילי חצץ — אמצע שבוע = רגוע",t:"08:00"},
+  {c:"town",k:"shibuya",n:"Shibuya · סימון וי",s:"Hachiko והמעבר — שעה עד שעה וחצי, לא יותר"},
+  {c:"food",k:"daikanyama",n:"Daikanyama · צהריים",s:"T-Site, בוטיקים, רחובות רגועים"},
+  {c:"water",k:"nakameguro",n:"Nakameguro · נהר Meguro",s:"אחה״צ וערב לאורך הנהר — קפה, ברים, ארוחה (או Ebisu)"}],
   note:"teamLab אופציונלי בערב — היה עמוס בתיירים, לבדוק יום/שעה."},
 {d:20,dow:"ג׳",base:"tokyo",t:"יציאה · NRT 18:00",items:[
-  {k:"kagurazaka",n:"בוקר קליל ליד המלון",s:"ארוחת בוקר, קניות אחרונות, קפה"},
-  {n:"יציאה לנמל התעופה",s:"לצאת ~14:30 · טיסה 18:00 מ-NRT",t:"~14:30",leg:{mode:"rail",hrs:1.3,txt:"טוקיו → NRT"}}],
+  {c:"town",k:"kagurazaka",n:"בוקר קליל ליד המלון",s:"ארוחת בוקר, קניות אחרונות, קפה"},
+  {c:"air",n:"יציאה לנמל התעופה",s:"לצאת ~14:30 · טיסה 18:00 מ-NRT",t:"~14:30",leg:{mode:"rail",hrs:1.3,txt:"טוקיו → NRT"}}],
   note:"בלי אזור או טיול גדול — מרווח ביטחון לשדה."}
 ];
 
@@ -592,8 +620,51 @@ var I = {
   cal:"M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z",
   star:"m12 3.6 2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8L12 3.6Z",
   ext:"M14 4h6v6M20 4l-8.4 8.4M18 14.5V19a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h4.5",
-  alert:"M12 8v5m0 3.5v.01M10.3 3.9 1.8 18.2A2 2 0 0 0 3.5 21h17a2 2 0 0 0 1.7-2.8L13.7 3.9a2 2 0 0 0-3.4 0Z"
+  alert:"M12 8v5m0 3.5v.01M10.3 3.9 1.8 18.2A2 2 0 0 0 3.5 21h17a2 2 0 0 0 1.7-2.8L13.7 3.9a2 2 0 0 0-3.4 0Z",
+  town:"M4 20V9.5L9 6.5l5 3V20M4 20h16M14 20v-8h6v8M7 12h.01M7 16h.01M17 15.5h.01"
 };
+
+/* ---- stop categories -------------------------------------------------------
+   Every stop in DAYS carries an explicit c:"…". These drive both the icon on the
+   stop card and the content signature on each day chip, so you can tell what a
+   day holds without opening it. */
+var CAT = {
+  nature:{i:I.mountain,l:"טבע"},   water:{i:I.water,l:"מים"},
+  sight: {i:I.torii,   l:"אתרים"}, food: {i:I.bowl, l:"אוכל"},
+  town:  {i:I.town,    l:"שכונות"},shop: {i:I.shop, l:"קניות"},
+  cafe:  {i:I.cafe,    l:"קפה"},   walk: {i:I.walk, l:"הליכה"},
+  drive: {i:I.car,     l:"נהיגה"}, rail: {i:I.train,l:"רכבת"},
+  bus:   {i:I.bus,     l:"אוטובוס"},air: {i:I.plane,l:"טיסה"},
+  stay:  {i:I.bed,     l:"לינה"}
+};
+/* most characteristic first; "stay" is excluded — every day ends somewhere */
+var SIG_PRIO = ["nature","water","sight","food","town","shop","cafe","walk","drive","rail","bus","air"];
+
+function dayKm(day){
+  if(!R) return 0;
+  return day.items.reduce(function(a,it){ return a+(it.drive&&R.drives[it.drive]?R.drives[it.drive].km:0); },0);
+}
+function dayHrs(day){
+  if(!R) return 0;
+  return day.items.reduce(function(a,it){ return a+(it.drive&&R.drives[it.drive]?R.drives[it.drive].hrs:0); },0);
+}
+/* up to 3 categories describing the day. A long transfer leads, because on those
+   days the driving is the day. */
+function daySig(day){
+  var have={};
+  day.items.forEach(function(it){ if(it.c) have[it.c]=1; });
+  if(dayKm(day)>60) have.drive=1;
+  var order=SIG_PRIO.slice();
+  if(dayKm(day)>100) order=["drive"].concat(order.filter(function(c){return c!=="drive";}));
+  var out=[];
+  order.forEach(function(c){ if(have[c]&&out.length<3) out.push(c); });
+  return out;
+}
+function sigHtml(day,size){
+  return daySig(day).map(function(c){
+    return '<span class="sg" title="'+CAT[c].l+'">'+svg(CAT[c].i,size||12)+'</span>';
+  }).join("");
+}
 /* pick a glyph from the stop's own words — no per-stop icon data to maintain */
 var ICON_RULES = [
   [/צ׳ק-אין|מלון|לינה|Jujo|Meander|Miru|Fairfield|edit×seven|Metropolitan/i, I.bed],
@@ -861,7 +932,9 @@ function renderRail(){
   var h='<button class="chip all" data-day="all"><span>'+svg(I.map,19)+'</span><span class="cl">הכל</span></button>';
   DAYS.forEach(function(d,i){
     h+='<button class="chip" data-day="'+i+'" data-base="'+d.base+'">'
-      +'<span class="dw">'+esc(d.dow)+'</span><span class="dn">'+d.d+'</span><span class="dt"></span></button>';
+      +'<span class="dw">'+esc(d.dow)+'</span><span class="dn">'+d.d+'</span>'
+      +'<span class="sig">'+sigHtml(d,12)+'</span>'
+      +'<span class="cl">'+esc(BASENAME[d.base])+'</span><span class="dt"></span></button>';
   });
   $("#rail").innerHTML=h;
   [].forEach.call($("#rail").querySelectorAll(".chip"), function(b){
@@ -933,11 +1006,36 @@ function renderRoute(){
     h+='<div class="mapcard"><div class="mapslot"></div><div class="mapbadge"><i style="background:'+col+'"></i>המסלול המלא</div></div>';
     h+='<div class="note"><span style="color:var(--accent);flex:none;margin-top:1px">'+svg(I.info,18)+'</span>'
       +'<div style="flex:1;min-width:0"><div class="lb" style="color:var(--accent)">על המפה</div>'
-      +'<div class="tx">הפס הצבעוני מתחת לכל תאריך מסמן באיזו תחנה לנים באותו לילה. אוסקה→קיוטו וגוטמבה→טוקיו ברכבת — הקו המקווקו מסמן קשר, לא מסלול.</div></div></div>';
-    NIGHTS.forEach(function(r,i){
-      h+=timelineRow({num:i+1,name:r[1],sub:esc(r[3])+' · <span class="en">'+esc(HOTEL[r[0]])+'</span>',
-        time:r[2],icon:I.bed,jump:BASEKEY[r[0]]||r[0],base:r[0],color:C[r[0]],first:i===0});
+      +'<div class="tx">הסמלים ליד כל תאריך מסמנים מה יש באותו יום — טבע, אתרים, אוכל, שכונות, נהיגה. אוסקה→קיוטו וגוטמבה→טוקיו ברכבת, והקו המקווקו מסמן קשר ולא מסלול.</div></div></div>';
+    /* every day, grouped under its base, so the whole trip is scannable in one view */
+    var groups=[];
+    DAYS.forEach(function(d,i){
+      var g=groups[groups.length-1];
+      if(!g||g.base!==d.base){ g={base:d.base,days:[]}; groups.push(g); }
+      g.days.push({d:d,i:i});
     });
+    h+='<div class="scan">';
+    groups.forEach(function(g){
+      var n=NIGHTS.filter(function(r){return r[0]===g.base;})[0];
+      h+='<div class="grp" style="--c:'+C[g.base]+'">'
+        +'<div class="ghd"><span class="gdot"></span><span class="gnm">'+esc(BASENAME[g.base])+'</span>'
+        +'<span class="gmt">'+(n?esc(n[2])+' · '+esc(n[3])+' · ':'')+'<span class="en">'+esc(HOTEL[g.base])+'</span></span></div>';
+      g.days.forEach(function(x){
+        var stops=x.d.items.filter(function(it){return it.k;}).length;
+        var km=Math.round(dayKm(x.d));
+        var meta=km ? km+' ק״מ · '+fmt(dayHrs(x.d))
+                    : (stops===1 ? 'עצירה אחת' : stops+' עצירות');
+        var warn=x.d.note&&x.d.note.indexOf("⚠️")===0;
+        h+='<button class="drow" data-day="'+x.i+'">'
+          +'<span class="dd"><b>'+x.d.d+'</b><i>'+esc(x.d.dow)+'</i></span>'
+          +'<span class="dbd"><span class="dtt">'+esc(x.d.t)+'</span>'
+          +'<span class="dmt"><span class="sig">'+sigHtml(x.d,13)+'</span><span>'+esc(meta)+'</span></span></span>'
+          +(warn?'<span class="dwn">'+svg(I.alert,15)+'</span>':'')
+          +'</button>';
+      });
+      h+='</div>';
+    });
+    h+='</div>';
     if(R){
       h+='<div class="panel" style="margin-top:6px"><h3>רגלי הנהיגה · מחושב על הכביש בפועל</h3>';
       [["kyoto_gujo","קיוטו → גוג׳ו"],["gujo_matsumoto","גוג׳ו → Narai → מטסומוטו"],["matsumoto_gotemba","מטסומוטו → גוטמבה"]]
@@ -975,7 +1073,9 @@ function renderRoute(){
       }
       if(it.k) n++;                            /* same counter as the map pin */
       h+=timelineRow({num: it.k?String(n):"·", name:it.n, sub:esc(it.s), time:it.t||"",
-        opt:!!it.opt, jump:it.k||"", icon:iconFor(it.n+" "+it.s), color: it.k?col:"var(--ink3)", first:i===0,
+        /* explicit category first; the prose-matching rules stay only as a fallback */
+        opt:!!it.opt, jump:it.k||"", icon:(it.c&&CAT[it.c]?CAT[it.c].i:iconFor(it.n+" "+it.s)),
+        color: it.k?col:"var(--ink3)", first:i===0,
         leg:!!lg, legIcon: lg?(LEG_ICON[lg.mode]||I.car):"", legText:legText, legTo: lg&&lg.txt?lg.txt:"", legUrl:legUrl});
     });
     h+='<div class="row"><div class="tm"></div>'
@@ -1043,6 +1143,12 @@ function render(){
   if(isRoute){
     [].forEach.call($("#body").querySelectorAll('.item[data-jump]'), function(el){
       el.addEventListener("click", function(){ selectStop(el.dataset.jump); });
+    });
+    /* overview scan rows jump straight into that day */
+    [].forEach.call($("#body").querySelectorAll('.drow[data-day]'), function(el){
+      el.addEventListener("click", function(){
+        sel=+el.dataset.day; active=null; render(); draw(); $("#body").scrollTop=0;
+      });
     });
     /* ONE map instance for the life of the page. The route markup is re-rendered
        on every day change, so the map lives in a detached node that gets moved
