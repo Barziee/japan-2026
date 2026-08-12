@@ -460,28 +460,33 @@ var SCREENS = {
     {label:"לקנות · כללי",rows:[
       {icon:"shop",name:"נייר וכלי כתיבה",sub:"Itoya או חנות שכונתית",meta:"",tone:""},
       {icon:"cafe",name:"תה",sub:"סנצ׳ה טוב — בקיוטו זול יותר",meta:"",tone:""}]}]},
-  recs:{kicker:"המלצות",title:"המלצות",meta:"אוכל ומקומות · לחיצה פותחת ב-Google Maps",
-    note:"רשימה פתוחה — מוסיפים מקומות תוך כדי הטיול. לחיצה על שורה פותחת אותה ישירות ב-Google Maps.",groups:[
-    {label:"אוסקה",rows:[
-      {icon:"shop",name:"Kuromon Ichiba",sub:"שוק מקורה — סשימי, צדפות, פירות · בוקר עד אחה״צ",meta:"שוק",tone:"",q:"Kuromon Ichiba Market Osaka"},
-      {icon:"bowl",name:"Ura-Namba",sub:"אשכול סמטאות איזקאיה מאחורי Namba — ערב ראשון",meta:"איזקאיה",tone:"",q:"Ura Namba Osaka"},
-      {icon:"bowl",name:"Harukoma Sushi",sub:"סושי שכונתי ב-Tenjinbashisuji · תור, שווה אותו",meta:"סושי",tone:"",q:"Harukoma Sushi Tenjinbashisuji"},
-      {icon:"cafe",name:"Mel Coffee Roasters",sub:"קלייה מקומית · קרוב ל-Nakazakichō",meta:"קפה",tone:"",q:"Mel Coffee Roasters Osaka"}]},
-    {label:"קיוטו",rows:[
-      {icon:"bowl",name:"Hinode Udon",sub:"בתוכנית ל-8/10 · מזומן בלבד · להגיע לפני הפתיחה",meta:"אודון",tone:"",q:"Hinode Udon Nanzenji Kyoto"},
-      {icon:"shop",name:"Nishiki Market",sub:"מטבח קיוטו — חמוצים, טופו, סכינים · צהריים",meta:"שוק",tone:"",q:"Nishiki Market Kyoto"},
-      {icon:"cafe",name:"% Arabica Higashiyama",sub:"קפה עם נוף · עמוס בשעות השיא",meta:"קפה",tone:"",q:"% Arabica Kyoto Higashiyama"},
-      {icon:"bowl",name:"Pontochō",sub:"סמטת ערב לאורך Kamo — לבחור על המקום",meta:"ערב",tone:"",q:"Pontocho Kyoto"}]},
-    {label:"גוג׳ו · מטסומוטו · ההרים",rows:[
-      {icon:"cafe",name:"Sōgi-sui · Igawa Komichi",sub:"מעיין ותעלות בגוג׳ו — בתי קפה קטנים סביב",meta:"גוג׳ו",tone:"",q:"Sogi-sui Gujo Hachiman"},
-      {icon:"bowl",name:"סובה במטסומוטו",sub:"אזור Nakamachi · בפסטיבל (10–12/10) הכל עמוס",meta:"סובה",tone:"",q:"soba Nakamachi Matsumoto"},
-      {icon:"shop",name:"Nawate Street",sub:"רחוב הצפרדעים לאורך התעלה — נשנושים וקרמיקה",meta:"רחוב",tone:"",q:"Nawate Street Matsumoto"}]},
-    {label:"טוקיו",rows:[
-      {icon:"shop",name:"Kappabashi",sub:"בתוכנית ל-16/10 · סכינים, קרמיקה, כלי מטבח",meta:"קניות",tone:"",q:"Kappabashi Kitchen Town Tokyo"},
-      {icon:"bowl",name:"Yanaka Ginza",sub:"רחוב מסחר ישן — אוכל רחוב, קרוקטים",meta:"רחוב",tone:"",q:"Yanaka Ginza Tokyo"},
-      {icon:"bowl",name:"Kagurazaka",sub:"סמטאות מרוצפות ליד המלון — ביסטרו ואיזקאיה",meta:"ערב",tone:"",q:"Kagurazaka Tokyo"},
-      {icon:"cafe",name:"Nakameguro · נהר Meguro",sub:"קפה וברים לאורך הנהר · אחה״צ־ערב",meta:"קפה",tone:"",q:"Nakameguro Meguro River Tokyo"},
-      {icon:"cafe",name:"קיסאטן בקואנג׳י",sub:"בתי קפה ותיקים בין חנויות יד-שנייה",meta:"קפה",tone:"",q:"kissaten Koenji Tokyo"}]}]}
+  /* ONLY places Bar named explicitly. Nothing invented, nothing "suggested" —
+     everything else was deliberately removed. Add here as he sends more. */
+  recs:{kicker:"המלצות",title:"המלצות",meta:"רק מה שבחרנו · לחיצה פותחת ב-Google Maps",
+    note:"🚫 נועה לא אוכלת חזיר — רוב הראמן ביפן הוא מרק חזיר. סומן למטה מה בטוח.",groups:[
+    {label:"קיוטו · ארוחות ערב",rows:[
+      {icon:"bowl",name:"挽肉と米 · Hikiniku to Come",sub:"המועמד המוביל · בשר בקר 100% · בגיון, מרחק הליכה מהמלון",meta:"להזמין 1/9",tone:"warn",q:"挽肉と米 京都"},
+      {icon:"bowl",name:"Yakiniku no GANSAN",sub:"יאקיניקו ב-Pontochō · @gansan_pontocho · בקר",meta:"מועמד",tone:"",q:"Yakiniku GANSAN Pontocho Kyoto"}]},
+    {label:"קיוטו · איזקאיה וברים",rows:[
+      {icon:"cafe",name:"365 Sakaba · Kawaramachi",sub:"איזקאיה זולה ותוססת",meta:"ללא הזמנה",tone:"",q:"365 Sakaba Kawaramachi Kyoto"},
+      {icon:"cafe",name:"Bar Alchemist",sub:"קוקטייל בר",meta:"ללא הזמנה",tone:"",q:"Bar Alchemist Kyoto"},
+      {icon:"cafe",name:"Rocking Bar ING",sub:"בר רוק ותקליטים",meta:"ללא הזמנה",tone:"",q:"Rocking Bar ING Kyoto"}]},
+    {label:"אוסקה · אוכל",rows:[
+      {icon:"bowl",name:"人情麺屋 牛骨王 · Ninjomenya Gyukotsuo",sub:"ראמן מרק עצמות בקר במקום חזיר · דלפק קטן, מכונת כרטיסים · Minami-Semba",meta:"בטוח לנועה",tone:"ok",q:"人情麺屋 牛骨王 南船場"},
+      {icon:"bowl",name:"Tokito · ときと",sub:"אזור Karahori, Chūō-ku · וואגיו סנדו",meta:"בוחרים אחד",tone:"",q:"ときと tokito Karahori Osaka"},
+      {icon:"bowl",name:"Dekasan",sub:"אותו וואגיו סנדו — לא רודפים אחרי שניהם",meta:"בוחרים אחד",tone:"",q:"Dekasan Osaka wagyu sando"}]},
+    {label:"אוסקה · מתוקים",rows:[
+      {icon:"cafe",name:"Grenier Patisserie · Kitahama",sub:"הפחזנייה עם הקרם ברולה של נועה",meta:"",tone:"",q:"Grenier Patisserie Kitahama Osaka"},
+      {icon:"cafe",name:"MooKEN",sub:"פחזניות",meta:"",tone:"",q:"MooKEN cream puff Osaka"}]},
+    {label:"אוסקה · אזורי ערב",rows:[
+      {icon:"bowl",name:"Fukushima",sub:"אזור ארוחות ערב",meta:"אזור",tone:"",q:"Fukushima Osaka izakaya"},
+      {icon:"cafe",name:"Tenma",sub:"קפיצות איזקאיה ובארים",meta:"אזור",tone:"",q:"Tenma Osaka izakaya"},
+      {icon:"cafe",name:"Don-chan · Umeda Higashidōri",sub:"",meta:"",tone:"",q:"Don-chan Umeda Higashidori Osaka"}]},
+    {label:"גוג׳ו · 9/10",rows:[
+      {icon:"bowl",name:"だいこく家 郡上店",sub:"וואגיו / יאקיניקו · המועדף לערב הזה",meta:"להזמין",tone:"warn",q:"だいこく家 郡上"},
+      {icon:"bowl",name:"Pizzeria Gonza",sub:"גיבוי אמיתי, לא פרס ניחומים",meta:"להזמין",tone:"warn",q:"Pizzeria Gonza Gujo"}]},
+    {label:"מטסומוטו · 10, 11, 12/10",rows:[
+      {icon:"bowl",name:"עדיין אין מועמדים",sub:"שלוש ארוחות ערב פתוחות. לא ממציאים שמות — תשלח ואוסיף",meta:"פתוח",tone:"warn"}]}]}
 };
 
 /* a row opens its exact pin when a url is pasted in, otherwise a Maps search */
