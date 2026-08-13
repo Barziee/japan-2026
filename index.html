@@ -64,17 +64,17 @@ button{font-family:inherit;color:inherit;border:0;background:none;cursor:pointer
 
 header{flex:none;color:#fff;padding:calc(var(--sat) + 10px) 20px 0}
 .hrow{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.dateline{font-size:calc(12.5px*var(--fs));font-weight:600;opacity:.85}
+.dateline{font-size:calc(13px*var(--fs));font-weight:600;opacity:.85}
 .iconbtn{flex:none;width:30px;height:30px;border-radius:999px;background:rgba(255,255,255,.18);
   display:flex;align-items:center;justify-content:center;color:#fff}
-header h1{font-family:var(--title);font-size:calc(22px*var(--fs));font-weight:800;line-height:1.2;
+header h1{font-family:var(--title);font-size:calc(27px*var(--fs));font-weight:800;line-height:1.18;
   letter-spacing:-.2px;margin-top:6px}
-header .sub{font-size:calc(12px*var(--fs));font-weight:500;opacity:.82;margin-top:2px}
+header .sub{font-size:calc(13.5px*var(--fs));font-weight:500;opacity:.82;margin-top:2px}
 .pager{display:flex;gap:4px;margin:9px -20px 0;padding:0 20px 8px}
-.pg{flex:none;width:34px;height:38px;border-radius:10px;display:flex;flex-direction:column;
+.pg{flex:none;width:40px;height:46px;border-radius:12px;display:flex;flex-direction:column;
   align-items:center;justify-content:center;gap:1px}
-.pg .w{font-size:9px;font-weight:600}
-.pg .d{font-size:14px;font-weight:800;line-height:1}
+.pg .w{font-size:10px;font-weight:600}
+.pg .d{font-size:16.5px;font-weight:800;line-height:1}
 .wxbar{display:flex;align-items:center;gap:9px;margin:0 -20px;padding:8px 20px 9px;background:rgba(0,0,0,.16)}
 .wxbar .hi{font-size:calc(17px*var(--fs));font-weight:800;line-height:1}
 .wxbar .lo{font-size:calc(12px*var(--fs));font-weight:600;opacity:.72}
@@ -710,7 +710,25 @@ function wxFetch(base){
    Only on a fresh load — once you navigate, the app stays where you put it. */
 (function(){ var i=todayIdx(); if(i>=0){ S.sel=i; S.view="day"; } })();
 
+/* The shell height must equal the ACTUAL visible area. CSS units kept getting this
+   wrong on iOS Safari: dvh under-reported (gap under the nav), inset:0 with
+   viewport-fit=cover over-reported (ran under the toolbar), and svh is a fixed value
+   that mismatches whenever the toolbar sits collapsed. visualViewport.height is the
+   measured truth — use it, and re-measure whenever Safari resizes or shifts it.
+   The CSS 100svh stays as the pre-paint fallback. */
+function fitShell(){
+  var app=document.getElementById("app"); if(!app) return;
+  if(innerWidth>=760){ app.style.height=""; return; }   /* desktop keeps the card */
+  var vv=window.visualViewport;
+  app.style.height=Math.round(vv?vv.height:innerHeight)+"px";
+}
+addEventListener("resize",fitShell);
+addEventListener("orientationchange",function(){setTimeout(fitShell,200);});
+if(window.visualViewport){ visualViewport.addEventListener("resize",fitShell);
+  visualViewport.addEventListener("scroll",fitShell); }
+fitShell();
 render();
+fitShell();
 fetch("data/route.json").then(function(r){return r.json();}).then(function(j){R=j;render();})
   .catch(function(e){console.warn("route data:",e);});
 </script>
