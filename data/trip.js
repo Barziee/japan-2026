@@ -46,7 +46,7 @@ var DAYS = [
   {c:"nature",k:"minoh",n:"פארק ומפל Minoh",s:"~30 דק׳ ברכבת Hankyū מ-Umeda · הליכת נחל קלה ומרוצפת, ~2.8 ק״מ לכל כיוון",t:"בוקר"},
   {c:"sight",n:"Katsuo-ji",s:"מקדש הדארומה — אוטובוס או מונית מלמעלה",q:"Katsuoji Temple Minoh"},
   {c:"town",n:"חוזרים לאוסקה · Nakazakichō",s:"קפה, וינטג׳, רחובות שקטים",t:"אחה״צ",q:"Nakazakicho Osaka"},
-  {c:"food",n:"ערב · Fukushima",s:"אזור ארוחות ערב",q:"Fukushima Osaka izakaya"}],
+  {c:"food",n:"ערב · Fukushima",s:"אזור ארוחות ערב",q:"Fukushima Osaka izakaya",rk:"r_fukushima"}],
   note:"חצי יום טבע ואז ערב רגוע — לא יום כפול. תחילת אוקטובר היא לפני שיא השלכת במינו."},
 
 {d:6,dow:"ג׳",base:"osaka",t:"יום גמיש",items:[
@@ -54,7 +54,7 @@ var DAYS = [
   {c:"water",k:"ine",n:"אופציה · Ine no Funaya",s:"כפר הדייגים על המים — ~3 ש׳ לכל כיוון, רק ביום צלול מאוד"},
   {c:"town",n:"אופציה · נשארים באוסקה",s:"Nakanoshima, Tenjinbashisuji, Horie — קפה, ארקדות, בוטיקים",q:"Tenjinbashisuji Shopping Street Osaka"},
   {c:"food",n:"צהריים · Ninjomenya Gyukotsuo",s:"ראמן מרק עצמות בקר במקום חזיר — בטוח לנועה. דלפק קטן, מכונת כרטיסים",q:"人情麺屋 牛骨王 南船場"},
-  {c:"cafe",n:"ערב · Tenma + Don-chan",s:"קפיצות איזקאיה · Don-chan ב-Umeda Higashidōri",q:"Tenma Osaka izakaya"}],
+  {c:"cafe",n:"ערב · Tenma + Don-chan",s:"קפיצות איזקאיה · Don-chan ב-Umeda Higashidōri",q:"Tenma Osaka izakaya",rk:"r_tenma"}],
   note:"5/10 כבר סגור על מינו, אז השאלה כאן היא רק האם עוד יציאה או לא. אם מרגיש עמוס — יום עיר בלי אשמה."},
 
 {d:7,dow:"ד׳",base:"kyoto",t:"מעבר לקיוטו · teamLab",items:[
@@ -74,7 +74,7 @@ var DAYS = [
   {c:"sight",k:"nanzenji",n:"Nanzen-ji ואמת המים Suirokaku",s:"רק אם נשאר כוח וזמן",opt:1},
   {c:"walk",k:"gyojabashi",n:"Gyōjabashi · הגשר הצר",s:"גשר האבן מעל נהר Shirakawa ליד תחנת Higashiyama — לא גשר על הקאמו"},
   {c:"town",k:"shirakawa",n:"Furumonzen → Shirakawa → Gion",s:"חנויות עתיקות, סמטאות וקפה בדרך חזרה"},
-  {c:"food",n:"ערב · Hikiniku to Come",s:"המבורג על גחלים ואורז · בשר בקר 100% · מכונת-בית בגיון, מרחק הליכה מהמלון",q:"挽肉と米 京都"}],
+  {c:"food",n:"ערב · Hikiniku to Come",s:"המבורג על גחלים ואורז · בשר בקר 100% · מכונת-בית בגיון, מרחק הליכה מהמלון",q:"挽肉と米 京都",rk:"r_hikiniku"}],
   note:"⚠️ 1 בספטמבר בחצות שעון יפן — להזמין את Hikiniku to Come. בלי הזמנה צריך תור מ-07:00, שמתנגש עם Hōnen-in. טל׳ 075-708-2529.",
   note2:"⚠️ MIRU סירבו לאחד את שתי ההזמנות — צ׳ק-אאוט וצ׳ק-אין מחדש הבוקר, הם יעבירו את המזוודות. לארוז בערב 7/10."},
 
@@ -216,22 +216,22 @@ var SCREENS = {
 
   recs:{groups:[
     {label:"קיוטו · ארוחות ערב",city:"kyoto",rows:[
-      {icon:"bowl",name:"挽肉と米 · Hikiniku to Come",sub:"המועמד המוביל · בשר בקר 100% · בגיון, מרחק הליכה מהמלון",meta:"להזמין 1/9",tone:"warn",q:"挽肉と米 京都"},
+      {icon:"bowl",name:"挽肉と米 · Hikiniku to Come",sub:"המועמד המוביל · בשר בקר 100% · בגיון, מרחק הליכה מהמלון",meta:"להזמין 1/9",tone:"warn",q:"挽肉と米 京都",rk:"r_hikiniku"},
       {icon:"bowl",name:"Yakiniku no GANSAN",sub:"יאקיניקו ב-Pontochō · @gansan_pontocho · בקר",meta:"מועמד",tone:"",q:"Yakiniku GANSAN Pontocho Kyoto"}]},
     {label:"קיוטו · איזקאיה וברים",city:"kyoto",rows:[
       {icon:"cafe",name:"365 Sakaba · Kawaramachi",sub:"איזקאיה זולה ותוססת",meta:"ללא הזמנה",tone:"",q:"365 Sakaba Kawaramachi Kyoto"},
-      {icon:"cafe",name:"Bar Alchemist",sub:"קוקטייל בר",meta:"ללא הזמנה",tone:"",q:"Bar Alchemist Kyoto"},
-      {icon:"cafe",name:"Rocking Bar ING",sub:"בר רוק ותקליטים",meta:"ללא הזמנה",tone:"",q:"Rocking Bar ING Kyoto"}]},
+      {icon:"cafe",name:"Bar Alchemist",sub:"קוקטייל בר",meta:"ללא הזמנה",tone:"",q:"Bar Alchemist Kyoto",rk:"r_alchemist"},
+      {icon:"cafe",name:"Rocking Bar ING",sub:"בר רוק ותקליטים",meta:"ללא הזמנה",tone:"",q:"Rocking Bar ING Kyoto",rk:"r_ing"}]},
     {label:"אוסקה · אוכל",city:"osaka",rows:[
       {icon:"bowl",name:"人情麺屋 牛骨王 · Ninjomenya Gyukotsuo",sub:"ראמן מרק עצמות בקר במקום חזיר · דלפק קטן · Minami-Semba",meta:"בטוח לנועה",tone:"ok",q:"人情麺屋 牛骨王 南船場"},
       {icon:"bowl",name:"Tokito · ときと",sub:"אזור Karahori, Chūō-ku · וואגיו סנדו",meta:"בוחרים אחד",tone:"",q:"ときと tokito Karahori Osaka"},
       {icon:"bowl",name:"Dekasan",sub:"אותו וואגיו סנדו — לא רודפים אחרי שניהם",meta:"בוחרים אחד",tone:"",q:"Dekasan Osaka wagyu sando"}]},
     {label:"אוסקה · מתוקים",city:"osaka",rows:[
       {icon:"cafe",name:"Grenier Patisserie · Kitahama",sub:"הפחזנייה עם הקרם ברולה של נועה",meta:"",tone:"",q:"Grenier Patisserie Kitahama Osaka"},
-      {icon:"cafe",name:"MooKEN",sub:"פחזניות",meta:"",tone:"",q:"MooKEN cream puff Osaka"}]},
+      {icon:"cafe",name:"MooKEN",sub:"פחזניות",meta:"",tone:"",q:"MooKEN cream puff Osaka",rk:"r_mooken"}]},
     {label:"אוסקה · אזורי ערב",city:"osaka",rows:[
-      {icon:"bowl",name:"Fukushima",sub:"אזור ארוחות ערב",meta:"אזור",tone:"",q:"Fukushima Osaka izakaya"},
-      {icon:"cafe",name:"Tenma",sub:"קפיצות איזקאיה ובארים",meta:"אזור",tone:"",q:"Tenma Osaka izakaya"},
+      {icon:"bowl",name:"Fukushima",sub:"אזור ארוחות ערב",meta:"אזור",tone:"",q:"Fukushima Osaka izakaya",rk:"r_fukushima"},
+      {icon:"cafe",name:"Tenma",sub:"קפיצות איזקאיה ובארים",meta:"אזור",tone:"",q:"Tenma Osaka izakaya",rk:"r_tenma"},
       {icon:"cafe",name:"Don-chan · Umeda Higashidōri",sub:"",meta:"",tone:"",q:"Don-chan Umeda Higashidori Osaka"}]},
     {label:"גוג׳ו · 9/10",city:"gujo",rows:[
       {icon:"bowl",name:"だいこく家 郡上店",sub:"וואגיו / יאקיניקו · המועדף לערב הזה",meta:"להזמין",tone:"warn",q:"だいこく家 郡上"},

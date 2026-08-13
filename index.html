@@ -169,6 +169,29 @@ function save(){try{localStorage.setItem(PK,JSON.stringify(
 var R=null, map=null, styleReady=false, markers=[], pinEls={}, mapHost=null;
 var MONTH="אוקטובר", INK2="var(--ink2)", MUT="var(--ink3)";
 
+/* ---- "now": during the trip the app should open on today, not on day 4 ---- */
+function jstNow(){
+  var p=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Tokyo",year:"numeric",month:"2-digit",
+    day:"2-digit",hour:"2-digit",minute:"2-digit",hour12:false}).formatToParts(new Date());
+  var g={};p.forEach(function(x){g[x.type]=x.value;});
+  return {y:+g.year,m:+g.month,d:+g.day,min:(+g.hour)*60+(+g.minute)};
+}
+function todayIdx(){
+  var n=jstNow();
+  if(n.y!==2026||n.m!==10)return -1;
+  for(var i=0;i<T.DAYS.length;i++) if(T.DAYS[i].d===n.d) return i;
+  return -1;
+}
+/* first stop today whose clock time hasn't passed yet; -1 if none/not today */
+function nextStopIdx(day,items){
+  if(T.DAYS.indexOf(day)!==todayIdx())return -1;
+  var now=jstNow().min;
+  for(var i=0;i<items.length;i++){
+    var m=(items[i].t||"").match(/(\d{1,2}):(\d{2})/);
+    if(m && (+m[1])*60+(+m[2]) >= now) return i;
+  }
+  return -1;
+}
 function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");}
 function svg(d,sz,sw){return '<svg width="'+(sz||14)+'" height="'+(sz||14)+'" viewBox="0 0 24 24" fill="none" '
   +'stroke="currentColor" stroke-width="'+(sw||1.7)+'" stroke-linecap="round" stroke-linejoin="round"><path d="'+d+'"/></svg>';}
@@ -253,6 +276,15 @@ function drawNow(){
     items.forEach(function(it){if(!it.k||!R.coords[it.k])return;n++;
       queue.push([R.coords[it.k],n,c,it.n,it.k]);pts.push(R.coords[it.k]);});
     fit(pts,13.4);
+    /* saved recommendations for this city, as faint secondary pins — context,
+       not itinerary, so they never join the numbering or the bounds */
+    T.SCREENS.recs.groups.forEach(function(g){
+      if(g.city!==day.base)return;
+      g.rows.forEach(function(r){
+        if(!r.rk||!R.coords[r.rk])return;
+        recPin(R.coords[r.rk],c,r.name,r.q);
+      });
+    });
   }
   if(src)src.setData({type:"FeatureCollection",features:feats});
   queue.forEach(function(a){addPin(a[0],a[1],a[2],a[3],a[4]);});
@@ -267,6 +299,19 @@ function addPin(ll,label,color,title,key){
   pinEls[key]=el;
   var mk=new maplibregl.Marker({element:el,anchor:"center"}).setLngLat([ll[1],ll[0]]);
   mk.setPopup(new maplibregl.Popup({offset:16,closeButton:false}).setHTML('<b style="font:700 12px sans-serif">'+esc(title)+'</b>'));
+  mk.addTo(map);markers.push(mk);
+}
+/* a saved place, not a stop: hollow, smaller, star — deliberately quieter */
+function recPin(ll,color,title,q){
+  var el=document.createElement("div");
+  el.style.cssText="cursor:pointer";
+  el.innerHTML='<span style="display:flex;width:16px;height:16px;border-radius:50%;align-items:center;justify-content:center;'
+    +'background:var(--bg);border:2px solid '+color+';opacity:.85;box-shadow:0 1px 3px rgba(20,24,31,.25)">'
+    +'<svg width="9" height="9" viewBox="0 0 24 24" fill="'+color+'"><path d="'+T.I.star+'"/></svg></span>';
+  var mk=new maplibregl.Marker({element:el,anchor:"center"}).setLngLat([ll[1],ll[0]]);
+  mk.setPopup(new maplibregl.Popup({offset:14,closeButton:false})
+    .setHTML('<b style="font:700 12px sans-serif">'+esc(title)+'</b><br>'
+      +'<a href="'+searchFor(q||title)+'" target="_blank" rel="noopener" style="font:600 11px sans-serif">פתח ב-Google Maps ↗</a>'));
   mk.addTo(map);markers.push(mk);
 }
 function syncPins(){for(var k in pinEls)pinEls[k].style.transform=(k===S.open?"scale(1.35)":"none");}
@@ -327,6 +372,7 @@ function dayScreen(day){
       +'<div class="tx">'+nt.replace("⚠️","").trim()+'</div></div>';
   });
 
+  var nx=nextStopIdx(day,items);
   h+='<div class="stops">';
   items.forEach(function(it,i){
     var dr=it.drive&&R?R.drives[it.drive]:null,lg=it.leg;
@@ -341,12 +387,14 @@ function dayScreen(day){
     }
     if(it.k)n++;
     var open=it.k&&it.k===S.open, cat=(it.c&&T.CAT[it.c])?T.CAT[it.c]:{i:T.I.pin,l:"עצירה"};
-    h+='<button class="stop'+(open?" open":"")+'" data-stop="'+esc(it.k||"")+'" style="--c:'+(it.k?col:"var(--line2)")+'">'
-      +'<span class="tm" style="color:'+(it.t?"var(--ink2)":"transparent")+'">'+esc(it.t||"·")+'</span>'
+    var isNext=(i===nx);
+    h+='<button class="stop'+(open?" open":"")+(isNext?" next":"")+'" data-stop="'+esc(it.k||"")+'" style="--c:'+(it.k?col:"var(--line2)")+'">'
+      +'<span class="tm" style="color:'+(it.t?(isNext?col:"var(--ink2)"):"transparent")+';font-weight:'+(isNext?800:700)+'">'+esc(it.t||"·")+'</span>'
       +'<span class="rail"><span class="up" style="opacity:'+(i===0?0:1)+'"></span>'
       +'<span class="num" style="background:'+(open?col:"var(--bg)")+';color:'+(open?"#fff":(it.k?col:"var(--ink3)"))+'">'
       +(it.k?n:"·")+'</span><span class="dn"></span></span>'
       +'<span class="bd"><span class="top"><span class="nm">'+esc(it.n)+'</span>'
+      +(isNext?'<span class="opt" style="color:'+col+';border-color:'+col+'">הבא</span>':'')
       +(it.opt?'<span class="opt">אופציונלי</span>':'')
       +'<span class="cv" style="transform:rotate('+(open?180:0)+'deg)">'+svg("M7 10l5 5 5-5",14,2)+'</span></span>'
       +'<span class="sub'+(open?"":" clamp1")+'">'+it.s+'</span>';
@@ -487,17 +535,23 @@ function render(){
   if(isDay){ dateLine=day.dow+" · "+day.d+" ב"+MONTH; title="יום "+day.d+" · "+T.BASENAME[day.base]; sub=day.t; }
   else { var hh=HEADS[S.view]; dateLine=hh[0]; title=hh[1]; sub=hh[2]; }
 
+  var ti0=todayIdx();
   var h='<header style="background:'+headCol+'">'
-    +'<div class="hrow"><span class="dateline">'+esc(dateLine)+'</span>'
-    +'<button class="iconbtn" id="gear" aria-label="תצוגה">'+svg("M4 7h16M4 12h16M4 17h16",15,1.8)+'</button></div>'
+    +'<div class="hrow"><span class="dateline">'+esc(dateLine)+(isDay&&S.sel===ti0?' · היום':'')+'</span>'
+    +'<span style="display:flex;gap:8px;align-items:center">'
+    +(ti0>=0&&!(isDay&&S.sel===ti0)?'<button id="today" style="height:26px;padding:0 11px;border-radius:999px;background:rgba(255,255,255,.2);color:#fff;font-size:11px;font-weight:700">היום</button>':'')
+    +'<button class="iconbtn" id="gear" aria-label="תצוגה">'+svg("M4 7h16M4 12h16M4 17h16",15,1.8)+'</button></span></div>'
     +'<h1>'+esc(title)+'</h1><p class="sub">'+esc(sub)+'</p>';
   if(isDay){
+    var ti=todayIdx();
     h+='<div class="pager xscroll" id="pager">';
     T.DAYS.forEach(function(d,i){
       var on=i===S.sel;
       h+='<button class="pg" data-go="'+i+'" style="background:'+(on?"#fff":"rgba(255,255,255,.16)")+';color:'
-        +(on?col:"#fff")+';opacity:'+(on?1:.92)+'">'
-        +'<span class="w">'+esc(d.dow)+'</span><span class="d">'+d.d+'</span></button>';
+        +(on?col:"#fff")+';opacity:'+(on?1:.92)+';position:relative">'
+        +'<span class="w">'+esc(d.dow)+'</span><span class="d">'+d.d+'</span>'
+        +(i===ti?'<span style="position:absolute;bottom:4px;width:4px;height:4px;border-radius:50%;background:'+(on?col:"#fff")+'"></span>':'')
+        +'</button>';
     });
     h+='</div>';
     wxFetch(day.base);
@@ -592,6 +646,7 @@ function bind(){
     render();};});
   q("[data-size]").forEach(function(b){b.onclick=function(){S.size=b.dataset.size;save();render();};});
   var g=document.getElementById("gear"); if(g)g.onclick=function(){S.sheet=true;render();};
+  var td=document.getElementById("today"); if(td)td.onclick=function(){var i=todayIdx();if(i>=0)go(i);};
   var sc=document.getElementById("scrim"); if(sc)sc.onclick=function(){S.sheet=false;render();};
   var gr=document.getElementById("grab"); if(gr){gr.onclick=function(){S.mapOpen=true;render();};
     gr.onpointerdown=function(e){dragUp(e,function(){S.mapOpen=true;render();},-26);};}
@@ -648,6 +703,10 @@ function wxFetch(base){
     render();
   }).catch(function(){});
 }
+
+/* During the trip, open on today rather than on the last day viewed or day 4.
+   Only on a fresh load — once you navigate, the app stays where you put it. */
+(function(){ var i=todayIdx(); if(i>=0){ S.sel=i; S.view="day"; } })();
 
 matchMedia("(prefers-color-scheme:dark)").addEventListener("change",function(){if(S.theme==="auto")render();});
 render();
