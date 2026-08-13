@@ -50,31 +50,34 @@ function latinise(style) {
  * Roads are deliberately de-emphasised: the route overlay is the figure, the
  * basemap is ground.
  */
+/* Roads must read clearly against the ground — the first pass sat everything in
+   a 0F–2A band and the map became an unreadable dark smear. Ground stays low,
+   roads step up well clear of it, labels are bright. */
 const DARK = {
-  background:   "#0F131A",
-  water:        "#0A1420",
-  waterway:     "#0E1A28",
-  landuse:      "#141922",
-  park:         "#121D19",
-  wood:         "#101A16",
-  sand:         "#1A1A17",
-  glacier:      "#1B222B",
-  building:     "#181D26",
-  buildingLine: "#1E2530",
-  motorway:     "#2A323F",
-  trunk:        "#262E3A",
-  primary:      "#232A35",
-  secondary:    "#1F2530",
-  minor:        "#1B212A",
-  path:         "#1A2028",
-  rail:         "#232A34",
-  boundary:     "#39424F",
-  aeroway:      "#1A2029",
-  label:        "#98A1B0",
-  labelStrong:  "#C9D1DC",
-  halo:         "#0C0F13",
-  waterLabel:   "#5E7A96",
-  parkLabel:    "#5F8570"
+  background:   "#1B2028",
+  water:        "#12385C",
+  waterway:     "#16416B",
+  landuse:      "#20262F",
+  park:         "#1C2A22",
+  wood:         "#1A2620",
+  sand:         "#282619",
+  glacier:      "#2A323C",
+  building:     "#262C36",
+  buildingLine: "#313945",
+  motorway:     "#6E7C90",
+  trunk:        "#5D6A7C",
+  primary:      "#515D6E",
+  secondary:    "#465162",
+  minor:        "#3B4554",
+  path:         "#39424F",
+  rail:         "#4A5466",
+  boundary:     "#5A6474",
+  aeroway:      "#39424F",
+  label:        "#C2CAD6",
+  labelStrong:  "#F0F4FA",
+  halo:         "#12161C",
+  waterLabel:   "#7FA6C9",
+  parkLabel:    "#7FB394"
 };
 
 /* id-prefix → colour, first match wins */
