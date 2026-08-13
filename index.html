@@ -6,6 +6,15 @@
 <meta name="theme-color" content="#F7F3EC" media="(prefers-color-scheme:light)">
 <meta name="theme-color" content="#14181F" media="(prefers-color-scheme:dark)">
 <title>יפן 2026 · בר ונועה</title>
+<!-- Home-screen install. black-translucent puts the status bar over our header,
+     which already pads for safe-area-inset-top, and the header is always a dark
+     or saturated colour so the white status text stays legible. -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="יפן 2026">
 <link rel="stylesheet" href="vendor/maplibre-gl.css">
 <link rel="stylesheet" href="vendor/fonts.css">
 <style>
