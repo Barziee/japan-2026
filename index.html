@@ -53,12 +53,12 @@ button{font-family:inherit;color:inherit;border:0;background:none;cursor:pointer
 .clamp1{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
 :focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:8px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
-.maplibregl-ctrl-attrib{font-size:9px;background:color-mix(in srgb,var(--bg) 80%,transparent);max-width:150px;color:var(--ink3)}
+.maplibregl-ctrl-attrib{font-size:8.5px;background:color-mix(in srgb,var(--bg) 78%,transparent);max-width:118px;color:var(--ink3);line-height:1.25}
 .maplibregl-ctrl-attrib a{color:var(--ink3)}
 .maplibregl-ctrl-top-left,.maplibregl-ctrl-bottom-left,.maplibregl-ctrl-top-right{display:none}
 
-#app{position:fixed;inset:0;width:100%;max-width:none;display:flex;flex-direction:column;
-  background:var(--bg);overflow:hidden}
+#app{position:fixed;top:0;left:0;right:0;height:100svh;height:100dvh;max-width:none;
+  display:flex;flex-direction:column;background:var(--bg);overflow:hidden}
 @media(min-width:760px){#app{position:relative;inset:auto;width:100%;max-width:440px;height:min(940px,calc(100vh - 48px));min-height:720px;border-radius:46px;
   box-shadow:0 30px 90px rgba(20,24,31,.26);border:1px solid var(--line2)}}
 
@@ -86,9 +86,10 @@ header .sub{font-size:calc(12px*var(--fs));font-weight:500;opacity:.82;margin-to
 .strip{flex:none;position:relative;height:min(170px,26vh);min-height:96px;background:var(--line)}
 .stripmeta{position:absolute;top:10px;inset-inline-start:12px;background:var(--bg);border-radius:7px;
   padding:4px 9px;font-size:10.5px;font-weight:700;color:var(--ink2);pointer-events:none;z-index:2}
-.grab{position:absolute;bottom:14px;inset-inline:0;height:30px;display:flex;align-items:center;justify-content:center;
-  gap:6px;font-size:10.5px;font-weight:700;color:var(--ink2);touch-action:none;z-index:2;
-  background:linear-gradient(to top,var(--bg),transparent);border-radius:0 0 10px 10px}
+.grab{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);height:28px;padding:0 12px;
+  display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;color:var(--ink2);
+  touch-action:none;z-index:3;background:var(--bg);border-radius:999px;box-shadow:0 1px 6px rgba(20,24,31,.18);
+  white-space:nowrap}
 
 main{flex:1;min-height:0;touch-action:pan-y}
 .card{margin:12px 20px 0;padding:12px 13px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
@@ -149,7 +150,10 @@ main{flex:1;min-height:0;touch-action:pan-y}
   border:1px solid var(--line2);text-align:center}
 
 nav{flex:none;display:flex;padding:5px 10px calc(8px + var(--sab));background:var(--bg);border-top:1px solid var(--line)}
-nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px;min-height:46px}
+nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px;min-height:46px;
+  position:relative}
+nav button[data-on="1"]::before{content:"";position:absolute;top:0;width:26px;height:2.5px;
+  border-radius:0 0 3px 3px;background:#C25A2A}
 nav span{font-size:10px}
 
 .sheetwrap{position:absolute;inset:0;z-index:90}
@@ -384,9 +388,11 @@ function dayScreen(day){
     });
     h+='</div></div>';
   }
+  /* ⚠️ notes are booking/logistics warnings — they belong in הכנות, not in the
+     middle of the day you are walking. Plain notes stay. */
   [day.note,day.note2].forEach(function(nt){
-    if(!nt)return;
-    var warn=nt.indexOf("⚠️")===0;
+    if(!nt||nt.indexOf("⚠️")===0)return;
+    var warn=false;
     h+='<div class="note'+(warn?" warn":"")+'"><span style="flex:none;margin-top:1px;color:'
       +(warn?"var(--warn)":"var(--acc)")+'">'+svg(warn?T.I.alert:T.I.info,15,1.8)+'</span>'
       +'<div class="tx">'+nt.replace("⚠️","").trim()+'</div></div>';
@@ -596,7 +602,7 @@ function render(){
   h+='<nav>';
   NAV.forEach(function(nv){
     var on=S.view===nv[0];
-    h+='<button data-view="'+nv[0]+'" style="color:'+(on?"var(--ink)":"var(--ink3)")+'">'
+    h+='<button data-view="'+nv[0]+'"'+(on?' data-on="1"':'')+' style="color:'+(on?"#C25A2A":"var(--ink3)")+'">'
       +svg(nv[2],20,on?2:1.6)+'<span style="font-weight:'+(on?700:600)+'">'+nv[1]+'</span></button>';
   });
   h+='</nav>';
