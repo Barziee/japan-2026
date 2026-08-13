@@ -7,9 +7,11 @@
 <meta name="theme-color" content="#14181F" media="(prefers-color-scheme:dark)">
 <title>יפן 2026 · בר ונועה</title>
 <link rel="stylesheet" href="vendor/maplibre-gl.css">
+<link rel="stylesheet" href="vendor/fonts.css">
 <style>
-/* Timetable redesign. Fonts are a system stack on purpose — this gets used on
-   mobile data in rural Japan, so there is no webfont request to stall on. */
+/* Timetable redesign. Fonts are bundled in vendor/fonts, not fetched from Google —
+   this gets used on mobile data in rural Japan, so nothing external can stall.
+   The Hebrew subsets are 7–18 KB each, which is what actually loads here. */
 *{box-sizing:border-box}
 html,body{height:100%;margin:0}
 :root{
@@ -17,14 +19,21 @@ html,body{height:100%;margin:0}
   --ink:#14181F;--ink2:#5C6371;--ink3:#8A9099;--ink4:#9AA0A9;
   --acc:#274B8C;--ok:#2E7D5B;--warn:#B4471F;--warnbg:#FBEADF;--warnbd:#F0D6C4;
   --sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);--fs:1;
+  /* header for the non-day screens: must stay dark in BOTH themes, the header
+     text is always white. Using --ink here goes white-on-white in dark mode. */
+  --headneutral:#14181F;
 }
 :root[data-t="dark"]{
   --page:#0A0C10;--bg:#14181F;--card:#1B212B;--line:#252C38;--line2:#2E3644;
   --ink:#EDF0F5;--ink2:#A8B0BD;--ink3:#7E8695;--ink4:#6E7686;
-  --acc:#8FB0EA;--ok:#5FB68C;--warn:#E8845A;--warnbg:#2A1B13;--warnbd:#3A2619;
+  --acc:#8FB0EA;--ok:#5FB68C;--warn:#E8845A;--warnbg:#2A1B13;--warnbd:#3A2619;--headneutral:#252C38;
 }
+/* Assistant for the interface, Frank Ruhl Libre for headings — both bundled in
+   vendor/fonts, Hebrew subsets first. --title swaps via the settings sheet. */
+:root{--title:"Frank Ruhl Libre","Assistant",Georgia,serif}
+:root[data-tf="sans"]{--title:"Assistant",-apple-system,system-ui,sans-serif}
 body{background:var(--page);display:flex;align-items:flex-start;justify-content:center;padding:0;
-  font-family:"Heebo","Assistant",-apple-system,"SF Hebrew",system-ui,sans-serif;line-height:1.4;
+  font-family:"Assistant",-apple-system,"SF Hebrew",system-ui,sans-serif;line-height:1.4;
   -webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums;color:var(--ink)}
 @media(min-width:760px){body{padding:24px;align-items:center}}
 h1,h2,h3,h4,p{margin:0}
@@ -52,7 +61,8 @@ header{flex:none;color:#fff;padding:calc(var(--sat) + 18px) 22px 0}
 .dateline{font-size:calc(12.5px*var(--fs));font-weight:600;opacity:.85}
 .iconbtn{flex:none;width:30px;height:30px;border-radius:999px;background:rgba(255,255,255,.18);
   display:flex;align-items:center;justify-content:center;color:#fff}
-header h1{font-size:calc(27px*var(--fs));font-weight:800;line-height:1.1;letter-spacing:-.4px;margin-top:12px}
+header h1{font-family:var(--title);font-size:calc(29px*var(--fs));font-weight:900;line-height:1.15;
+  letter-spacing:-.2px;margin-top:12px}
 header .sub{font-size:calc(12.5px*var(--fs));font-weight:500;opacity:.8;margin-top:5px}
 .pager{display:flex;gap:3px;margin:13px -22px 0;padding:0 22px 11px}
 .pg{flex:none;width:38px;height:44px;border-radius:11px;display:flex;flex-direction:column;
@@ -116,7 +126,8 @@ main{flex:1;min-height:0;touch-action:pan-y}
 .hotel .nm{display:block;font-size:calc(13.5px*var(--fs));font-weight:700;line-height:1.35}
 .hotel .mt{display:block;font-size:calc(11.5px*var(--fs));font-weight:600;color:var(--ink3);margin-top:2px}
 
-.sect{font-size:11px;font-weight:800;color:var(--ink4);letter-spacing:.04em;padding-bottom:4px}
+.sect{font-family:var(--title);font-size:calc(16px*var(--fs));font-weight:700;color:var(--ink2);
+  letter-spacing:0;padding:2px 0 8px;line-height:1.3}
 .prow{display:flex;align-items:flex-start;gap:11px;width:100%;padding:12px 0;border-bottom:1px solid var(--line)}
 .prow .nm{display:block;font-size:calc(14px*var(--fs));font-weight:600;line-height:1.35}
 .prow .sub{display:block;font-size:calc(12px*var(--fs));font-weight:500;color:var(--ink4);margin-top:2px;line-height:1.45}
@@ -160,11 +171,11 @@ nav span{font-size:10px}
 /* ===================== state ===================== */
 var PK="jp2026:v3";
 var S={view:"day",sel:4,open:null,variant:{},mapOpen:false,sheet:false,prep:"book",done:{},
-       theme:"auto",size:"normal"};
+       theme:"auto",size:"normal",titleFont:"serif"};
 try{var sv=JSON.parse(localStorage.getItem(PK)||"{}");
-  ["theme","size","variant","done","sel"].forEach(function(k){ if(sv[k]!==undefined) S[k]=sv[k]; });}catch(e){}
+  ["theme","size","titleFont","variant","done","sel"].forEach(function(k){ if(sv[k]!==undefined) S[k]=sv[k]; });}catch(e){}
 function save(){try{localStorage.setItem(PK,JSON.stringify(
-  {theme:S.theme,size:S.size,variant:S.variant,done:S.done,sel:S.sel}));}catch(e){}}
+  {theme:S.theme,size:S.size,titleFont:S.titleFont,variant:S.variant,done:S.done,sel:S.sel}));}catch(e){}}
 
 var R=null, map=null, styleReady=false, markers=[], pinEls={}, mapHost=null;
 var MONTH="אוקטובר", INK2="var(--ink2)", MUT="var(--ink3)";
@@ -492,8 +503,6 @@ function prepScreen(){
 
 function placesScreen(){
   var h='<div style="padding:14px 22px 22px">';
-  h+='<div class="note warn" style="margin:0 0 14px"><span style="flex:none;margin-top:1px;color:var(--warn)">'
-    +svg(T.I.alert,15,1.8)+'</span><div class="tx">נועה לא אוכלת חזיר — רוב הראמן ביפן הוא מרק חזיר. סומן למטה מה בטוח.</div></div>';
   /* grouped and coloured by city, so the list reads by location at a glance */
   T.SCREENS.recs.groups.forEach(function(g){
     var cc=g.city?T.C[g.city]:"var(--ink4)";
@@ -520,6 +529,7 @@ function placesScreen(){
 function render(){
   var app=document.getElementById("app");
   document.documentElement.setAttribute("data-t", S.theme==="auto" ? (matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light") : S.theme);
+  document.documentElement.setAttribute("data-tf", S.titleFont||"serif");
   document.documentElement.style.setProperty("--fs", S.size==="compact"?".92":S.size==="large"?"1.12":"1");
 
   var day=T.DAYS[S.sel], col=T.C[day.base], isDay=S.view==="day", isTrip=S.view==="trip";
@@ -531,7 +541,7 @@ function render(){
   var HEADS={trip:["כל הטיול","שש תחנות · 16 לילות","4–20 באוקטובר · שתי מכוניות"],
              prep:["הכנות","לפני היציאה","הזמנות, רשימות והחלטות שתלויות בתחזית"],
              places:["מקומות","רק מה שבחרנו","לחיצה פותחת ב-Google Maps"]};
-  var headCol=isDay?col:"var(--ink)", dateLine, title, sub;
+  var headCol=isDay?col:"var(--headneutral)", dateLine, title, sub;
   if(isDay){ dateLine=day.dow+" · "+day.d+" ב"+MONTH; title="יום "+day.d+" · "+T.BASENAME[day.base]; sub=day.t; }
   else { var hh=HEADS[S.view]; dateLine=hh[0]; title=hh[1]; sub=hh[2]; }
 
@@ -608,6 +618,12 @@ function render(){
       var on=S.theme===t[0];
       h+='<button data-theme="'+t[0]+'" style="background:'+(on?"var(--ink)":"transparent")+';color:'+(on?"var(--bg)":"var(--ink2)")+'">'+t[1]+'</button>';
     });
+    h+='</div><h4 class="sect" style="padding-top:18px">גופן הכותרות</h4><div class="seg">';
+    [["serif","פרנק רוהל"],["sans","אסיסטנט"]].forEach(function(t){
+      var on=(S.titleFont||"serif")===t[0];
+      h+='<button data-tf="'+t[0]+'" style="background:'+(on?"var(--ink)":"transparent")+';color:'+(on?"var(--bg)":"var(--ink2)")
+        +';font-family:'+(t[0]==="serif"?'\'Frank Ruhl Libre\',serif':'Assistant,sans-serif')+'">'+t[1]+'</button>';
+    });
     h+='</div><h4 class="sect" style="padding-top:18px">גודל טקסט</h4><div class="seg">';
     [["compact","קטן"],["normal","רגיל"],["large","גדול"]].forEach(function(t){
       var on=S.size===t[0];
@@ -644,6 +660,7 @@ function bind(){
     if(map){try{map.setStyle(darkNow()?"data/style-liberty-dark.json":"data/style-liberty-latin.json");
       styleReady=false;map.once("style.load",function(){styleReady=true;addLayers();draw();});}catch(e){}}
     render();};});
+  q("[data-tf]").forEach(function(b){b.onclick=function(){S.titleFont=b.dataset.tf;save();render();};});
   q("[data-size]").forEach(function(b){b.onclick=function(){S.size=b.dataset.size;save();render();};});
   var g=document.getElementById("gear"); if(g)g.onclick=function(){S.sheet=true;render();};
   var td=document.getElementById("today"); if(td)td.onclick=function(){var i=todayIdx();if(i>=0)go(i);};
