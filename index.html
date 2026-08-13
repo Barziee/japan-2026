@@ -3,1227 +3,656 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#F5E9DC" media="(prefers-color-scheme:light)">
-<meta name="theme-color" content="#241A13" media="(prefers-color-scheme:dark)">
+<meta name="theme-color" content="#F7F3EC" media="(prefers-color-scheme:light)">
+<meta name="theme-color" content="#14181F" media="(prefers-color-scheme:dark)">
 <title>יפן 2026 · בר ונועה</title>
 <link rel="stylesheet" href="vendor/maplibre-gl.css">
 <style>
-/* ---------------------------------------------------------------------------
-   FONT — no CDN call at runtime (used on mobile data in rural Japan, §4).
-   The stack below resolves to SF Pro / SF Hebrew on iOS, which is the target
-   device and costs zero bytes. To bundle Heebo instead, drop the three files
-   into vendor/ and uncomment — nothing else needs to change.
-@font-face{font-family:Heebo;src:url(vendor/heebo-400.woff2) format("woff2");font-weight:400;font-display:swap}
-@font-face{font-family:Heebo;src:url(vendor/heebo-700.woff2) format("woff2");font-weight:700;font-display:swap}
-@font-face{font-family:Heebo;src:url(vendor/heebo-800.woff2) format("woff2");font-weight:800;font-display:swap}
---------------------------------------------------------------------------- */
-:root{color-scheme:light dark;
-  --bg:#FAF5EF;--card:#FFFFFF;--sunk:#F2E9DE;--hero:#F5E9DC;
-  --ink:#111621;--ink2:#4E5766;--ink3:#667085;
-  --line:#EDE2D4;--rail:rgba(17,22,33,.13);
-  --accent:#C25A2A;--accent-soft:#FBEDE3;--alert:#B4471F;--alert-soft:#FBE6DA;--ok:#2E7D5B;
-  --sh-sm:0 1px 3px rgba(17,22,33,.05),0 4px 14px rgba(17,22,33,.045);
-  --sh-md:0 2px 6px rgba(17,22,33,.06),0 12px 30px rgba(17,22,33,.07);
-  --r-sm:12px;--r-md:16px;--r-lg:20px;
-  --sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root{
-  --bg:#0D1016;--card:#171C25;--sunk:#1E242F;--hero:#241A13;
-  --ink:#EAEEF5;--ink2:#A2ABBA;--ink3:#8C95A6;
-  --line:#242B36;--rail:#2E3746;
-  --accent:#E08B5C;--accent-soft:#2C1A11;--alert:#E09763;--alert-soft:#2C1A11;--ok:#6FB394;
-  --sh-sm:0 1px 3px rgba(0,0,0,.4);--sh-md:0 8px 26px rgba(0,0,0,.5)}}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;background:var(--bg);color:var(--ink);overscroll-behavior:none;
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Hebrew",Heebo,"Assistant",system-ui,"Segoe UI",sans-serif;
-  line-height:1.45;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
-a{color:var(--accent);text-decoration:none}
-a:hover{color:var(--ink)}
+/* Timetable redesign. Fonts are a system stack on purpose — this gets used on
+   mobile data in rural Japan, so there is no webfont request to stall on. */
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+:root{
+  --page:#E9E2D6;--bg:#F7F3EC;--card:#FFFDFA;--line:#E7E0D3;--line2:#DCD3C4;
+  --ink:#14181F;--ink2:#5C6371;--ink3:#8A9099;--ink4:#9AA0A9;
+  --acc:#274B8C;--ok:#2E7D5B;--warn:#B4471F;--warnbg:#FBEADF;--warnbd:#F0D6C4;
+  --sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);--fs:1;
+}
+:root[data-t="dark"]{
+  --page:#0A0C10;--bg:#14181F;--card:#1B212B;--line:#252C38;--line2:#2E3644;
+  --ink:#EDF0F5;--ink2:#A8B0BD;--ink3:#7E8695;--ink4:#6E7686;
+  --acc:#8FB0EA;--ok:#5FB68C;--warn:#E8845A;--warnbg:#2A1B13;--warnbd:#3A2619;
+}
+body{background:var(--page);display:flex;align-items:flex-start;justify-content:center;padding:0;
+  font-family:"Heebo","Assistant",-apple-system,"SF Hebrew",system-ui,sans-serif;line-height:1.4;
+  -webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums;color:var(--ink)}
+@media(min-width:760px){body{padding:24px;align-items:center}}
+h1,h2,h3,h4,p{margin:0}
+a{color:var(--acc);text-decoration:none}
+button{font-family:inherit;color:inherit;border:0;background:none;cursor:pointer;padding:0;text-align:inherit}
 .en{direction:ltr;unicode-bidi:isolate}
-button{font-family:inherit;color:inherit;border:0;background:none;cursor:pointer}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:8px}
-@media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
-.scroll{overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.scroll{overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none}
 .scroll::-webkit-scrollbar{display:none}
 .xscroll{overflow-x:auto;scrollbar-width:none}
 .xscroll::-webkit-scrollbar{display:none}
+.clamp1{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:8px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.maplibregl-ctrl-attrib{font-size:9px;background:rgba(247,243,236,.7);max-width:150px}
+.maplibregl-ctrl-attrib a{color:#5C6371}
+.maplibregl-ctrl-top-left,.maplibregl-ctrl-bottom-left,.maplibregl-ctrl-top-right{display:none}
 
-/* ---- phone-shaped shell --------------------------------------------------
-   On the phone this simply fills the screen. On a desktop browser it stays a
-   phone-proportioned column on a tinted backdrop rather than stretching a
-   mobile layout across 1400px (§1). */
-.app{position:fixed;inset:0;display:flex;flex-direction:column;background:var(--bg);overflow:hidden}
-@media (min-width:760px){
-  body{background:var(--hero);display:flex;align-items:center;justify-content:center;padding:24px}
-  .app{position:relative;inset:auto;width:440px;height:min(956px,calc(100vh - 48px));
-    border-radius:44px;box-shadow:0 30px 80px rgba(17,22,33,.22);border:1px solid var(--line)}
-}
+#app{position:relative;width:100%;max-width:440px;height:100vh;height:100dvh;display:flex;flex-direction:column;
+  background:var(--bg);overflow:hidden}
+@media(min-width:760px){#app{height:min(940px,calc(100vh - 48px));min-height:720px;border-radius:46px;
+  box-shadow:0 30px 90px rgba(20,24,31,.26);border:1px solid var(--line2)}}
 
-/* ---- hero: header + day rail --------------------------------------------- */
-.hero{flex:none;background:var(--hero);border-radius:0 0 28px 28px;padding-bottom:4px}
-.head{padding:calc(var(--sat) + 18px) 20px 12px;display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
-@media (min-width:760px){.head{padding-top:26px}}
-.head h1{font-size:25px;font-weight:800;line-height:1.15}
-.head p{font-size:13px;color:var(--ink2);line-height:1.4;margin-top:4px}
-.pill{flex:none;display:flex;align-items:center;gap:6px;background:var(--card);box-shadow:var(--sh-sm);
-  border-radius:999px;padding:7px 12px;font-size:12px;font-weight:700;color:var(--ink2)}
-.rail{display:flex;gap:8px;padding:6px 20px 10px}
-.chip{flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
-  width:60px;height:86px;border-radius:var(--r-md);background:var(--card);box-shadow:var(--sh-sm)}
-.chip.all{width:64px;gap:2px}
-.chip .dw{font-size:10.5px;font-weight:600;opacity:.62;line-height:1.2}
-.chip .dn{font-size:19px;font-weight:800;line-height:1.15}
-.chip .dt{display:block;width:5px;height:5px;border-radius:50%;margin-top:2px}
-.chip .cl{font-size:9.5px;font-weight:700;line-height:1.2;opacity:.68;max-width:56px;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-/* content signature — what the day actually holds */
-.sig{display:flex;align-items:center;justify-content:center;gap:2px;height:15px;margin-top:1px}
-.sig .sg{display:flex;color:var(--ink2);opacity:.75}
-.chip[aria-selected="true"] .sig .sg,.chip.on .sig .sg{opacity:1}
-.chip.all .sig{display:none}
+header{flex:none;color:#fff;padding:calc(var(--sat) + 18px) 22px 0}
+.hrow{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.dateline{font-size:calc(12.5px*var(--fs));font-weight:600;opacity:.85}
+.iconbtn{flex:none;width:30px;height:30px;border-radius:999px;background:rgba(255,255,255,.18);
+  display:flex;align-items:center;justify-content:center;color:#fff}
+header h1{font-size:calc(27px*var(--fs));font-weight:800;line-height:1.1;letter-spacing:-.4px;margin-top:12px}
+header .sub{font-size:calc(12.5px*var(--fs));font-weight:500;opacity:.8;margin-top:5px}
+.pager{display:flex;gap:3px;margin:13px -22px 0;padding:0 22px 11px}
+.pg{flex:none;width:38px;height:44px;border-radius:11px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:2px}
+.pg .w{font-size:9px;font-weight:600}
+.pg .d{font-size:15px;font-weight:800;line-height:1}
+.wxbar{display:flex;align-items:center;gap:11px;margin:0 -22px;padding:11px 22px 12px;background:rgba(0,0,0,.16)}
+.wxbar .hi{font-size:calc(17px*var(--fs));font-weight:800;line-height:1}
+.wxbar .lo{font-size:calc(12px*var(--fs));font-weight:600;opacity:.72}
+.wxbar .tx{flex:1;min-width:0;font-size:calc(11.5px*var(--fs));font-weight:500;opacity:.82;line-height:1.35}
+.wxbar .rain{flex:none;display:flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:999px;
+  background:rgba(255,255,255,.16);font-size:11px;font-weight:700}
 
-/* ---- content -------------------------------------------------------------- */
-.body{flex:1;min-height:0;padding:16px 20px 20px}
-.stats{display:flex;gap:8px;margin-bottom:14px}
-.stat{flex:1;min-width:0;background:var(--card);border-radius:var(--r-md);box-shadow:var(--sh-sm);padding:11px 12px}
-.stat .v{display:flex;align-items:center;gap:6px}
-.stat .v b{font-size:17px;font-weight:800;line-height:1;color:var(--ink)}
-.stat .l{font-size:10.5px;font-weight:600;color:var(--ink3);margin-top:5px}
-.mapcard{position:relative;height:196px;border-radius:var(--r-lg);overflow:hidden;background:var(--sunk);
-  box-shadow:var(--sh-md);margin-bottom:16px}
-#map{position:absolute;inset:0}
-#map.mapfail{display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;
-  font-size:12.5px;color:var(--ink2)}
-.mapbadge{position:absolute;top:10px;inset-inline-start:10px;z-index:3;display:flex;align-items:center;gap:6px;
-  background:var(--card);box-shadow:var(--sh-sm);border-radius:999px;padding:6px 11px;
-  font-size:11px;font-weight:700;color:var(--ink2);pointer-events:none}
-.mapbadge i{width:7px;height:7px;border-radius:50%}
-.note{display:flex;gap:11px;border-radius:var(--r-md);padding:13px 14px;margin-bottom:16px;
-  background:var(--card);box-shadow:var(--sh-sm)}
-.note.warn{background:var(--alert-soft);box-shadow:none}
-.note .lb{font-size:11.5px;font-weight:800;margin-bottom:3px}
-.note .tx{font-size:12.5px;line-height:1.55;color:var(--ink2);text-wrap:pretty}
+.strip{flex:none;position:relative;height:min(170px,26vh);min-height:96px;background:var(--line)}
+.stripmeta{position:absolute;top:10px;inset-inline-start:12px;background:rgba(247,243,236,.94);border-radius:7px;
+  padding:4px 9px;font-size:10.5px;font-weight:700;color:#5C6371;pointer-events:none;z-index:2}
+.grab{position:absolute;bottom:14px;inset-inline:0;height:30px;display:flex;align-items:center;justify-content:center;
+  gap:6px;font-size:10.5px;font-weight:700;color:#5C6371;touch-action:none;z-index:2}
 
-/* ---- timeline ------------------------------------------------------------- */
-.row{display:flex;gap:11px;align-items:stretch}
-.row .tm{flex:none;width:46px;display:flex;justify-content:flex-end;padding-top:14px;
-  font-size:11.5px;font-weight:700;color:var(--ink2);white-space:nowrap}
-.row .tr{flex:none;width:30px;display:flex;flex-direction:column;align-items:center}
-.row .tr .up,.row .tr .dn{display:block;width:2px;background:var(--rail)}
-.row .tr .up{height:10px}
-.row .tr .dn{flex:1}
-.badge{flex:none;width:30px;height:30px;border-radius:50%;color:#fff;font-size:13px;font-weight:700;
-  display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 4px var(--bg)}
-.badge.bed{background:var(--card);color:var(--ink2);box-shadow:0 0 0 4px var(--bg),inset 0 0 0 1.5px var(--line)}
-.row .bd{flex:1;min-width:0;padding-bottom:12px}
-.item{display:flex;gap:11px;align-items:flex-start;background:var(--card);border-radius:var(--r-md);
-  padding:13px;box-shadow:var(--sh-sm);cursor:pointer;width:100%;text-align:start}
-.item .ic{flex:none;width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center}
-.item .nm{font-weight:700;font-size:14.5px;line-height:1.3}
-.item .sb{font-size:12px;color:var(--ink2);margin-top:3px;line-height:1.5;text-wrap:pretty}
-.opt{font-size:9.5px;font-weight:700;color:var(--ink3);background:var(--sunk);border-radius:999px;padding:2px 7px}
-.leg{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 4px 2px;font-size:11.5px;color:var(--ink2)}
-.leg .m{display:flex;align-items:center;gap:5px;background:var(--sunk);border-radius:999px;padding:4px 9px;font-weight:700}
-.stay{display:flex;align-items:center;gap:11px;background:var(--sunk);border-radius:var(--r-md);padding:13px}
-.stay .nm{font-weight:700;font-size:13.5px;line-height:1.35}
-.stay .sb{font-size:11.5px;color:var(--ink3);margin-top:2px}
-
-/* ---- panels (drive legs, the five other screens) -------------------------- */
-.panel{background:var(--card);border-radius:var(--r-lg);box-shadow:var(--sh-sm);padding:0 14px}
-.panel h3{font-size:11.5px;font-weight:800;color:var(--ink3);padding:12px 0 6px}
-.prow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
-.prow .n{flex:1;min-width:0;font-size:13px;font-weight:600;line-height:1.35}
-.prow .v{flex:none;font-size:12px;font-weight:700;color:var(--ink2);white-space:nowrap}
-.grp{margin-bottom:18px}
-.grp>h3{font-size:12px;font-weight:800;color:var(--ink3);padding:0 4px 8px}
-.grow{display:flex;gap:11px;align-items:flex-start;padding:13px 0;border-top:1px solid var(--line)}
-.grow .ld{flex:none;width:32px;height:32px;border-radius:10px;background:var(--sunk);display:flex;
-  align-items:center;justify-content:center;font-size:11.5px;font-weight:800}
-.grow .nm{font-weight:700;font-size:14px;line-height:1.35;text-wrap:pretty}
-.grow .sb{font-size:12px;color:var(--ink2);margin-top:3px;line-height:1.5;text-wrap:pretty}
-a.grow{color:inherit;text-decoration:none;margin-inline:-6px;padding-inline:6px;border-radius:10px}
-a.grow:hover,a.grow:active{background:var(--accent-soft);color:inherit}
-a.grow:hover .nm{color:var(--accent)}
-.extico{display:inline-flex;vertical-align:-1px;margin-inline-start:5px;color:var(--ink3)}
-a.grow:hover .extico{color:var(--accent)}
-.tone{flex:none;font-size:10.5px;font-weight:700;border-radius:999px;padding:3px 9px;margin-top:2px;white-space:nowrap}
-.tone[data-t="ok"]{color:var(--ok);background:rgba(46,125,91,.10)}
-.tone[data-t="warn"]{color:var(--alert);background:var(--alert-soft)}
-.tone[data-t="todo"],.tone[data-t=""]{color:var(--ink3);background:var(--sunk)}
-.foot{font-size:11px;color:var(--ink3);line-height:1.7;padding:4px 4px 0}
-
-/* ---- tab bar -------------------------------------------------------------- */
-.tabs{flex:none;padding:8px 8px calc(10px + var(--sab));background:var(--card);border-top:1px solid var(--line);
-  display:flex;justify-content:space-around;box-shadow:0 -6px 22px rgba(17,22,33,.05)}
-@media (min-width:760px){.tabs{padding-bottom:26px;border-radius:0 0 43px 43px}}
-.tab{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 4px;
-  min-width:46px;min-height:46px;color:var(--ink3);font-weight:600}
-.tab[aria-selected="true"]{color:var(--accent);font-weight:700}
-.tab span{font-size:9.5px;line-height:1.1}
-
-/* ---- overview scan list: all 17 days, grouped by base --------------------- */
-.scan{padding:2px 16px 0}
-.grp{margin-top:14px}
-.ghd{display:flex;align-items:center;gap:7px;padding:0 2px 7px}
-.gdot{width:9px;height:9px;border-radius:50%;background:var(--c);flex:none}
-.gnm{font-size:14.5px;font-weight:800;color:var(--ink)}
-.gmt{font-size:11.5px;color:var(--ink3);font-weight:600;min-width:0;overflow:hidden;
+main{flex:1;min-height:0;touch-action:pan-y}
+.card{margin:14px 22px 0;padding:12px 13px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+.hint{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:700;color:var(--ink3)}
+.vars{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.vars button{flex:1 1 30%;min-width:0;padding:9px 8px;border-radius:10px;border:1px solid var(--line2)}
+.vars .l{display:block;font-size:calc(12.5px*var(--fs));font-weight:700;line-height:1.2;overflow:hidden;
   text-overflow:ellipsis;white-space:nowrap}
-.drow{display:flex;align-items:center;gap:11px;width:100%;text-align:start;background:var(--card);
-  border-radius:var(--r-sm);padding:10px 12px;margin-bottom:6px;box-shadow:var(--sh-sm);
-  border-inline-start:3px solid var(--c);min-height:56px}
-.drow:hover{box-shadow:var(--sh-md)}
-.drow .dd{flex:none;display:flex;flex-direction:column;align-items:center;width:30px;line-height:1.1}
-.drow .dd b{font-size:17px;font-weight:800}
-.drow .dd i{font-size:10px;font-style:normal;font-weight:600;color:var(--ink3)}
-.drow .dbd{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
-.drow .dtt{font-size:13.5px;font-weight:700;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.drow .dmt{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--ink3);font-weight:600}
-.drow .dmt .sig{height:auto;margin:0}
-.drow .dmt .sg{color:var(--c);opacity:.95}
-.drow .dwn{flex:none;color:var(--alert);display:flex}
+.vars .c{display:block;font-size:10px;font-weight:600;opacity:.7;margin-top:3px}
+.note{margin:14px 22px 0;display:flex;gap:9px;padding:12px 13px;border-radius:14px;background:var(--card);border:1px solid var(--line)}
+.note.warn{background:var(--warnbg);border-color:var(--warnbd)}
+.note .tx{font-size:calc(12px*var(--fs));font-weight:500;line-height:1.5;color:var(--ink2)}
+.note.warn .tx{color:var(--warn)}
 
-/* ---- settings sheet ------------------------------------------------------- */
-.gear{width:34px;height:34px;border-radius:999px;background:var(--card);box-shadow:var(--sh-sm);
-  display:flex;align-items:center;justify-content:center;color:var(--ink2);flex:none}
-.gear:hover{color:var(--accent)}
-/* .sheet sets display:flex, and the UA rule [hidden]{display:none} is a LOWER
-   priority author-vs-UA match — so the hidden attribute alone does nothing and
-   the sheet stayed on screen forever, covering the app. Any element that
-   declares its own display must restate [hidden] itself. */
-.sheet[hidden],.scrim[hidden]{display:none}
-.scrim{position:absolute;inset:0;background:rgba(17,22,33,.34);z-index:90;animation:fade .16s ease}
-@keyframes fade{from{opacity:0}to{opacity:1}}
-.sheet{position:absolute;left:0;right:0;bottom:0;max-height:80%;z-index:91;background:var(--card);
-  border-radius:22px 22px 0 0;box-shadow:0 -10px 40px rgba(17,22,33,.24);display:flex;flex-direction:column;
-  animation:rise .22s cubic-bezier(.2,.8,.3,1)}
-@media (min-width:760px){.sheet{border-radius:22px 22px 43px 43px}}
-@keyframes rise{from{transform:translateY(14px);opacity:.4}to{transform:none;opacity:1}}
-.sheetbar{flex:none;display:flex;justify-content:center;padding:9px 0 2px}
-.grab{width:38px;height:4px;border-radius:99px;background:var(--line)}
-.sheetbody{flex:1;min-height:0;padding:6px 20px calc(24px + var(--sab))}
-.sect{padding:14px 0 4px}
-.sect>h4{font-size:12px;font-weight:800;color:var(--ink3);padding-bottom:9px}
-.seg{display:flex;gap:6px;background:var(--sunk);border-radius:12px;padding:4px}
-.seg button{flex:1;padding:8px 6px;border-radius:9px;font-size:12.5px;font-weight:700;color:var(--ink2);min-height:38px}
-.seg button[aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:var(--sh-sm)}
-.pals{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.pal{display:flex;align-items:center;gap:10px;padding:10px;border-radius:13px;background:var(--sunk);
-  text-align:start;min-height:52px}
-.pal[aria-pressed="true"]{outline:2px solid var(--accent);background:var(--accent-soft)}
-.pal .dots{display:flex;flex:none}
-/* border matches the row background so overlapping dots still read as separate;
-   the inset hairline keeps a near-background dot from vanishing in dark mode */
-.pal .dots i{width:15px;height:15px;border-radius:50%;border:2px solid var(--sunk);
-  box-shadow:inset 0 0 0 1px rgba(128,138,155,.38);margin-inline-start:-6px}
-.pal[aria-pressed="true"] .dots i{border-color:var(--accent-soft)}
-.pal .dots i:first-child{margin:0}
-.pal b{font-size:12.5px;font-weight:700;line-height:1.25;min-width:0;overflow-wrap:anywhere}
-.fonts{display:flex;flex-direction:column;gap:6px}
-.fnt{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 12px;
-  border-radius:12px;background:var(--sunk);text-align:start;min-height:46px}
-.fnt[aria-pressed="true"]{outline:2px solid var(--accent);background:var(--accent-soft)}
-.fnt .nm{font-size:14.5px;font-weight:700;line-height:1.25}
-.fnt .no{font-size:11px;color:var(--ink3);margin-top:2px}
-.fnt .sm{font-size:15px;color:var(--ink2);flex:none}
+.stops{padding:8px 22px 0}
+.leg{display:flex;align-items:center;gap:10px;padding:1px 0}
+.leg .sp{flex:none;width:44px}
+.leg .ln{flex:none;width:24px;display:flex;justify-content:center}
+.leg .ln i{width:0;height:22px;border-inline-start:2px dashed var(--c);opacity:.55;display:block}
+.leg .tx{display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;color:var(--ink3)}
+.stop{display:flex;align-items:stretch;gap:10px;width:100%;padding:0}
+.stop .tm{flex:none;width:44px;padding-top:11px;font-size:calc(11.5px*var(--fs));font-weight:700;text-align:end}
+.stop .rail{flex:none;width:24px;display:flex;flex-direction:column;align-items:center}
+.stop .rail .up{width:0;height:9px;border-inline-start:1px solid var(--line2)}
+.stop .rail .dn{width:0;flex:1;border-inline-start:1px solid var(--line2)}
+.stop .num{flex:none;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:11.5px;font-weight:800;border:1.5px solid var(--c)}
+.stop .bd{flex:1;min-width:0;padding:9px 0 10px;border-bottom:1px solid var(--line)}
+.stop .top{display:flex;align-items:baseline;gap:7px}
+.stop .nm{flex:1;min-width:0;font-size:calc(15px*var(--fs));font-weight:700;line-height:1.3}
+.stop .opt{flex:none;font-size:9.5px;font-weight:700;color:var(--ink3);border:1px solid var(--line2);
+  border-radius:999px;padding:1px 7px}
+.stop .cv{flex:none;color:var(--ink4);display:flex;transition:transform .18s}
+.stop .sub{font-size:calc(12px*var(--fs));font-weight:500;color:var(--ink3);margin-top:2px}
+.stop.open .sub{font-size:calc(13px*var(--fs));line-height:1.55;color:var(--ink2)}
+.acts{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+.gbtn{display:flex;align-items:center;gap:5px;height:30px;padding:0 11px;border-radius:999px;
+  background:var(--acc);color:#fff;font-size:11.5px;font-weight:700}
+:root[data-t="dark"] .gbtn{color:#0A0C10}
+.cat{display:flex;align-items:center;gap:5px;height:30px;padding:0 11px;border-radius:999px;
+  border:1px solid var(--line2);font-size:11.5px;font-weight:700;color:var(--ink2)}
+.hotel{display:flex;align-items:stretch;gap:10px}
+.hotel .nm{display:block;font-size:calc(13.5px*var(--fs));font-weight:700;line-height:1.35}
+.hotel .mt{display:block;font-size:calc(11.5px*var(--fs));font-weight:600;color:var(--ink3);margin-top:2px}
 
-/* text size — bumps the reading text only, not chrome (§4.4 outdoors in sun) */
-[data-size="large"] .item .nm,[data-size="large"] .grow .nm{font-size:15.5px}
-[data-size="large"] .item .sb,[data-size="large"] .grow .sb{font-size:13.5px}
-[data-size="large"] .prow .n,[data-size="large"] .stay .nm{font-size:14.5px}
-[data-size="large"] .note .tx{font-size:14px}
-[data-size="large"] .head h1{font-size:26.5px}
-[data-size="compact"] .item .nm,[data-size="compact"] .grow .nm{font-size:13.5px}
-[data-size="compact"] .item .sb,[data-size="compact"] .grow .sb{font-size:11.5px}
+.sect{font-size:11px;font-weight:800;color:var(--ink4);letter-spacing:.04em;padding-bottom:4px}
+.prow{display:flex;align-items:flex-start;gap:11px;width:100%;padding:12px 0;border-bottom:1px solid var(--line)}
+.prow .nm{display:block;font-size:calc(14px*var(--fs));font-weight:600;line-height:1.35}
+.prow .sub{display:block;font-size:calc(12px*var(--fs));font-weight:500;color:var(--ink4);margin-top:2px;line-height:1.45}
+.prow .mt{flex:none;font-size:10.5px;font-weight:700;border-radius:999px;padding:3px 9px;margin-top:1px;white-space:nowrap}
+.box{flex:none;width:20px;height:20px;margin-top:1px;border-radius:6px;display:flex;align-items:center;
+  justify-content:center;border:1.5px solid var(--line2);color:#fff}
+.ricon{flex:none;width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--line2);color:var(--ink3)}
+.subtabs{display:flex;gap:6px;padding-bottom:14px}
+.subtabs button{flex:1;padding:9px 6px;border-radius:10px;font-size:calc(12.5px*var(--fs));font-weight:700;
+  border:1px solid var(--line2);text-align:center}
 
-/* ---- map pins ------------------------------------------------------------- */
-/* never set position on .pin — MapLibre positions the marker element itself */
-.pin{cursor:pointer;transition:transform .18s cubic-bezier(.2,.8,.3,1)}
-.pin i{position:relative;display:flex;width:30px;height:30px;border-radius:50%;background:var(--c,#C25A2A);
-  border:2.5px solid #fff;color:#fff;font-weight:700;font-size:13px;font-style:normal;
-  align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(10,14,22,.32)}
-.pin i::after{content:"";position:absolute;left:50%;bottom:-8px;transform:translateX(-50%);
-  border:5px solid transparent;border-top:8px solid #fff;filter:drop-shadow(0 2px 2px rgba(10,14,22,.22))}
-/* dense days put stops a few hundred metres apart — the selected pin must never
-   sit under a neighbour, or the pin↔row pairing breaks */
-.pin.on{transform:scale(1.22) translateY(-3px);z-index:5}
-.pin.on i{box-shadow:0 6px 16px rgba(10,14,22,.4),0 0 0 5px var(--pinring,rgba(194,90,42,.18))}
-.maplibregl-popup-content{font-family:inherit;direction:rtl;font-size:12.5px;font-weight:600;padding:7px 11px;
-  border-radius:11px;box-shadow:0 6px 20px rgba(10,14,22,.2);color:#111621}
-.maplibregl-ctrl-attrib{font-size:9px}
-.maplibregl-ctrl-attrib a{color:#4E5766}
-.maplibregl-ctrl-top-left,.maplibregl-ctrl-bottom-left{display:none}
+nav{flex:none;display:flex;padding:6px 12px calc(10px + var(--sab));background:var(--bg);border-top:1px solid var(--line)}
+nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px;min-height:46px}
+nav span{font-size:10px}
+
+.sheetwrap{position:absolute;inset:0;z-index:90}
+.scrim{position:absolute;inset:0;background:rgba(20,24,31,.32)}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:var(--bg);border-radius:24px 24px 0 0;
+  box-shadow:0 -12px 44px rgba(20,24,31,.22);padding:10px 22px calc(30px + var(--sab))}
+@media(min-width:760px){.sheet{border-radius:24px 24px 45px 45px}}
+.grip{width:38px;height:4px;border-radius:99px;background:var(--line2);margin:0 auto 14px}
+.seg{display:flex;gap:6px;border:1px solid var(--line2);border-radius:12px;padding:4px}
+.seg button{flex:1;padding:9px 6px;border-radius:9px;font-size:calc(12.5px*var(--fs));font-weight:700;text-align:center}
+.mapfull{position:absolute;inset:0;z-index:60;display:flex;flex-direction:column;background:var(--bg)}
+@media(min-width:760px){.mapfull{border-radius:46px;overflow:hidden}}
+.chips{flex:none;display:flex;gap:7px;padding:12px 22px calc(20px + var(--sab));border-top:1px solid var(--line)}
+.chips button{flex:none;display:flex;align-items:center;gap:7px;height:34px;padding:0 12px;border-radius:999px;
+  border:1px solid var(--line2);font-size:12px;font-weight:700}
+.chips .n{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:800;color:#fff}
+.fail{padding:16px;text-align:center;font-size:12px;color:var(--ink3)}
 </style>
 </head>
 <body>
-<div class="app">
-  <div class="hero">
-    <div class="head">
-      <div style="min-width:0">
-        <h1 id="title">כל הטיול</h1>
-        <p id="sub">שש תחנות · 16 לילות · שתי מכוניות</p>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px;flex:none">
-        <span class="pill"><span id="pillico" style="display:flex;opacity:.75"></span><b id="pill">4–20/10</b></span>
-        <button id="gear" class="gear" title="תצוגה" aria-label="הגדרות תצוגה"></button>
-      </div>
-    </div>
-    <div class="rail xscroll" id="rail"></div>
-  </div>
-
-  <div class="body scroll" id="body"></div>
-
-  <nav class="tabs" id="tabs" role="tablist"></nav>
-
-  <div id="scrim" class="scrim" hidden></div>
-  <section id="sheet" class="sheet" hidden aria-label="הגדרות תצוגה">
-    <div class="sheetbar"><span class="grab"></span></div>
-    <div class="sheetbody scroll" id="sheetbody"></div>
-  </section>
-</div>
+<div id="app"></div>
 
 <script src="vendor/maplibre-gl.js"></script>
+<script src="data/trip.js"></script>
 <script>
-/* ===========================================================================
-   DATA — §5 functional contract. Everything below the fold is rendered from
-   DAYS: the day chips, the stop rows and the map pins. The number on a pin is
-   the number on its list row; keep them derived from the same counter.
-   =========================================================================== */
-var C = { osaka:"#B85428", kyoto:"#7A4E86", gujo:"#2E7D8A", matsumoto:"#274B8C", fuji:"#4A6FA5", tokyo:"#A03E5C" };
-var BASEKEY  = { osaka:"osaka", kyoto:"kyoto", gujo:"gujo", matsumoto:"matsumoto", fuji:"gotemba", tokyo:"tokyo" };
-var BASENAME = { osaka:"אוסקה", kyoto:"קיוטו", gujo:"גוג׳ו", matsumoto:"מטסומוטו", fuji:"גוטמבה", tokyo:"טוקיו" };
-var HOTEL = {
-  osaka:"Meander Osaka · Namba", kyoto:"Miru Kyoto Gion", gujo:"Fairfield Gifu Gujō (Yamato)",
-  matsumoto:"Matsumoto Jujo · אמבט פתוח", fuji:"edit×seven Fuji Gotemba", tokyo:"Metropolitan Edmont · Iidabashi"
-};
-var MODE = { car:"נהיגה", rail:"רכבת", bus:"אוטובוס", walk:"הליכה" };
+/* ===================== state ===================== */
+var PK="jp2026:v3";
+var S={view:"day",sel:4,open:null,variant:{},mapOpen:false,sheet:false,prep:"book",done:{},
+       theme:"auto",size:"normal"};
+try{var sv=JSON.parse(localStorage.getItem(PK)||"{}");
+  ["theme","size","variant","done","sel"].forEach(function(k){ if(sv[k]!==undefined) S[k]=sv[k]; });}catch(e){}
+function save(){try{localStorage.setItem(PK,JSON.stringify(
+  {theme:S.theme,size:S.size,variant:S.variant,done:S.done,sel:S.sel}));}catch(e){}}
 
-var DAYS = [
-{d:4,dow:"א׳",base:"osaka",t:"נחיתה + ערב ב-Namba",items:[
-  {c:"air",n:"נחיתה ב-KIX",s:"11:40 · הגירה, מזוודות, רכבת/לימוזין לעיר",t:"11:40"},
-  {c:"stay",k:"osaka",n:"Meander Osaka · צ׳ק-אין",s:"מורידים תיקים, יום רך אחרי הטיסה",leg:{mode:"rail",hrs:0.85,txt:"KIX → Namba"}},
-  {c:"town",n:"ערב · Ura-Namba / Hōzenji Yokochō",s:"סמטאות איזקאיה, ארוחה קלה, מוקדם לישון"}],
-  note:"יום נחיתה — בלי סייטסיאינג גדול ובלי הזמנות."},
-{d:5,dow:"ב׳",base:"osaka",t:"יום גמיש · עיר או טיול יום",items:[
-  {c:"town",k:"osaka",n:"אופציה A · יום עיר",s:"Nakazakichō, Tenjinbashisuji, Nakanoshima, Horie — קפה, רחובות, אוכל"},
-  {c:"town",k:"nara",n:"אופציה B · נארה \"כמו שצריך\"",s:"Naramachi, גנים, יער Kasugayama — לא רק פארק האיילים",opt:1,leg:{mode:"rail",hrs:0.8,txt:"אוסקה → נארה"}},
-  {c:"nature",k:"minoh",n:"אופציה C · מפלי Minoh + Katsuo-ji",s:"חצי יום טבע, שלכת מוקדמת ביער",opt:1}],
-  note:"בוחרים לפי מזג האוויר: יום צלול → טיול יום. יום פחות טוב → שכונות אוסקה."},
-{d:6,dow:"ג׳",base:"osaka",t:"יום גמיש · האופציה השנייה",items:[
-  {c:"food",k:"osaka",n:"אוסקה · שכונות ואוכל",s:"מה שלא עשינו אתמול — Horie, Shinsaibashi, Tenma לערב"},
-  {c:"water",k:"ine",n:"אופציונלי · Ine no Funaya",s:"כפר הדייגים על המים — יום ארוך (~3 ש׳ לכל כיוון), רק ביום צלול מאוד",opt:1}],
-  note:"Ine דורש רכב ליום או סיור מאורגן — להחליט מראש, לא ספונטני."},
-{d:7,dow:"ד׳",base:"kyoto",t:"מעבר לקיוטו · ערב בגיון",items:[
-  {c:"town",k:"osaka",n:"בוקר אחרון באוסקה",s:"קפה, אריזה, צ׳ק-אאוט"},
-  {c:"stay",k:"kyoto",n:"Miru Kyoto Gion · צ׳ק-אין",s:"מזוודות למלון בגיון",leg:{mode:"rail",hrs:0.5,txt:"אוסקה → קיוטו"}},
-  {c:"town",k:"shirakawa",n:"Gion Shirakawa והסמטאות",s:"תעלת Shirakawa, Furumonzen, רחובות קטנים — בלי יעד ממוקד"},
-  {c:"water",k:"kamo",n:"נהר Kamo לפנות ערב",s:"הליכה על הגדה סביב Sanjō"},
-  {c:"food",k:"pontocho",n:"ערב · ארוחה",s:"Gion / Pontochō / Kawaramachi"}],
-  note:"יום הגעה — בלי מקדש גדול ובלי אטרקציה עם שעת סגירה. Kiyomizu-dera ירד מהיום הזה."},
-{d:8,dow:"ה׳",base:"kyoto",t:"מזרח קיוטו · מצפון לדרום",items:[
-  {c:"sight",k:"honenin",n:"Hōnen-in · מוקדם",s:"שער האזוב והחצר לפני שהאזור מתמלא",t:"07:30"},
-  {c:"walk",n:"שביל הפילוסופים · קטע",s:"חיבור הליכה נעים דרומה — לא מוסיפים את Ginkaku-ji רק כי הוא קרוב"},
-  {c:"sight",k:"eikando",n:"Eikandō · סביב שעת הפתיחה",s:"המקדש המרכזי של היום — ואחריו לא עוד מקדשים גדולים",t:"~09:00"},
-  {c:"food",n:"Hinode Udon · צהריים מוקדמים",s:"להגיע קצת לפני הפתיחה · מזומן בלבד · בלי הזמנות · Nanzenji Kitanobōchō 36",t:"~10:45"},
-  {c:"sight",k:"nanzenji",n:"Nanzen-ji ואמת המים Suirokaku",s:"רק אם נשאר כוח וזמן",opt:1},
-  {c:"sight",k:"gyojabashi",n:"Gyōjabashi · הגשר הצר",s:"גשר האבן מעל Shirakawa ליד תחנת Higashiyama"},
-  {c:"town",k:"shirakawa",n:"Furumonzen → Shirakawa → Gion",s:"חנויות עתיקות, סמטאות וקפה בדרך חזרה למלון"},
-  {c:"water",k:"kamo",n:"נהר Kamo · אחה״צ־ערב",s:"מנוחה על הגדה, ארוחה בגיון / Pontochō / Kawaramachi"}],
-  note:"⚠️ לאמת לקראת הנסיעה: שעות Eikandō, ושעות + ימי סגירה של Hinode Udon. ייתכן מעבר חדר ב-MIRU הבוקר — משאירים מזוודות בקבלה. Fushimi Inari ו-Arashiyama ירדו מהיום הזה."},
-{d:9,dow:"ו׳",base:"gujo",t:"בוקר שקט בקיוטו → גוג׳ו",items:[
-  {c:"walk",k:"kamo",n:"הליכה שקטה מוקדמת",s:"גיון או גדת נהר Kamo לפני שהעיר מתעוררת · קפה ובוקר"},
-  {c:"drive",k:"sanjo",n:"איסוף Corolla Sport · 09:30",s:"Sanjo Keihan-Kita · בדיקת רכב + ETC · מונית קצרה מגיון עם המזוודות",t:"09:30"},
-  {c:"town",k:"gujo",n:"Gujō-Hachiman · העיר העתיקה",s:"Igawa Komichi, Sōgi-sui, תעלות מים, בתי קפה, צהריים מקומי",drive:"kyoto_gujo"},
-  {c:"food",n:"ערב · ארוחה מוקדמת",s:"גוג׳ו שקטה בערב — לוודא מקום פתוח מראש"}],
-  note:"המלון (Fairfield) ב-Gujō-Yamato, ~15–20 דק׳ מהעיר העתיקה."},
-{d:10,dow:"ש׳",base:"matsumoto",t:"דרך עמק Kiso למטסומוטו",items:[
-  {c:"town",k:"gujo",n:"בוקר קצר בגוג׳ו",s:"סיבוב אחרון, קפה, יוצאים"},
-  {c:"town",k:"narai",n:"Narai-juku · העצירה היחידה",s:"עיירת דואר משומרת — צהריים והליכה ברחוב הראשי",drive:"gujo_matsumoto"},
-  {c:"stay",k:"matsumoto",n:"Matsumoto Jujo · צ׳ק-אין",s:"מגיעים ~16:30–17:00 · הערב שמור למלון ולאמבט"}],
-  note:"לא דרך Takayama (צפיפות פסטיבל). לא לנסות Magome+Tsumago+Narai באותו יום."},
-{d:11,dow:"א׳",base:"matsumoto",t:"יום הטבע הגדול",items:[
-  {c:"drive",k:"sawando",n:"נסיעה ל-Sawando",s:"חניון park & ride — רכב פרטי אסור בקמיקוצ׳י",drive:"dt_sawando"},
-  {c:"nature",k:"kamikochi",n:"Kamikōchi · Kappa-bashi",s:"אוטובוס פנימה. Taishō-ike → Kappa-bashi → Myōjin אם יש כוח. שיא השלכת",leg:{mode:"bus",hrs:0.5,txt:"Sawando → Kamikōchi (אוטובוס בלבד)"}},
-  {c:"nature",k:"utsukushi",n:"חלופה · Utsukushigahara",s:"רמה בגובה ~2,000מ׳, נסיעה נופית (Venus Line) — אם מעדיפים רכב על אוטובוס",opt:1}],
-  note:"⚠️ אוטובוס Kamikōchi בהזמנה מראש (National Park Liner). בוחרים ערב קודם לפי תחזית."},
-{d:12,dow:"ב׳",base:"matsumoto",t:"מטסומוטו · חג + פסטיבל הסובה",items:[
-  {c:"sight",k:"matsumoto",n:"טירת Matsumoto + פסטיבל הסובה",s:"הפסטיבל בפארק הטירה (10–12/10). להגיע לפני שיא הצהריים",t:"בוקר"},
-  {c:"town",n:"Nawate + Nakamachi",s:"רחוב הצפרדעים לאורך התעלה, מחסני kura, קרמיקה, קפה"},
-  {c:"nature",k:"daio",n:"אופציונלי · Azumino + Daiō Wasabi",s:"חצי יום כפרי — נחלים, חוות וסאבי, אופניים",opt:1,leg:{mode:"car",hrs:0.4,km:17.6,txt:"מטסומוטו → Azumino"}}],
-  note:"⚠️ Sports Day — העיר, החניה והמסעדות עמוסות. ארוחת ערב חייבת הזמנה מראש."},
-{d:13,dow:"ג׳",base:"fuji",t:"לגוטמבה + החלפת רכב",items:[
-  {c:"drive",k:"matsumoto",n:"יוצאים מוקדם ממטסומוטו",s:"עצירה אחת לכל היותר (Suwa / Yatsugatake / Kiyosato)"},
-  {c:"drive",k:"gotemba",n:"החלפת רכב · 14:30",s:"מזוודות ל-edit×seven → מחזירים Corolla → אוספים GR Yaris",t:"14:30",drive:"matsumoto_gotemba"},
-  {c:"drive",k:"yamanakako",n:"לולאה ראשונה · Yamanakako",s:"נקודת שקיעה אחת טובה — לא לרדוף אחרי כמה אגמים"}],
-  note:"מזוודות נשארות במלון — לא ב-GR Yaris (תא מטען קטן)."},
-{d:14,dow:"ד׳",base:"fuji",t:"יום פוג׳י · מודולרי לפי ראות",items:[
-  {c:"nature",k:"panoramadai",n:"גרסה A · ראות מצוינת",s:"Panorama-dai → Oshino Hakkai מוקדם → צפון Kawaguchiko → Ōishi Park",drive:"fuji_loop"},
-  {c:"nature",k:"oshino",n:"גרסה B · מעונן חלקית",s:"נשארים קרוב: Gotemba, Yamanakako, Oshino, מזרח Kawaguchiko",opt:1},
-  {c:"nature",k:"hakone",n:"גרסה C · פוג׳י מוסתר → Hakone",s:"יום נהיגה נופי: אגם Ashi, Ōwakudani, המוזיאון הפתוח",opt:1}],
-  note:"פוג׳י הוא הר של בקרים — בודקים עננות בערב הקודם ובבוקר, ומחליטים אז."},
-{d:15,dow:"ה׳",base:"tokyo",t:"בוקר פוג׳י אחרון → טוקיו",items:[
-  {c:"drive",k:"gotemba",n:"בוקר אחרון + החזרת GR Yaris",s:"נקודה מזרחית אם ההר נראה · תדלוק אוקטן גבוה · החזרה 14:30",t:"14:30"},
-  {c:"stay",k:"tokyo",n:"Metropolitan Edmont · צ׳ק-אין",s:"Iidabashi",leg:{mode:"rail",hrs:1.6,txt:"גוטמבה → טוקיו (אוטובוס/שינקנסן דרך Mishima)"}},
-  {c:"town",k:"kagurazaka",n:"ערב · Kagurazaka",s:"עלייה ברחוב הראשי, סמטאות מרוצפות, ביסטרו/איזקאיה"}]},
-{d:16,dow:"ו׳",base:"tokyo",t:"טוקיו הישנה · Yanaka",items:[
-  {c:"sight",k:"asakusa",n:"Senso-ji · 07:00–08:00",s:"לפני שהדוכנים נפתחים — המקום ריק",t:"07:00"},
-  {c:"shop",k:"kappabashi",n:"Kappabashi",s:"רחוב המטבח — סכינים, קרמיקה, כלי מטבח"},
-  {c:"sight",k:"yanaka",n:"Nezu → Yanaka Ginza",s:"Nezu-jinja (מנהרת טוריים), בית הקברות, רחוב מסחר ישן, קיסאטן"}],
-  note:"גשם: Tokyo National Museum ב-Ueno (סגור בשני — היום חמישי, בסדר)."},
-{d:17,dow:"ש׳",base:"tokyo",t:"Shimokitazawa + Kichijōji",items:[
-  {c:"town",k:"kichijoji",n:"בוקר · Kichijōji",s:"פארק Inokashira, Harmonica Yokochō, רחובות קניות",opt:1},
-  {c:"town",k:"shimokita",n:"Shimokitazawa",s:"וינטג׳, תקליטים, ספרים, קפה, Bonus Track, תיאטרונים קטנים"},
-  {c:"food",n:"ערב · קארי + הופעה",s:"live house אינדי/רוק — לבדוק לוח הופעות מראש"}]},
-{d:18,dow:"א׳",base:"tokyo",t:"Koenji + Nakano",items:[
-  {c:"shop",k:"nakano",n:"Nakano Broadway",s:"רטרו, אספנות, וינטג׳ — מקורה, טוב גם לגשם",opt:1},
-  {c:"town",k:"koenji",n:"Koenji",s:"יד-שנייה, תקליטים, ארקדות, קפה, מוזיקה"},
-  {c:"food",n:"ערב · בר / יאקיטורי / הופעה",s:"סצנת live-house חזקה"}]},
-{d:19,dow:"ב׳",base:"tokyo",t:"Meiji מוקדם + Shibuya קצר + Nakameguro",items:[
-  {c:"sight",k:"meiji",n:"Meiji Jingū · 08:00",s:"יער שקט, שבילי חצץ — אמצע שבוע = רגוע",t:"08:00"},
-  {c:"town",k:"shibuya",n:"Shibuya · סימון וי",s:"Hachiko והמעבר — שעה עד שעה וחצי, לא יותר"},
-  {c:"food",k:"daikanyama",n:"Daikanyama · צהריים",s:"T-Site, בוטיקים, רחובות רגועים"},
-  {c:"water",k:"nakameguro",n:"Nakameguro · נהר Meguro",s:"אחה״צ וערב לאורך הנהר — קפה, ברים, ארוחה (או Ebisu)"}],
-  note:"teamLab אופציונלי בערב — היה עמוס בתיירים, לבדוק יום/שעה."},
-{d:20,dow:"ג׳",base:"tokyo",t:"יציאה · NRT 18:00",items:[
-  {c:"town",k:"kagurazaka",n:"בוקר קליל ליד המלון",s:"ארוחת בוקר, קניות אחרונות, קפה"},
-  {c:"air",n:"יציאה לנמל התעופה",s:"לצאת ~14:30 · טיסה 18:00 מ-NRT",t:"~14:30",leg:{mode:"rail",hrs:1.3,txt:"טוקיו → NRT"}}],
-  note:"בלי אזור או טיול גדול — מרווח ביטחון לשדה."}
-];
+var R=null, map=null, styleReady=false, markers=[], pinEls={}, mapHost=null;
+var MONTH="אוקטובר", INK2="var(--ink2)", MUT="var(--ink3)";
 
-var NIGHTS = [["osaka","אוסקה","4–7/10","3 לילות"],["kyoto","קיוטו","7–9/10","2 לילות"],["gujo","גוג׳ו","9–10/10","לילה"],
-  ["matsumoto","מטסומוטו","10–13/10","3 לילות"],["fuji","פוג׳י · גוטמבה","13–15/10","2 לילות"],["tokyo","טוקיו","15–20/10","5 לילות"]];
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");}
+function svg(d,sz,sw){return '<svg width="'+(sz||14)+'" height="'+(sz||14)+'" viewBox="0 0 24 24" fill="none" '
+  +'stroke="currentColor" stroke-width="'+(sw||1.7)+'" stroke-linecap="round" stroke-linejoin="round"><path d="'+d+'"/></svg>';}
+function fmt(h){var m=Math.round(h*60);return m<60?m+" ד׳":(Math.floor(m/60)+" ש׳ "+(m%60?(m%60)+" ד׳":"")).trim();}
 
-/* Mock content for the five screens that still live in the offline app.
-   Plausible placeholders only — no confirmation numbers or personal details (§4.2). */
-var SCREENS = {
-  book:{kicker:"הזמנות",title:"הזמנות",meta:"מלונות · שני רכבים · מסעדות",
-    note:"פרטי אישור ומספרי טלפון נשארים באפליקציה הפרטית — לא כאן.",groups:[
-    {label:"לינה",rows:[
-      {lead:"1",name:"Meander Osaka · Namba",sub:"4–7/10 · 3 לילות",meta:"מאושר",tone:"ok"},
-      {lead:"2",name:"Miru Kyoto Gion",sub:"7–9/10 · 2 לילות",meta:"מאושר",tone:"ok"},
-      {lead:"3",name:"Fairfield Gifu Gujō (Yamato)",sub:"9–10/10 · לילה",meta:"מאושר",tone:"ok"},
-      {lead:"4",name:"Matsumoto Jujo",sub:"10–13/10 · 3 לילות · אמבט פתוח",meta:"מאושר",tone:"ok"},
-      {lead:"5",name:"edit×seven Fuji Gotemba",sub:"13–15/10 · 2 לילות",meta:"מאושר",tone:"ok"},
-      {lead:"6",name:"Metropolitan Edmont · Iidabashi",sub:"15–20/10 · 5 לילות",meta:"מאושר",tone:"ok"}]},
-    {label:"רכבים",rows:[
-      {icon:"car",name:"Corolla Sport",sub:"איסוף 9/10 09:30 · Sanjo Keihan-Kita · החזרה 13/10",meta:"מאושר",tone:"ok"},
-      {icon:"car",name:"GR Yaris · ימי פוג׳י",sub:"איסוף 13/10 14:30 · גוטמבה · החזרה 15/10 14:30",meta:"מאושר",tone:"ok"},
-      {icon:"car",name:"ETC · כרטיס אגרה",sub:"לוודא שמגיע עם שני הרכבים",meta:"לבדוק באיסוף",tone:"todo"}]},
-    {label:"מסעדות",rows:[
-      {icon:"bowl",name:"ערב מטסומוטו · 12/10",sub:"Sports Day — חייב הזמנה מראש",meta:"לא הוזמן",tone:"warn"},
-      {icon:"bowl",name:"ערב גוג׳ו · 9/10",sub:"העיר שקטה בערב — לוודא מקום פתוח",meta:"לברר",tone:"todo"},
-      {icon:"bowl",name:"קייסקי בקיוטו · 8/10",sub:"אופציונלי, רק אם נשאר כוח",meta:"לא הוזמן",tone:"todo"}]}]},
-  weather:{kicker:"תחזית",title:"מזג אוויר",meta:"תחזית לשש התחנות · אוקטובר",
-    note:"שני ימים גמישים תלויים בתחזית — מחליטים בערב הקודם, לא מראש.",groups:[
-    {label:"לפי תחנה",rows:[
-      {lead:"22°",name:"אוסקה",sub:"4–7/10 · בהיר, לחות יורדת",meta:"14–23°",tone:""},
-      {lead:"21°",name:"קיוטו",sub:"7–9/10 · בהיר עם ענני בוקר",meta:"13–22°",tone:""},
-      {lead:"18°",name:"גוג׳ו",sub:"9–10/10 · מעונן חלקית",meta:"10–19°",tone:""},
-      {lead:"17°",name:"מטסומוטו",sub:"10–13/10 · צלול, לילות קרים",meta:"7–18°",tone:""},
-      {lead:"15°",name:"פוג׳י · גוטמבה",sub:"13–15/10 · ההר נראה בבקרים",meta:"9–17°",tone:""},
-      {lead:"20°",name:"טוקיו",sub:"15–20/10 · יום גשם אחד צפוי",meta:"14–22°",tone:""}]},
-    {label:"ימים שתלויים בתחזית",rows:[
-      {lead:"5",name:"5/10 · יום גמיש באוסקה",sub:"צלול → נארה או Minoh · אחרת שכונות אוסקה",meta:"להחליט",tone:"warn"},
-      {lead:"14",name:"14/10 · יום פוג׳י",sub:"ראות טובה → Panorama-dai · מוסתר → Hakone",meta:"להחליט",tone:"warn"},
-      {lead:"11",name:"11/10 · קמיקוצ׳י",sub:"אוטובוס בהזמנה מראש — בוחרים ערב קודם",meta:"להחליט",tone:"warn"}]},
-    {label:"שלכת",rows:[
-      {icon:"mountain",name:"קמיקוצ׳י · ~2,000מ׳",sub:"שיא סביב אמצע אוקטובר",meta:"בזמן",tone:"ok"},
-      {icon:"mountain",name:"מזרח קיוטו",sub:"מוקדם מדי — ירוק ברובו",meta:"לא בעונה",tone:"todo"}]}]},
-  /* צ׳קליסט + קניות were the same thing: rows you tick off before and during
-     the trip. One screen, two halves — prep first, then what to buy. */
-  lists:{kicker:"רשימות",title:"רשימות",meta:"לפני הטיסה · ומה לקנות שם",
-    note:"לסמן תוך כדי. קניות כבדות או שבירות — להשאיר לסוף, בטוקיו.",groups:[
-    {label:"מסמכים",rows:[
-      {lead:"✓",name:"דרכונים · תוקף מעל חצי שנה",sub:"",meta:"נעשה",tone:"ok"},
-      {lead:"✓",name:"Visit Japan Web · הגירה ומכס",sub:"למלא עד שבוע לפני",meta:"נעשה",tone:"ok"},
-      {lead:"·",name:"רישיון נהיגה בינלאומי",sub:"חובה לשני הרכבים — לא מספיק רישיון ישראלי",meta:"פתוח",tone:"warn"},
-      {lead:"·",name:"ביטוח נסיעות",sub:"",meta:"פתוח",tone:"todo"}]},
-    {label:"טכנולוגיה",rows:[
-      {lead:"✓",name:"eSIM",sub:"להפעיל בנחיתה, לא לפני",meta:"נעשה",tone:"ok"},
-      {lead:"·",name:"מטען נייד + כבלים",sub:"",meta:"פתוח",tone:"todo"}]},
-    {label:"בגדים",rows:[
-      {lead:"·",name:"שכבות · 7–23°",sub:"לילות במטסומוטו וקמיקוצ׳י קרים",meta:"פתוח",tone:"todo"},
-      {lead:"·",name:"נעלי הליכה מפורקות",sub:"ימים של 15–20 ק״מ",meta:"פתוח",tone:"todo"},
-      {lead:"·",name:"גרביים לחליצת נעליים",sub:"ריוקאן, מקדשים, מסעדות",meta:"פתוח",tone:"todo"}]},
-    {label:"ביום היציאה",rows:[
-      {lead:"·",name:"מזומן ין",sub:"Hinode Udon ומקומות קטנים — מזומן בלבד",meta:"פתוח",tone:"todo"},
-      {lead:"·",name:"הורדת מפות אופליין",sub:"עמק Kiso וקמיקוצ׳י — קליטה חלשה",meta:"פתוח",tone:"todo"}]},
-    {label:"לקנות · Kappabashi · 16/10",rows:[
-      {icon:"shop",name:"סכין יפנית",sub:"Gyuto או Santoku · לבקש חידוד לפני קנייה",meta:"",tone:""},
-      {icon:"shop",name:"קרמיקה למטבח",sub:"צלחות קטנות, כוסות סאקה",meta:"",tone:""},
-      {icon:"shop",name:"כלי מטבח",sub:"מגררת אוקה, מקצף מאצ׳ה",meta:"",tone:""}]},
-    {label:"לקנות · Nakano Broadway · 18/10",rows:[
-      {icon:"shop",name:"פיגרים ואספנות",sub:"Mandarake — קומות 2–4",meta:"",tone:""},
-      {icon:"shop",name:"שעונים משומשים",sub:"",meta:"",tone:""}]},
-    {label:"לקנות · Koenji ו-Shimokitazawa",rows:[
-      {icon:"shop",name:"וינטג׳",sub:"ז׳קטים, חולצות — מידות קטנות",meta:"",tone:""},
-      {icon:"shop",name:"תקליטים",sub:"סיטי-פופ, ג׳אז יפני",meta:"",tone:""}]},
-    {label:"לקנות · כללי",rows:[
-      {icon:"shop",name:"נייר וכלי כתיבה",sub:"Itoya או חנות שכונתית",meta:"",tone:""},
-      {icon:"cafe",name:"תה",sub:"סנצ׳ה טוב — בקיוטו זול יותר",meta:"",tone:""}]}]},
-  /* ONLY places Bar named explicitly. Nothing invented, nothing "suggested" —
-     everything else was deliberately removed. Add here as he sends more. */
-  recs:{kicker:"המלצות",title:"המלצות",meta:"רק מה שבחרנו · לחיצה פותחת ב-Google Maps",
-    note:"🚫 נועה לא אוכלת חזיר — רוב הראמן ביפן הוא מרק חזיר. סומן למטה מה בטוח.",groups:[
-    {label:"קיוטו · ארוחות ערב",rows:[
-      {icon:"bowl",name:"挽肉と米 · Hikiniku to Come",sub:"המועמד המוביל · בשר בקר 100% · בגיון, מרחק הליכה מהמלון",meta:"להזמין 1/9",tone:"warn",q:"挽肉と米 京都"},
-      {icon:"bowl",name:"Yakiniku no GANSAN",sub:"יאקיניקו ב-Pontochō · @gansan_pontocho · בקר",meta:"מועמד",tone:"",q:"Yakiniku GANSAN Pontocho Kyoto"}]},
-    {label:"קיוטו · איזקאיה וברים",rows:[
-      {icon:"cafe",name:"365 Sakaba · Kawaramachi",sub:"איזקאיה זולה ותוססת",meta:"ללא הזמנה",tone:"",q:"365 Sakaba Kawaramachi Kyoto"},
-      {icon:"cafe",name:"Bar Alchemist",sub:"קוקטייל בר",meta:"ללא הזמנה",tone:"",q:"Bar Alchemist Kyoto"},
-      {icon:"cafe",name:"Rocking Bar ING",sub:"בר רוק ותקליטים",meta:"ללא הזמנה",tone:"",q:"Rocking Bar ING Kyoto"}]},
-    {label:"אוסקה · אוכל",rows:[
-      {icon:"bowl",name:"人情麺屋 牛骨王 · Ninjomenya Gyukotsuo",sub:"ראמן מרק עצמות בקר במקום חזיר · דלפק קטן, מכונת כרטיסים · Minami-Semba",meta:"בטוח לנועה",tone:"ok",q:"人情麺屋 牛骨王 南船場"},
-      {icon:"bowl",name:"Tokito · ときと",sub:"אזור Karahori, Chūō-ku · וואגיו סנדו",meta:"בוחרים אחד",tone:"",q:"ときと tokito Karahori Osaka"},
-      {icon:"bowl",name:"Dekasan",sub:"אותו וואגיו סנדו — לא רודפים אחרי שניהם",meta:"בוחרים אחד",tone:"",q:"Dekasan Osaka wagyu sando"}]},
-    {label:"אוסקה · מתוקים",rows:[
-      {icon:"cafe",name:"Grenier Patisserie · Kitahama",sub:"הפחזנייה עם הקרם ברולה של נועה",meta:"",tone:"",q:"Grenier Patisserie Kitahama Osaka"},
-      {icon:"cafe",name:"MooKEN",sub:"פחזניות",meta:"",tone:"",q:"MooKEN cream puff Osaka"}]},
-    {label:"אוסקה · אזורי ערב",rows:[
-      {icon:"bowl",name:"Fukushima",sub:"אזור ארוחות ערב",meta:"אזור",tone:"",q:"Fukushima Osaka izakaya"},
-      {icon:"cafe",name:"Tenma",sub:"קפיצות איזקאיה ובארים",meta:"אזור",tone:"",q:"Tenma Osaka izakaya"},
-      {icon:"cafe",name:"Don-chan · Umeda Higashidōri",sub:"",meta:"",tone:"",q:"Don-chan Umeda Higashidori Osaka"}]},
-    {label:"גוג׳ו · 9/10",rows:[
-      {icon:"bowl",name:"だいこく家 郡上店",sub:"וואגיו / יאקיניקו · המועדף לערב הזה",meta:"להזמין",tone:"warn",q:"だいこく家 郡上"},
-      {icon:"bowl",name:"Pizzeria Gonza",sub:"גיבוי אמיתי, לא פרס ניחומים",meta:"להזמין",tone:"warn",q:"Pizzeria Gonza Gujo"}]},
-    {label:"מטסומוטו · 10, 11, 12/10",rows:[
-      {icon:"bowl",name:"עדיין אין מועמדים",sub:"שלוש ארוחות ערב פתוחות. לא ממציאים שמות — תשלח ואוסיף",meta:"פתוח",tone:"warn"}]}]}
-};
-
-/* a row opens its exact pin when a url is pasted in, otherwise a Maps search */
-function mapsUrl(r){
-  return r.url || "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(r.q||r.name);
+/* ---- Google Maps: a ROUTE to the spot, which is how this actually gets used.
+   Coordinates when we have them (verified geocodes), else a name query. ---- */
+function dirTo(it){
+  var dest = (R && it.k && R.coords[it.k]) ? R.coords[it.k].join(",") : (it.q || it.n);
+  return "https://www.google.com/maps/dir/?api=1&destination="+encodeURIComponent(dest);
 }
+function dirFromTo(a,b){return "https://www.google.com/maps/dir/?api=1&origin="+a.join(",")+"&destination="+b.join(",");}
+function searchFor(q){return "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q);}
 
-/* ===========================================================================
-   APPEARANCE — fonts, palettes, prefs.
-   Everything here resolves on-device. No CDN call, no webfont download (§4):
-   the four non-bundled stacks are faces iOS already ships with Hebrew coverage,
-   so switching costs zero bytes on mobile data.
-   =========================================================================== */
-var FONTS = {
-  system:  {label:"מערכת · SF",    note:"ברירת מחדל · אפס בייטים",
-            stack:'-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Hebrew",system-ui,"Segoe UI",sans-serif'},
-  arial:   {label:"Arial Hebrew",  note:"רחב וקריא · מותקן ב-iOS",
-            stack:'"Arial Hebrew","Arial Hebrew Scholar",Arial,sans-serif'},
-  peninim: {label:"New Peninim",   note:"ספרותי, קצת צר · מותקן ב-iOS",
-            stack:'"New Peninim MT","Arial Hebrew",serif'},
-  raanana: {label:"Raanana",       note:"קל ואוורירי · מותקן ב-iOS",
-            stack:'"Raanana","Arial Hebrew",sans-serif'},
-  bundled: {label:"Heebo",         note:"דורש קבצים ב-vendor/ · ראו הערה בראש הקובץ",
-            stack:'Heebo,Assistant,-apple-system,sans-serif'}
-};
-
-/* A palette sets the surface family and the accent. The six per-base colours
-   (C, above) are DATA and never change — they identify a stop on the map. */
-var PALETTES = {
-  persimmon:{label:"אפרסמון", accent:"#C25A2A", accentDark:"#E08B5C",
-    bg:"#FAF5EF",card:"#FFFFFF",sunk:"#F2E9DE",line:"#EDE2D4",hero:"#F5E9DC",heroDark:"#241A13"},
-  indigo:{label:"אינדיגו", accent:"#2F4FA8", accentDark:"#89A9F0",
-    bg:"#F2F5FA",card:"#FFFFFF",sunk:"#EDF1F7",line:"#E7ECF4",hero:"#E6ECF9",heroDark:"#161C2B"},
-  ai:{label:"כחול עמוק", accent:"#1F3A5F", accentDark:"#7FA8D8",
-    bg:"#F4F6F8",card:"#FFFFFF",sunk:"#E9EEF3",line:"#E2E8EF",hero:"#DDE6EF",heroDark:"#101823"},
-  ultramarine:{label:"אולטרהמרין", accent:"#2C41E0", accentDark:"#93A2FF",
-    bg:"#F4F6FF",card:"#FFFFFF",sunk:"#ECEFFE",line:"#E4E8FC",hero:"#E3E8FF",heroDark:"#141833"},
-  matcha:{label:"מאצ׳ה", accent:"#3E7A5E", accentDark:"#7FBF9E",
-    bg:"#F3F7F3",card:"#FFFFFF",sunk:"#E9F1EA",line:"#E1EBE3",hero:"#E4EFE6",heroDark:"#12211A"},
-  hinoki:{label:"הינוקי", accent:"#8A6A3C", accentDark:"#D2AE79",
-    bg:"#FAF7F1",card:"#FFFFFF",sunk:"#F1EBE0",line:"#EBE3D5",hero:"#F0E7D6",heroDark:"#1F1A12"},
-  plum:{label:"שזיף", accent:"#7A3E86", accentDark:"#C79AD0",
-    bg:"#F8F4F9",card:"#FFFFFF",sunk:"#F0E8F2",line:"#EBE1EE",hero:"#EFE4F2",heroDark:"#211527"},
-  sumi:{label:"דיו", accent:"#1F2328", accentDark:"#D8DEE6",
-    bg:"#F5F4F2",card:"#FFFFFF",sunk:"#ECEAE6",line:"#E5E2DD",hero:"#EAE7E2",heroDark:"#1A1B1D"}
-};
-
-var DARKBASE = {bg:"#0D1016",card:"#171C25",sunk:"#1E242F",line:"#242B36",
-  ink:"#EAEEF5",ink2:"#A2ABBA",ink3:"#8C95A6",rail:"#2E3746"};
-var LIGHTBASE = {ink:"#111621",ink2:"#4E5766",ink3:"#667085",rail:"rgba(17,22,33,.13)"};
-
-var PREFS_KEY="jp2026:prefs";
-var prefs = (function(){
-  var d={palette:"persimmon",font:"system",theme:"auto",size:"normal"};
-  try{ var s=localStorage.getItem(PREFS_KEY); if(s){ var p=JSON.parse(s);
-    for(var k in d){ if(p[k]) d[k]=p[k]; } } }catch(e){}
-  return d;
-})();
-function savePrefs(){ try{ localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); }catch(e){} }
-function isDark(){
-  if(prefs.theme==="dark") return true;
-  if(prefs.theme==="light") return false;
-  return !!(window.matchMedia && window.matchMedia("(prefers-color-scheme:dark)").matches);
+/* ===================== day model ===================== */
+function isVar(it){return /^(אופציה|גרסה|חלופה)/.test(it.n);}
+function dayVars(day){return day.items.filter(isVar);}
+function dayItems(day){
+  var vs=dayVars(day); if(vs.length<2) return day.items;
+  var p=S.variant[day.d]||0;
+  return day.items.filter(function(it){return !isVar(it)||it===vs[p];});
 }
-function hexA(hex,a){
-  var n=parseInt(hex.slice(1),16);
-  return "rgba("+(n>>16&255)+","+(n>>8&255)+","+(n&255)+","+a+")";
-}
-function applyPrefs(){
-  var p=PALETTES[prefs.palette]||PALETTES.persimmon, dark=isDark();
-  var r=document.documentElement.style, base = dark?DARKBASE:LIGHTBASE;
-  var acc = dark ? p.accentDark : p.accent;
-  r.setProperty("--bg",   dark?DARKBASE.bg  :p.bg);
-  r.setProperty("--card", dark?DARKBASE.card:p.card);
-  r.setProperty("--sunk", dark?DARKBASE.sunk:p.sunk);
-  r.setProperty("--line", dark?DARKBASE.line:p.line);
-  r.setProperty("--hero", dark?p.heroDark   :p.hero);
-  r.setProperty("--ink",base.ink); r.setProperty("--ink2",base.ink2);
-  r.setProperty("--ink3",base.ink3); r.setProperty("--rail",base.rail);
-  r.setProperty("--accent",acc);
-  r.setProperty("--accent-soft", dark ? hexA(acc,.16) : hexA(acc,.10));
-  r.setProperty("--iconbg", dark ? "rgba(255,255,255,.07)" : "rgba(17,22,33,.05)");
-  r.setProperty("--pinring", hexA(acc,.18));
-  document.documentElement.style.colorScheme = dark ? "dark" : "light";
-  document.body.style.fontFamily = (FONTS[prefs.font]||FONTS.system).stack;
-  document.documentElement.setAttribute("data-size", prefs.size);
-  var tc=document.querySelector('meta[name="theme-color"]'); if(tc) tc.setAttribute("content", dark?p.heroDark:p.hero);
-  wantDark = dark;
-  syncBasemap();
-}
-/* The basemap follows the theme. Requests that land while a style is still
-   loading are REMEMBERED (wantDark), not dropped — style.load calls back in
-   here, so the last-requested theme always wins. Guarding on styleReady alone
-   silently lost the tap and left the map frozen: drawNow() early-returns on
-   !styleReady, so day changes stopped updating pins while the list kept going,
-   which quietly breaks the pin↔row contract (§5). */
-function syncBasemap(){
-  if(!map || map.__loading) return;
-  if(map.__dark === wantDark) return;
-  map.__dark = wantDark;
-  styleReady = false; map.__loading = true;
-  try{
-    /* diff:false forces a full style reload so "style.load" fires again. With
-       the default diff, MapLibre patches the running style in place and emits
-       only styledata — the map would never report ready again. */
-    map.setStyle(wantDark ? "data/style-liberty-dark.json" : "data/style-liberty-latin.json", {diff:false});
-    /* the map going permanently blank is the worst outcome on a trip with no
-       signal — if the swap never reports back, recover rather than stay frozen */
-    clearTimeout(map.__watchdog);
-    map.__watchdog = setTimeout(function(){ if(!styleReady) onStyleReady(); }, 3000);
-  }catch(e){ map.__loading=false; console.warn("style swap failed:", e && e.message); }
-}
-
-/* ---- icon set (one visual language across all six screens) ---------------- */
-var I = {
-  map:"M9 4 3 6.5v13L9 17l6 2.5 6-2.5v-13L15 6.5 9 4Zm0 0v13m6 2.5v-13",
-  ticket:"M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1a2.5 2.5 0 0 0 0 5v1a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-1a2.5 2.5 0 0 0 0-5V8Zm10-2v12",
-  cloud:"M7 18a4 4 0 0 1 .6-7.96A5.5 5.5 0 0 1 18 11a3.5 3.5 0 0 1 0 7H7Z",
-  check:"M8.5 12.5 11 15l4.5-4.5M5 4h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z",
-  bag:"M5 8h14l-1 12H6L5 8Zm3.5 0V6a3.5 3.5 0 0 1 7 0v2",
-  flag:"M6 21V4m0 0 12 3.2L6 10.4",
-  torii:"M4 7h16M6.5 7v12M17.5 7v12M5 4.2h14",
-  bowl:"M4 11h16a8 8 0 0 1-16 0ZM9 4c-.8.8-.8 1.7 0 2.5M13 3.4c-1 1-1 2.1 0 3.1M4 21h16",
-  water:"M3 8c2-1.6 4-1.6 6 0s4 1.6 6 0 4-1.6 6 0M3 13c2-1.6 4-1.6 6 0s4 1.6 6 0 4-1.6 6 0M3 18c2-1.6 4-1.6 6 0s4 1.6 6 0 4-1.6 6 0",
-  train:"M7 4h10a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm-2 6h14M8.5 20 6.5 22m9-2 2 2M9 13h.01M15 13h.01",
-  car:"M4.5 13h15M6.5 13l1.2-4a2 2 0 0 1 1.9-1.4h4.8a2 2 0 0 1 1.9 1.4l1.2 4v4.5h-2.5V16h-6v1.5H6.5V13Z",
-  bus:"M5 6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v9H5V6Zm0 9h14v2.5a1 1 0 0 1-1 1h-1V21H7v-2.5H6a1 1 0 0 1-1-1V15ZM5 9.5h14M9 12.2h.01M15 12.2h.01",
-  bed:"M3 18v-5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5M3 18v2m18-2v2M6 11V8a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3",
-  plane:"M21.5 12 3 19l3.2-7L3 5l18.5 7Z",
-  mountain:"M2.5 19.5 9 9l3.6 5.4L14.8 11l6.7 8.5H2.5Z",
-  shop:"M4.5 9.5h15l-1 10h-13l-1-10Zm4 0v-2a3.5 3.5 0 0 1 7 0v2",
-  cafe:"M4 8h11v5.5A4.5 4.5 0 0 1 10.5 18h-2A4.5 4.5 0 0 1 4 13.5V8Zm11 1h2.2a2.6 2.6 0 0 1 0 5.2H15M4.5 21h11",
-  walk:"M12.5 4.6a1.4 1.4 0 1 0 0-.01M10 21l1.8-5.6-2-2.2 1-4.2 3.2 2.4 2.2.8M9.5 21l1.6-4",
-  pin:"M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Zm0-8.6a2.4 2.4 0 1 0 0-4.8 2.4 2.4 0 0 0 0 4.8Z",
-  info:"M12 16.5v-5m0-3.3v.01M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z",
-  cal:"M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z",
-  star:"m12 3.6 2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8L12 3.6Z",
-  ext:"M14 4h6v6M20 4l-8.4 8.4M18 14.5V19a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h4.5",
-  alert:"M12 8v5m0 3.5v.01M10.3 3.9 1.8 18.2A2 2 0 0 0 3.5 21h17a2 2 0 0 0 1.7-2.8L13.7 3.9a2 2 0 0 0-3.4 0Z",
-  town:"M4 20V9.5L9 6.5l5 3V20M4 20h16M14 20v-8h6v8M7 12h.01M7 16h.01M17 15.5h.01"
-};
-
-/* ---- stop categories -------------------------------------------------------
-   Every stop in DAYS carries an explicit c:"…". These drive both the icon on the
-   stop card and the content signature on each day chip, so you can tell what a
-   day holds without opening it. */
-var CAT = {
-  nature:{i:I.mountain,l:"טבע"},   water:{i:I.water,l:"מים"},
-  sight: {i:I.torii,   l:"אתרים"}, food: {i:I.bowl, l:"אוכל"},
-  town:  {i:I.town,    l:"שכונות"},shop: {i:I.shop, l:"קניות"},
-  cafe:  {i:I.cafe,    l:"קפה"},   walk: {i:I.walk, l:"הליכה"},
-  drive: {i:I.car,     l:"נהיגה"}, rail: {i:I.train,l:"רכבת"},
-  bus:   {i:I.bus,     l:"אוטובוס"},air: {i:I.plane,l:"טיסה"},
-  stay:  {i:I.bed,     l:"לינה"}
-};
-/* most characteristic first; "stay" is excluded — every day ends somewhere */
-var SIG_PRIO = ["nature","water","sight","food","town","shop","cafe","walk","drive","rail","bus","air"];
-
-function dayKm(day){
-  if(!R) return 0;
-  return day.items.reduce(function(a,it){ return a+(it.drive&&R.drives[it.drive]?R.drives[it.drive].km:0); },0);
-}
-function dayHrs(day){
-  if(!R) return 0;
-  return day.items.reduce(function(a,it){ return a+(it.drive&&R.drives[it.drive]?R.drives[it.drive].hrs:0); },0);
-}
-/* up to 3 categories describing the day. A long transfer leads, because on those
-   days the driving is the day. */
+function dayKm(day){return R?day.items.reduce(function(a,it){return a+(it.drive&&R.drives[it.drive]?R.drives[it.drive].km:0);},0):0;}
+function dayHrs(day){return R?day.items.reduce(function(a,it){return a+(it.drive&&R.drives[it.drive]?R.drives[it.drive].hrs:0);},0):0;}
 function daySig(day){
-  var have={};
-  day.items.forEach(function(it){ if(it.c) have[it.c]=1; });
-  if(dayKm(day)>60) have.drive=1;
-  var order=SIG_PRIO.slice();
-  if(dayKm(day)>100) order=["drive"].concat(order.filter(function(c){return c!=="drive";}));
-  var out=[];
-  order.forEach(function(c){ if(have[c]&&out.length<3) out.push(c); });
+  var have={};day.items.forEach(function(it){if(it.c)have[it.c]=1;});
+  if(dayKm(day)>60)have.drive=1;
+  var order=T.SIG_PRIO.slice();
+  if(dayKm(day)>100)order=["drive"].concat(order.filter(function(c){return c!=="drive";}));
+  var out=[];order.forEach(function(c){if(have[c]&&out.length<3)out.push(T.CAT[c].i);});
   return out;
 }
-function sigHtml(day,size){
-  return daySig(day).map(function(c){
-    return '<span class="sg" title="'+CAT[c].l+'">'+svg(CAT[c].i,size||12)+'</span>';
-  }).join("");
-}
-/* pick a glyph from the stop's own words — no per-stop icon data to maintain */
-var ICON_RULES = [
-  [/צ׳ק-אין|מלון|לינה|Jujo|Meander|Miru|Fairfield|edit×seven|Metropolitan/i, I.bed],
-  [/נחיתה|טיסה|KIX|NRT|נמל התעופה/i, I.plane],
-  [/-ji\b|jing|jinja|מקדש|Senso|Meiji|Nanzen|Eikand|Hōnen|Nezu|טירת|Kasuga/i, I.torii],
-  [/udon|ארוחה|אוכל|מסעד|צהריים|איזקאיה|יאקיטורי|קארי|סובה|wasabi/i, I.bowl],
-  [/קפה|קיסאטן/i, I.cafe],
-  [/נהר|Kamo|תעלה|מפל|אגם|Yamanakako|Kawaguchiko|Ine|Shirakawa|מים/i, I.water],
-  [/רכבת|שינקנסן|Sanjo Keihan|תחנת/i, I.train],
-  [/אוטובוס/i, I.bus],
-  [/Corolla|Yaris|החלפת רכב|נהיגה|לולאה|Sawando|park ?& ?ride/i, I.car],
-  [/Kamikōchi|Utsukushi|Panorama|פארק|יער|הר |רמה|טבע|Hakone|Azumino/i, I.mountain],
-  [/Kappabashi|Nakano|Broadway|וינטג׳|קניות|חנויות|רחוב המטבח|תקליטים|Ginza/i, I.shop],
-  [/שביל|הליכה|סמטאות|גשר|Yokochō|Komichi/i, I.walk]
-];
-function iconFor(t){ for(var i=0;i<ICON_RULES.length;i++){ if(ICON_RULES[i][0].test(t)) return ICON_RULES[i][1]; } return I.pin; }
-var LEG_ICON = { car:I.car, rail:I.train, bus:I.bus, walk:I.walk };
 
-function fmt(h){ var m=Math.round(h*60); return m<60 ? m+" ד׳" : (Math.floor(m/60)+" ש׳ "+(m%60?(m%60)+" ד׳":"")).trim(); }
-function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
-function svg(d,sz,extra){ return '<svg width="'+(sz||18)+'" height="'+(sz||18)+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"'+(extra||"")+'><path d="'+d+'"/></svg>'; }
-
-/* ===========================================================================
-   STATE + MAP
-   =========================================================================== */
-var R=null, map=null, styleReady=false, mapReady=false, markers=[], pinEls={}, want=null, wantDark=null;
-var sel="all", tab="route", active=null, suppress=false;
-var $ = function(s){ return document.querySelector(s); };
-var _mapNode=null;
-function mapNode(){
-  if(!_mapNode){ _mapNode=document.createElement("div"); _mapNode.id="map"; }
-  return _mapNode;
-}
-var TABS=[["weather","מזג אוויר",I.cloud],["recs","המלצות",I.star],["route","מסלול",I.map],
-          ["book","הזמנות",I.ticket],["lists","רשימות",I.check]];
-
+/* ===================== map ===================== */
+function host(){ if(!mapHost){mapHost=document.createElement("div");mapHost.style.cssText="position:absolute;inset:0";} return mapHost; }
+function mountMap(el){ if(el&&host().parentNode!==el){ el.appendChild(host()); if(map){map.resize();draw();} } }
+function darkNow(){ return S.theme==="dark" || (S.theme==="auto" && matchMedia("(prefers-color-scheme:dark)").matches); }
 function initMap(){
+  if(map||typeof maplibregl==="undefined")return;
   try{
-    if(typeof maplibregl==="undefined") throw new Error("MapLibre failed to load");
-    /* isDark(), not the raw media query — the map must be built with the SAVED
-       theme, otherwise it starts opposite to the UI and needs a needless swap */
-    var dark = isDark();
-    map = new maplibregl.Map({
-      container:mapNode(),
-      style: dark ? "data/style-liberty-dark.json" : "data/style-liberty-latin.json",
-      center:[137.9,36.3], zoom:4.6,
-      attributionControl:{compact:true,
-        customAttribution:'<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a>'}
-    });
-    /* record the theme the map was BUILT with. Without this the first
-       applyPrefs() sees undefined!==dark and fires a redundant setStyle(),
-       which drops styleReady and opens the race below. */
-    map.__dark = dark; wantDark = dark;
-    map.scrollZoom.disable(); map.dragRotate.disable(); map.touchZoomRotate.disableRotation();
-    map.on("error", function(e){
-      var m = e && e.error && e.error.message || "";
-      /* the dark style is optional — fall back rather than showing a blank map */
-      if(/style-liberty-dark/.test(m) && !map.__fellBack){ map.__fellBack=1; map.setStyle("data/style-liberty-latin.json"); }
-      else console.warn("map:", m);
-    });
-    /* "style.load", not "load": load waits on tiles and never fires offline.
-       Theme swaps below use setStyle(url,{diff:false}) precisely so this fires
-       again — a diff-based setStyle emits only styledata, which left styleReady
-       false forever and froze the map on the previous day's pins (breaks §5). */
-    map.on("style.load", onStyleReady);
-    if(window.ResizeObserver){
-      /* resize only — applyFit() already retries until the box has a real size */
-      var ro=new ResizeObserver(function(){ clearTimeout(map.__rz); map.__rz=setTimeout(function(){ if(map) map.resize(); },120); });
-      ro.observe(mapNode());
-    }
-    mapReady = true;
-  }catch(err){
-    console.warn("map init failed:", err);
-    var el=mapNode(); el.className="mapfail"; el.textContent="המפה לא נטענה — התוכנית עובדת כרגיל.";
-  }
+    map=new maplibregl.Map({container:host(),
+      style:darkNow()?"data/style-liberty-dark.json":"data/style-liberty-latin.json",
+      center:[135.77,35.01],zoom:5,
+      attributionControl:{compact:true,customAttribution:'<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a>'}});
+    map.dragRotate.disable(); map.touchZoomRotate.disableRotation();
+    map.on("style.load",function(){styleReady=true;addLayers();draw();});
+    map.on("error",function(e){console.warn("map:",e&&e.error&&e.error.message);});
+  }catch(e){console.warn("map init",e);}
 }
-function onStyleReady(){
-  styleReady=true; map.__loading=false;
-  clearTimeout(map.__watchdog);
-  addRouteLayers(); draw();
-  /* a theme tap that landed mid-load was deferred, not dropped — apply it now */
-  syncBasemap();
-}
-function addRouteLayers(){
-  if(!map || map.getSource("routes")) return;
+function addLayers(){
+  if(!map||map.getSource("routes"))return;
   map.addSource("routes",{type:"geojson",data:{type:"FeatureCollection",features:[]}});
-  /* the dashed legs are deliberately straight — they mark a rail connection,
-     not a road geometry. Do not "fix" them into routed lines (§6). */
+  map.addLayer({id:"routes-halo",type:"line",source:"routes",layout:{"line-cap":"round","line-join":"round"},
+    paint:{"line-color":darkNow()?"#0F131A":"#F7F3EC","line-width":8,"line-opacity":.9}});
   map.addLayer({id:"routes-dash",type:"line",source:"routes",filter:["==",["get","dash"],true],
     layout:{"line-cap":"round","line-join":"round"},
-    paint:{"line-color":["get","color"],"line-width":2.4,"line-opacity":.8,"line-dasharray":[2,2]}});
+    paint:{"line-color":["get","color"],"line-width":2.4,"line-opacity":.85,"line-dasharray":[2,2]}});
   map.addLayer({id:"routes-solid",type:"line",source:"routes",filter:["!=",["get","dash"],true],
     layout:{"line-cap":"round","line-join":"round"},
-    paint:{"line-color":["get","color"],"line-width":4.5,"line-opacity":.9}});
+    paint:{"line-color":["get","color"],"line-width":4,"line-opacity":.95}});
 }
-function lineF(pts,color,dash){
-  return {type:"Feature",properties:{color:color,dash:!!dash},
-    geometry:{type:"LineString",coordinates:pts.map(function(p){return [p[1],p[0]];})}};
-}
-function setRoutes(f){ var s=map&&map.getSource("routes"); if(s)s.setData({type:"FeatureCollection",features:f}); }
-function clearPins(){ markers.forEach(function(m){m.remove();}); markers=[]; pinEls={}; }
-function addPin(ll,label,color,popup,key){
-  var el=document.createElement("div"); el.className="pin";
-  el.innerHTML='<i style="--c:'+color+'">'+label+'</i>';
-  if(key){ el.dataset.jump=key; el.addEventListener("click",function(){ selectStop(key,true); }); pinEls[key]=el; }
-  var m=new maplibregl.Marker({element:el,anchor:"bottom"}).setLngLat([ll[1],ll[0]]);
-  if(popup) m.setPopup(new maplibregl.Popup({offset:22,closeButton:false}).setHTML(popup));
-  m.addTo(map); markers.push(m);
-}
-function fit(pts,maxZoom){ if(!pts.length||!map) return; want={pts:pts,z:maxZoom}; applyFit(); }
-function applyFit(){
-  if(!want||!map) return;
-  var w=want;
-  doFit(w);
-  /* One confirmation pass per target. The map node is moved into a freshly
-     rendered .mapslot on every day change, so at first-fit time the container
-     can still be settling and fitBounds computes against a stale transform —
-     which showed up as an under-zoomed, one-interaction-behind camera.
-     Re-fitting on the next idle converges. Idempotent: it re-reads the SAME
-     target and bails if the user has since picked another view. */
-  if(!w.confirmed){
-    w.confirmed=true;
-    /* plain timers, NOT map.once("idle") — "idle" waits for tiles to finish
-       loading, so on a slow or offline connection it never fires and the
-       correction never runs. Same trap as "load" vs "style.load". */
-    setTimeout(function(){ if(want===w) doFit(w); },160);
-  }
-}
-function doFit(w){
-  var el=map.getContainer(), cw=el?el.clientWidth:0, ch=el?el.clientHeight:0;
-  if(cw<40||ch<40){ clearTimeout(applyFit.t); applyFit.t=setTimeout(applyFit,260); return; }
-  var b=new maplibregl.LngLatBounds();
-  w.pts.forEach(function(p){ b.extend([p[1],p[0]]); });
-  if(!b.getNorthEast()||!b.getSouthWest()) return;
-  var p={top:34,bottom:30,left:28,right:28};
-  if(p.left+p.right>=cw-20||p.top+p.bottom>=ch-20) p={top:8,bottom:8,left:8,right:8};
-  /* resize before measuring: fitBounds works off the map's internal transform
-     size, not the live DOM box. */
-  map.resize();
-  /* duration:0 — fitBounds' easing runs on requestAnimationFrame, which does not
-     tick in a hidden or throttled tab, so an animated fit can silently never
-     reach its target and leave every pin stacked on one point. */
-  try{ map.fitBounds(b,{padding:p,maxZoom:maxZoom(w.z),duration:0}); }
-  catch(e){ console.warn("fit skipped:", e && e.message); }
-  syncMarkers();
-}
-/* Markers compute their screen position inside addTo(), from whatever the
-   camera is at that moment — no render frame required. So the camera must be
-   fitted BEFORE the pins are added; see drawNow(). This helper only exists for
-   the flyTo case, where the camera moves after the pins already exist. */
-function syncMarkers(){
-  if(!map) return;
-  markers.forEach(function(mk){ try{ mk.setLngLat(mk.getLngLat()); }catch(e){} });
-}
-function maxZoom(z){ return z||14; }
-function syncPins(){ for(var k in pinEls){ pinEls[k].classList.toggle("on", k===active); } }
-
-function draw(){ clearTimeout(draw.t); draw.t=setTimeout(function(){ try{ drawNow(); }catch(e){ console.warn("map draw failed:", e && e.message); } },0); }
+function lineF(pts,color,dash){return {type:"Feature",properties:{color:color,dash:!!dash},
+  geometry:{type:"LineString",coordinates:pts.map(function(p){return [p[1],p[0]];})}};}
+var dt;
+function draw(){clearTimeout(dt);dt=setTimeout(function(){try{drawNow();}catch(e){console.warn("draw",e);}},0);}
 function drawNow(){
-  if(!map||!styleReady||!R) return;
-  clearPins();
-  if(tab!=="route"){ setRoutes([]); return; }
-  /* ORDER MATTERS: collect the points, fit the camera, and only THEN add the
-     pins. A Marker positions itself during addTo() using the current camera,
-     so pins added after the fit are correct on the spot. Adding them first and
-     fitting after leaves them painted at the previous view's position until
-     MapLibre's next render frame — which is rAF-driven and can be seconds away
-     in a throttled tab. */
-  var queue=[];
-  if(sel==="all"){
-    var feats=[];
-    ["kyoto_gujo","gujo_matsumoto","matsumoto_gotemba"].forEach(function(id){ if(R.drives[id]) feats.push(lineF(R.drives[id].line,"#C25A2A")); });
+  if(!map||!styleReady||!R)return;
+  markers.forEach(function(m){m.remove();});markers=[];pinEls={};
+  var src=map.getSource("routes"),feats=[],pts=[],queue=[];
+  if(S.view==="trip"){
+    ["kyoto_seki","seki_gujo","gujo_matsumoto","matsumoto_gotemba"].forEach(function(id){
+      if(R.drives[id])feats.push(lineF(R.drives[id].line,"#274B8C"));});
     [["osaka","kyoto"],["gotemba","tokyo"]].forEach(function(p){
-      if(R.coords[p[0]]&&R.coords[p[1]]) feats.push(lineF([R.coords[p[0]],R.coords[p[1]]],"#8B8578",true)); });
-    setRoutes(feats);
-    var pts=[];
-    NIGHTS.forEach(function(b,i){
-      var key=BASEKEY[b[0]]||b[0];
-      if(!R.coords[key]) return;
-      queue.push([R.coords[key], i+1, C[b[0]], "<b>"+(i+1)+" · "+esc(b[1])+"</b>", key]);
-      pts.push(R.coords[key]);
-    });
-    fit(pts,8.2);
+      if(R.coords[p[0]]&&R.coords[p[1]])feats.push(lineF([R.coords[p[0]],R.coords[p[1]]],"#8A9099",true));});
+    T.NIGHTS.forEach(function(b,i){var k=T.BASEKEY[b[0]];if(!R.coords[k])return;
+      queue.push([R.coords[k],i+1,T.C[b[0]],b[1],k]);pts.push(R.coords[k]);});
+    fit(pts,7.6);
   }else{
-    var day=DAYS[sel], c=C[day.base], n=0, dpts=[], df=[];
-    day.items.forEach(function(it){
-      if(it.drive&&R.drives[it.drive]){ df.push(lineF(R.drives[it.drive].line,c)); R.drives[it.drive].line.forEach(function(p){dpts.push(p);}); }
-    });
-    setRoutes(df);
-    day.items.forEach(function(it){
-      if(!it.k||!R.coords[it.k]) return;
-      n++;                                     /* same counter as the list row */
-      queue.push([R.coords[it.k], n, c, "<b>"+esc(it.n)+"</b>", it.k]);
-      dpts.push(R.coords[it.k]);
-    });
-    fit(dpts,13);
+    var day=T.DAYS[S.sel],c=T.C[day.base],items=dayItems(day),n=0;
+    items.forEach(function(it){if(it.drive&&R.drives[it.drive]){feats.push(lineF(R.drives[it.drive].line,c));
+      R.drives[it.drive].line.forEach(function(p){pts.push(p);});}});
+    items.forEach(function(it){if(!it.k||!R.coords[it.k])return;n++;
+      queue.push([R.coords[it.k],n,c,it.n,it.k]);pts.push(R.coords[it.k]);});
+    fit(pts,13.4);
   }
-  queue.forEach(function(a){ addPin(a[0],a[1],a[2],a[3],a[4]); });
+  if(src)src.setData({type:"FeatureCollection",features:feats});
+  queue.forEach(function(a){addPin(a[0],a[1],a[2],a[3],a[4]);});
   syncPins();
 }
-
-/* ---- pin ⟷ row pairing ---------------------------------------------------- */
-function selectStop(key, fromMap){
-  if(!key) return;
-  active=key; syncPins(); markActive();
-  try{
-    if(R&&R.coords[key]&&map)
-      map.flyTo({center:[R.coords[key][1],R.coords[key][0]], zoom:Math.max(map.getZoom(),12), duration:camDur(700)});
-      map.once("moveend", syncMarkers);
-  }catch(e){ console.warn("flyTo skipped:", e && e.message); }
-  if(fromMap){
-    var sc=$("#body"), el=sc.querySelector('.item[data-jump="'+key+'"]');
-    if(el){
-      var scr=sc.getBoundingClientRect(), r=el.getBoundingClientRect(), sh=sc.clientHeight;
-      /* already fully in view — don't yank the list under the user */
-      if(r.top < scr.top || r.bottom > scr.bottom){
-        /* Offsets are derived from the live scroller, never hardcoded: .app is
-           height:min(956px, 100vh - 48px), so on a short window this box can be
-           ~200px tall and a fixed 200px offset would push the row you just
-           asked for straight off the bottom. Cap the padding so the row's
-           BOTTOM always lands inside the visible area. */
-        var pad = Math.min(200, sh * 0.25, sh - r.height - 8);
-        if(pad < 8) pad = 8;
-        suppress = true;
-        /* behavior:"smooth" is a silent no-op on this scroller — assign scrollTop */
-        sc.scrollTop += (r.top - scr.top - pad);
-        setTimeout(function(){ suppress=false; },400);
-      }
-    }
-  }
+function addPin(ll,label,color,title,key){
+  var el=document.createElement("div");
+  el.style.cssText="cursor:pointer;transition:transform .18s cubic-bezier(.2,.8,.3,1)";
+  el.innerHTML='<span style="display:flex;width:22px;height:22px;border-radius:50%;align-items:center;justify-content:center;'
+    +'background:'+color+';color:#fff;font:800 11px/1 inherit;border:2px solid var(--bg);box-shadow:0 2px 6px rgba(20,24,31,.3)">'+label+'</span>';
+  el.addEventListener("click",function(){jump(key);});
+  pinEls[key]=el;
+  var mk=new maplibregl.Marker({element:el,anchor:"center"}).setLngLat([ll[1],ll[0]]);
+  mk.setPopup(new maplibregl.Popup({offset:16,closeButton:false}).setHTML('<b style="font:700 12px sans-serif">'+esc(title)+'</b>'));
+  mk.addTo(map);markers.push(mk);
 }
-function camDur(ms){
-  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion:reduce)").matches;
-  return (document.hidden || reduce) ? 0 : ms;
+function syncPins(){for(var k in pinEls)pinEls[k].style.transform=(k===S.open?"scale(1.35)":"none");}
+var ft;
+function fit(pts,mz){
+  if(!pts.length||!map)return;
+  var el=map.getContainer();
+  if(!el||el.clientWidth<40||el.clientHeight<40){clearTimeout(ft);ft=setTimeout(function(){fit(pts,mz);},240);return;}
+  var b=new maplibregl.LngLatBounds();pts.forEach(function(p){b.extend([p[1],p[0]]);});
+  var tall=el.clientHeight>200,pad=tall?{top:40,bottom:40,left:34,right:34}:{top:18,bottom:22,left:24,right:24};
+  map.resize();
+  try{map.fitBounds(b,{padding:pad,maxZoom:mz||14,duration:0});}catch(e){}
 }
-function markActive(){
-  var c = sel==="all" ? null : C[DAYS[sel].base];
-  [].forEach.call(document.querySelectorAll('.item[data-jump]'), function(el){
-    var on = el.dataset.jump===active;
-    var col = c || C[el.dataset.base] || "var(--accent)";
-    el.style.boxShadow = on ? "0 0 0 2px "+col+", var(--sh-md)" : "var(--sh-sm)";
-  });
-}
-function onScroll(){
-  var sc=$("#body"); if(!sc||suppress||tab!=="route") return;
-  clearTimeout(onScroll.t);
-  onScroll.t=setTimeout(function(){
-    var items=[].slice.call(sc.querySelectorAll('.item[data-jump]'));
-    if(!items.length) return;
-    /* proportional, so the anchor line always sits INSIDE the scroller — a flat
-       240px falls below the bottom edge of a short box and highlights a pin for
-       a row the user cannot see */
-    var anchor=sc.getBoundingClientRect().top + Math.min(240, sc.clientHeight*0.35),
-        best=null, bd=Infinity;
-    items.forEach(function(el){ var d=Math.abs(el.getBoundingClientRect().top-anchor); if(d<bd){bd=d;best=el;} });
-    var k=best&&best.dataset.jump;
-    if(k&&k!==active){ active=k; syncPins(); markActive(); }
-  },80);
+function jump(key){
+  S.open=(S.open===key?null:key);
+  render();
+  try{if(R&&key&&R.coords[key]&&map)map.flyTo({center:[R.coords[key][1],R.coords[key][0]],
+    zoom:Math.max(map.getZoom(),13.5),duration:600});}catch(e){}
 }
 
-/* ===========================================================================
-   RENDER
-   =========================================================================== */
-function renderRail(){
-  var h='<button class="chip all" data-day="all"><span>'+svg(I.map,19)+'</span><span class="cl">הכל</span></button>';
-  DAYS.forEach(function(d,i){
-    h+='<button class="chip" data-day="'+i+'" data-base="'+d.base+'">'
-      +'<span class="dw">'+esc(d.dow)+'</span><span class="dn">'+d.d+'</span>'
-      +'<span class="sig">'+sigHtml(d,12)+'</span>'
-      +'<span class="cl">'+esc(BASENAME[d.base])+'</span><span class="dt"></span></button>';
-  });
-  $("#rail").innerHTML=h;
-  [].forEach.call($("#rail").querySelectorAll(".chip"), function(b){
-    b.addEventListener("click", function(){
-      sel = b.dataset.day==="all" ? "all" : +b.dataset.day;
-      active=null; tab="route"; render(); draw(); $("#body").scrollTop=0;
-    });
-  });
-  paintRail();
+/* ===================== render ===================== */
+function go(i){S.sel=i;S.view="day";S.open=null;save();render();
+  var b=document.getElementById("body");if(b)b.scrollTop=0;centerPager(i);}
+function centerPager(i){
+  var p=document.getElementById("pager");if(!p)return;
+  var el=p.children[i];if(!el)return;
+  p.scrollLeft+=el.getBoundingClientRect().left-p.getBoundingClientRect().left-p.clientWidth/2+el.clientWidth/2;
 }
-function paintRail(){
-  [].forEach.call($("#rail").querySelectorAll(".chip"), function(b){
-    var isAll=b.dataset.day==="all";
-    var on = isAll ? sel==="all" : +b.dataset.day===sel;
-    var col = isAll ? "var(--accent)" : C[b.dataset.base];
-    b.style.background = on ? col : "var(--card)";
-    b.style.color = on ? "#fff" : "var(--ink)";
-    b.style.boxShadow = on ? "0 6px 18px "+(isAll?"rgba(194,90,42,.33)":col+"55") : "var(--sh-sm)";
-    var dot=b.querySelector(".dt");
-    if(dot){ dot.style.background = on ? "rgba(255,255,255,.85)" : col; }
-  });
-}
-function renderTabs(){
-  $("#tabs").innerHTML = TABS.map(function(t){
-    return '<button class="tab" role="tab" data-tab="'+t[0]+'" aria-selected="'+(tab===t[0])+'" title="'+esc(t[1])+'">'
-      +svg(t[2],21)+'<span>'+esc(t[1])+'</span></button>';
-  }).join("");
-  [].forEach.call($("#tabs").querySelectorAll(".tab"), function(b){
-    b.addEventListener("click", function(){
-      tab=b.dataset.tab; render(); $("#body").scrollTop=0;
-      if(tab==="route") setTimeout(function(){ if(map){ map.resize(); draw(); } },60); else draw();
-    });
-  });
-}
-function statCard(v,l,icon,col){
-  return '<div class="stat"><div class="v" style="color:'+col+'">'+svg(icon,14)+'<b>'+esc(v)+'</b></div><div class="l">'+esc(l)+'</div></div>';
-}
-function timelineRow(o){
-  var col=o.color;
-  var h='<div class="row">'
-    +'<div class="tm">'+esc(o.time||"")+'</div>'
-    +'<div class="tr"><span class="up" style="opacity:'+(o.first?0:1)+'"></span>'
-      +'<span class="badge" style="background:'+col+'">'+esc(o.num)+'</span>'
-      +'<span class="dn"></span></div>'
-    +'<div class="bd">'
-    +'<button class="item"'+(o.jump?' data-jump="'+esc(o.jump)+'"':'')+(o.base?' data-base="'+esc(o.base)+'"':'')+'>'
-      +'<span class="ic" style="background:var(--iconbg);color:'+col+'">'+svg(o.icon,18)+'</span>'
-      +'<span style="flex:1;min-width:0">'
-        +'<span style="display:flex;align-items:baseline;gap:7px;flex-wrap:wrap">'
-        +'<span class="nm">'+esc(o.name)+'</span>'+(o.opt?'<span class="opt">אופציונלי</span>':'')+'</span>'
-        +'<span class="sb" style="display:block">'+o.sub+'</span>'
-      +'</span></button>';
-  if(o.leg){
-    h+='<div class="leg"><span class="m">'+svg(o.legIcon,13)+esc(o.legText)+'</span>'
-      +(o.legTo?'<span style="color:var(--ink3)">'+esc(o.legTo)+'</span>':"")
-      +(o.legUrl?' <a href="'+esc(o.legUrl)+'" target="_blank" rel="noopener" style="font-weight:700">הוראות ›</a>':"")
-      +'</div>';
-  }
-  return h+'</div></div>';
-}
-function renderRoute(){
-  var h="", col;
-  if(sel==="all"){
-    col="var(--accent)";
-    var km = R ? Math.round(["kyoto_gujo","gujo_matsumoto","matsumoto_gotemba"]
-      .reduce(function(a,k){ return a+(R.drives[k]?R.drives[k].km:0); },0)) : 0;
-    h+='<div class="stats">'+statCard("6","תחנות",I.pin,col)+statCard("16","לילות",I.bed,col)
-      +(km?statCard(String(km),"ק״מ נהיגה",I.car,col):"")+'</div>';
-    h+='<div class="mapcard"><div class="mapslot"></div><div class="mapbadge"><i style="background:'+col+'"></i>המסלול המלא</div></div>';
-    h+='<div class="note"><span style="color:var(--accent);flex:none;margin-top:1px">'+svg(I.info,18)+'</span>'
-      +'<div style="flex:1;min-width:0"><div class="lb" style="color:var(--accent)">על המפה</div>'
-      +'<div class="tx">הסמלים ליד כל תאריך מסמנים מה יש באותו יום — טבע, אתרים, אוכל, שכונות, נהיגה. אוסקה→קיוטו וגוטמבה→טוקיו ברכבת, והקו המקווקו מסמן קשר ולא מסלול.</div></div></div>';
-    /* every day, grouped under its base, so the whole trip is scannable in one view */
-    var groups=[];
-    DAYS.forEach(function(d,i){
-      var g=groups[groups.length-1];
-      if(!g||g.base!==d.base){ g={base:d.base,days:[]}; groups.push(g); }
-      g.days.push({d:d,i:i});
-    });
-    h+='<div class="scan">';
-    groups.forEach(function(g){
-      var n=NIGHTS.filter(function(r){return r[0]===g.base;})[0];
-      h+='<div class="grp" style="--c:'+C[g.base]+'">'
-        +'<div class="ghd"><span class="gdot"></span><span class="gnm">'+esc(BASENAME[g.base])+'</span>'
-        +'<span class="gmt">'+(n?esc(n[2])+' · '+esc(n[3])+' · ':'')+'<span class="en">'+esc(HOTEL[g.base])+'</span></span></div>';
-      g.days.forEach(function(x){
-        var stops=x.d.items.filter(function(it){return it.k;}).length;
-        var km=Math.round(dayKm(x.d));
-        var meta=km ? km+' ק״מ · '+fmt(dayHrs(x.d))
-                    : (stops===1 ? 'עצירה אחת' : stops+' עצירות');
-        var warn=x.d.note&&x.d.note.indexOf("⚠️")===0;
-        h+='<button class="drow" data-day="'+x.i+'">'
-          +'<span class="dd"><b>'+x.d.d+'</b><i>'+esc(x.d.dow)+'</i></span>'
-          +'<span class="dbd"><span class="dtt">'+esc(x.d.t)+'</span>'
-          +'<span class="dmt"><span class="sig">'+sigHtml(x.d,13)+'</span><span>'+esc(meta)+'</span></span></span>'
-          +(warn?'<span class="dwn">'+svg(I.alert,15)+'</span>':'')
-          +'</button>';
-      });
-      h+='</div>';
-    });
-    h+='</div>';
-    if(R){
-      h+='<div class="panel" style="margin-top:6px"><h3>רגלי הנהיגה · מחושב על הכביש בפועל</h3>';
-      [["kyoto_gujo","קיוטו → גוג׳ו"],["gujo_matsumoto","גוג׳ו → Narai → מטסומוטו"],["matsumoto_gotemba","מטסומוטו → גוטמבה"]]
-        .forEach(function(l){ var d=R.drives[l[0]]; if(!d)return;
-          h+='<div class="prow"><span class="n">'+esc(l[1])+'</span><span class="v">'+d.km+' ק״מ · '+fmt(d.hrs)+'</span></div>'; });
-      h+='</div>';
-    }
-  }else{
-    var day=DAYS[sel]; col=C[day.base];
-    var stops=day.items.filter(function(it){return it.k;}).length;
-    var dkm=R?day.items.reduce(function(a,it){return a+(it.drive&&R.drives[it.drive]?R.drives[it.drive].km:0);},0):0;
-    var dhr=R?day.items.reduce(function(a,it){return a+(it.drive&&R.drives[it.drive]?R.drives[it.drive].hrs:0);},0):0;
-    h+='<div class="stats">'+statCard(String(stops),"עצירות על המפה",I.pin,col);
-    if(dkm) h+=statCard(String(Math.round(dkm)),"ק״מ נהיגה",I.car,col)+statCard(fmt(dhr),"זמן בדרך",I.info,col);
-    else h+=statCard(String(day.items.filter(function(it){return it.opt;}).length),"אופציונלי",I.flag,col)
-           +statCard(day.d+"/10",day.dow,I.ticket,col);
-    h+='</div>';
-    h+='<div class="mapcard"><div class="mapslot"></div><div class="mapbadge"><i style="background:'+col+'"></i>'+esc(BASENAME[day.base])+'</div></div>';
-    if(day.note){
-      var warn=day.note.indexOf("⚠️")===0, tone=warn?"var(--alert)":"var(--accent)";
-      h+='<div class="note'+(warn?" warn":"")+'"><span style="color:'+tone+';flex:none;margin-top:1px">'+svg(warn?I.alert:I.info,18)+'</span>'
-        +'<div style="flex:1;min-width:0"><div class="lb" style="color:'+tone+'">'+(warn?"לשים לב":"הערה ליום")+'</div>'
-        +'<div class="tx">'+esc(day.note.replace("⚠️","").trim())+'</div></div></div>';
-    }
-    var n=0;
-    day.items.forEach(function(it,i){
-      var lg=it.leg, dr = it.drive&&R ? R.drives[it.drive] : null;
-      if(dr) lg={mode:"car",hrs:dr.hrs,km:dr.km,txt: i===0 ? ("מ"+BASENAME[day.base]) : (it.leg&&it.leg.txt)};
-      var legText="", legUrl="";
-      if(lg){
-        legText = fmt(lg.hrs) + (lg.km?" · "+lg.km+" ק״מ":"");
-        var fromK = i>0 ? (day.items[i-1]||{}).k : BASEKEY[day.base];
-        if(R&&it.k&&fromK&&R.coords[it.k]&&R.coords[fromK])
-          legUrl="https://www.google.com/maps/dir/"+R.coords[fromK]+"/"+R.coords[it.k];
-      }
-      if(it.k) n++;                            /* same counter as the map pin */
-      h+=timelineRow({num: it.k?String(n):"·", name:it.n, sub:esc(it.s), time:it.t||"",
-        /* explicit category first; the prose-matching rules stay only as a fallback */
-        opt:!!it.opt, jump:it.k||"", icon:(it.c&&CAT[it.c]?CAT[it.c].i:iconFor(it.n+" "+it.s)),
-        color: it.k?col:"var(--ink3)", first:i===0,
-        leg:!!lg, legIcon: lg?(LEG_ICON[lg.mode]||I.car):"", legText:legText, legTo: lg&&lg.txt?lg.txt:"", legUrl:legUrl});
-    });
-    h+='<div class="row"><div class="tm"></div>'
-      +'<div class="tr"><span class="up"></span><span class="badge bed">'+svg(I.bed,15)+'</span></div>'
-      +'<div class="bd"><div class="stay"><div style="flex:1;min-width:0">'
-      +'<div class="nm">'+esc(HOTEL[day.base])+'</div><div class="sb">לינה</div></div></div></div></div>';
-  }
-  return h;
-}
-function renderScreen(){
-  var s=SCREENS[tab]; if(!s) return "";
-  var h="";
-  if(s.note){
-    h+='<div class="note" style="background:var(--accent-soft);box-shadow:none">'
-      +'<span style="color:var(--accent);flex:none;margin-top:1px">'+svg(I.info,17)+'</span>'
-      +'<div class="tx" style="flex:1;min-width:0">'+esc(s.note)+'</div></div>';
-  }
-  s.groups.forEach(function(g){
-    h+='<div class="grp"><h3>'+esc(g.label)+'</h3><div class="panel">';
-    g.rows.forEach(function(r){
-      var lead = r.icon ? '<span style="color:var(--accent)">'+svg(I[r.icon]||I.pin,17)+'</span>' : esc(r.lead||"");
-      /* recommendations are links — tapping one opens it in Google Maps */
-      var link = tab==="recs";
-      var tag  = link ? 'a' : 'div';
-      var attr = link ? ' class="grow link" href="'+esc(mapsUrl(r))+'" target="_blank" rel="noopener"' : ' class="grow"';
-      h+='<'+tag+attr+'><span class="ld">'+lead+'</span>'
-        +'<div style="flex:1;min-width:0"><div class="nm">'+esc(r.name)
-        +(link?'<span class="extico">'+svg(I.ext,12)+'</span>':"")+'</div>'
-        +(r.sub?'<div class="sb">'+esc(r.sub)+'</div>':"")+'</div>'
-        +(r.meta?'<span class="tone" data-t="'+esc(r.tone||"")+'">'+esc(r.meta)+'</span>':"")+'</'+tag+'>';
+var WXI={clear:"M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10ZM12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4",
+  mixed:"M8.5 15.5a3.5 3.5 0 0 1 .5-6.96A4.8 4.8 0 0 1 18 9.5a3 3 0 0 1 0 6H8.5ZM6 6.2 5 5.2M8.6 3.4V2M13 4.6l1-1",
+  rain:"M7 15a4 4 0 0 1 .6-7.96A5.5 5.5 0 0 1 18 8a3.5 3.5 0 0 1 0 7H7Zm2 3-1 3m4-3-1 3m5-3-1 3"};
+var TONE={ok:["var(--ok)","rgba(46,125,91,.12)"],warn:["var(--warn)","var(--warnbg)"],
+  todo:["var(--ink3)","rgba(20,24,31,.05)"],"":["var(--ink3)","rgba(20,24,31,.05)"]};
+
+function dayScreen(day){
+  var col=T.C[day.base],items=dayItems(day),h="",n=0;
+  var vs=dayVars(day);
+  if(vs.length>1){
+    var pick=S.variant[day.d]||0;
+    var CONDS={6:["יום צלול","גם בענן","נשארים בעיר"],10:["הליכה מלאה","בלי הליכה","ישר"],
+               11:["אוטובוס","נהיגה","קליל"],14:["ראות מצוינת","מעונן חלקית","ההר מוסתר"]};
+    h+='<div class="card"><div class="hint">'+svg(T.I.cloud,14)+' '
+      +(day.d===14?"בודקים עננות בבוקר ובוחרים":"היום גמיש — בוחרים לפי התחזית")+'</div><div class="vars">';
+    vs.forEach(function(v,i){
+      var on=i===pick;
+      h+='<button data-var="'+i+'" style="background:'+(on?"var(--ink)":"transparent")+';color:'
+        +(on?"var(--bg)":"var(--ink2)")+';border-color:'+(on?"var(--ink)":"var(--line2)")+'">'
+        +'<span class="l">'+esc(v.n.replace(/^(אופציה|גרסה|חלופה)\s*[A-Cא-ת]?\s*·?\s*/,"")||v.n)+'</span>'
+        +'<span class="c">'+esc((CONDS[day.d]||[])[i]||"")+'</span></button>';
     });
     h+='</div></div>';
+  }
+  [day.note,day.note2].forEach(function(nt){
+    if(!nt)return;
+    var warn=nt.indexOf("⚠️")===0;
+    h+='<div class="note'+(warn?" warn":"")+'"><span style="flex:none;margin-top:1px;color:'
+      +(warn?"var(--warn)":"var(--acc)")+'">'+svg(warn?T.I.alert:T.I.info,15,1.8)+'</span>'
+      +'<div class="tx">'+nt.replace("⚠️","").trim()+'</div></div>';
   });
-  return h+'<div class="foot">תוכן לדוגמה — המסך הזה עדיין חי באפליקציה הלא-מקוונת ויועבר לכאן.</div>';
+
+  h+='<div class="stops">';
+  items.forEach(function(it,i){
+    var dr=it.drive&&R?R.drives[it.drive]:null,lg=it.leg;
+    if(dr)lg={mode:"car",hrs:dr.hrs,km:dr.km};
+    if(lg){
+      var legText=fmt(lg.hrs)+(lg.km?" · "+lg.km+" ק״מ":"")+(lg.txt?" · "+lg.txt:"");
+      var fromK=i>0?(items[i-1]||{}).k:T.BASEKEY[day.base],nav="";
+      if(R&&it.k&&fromK&&R.coords[it.k]&&R.coords[fromK])
+        nav=' <a href="'+dirFromTo(R.coords[fromK],R.coords[it.k])+'" target="_blank" rel="noopener" style="font-weight:700">נווט</a>';
+      h+='<div class="leg" style="--c:'+col+'"><span class="sp"></span><span class="ln"><i></i></span>'
+        +'<span class="tx">'+svg(T.LEG_ICON[lg.mode]||T.I.car,13)+esc(legText)+nav+'</span></div>';
+    }
+    if(it.k)n++;
+    var open=it.k&&it.k===S.open, cat=(it.c&&T.CAT[it.c])?T.CAT[it.c]:{i:T.I.pin,l:"עצירה"};
+    h+='<button class="stop'+(open?" open":"")+'" data-stop="'+esc(it.k||"")+'" style="--c:'+(it.k?col:"var(--line2)")+'">'
+      +'<span class="tm" style="color:'+(it.t?"var(--ink2)":"transparent")+'">'+esc(it.t||"·")+'</span>'
+      +'<span class="rail"><span class="up" style="opacity:'+(i===0?0:1)+'"></span>'
+      +'<span class="num" style="background:'+(open?col:"var(--bg)")+';color:'+(open?"#fff":(it.k?col:"var(--ink3)"))+'">'
+      +(it.k?n:"·")+'</span><span class="dn"></span></span>'
+      +'<span class="bd"><span class="top"><span class="nm">'+esc(it.n)+'</span>'
+      +(it.opt?'<span class="opt">אופציונלי</span>':'')
+      +'<span class="cv" style="transform:rotate('+(open?180:0)+'deg)">'+svg("M7 10l5 5 5-5",14,2)+'</span></span>'
+      +'<span class="sub'+(open?"":" clamp1")+'">'+it.s+'</span>';
+    if(open){
+      h+='<span class="acts">'
+        +'<a class="gbtn" href="'+dirTo(it)+'" target="_blank" rel="noopener">'
+        +svg(T.I.pin,13,1.8)+'מסלול ב-Google Maps</a>'
+        +'<span class="cat">'+svg(cat.i,13)+esc(cat.l)+'</span></span>';
+    }
+    h+='</span></button>';
+  });
+  /* stops with no pin still deserve a route link — reach them via the row itself */
+  h+='<div class="hotel"><span class="sp" style="flex:none;width:44px"></span>'
+    +'<span class="rail" style="flex:none;width:24px;display:flex;flex-direction:column;align-items:center">'
+    +'<span style="width:0;height:11px;border-inline-start:1px solid var(--line2)"></span>'
+    +'<span style="flex:none;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;'
+    +'border:1.5px dashed var(--line2);color:var(--ink3)">'+svg(T.I.bed,13)+'</span></span>'
+    +'<span style="flex:1;min-width:0;padding:9px 0 20px">'
+    +'<span class="nm en">'+esc(T.HOTEL[day.base])+'</span>';
+  var nn=T.NIGHTS.filter(function(x){return x[0]===day.base;})[0];
+  h+='<span class="mt">'+(nn?esc(nn[3]+" · "+nn[2]):"לינה")+'</span></span></div>';
+  h+='</div>';
+  return h;
 }
-/* The pill must earn its place: never repeat the h1. Each screen reports a
-   number the title cannot — open items, places to decide, how many spots. */
-function screenPill(key){
-  var s=SCREENS[key], rows=[];
-  s.groups.forEach(function(g){ rows=rows.concat(g.rows); });
-  var open = rows.filter(function(r){ return r.tone && r.tone!=="ok"; }).length;
-  if(key==="book")    return [open ? open+" פתוחים" : "הכל מאושר", I.ticket];
-  if(key==="weather") return [rows.filter(function(r){return r.tone==="warn";}).length+" להחליט", I.cloud];
-  if(key==="lists")   return [open ? open+" פתוחים" : "הכל מוכן", I.check];
-  if(key==="recs")    return [rows.length+" מקומות", I.star];
-  return [s.kicker, I.cal];
+
+function tripScreen(){
+  var h='<div style="padding:16px 22px 22px">',sts=[];
+  T.DAYS.forEach(function(d,i){
+    var st=sts[sts.length-1];
+    if(!st||st.key!==d.base){
+      var nn=T.NIGHTS.filter(function(x){return x[0]===d.base;})[0];
+      st={key:d.base,idx:sts.length+1,color:T.C[d.base],name:T.BASENAME[d.base],
+        dates:nn?nn[2]+" · "+nn[3]:"",hotel:T.HOTEL[d.base],days:[]};
+      sts.push(st);
+    }
+    var stops=d.items.filter(function(it){return it.k;}).length,km=Math.round(dayKm(d));
+    st.days.push({i:i,d:d.d,dow:d.dow,t:d.t,sig:daySig(d),
+      meta:km?km+" ק״מ":(stops===1?"עצירה":stops+" עצירות")});
+  });
+  sts.forEach(function(st){
+    h+='<div><div style="display:flex;gap:12px">'
+      +'<span style="flex:none;width:24px;display:flex;flex-direction:column;align-items:center">'
+      +'<span style="flex:none;width:16px;height:16px;border-radius:50%;border:4px solid '+st.color+';background:var(--bg)"></span>'
+      +'<span style="width:0;flex:1;border-inline-start:2px solid '+st.color+';opacity:.35"></span></span>'
+      +'<div style="flex:1;min-width:0;padding-bottom:4px">'
+      +'<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">'
+      +'<span style="display:flex;align-items:center;gap:7px;height:26px;padding:0 11px;border-radius:999px;background:'+st.color+';color:#fff">'
+      +'<span style="font-size:10px;font-weight:800;opacity:.8">'+st.idx+'</span>'
+      +'<span style="font-size:calc(14.5px*var(--fs));font-weight:800;line-height:1">'+esc(st.name)+'</span></span>'
+      +'<span style="font-size:11.5px;font-weight:700;color:var(--ink3)">'+esc(st.dates)+'</span></div>'
+      +'<div class="en" style="font-size:11.5px;font-weight:500;color:var(--ink4);margin-top:4px">'+esc(st.hotel)+'</div>'
+      +'<div style="margin-top:9px">';
+    st.days.forEach(function(d){
+      h+='<button data-jump="'+d.i+'" style="display:flex;align-items:center;gap:10px;width:100%;padding:9px 0;border-bottom:1px solid var(--line)">'
+        +'<span style="flex:none;display:flex;align-items:baseline;gap:3px;width:34px">'
+        +'<b style="font-size:calc(15px*var(--fs));font-weight:800">'+d.d+'</b>'
+        +'<i style="font-size:9.5px;font-style:normal;font-weight:600;color:var(--ink4)">'+esc(d.dow)+'</i></span>'
+        +'<span style="flex:1;min-width:0;font-size:calc(13.5px*var(--fs));font-weight:600;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(d.t)+'</span>'
+        +'<span style="flex:none;display:flex;align-items:center;gap:3px;color:'+st.color+'">'
+        +d.sig.map(function(g){return svg(g,13);}).join("")+'</span>'
+        +'<span style="flex:none;font-size:10.5px;font-weight:700;color:var(--ink4);min-width:52px;text-align:end">'+esc(d.meta)+'</span></button>';
+    });
+    h+='</div></div></div></div>';
+  });
+  return h+'</div>';
 }
+
+function prepScreen(){
+  var PREP=[["book","הזמנות"],["lists","רשימות"],["weather","החלטות"]];
+  var h='<div style="padding:14px 22px 22px"><div class="subtabs">';
+  PREP.forEach(function(p){
+    var on=S.prep===p[0];
+    h+='<button data-prep="'+p[0]+'" style="background:'+(on?"var(--ink)":"transparent")+';color:'
+      +(on?"var(--bg)":"var(--ink2)")+';border-color:'+(on?"var(--ink)":"var(--line2)")+'">'+p[1]+'</button>';
+  });
+  h+='</div>';
+  var src=T.SCREENS[S.prep];
+  src.groups.forEach(function(g,gi){
+    h+='<div style="margin-bottom:20px"><h3 class="sect">'+esc(g.label)+'</h3>';
+    g.rows.forEach(function(r,ri){
+      var id=S.prep+gi+"_"+ri, done=(S.done[id]!==undefined)?S.done[id]:(r.tone==="ok");
+      var t=TONE[r.tone||""]||TONE[""];
+      h+='<button class="prow" data-done="'+id+'">'
+        +'<span class="box" style="border-color:'+(done?"var(--ok)":"var(--line2)")+';background:'+(done?"var(--ok)":"transparent")+'">'
+        +(done?svg("M5 12.5 10 17l9-9",12,3):"")+'</span>'
+        +'<span style="flex:1;min-width:0"><span class="nm" style="color:'+(done?"var(--ink3)":"var(--ink)")+';text-decoration:'+(done?"line-through":"none")+'">'+esc(r.name)+'</span>'
+        +(r.sub?'<span class="sub">'+esc(r.sub)+'</span>':'')+'</span>'
+        +(r.meta?'<span class="mt" style="color:'+t[0]+';background:'+t[1]+'">'+esc(r.meta)+'</span>':'')
+        +'</button>';
+    });
+    h+='</div>';
+  });
+  return h+'</div>';
+}
+
+function placesScreen(){
+  var h='<div style="padding:14px 22px 22px">';
+  h+='<div class="note warn" style="margin:0 0 14px"><span style="flex:none;margin-top:1px;color:var(--warn)">'
+    +svg(T.I.alert,15,1.8)+'</span><div class="tx">נועה לא אוכלת חזיר — רוב הראמן ביפן הוא מרק חזיר. סומן למטה מה בטוח.</div></div>';
+  /* grouped and coloured by city, so the list reads by location at a glance */
+  T.SCREENS.recs.groups.forEach(function(g){
+    var cc=g.city?T.C[g.city]:"var(--ink4)";
+    h+='<div style="margin-bottom:20px">'
+      +'<h3 class="sect" style="display:flex;align-items:center;gap:7px;color:'+cc+'">'
+      +'<span style="flex:none;width:9px;height:9px;border-radius:50%;background:'+cc+'"></span>'
+      +esc(g.label)+'</h3>';
+    g.rows.forEach(function(r){
+      var t=TONE[r.tone||""]||TONE[""];
+      var href=r.q?searchFor(r.q):null;
+      h+=(href?'<a href="'+href+'" target="_blank" rel="noopener"':'<div')
+        +' class="prow" style="color:inherit;border-inline-start:3px solid '+cc+';padding-inline-start:11px">'
+        +'<span class="ricon" style="color:'+cc+';border-color:'+cc+'33">'+svg(T.I[r.icon]||T.I.pin,14)+'</span>'
+        +'<span style="flex:1;min-width:0"><span class="nm" style="font-weight:700">'+esc(r.name)+'</span>'
+        +(r.sub?'<span class="sub">'+esc(r.sub)+'</span>':'')+'</span>'
+        +(r.meta?'<span class="mt" style="color:'+t[0]+';background:'+t[1]+'">'+esc(r.meta)+'</span>':'')
+        +(href?'</a>':'</div>');
+    });
+    h+='</div>';
+  });
+  return h+'</div>';
+}
+
 function render(){
-  var isRoute = tab==="route";
-  $("#rail").parentNode.style.display="";
-  $("#rail").style.display = isRoute ? "" : "none";
-  if(isRoute){
-    $("#pillico").innerHTML=svg(I.cal,14,' style="stroke-width:2"');
-    if(sel==="all"){ $("#title").textContent="כל הטיול"; $("#sub").textContent="שש תחנות · 16 לילות · שתי מכוניות"; $("#pill").textContent="4–20/10"; }
-    else{ var d=DAYS[sel]; $("#title").textContent=d.t;
-      $("#sub").textContent=d.dow+" · "+d.d+" באוקטובר · לינה ב"+BASENAME[d.base]; $("#pill").textContent=d.d+"/10"; }
-  }else{
-    var s=SCREENS[tab], pl=screenPill(tab);
-    $("#title").textContent=s.title; $("#sub").textContent=s.meta;
-    $("#pill").textContent=pl[0]; $("#pillico").innerHTML=svg(pl[1],14,' style="stroke-width:2"');
+  var app=document.getElementById("app");
+  document.documentElement.setAttribute("data-t", S.theme==="auto" ? (matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light") : S.theme);
+  document.documentElement.style.setProperty("--fs", S.size==="compact"?".92":S.size==="large"?"1.12":"1");
+
+  var day=T.DAYS[S.sel], col=T.C[day.base], isDay=S.view==="day", isTrip=S.view==="trip";
+  var items=dayItems(day), stopCount=items.filter(function(it){return it.k;}).length;
+  var km=Math.round(dayKm(day));
+  var stopLabel=(stopCount===1?"עצירה אחת":stopCount+" עצירות")+" על המפה";
+  var stripMeta=(km?km+" ק״מ · ":"")+stopLabel;
+
+  var HEADS={trip:["כל הטיול","שש תחנות · 16 לילות","4–20 באוקטובר · שתי מכוניות"],
+             prep:["הכנות","לפני היציאה","הזמנות, רשימות והחלטות שתלויות בתחזית"],
+             places:["מקומות","רק מה שבחרנו","לחיצה פותחת ב-Google Maps"]};
+  var headCol=isDay?col:"var(--ink)", dateLine, title, sub;
+  if(isDay){ dateLine=day.dow+" · "+day.d+" ב"+MONTH; title="יום "+day.d+" · "+T.BASENAME[day.base]; sub=day.t; }
+  else { var hh=HEADS[S.view]; dateLine=hh[0]; title=hh[1]; sub=hh[2]; }
+
+  var h='<header style="background:'+headCol+'">'
+    +'<div class="hrow"><span class="dateline">'+esc(dateLine)+'</span>'
+    +'<button class="iconbtn" id="gear" aria-label="תצוגה">'+svg("M4 7h16M4 12h16M4 17h16",15,1.8)+'</button></div>'
+    +'<h1>'+esc(title)+'</h1><p class="sub">'+esc(sub)+'</p>';
+  if(isDay){
+    h+='<div class="pager xscroll" id="pager">';
+    T.DAYS.forEach(function(d,i){
+      var on=i===S.sel;
+      h+='<button class="pg" data-go="'+i+'" style="background:'+(on?"#fff":"rgba(255,255,255,.16)")+';color:'
+        +(on?col:"#fff")+';opacity:'+(on?1:.92)+'">'
+        +'<span class="w">'+esc(d.dow)+'</span><span class="d">'+d.d+'</span></button>';
+    });
+    h+='</div>';
+    wxFetch(day.base);
+    var norm=T.WX[day.base]||T.WX.tokyo, live=LIVE[day.base+day.d], wx=live||norm;
+    h+='<div class="wxbar"><span style="flex:none;display:flex;opacity:.9">'+svg(WXI[wx.k]||WXI.mixed,21)+'</span>'
+      +'<span style="flex:none;display:flex;align-items:baseline;gap:4px"><span class="hi">'+wx.hi+'°</span>'
+      +'<span class="lo">/ '+wx.lo+'°</span></span>'
+      +'<span class="tx">'+esc(live?"תחזית בפועל · Open-Meteo":norm.txt+" · "+T.WX_NOTE)+'</span>'
+      +'<span class="rain">'+svg("M12 21a5 5 0 0 0 5-5c0-3-5-9-5-9s-5 6-5 9a5 5 0 0 0 5 5Z",12,1.9)+wx.rain+'%</span></div>';
+  } else h+='<div style="height:20px"></div>';
+  h+='</header>';
+
+  if(isDay||isTrip){
+    h+='<div class="strip"><div id="mapslot" style="position:absolute;inset:0"></div>'
+      +'<span class="stripmeta">'+esc(isTrip?"שש תחנות · 16 לילות":stripMeta)+'</span>'
+      +'<button class="grab" id="grab">'+svg("M7 14l5-5 5 5",13,2)+'גררו למפה מלאה</button></div>';
   }
-  document.documentElement.style.setProperty("--iconbg",
-    window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches ? "rgba(255,255,255,.07)" : "rgba(17,22,33,.05)");
-  $("#body").innerHTML = isRoute ? renderRoute() : renderScreen();
-  if(isRoute){
-    [].forEach.call($("#body").querySelectorAll('.item[data-jump]'), function(el){
-      el.addEventListener("click", function(){ selectStop(el.dataset.jump); });
+
+  h+='<main class="scroll" id="body">'
+    +(isDay?dayScreen(day):isTrip?tripScreen():S.view==="prep"?prepScreen():placesScreen())+'</main>';
+
+  var NAV=[["day","היום","M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"],
+           ["trip","הטיול",T.I.map],["prep","הכנות",T.I.check],["places","המלצות",T.I.star]];
+  h+='<nav>';
+  NAV.forEach(function(nv){
+    var on=S.view===nv[0];
+    h+='<button data-view="'+nv[0]+'" style="color:'+(on?"var(--ink)":"var(--ink3)")+'">'
+      +svg(nv[2],20,on?2:1.6)+'<span style="font-weight:'+(on?700:600)+'">'+nv[1]+'</span></button>';
+  });
+  h+='</nav>';
+
+  if(S.mapOpen){
+    h+='<div class="mapfull"><div style="flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:calc(var(--sat) + 20px) 22px 12px;touch-action:none" id="sheetbar">'
+      +'<div style="min-width:0"><div style="font-size:16px;font-weight:800">'+esc(title)+'</div>'
+      +'<div style="font-size:11.5px;font-weight:600;color:var(--ink3);margin-top:2px">'+esc(stripMeta)+'</div></div>'
+      +'<button id="mapclose" style="flex:none;width:32px;height:32px;border-radius:999px;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;color:var(--ink2)">'
+      +svg("M6 6l12 12M18 6 6 18",15,2)+'</button></div>'
+      +'<div style="position:relative;flex:1;min-height:0;border-top:1px solid var(--line)">'
+      +'<div id="mapslot2" style="position:absolute;inset:0"></div></div>'
+      +'<div class="chips xscroll">';
+    items.filter(function(it){return it.k;}).forEach(function(it,i){
+      var on=it.k===S.open;
+      h+='<button data-stop="'+esc(it.k)+'" style="background:'+(on?col:"transparent")+';color:'+(on?"#fff":"var(--ink2)")
+        +';border-color:'+(on?col:"var(--line2)")+'"><span class="n" style="background:'+(on?"rgba(255,255,255,.25)":col)+'">'+(i+1)+'</span>'
+        +'<span style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(it.n)+'</span></button>';
     });
-    /* overview scan rows jump straight into that day */
-    [].forEach.call($("#body").querySelectorAll('.drow[data-day]'), function(el){
-      el.addEventListener("click", function(){
-        sel=+el.dataset.day; active=null; render(); draw(); $("#body").scrollTop=0;
-      });
-    });
-    /* ONE map instance for the life of the page. The route markup is re-rendered
-       on every day change, so the map lives in a detached node that gets moved
-       into the fresh .mapslot rather than torn down and rebuilt each time. */
-    var slot=$("#body").querySelector(".mapslot");
-    if(slot){ slot.parentNode.replaceChild(mapNode(), slot); if(!map) initMap(); else map.resize(); }
-    markActive();
+    h+='</div></div>';
   }
-  paintRail();
-  renderTabs();
-}
 
-/* ---- settings sheet ------------------------------------------------------- */
-function segRow(name,opts,cur){
-  return '<div class="seg">'+opts.map(function(o){
-    return '<button data-set="'+name+'" data-val="'+o[0]+'" aria-pressed="'+(cur===o[0])+'">'+esc(o[1])+'</button>';
-  }).join("")+'</div>';
-}
-function renderSheet(){
-  var h='<div class="sect"><h4>ערכת צבע</h4><div class="pals">';
-  Object.keys(PALETTES).forEach(function(k){
-    var p=PALETTES[k], dark=isDark();
-    h+='<button class="pal" data-set="palette" data-val="'+k+'" aria-pressed="'+(prefs.palette===k)+'">'
-      +'<span class="dots"><i style="background:'+(dark?p.accentDark:p.accent)+'"></i>'
-      +'<i style="background:'+(dark?p.heroDark:p.hero)+'"></i>'
-      +(dark?"":'<i style="background:'+p.bg+'"></i>')+'</span>'
-      +'<b>'+esc(p.label)+'</b></button>';
-  });
-  h+='</div></div>';
-
-  h+='<div class="sect"><h4>גופן</h4><div class="fonts">';
-  Object.keys(FONTS).forEach(function(k){
-    var f=FONTS[k];
-    h+='<button class="fnt" data-set="font" data-val="'+k+'" aria-pressed="'+(prefs.font===k)+'">'
-      +'<span style="min-width:0"><span class="nm" style="font-family:'+f.stack.replace(/"/g,"&quot;")+'">'+esc(f.label)+'</span>'
-      +'<span class="no" style="display:block">'+esc(f.note)+'</span></span>'
-      +'<span class="sm" style="font-family:'+f.stack.replace(/"/g,"&quot;")+'">אבג · 12/10</span></button>';
-  });
-  h+='</div></div>';
-
-  h+='<div class="sect"><h4>מצב תצוגה</h4>'
-    +segRow("theme",[["light","בהיר"],["dark","כהה"],["auto","לפי המכשיר"]],prefs.theme)+'</div>';
-  h+='<div class="sect"><h4>גודל טקסט</h4>'
-    +segRow("size",[["compact","קטן"],["normal","רגיל"],["large","גדול"]],prefs.size)+'</div>';
-  h+='<div class="foot" style="padding-top:14px">כל הגופנים חוץ מ-Heebo מותקנים כבר במכשיר — מעבר ביניהם לא מוריד כלום. ההעדפות נשמרות במכשיר.</div>';
-
-  $("#sheetbody").innerHTML=h;
-  [].forEach.call($("#sheetbody").querySelectorAll("[data-set]"), function(b){
-    b.addEventListener("click", function(){
-      prefs[b.dataset.set]=b.dataset.val; savePrefs(); applyPrefs(); renderSheet();
-      if(b.dataset.set==="size") render();
+  if(S.sheet){
+    h+='<div class="sheetwrap"><div class="scrim" id="scrim"></div><section class="sheet">'
+      +'<div class="grip"></div><h4 class="sect">תצוגה</h4><div class="seg">';
+    [["light","בהיר"],["dark","כהה"],["auto","לפי המכשיר"]].forEach(function(t){
+      var on=S.theme===t[0];
+      h+='<button data-theme="'+t[0]+'" style="background:'+(on?"var(--ink)":"transparent")+';color:'+(on?"var(--bg)":"var(--ink2)")+'">'+t[1]+'</button>';
     });
-  });
+    h+='</div><h4 class="sect" style="padding-top:18px">גודל טקסט</h4><div class="seg">';
+    [["compact","קטן"],["normal","רגיל"],["large","גדול"]].forEach(function(t){
+      var on=S.size===t[0];
+      h+='<button data-size="'+t[0]+'" style="background:'+(on?"var(--ink)":"transparent")+';color:'+(on?"var(--bg)":"var(--ink2)")+'">'+t[1]+'</button>';
+    });
+    h+='</div><p style="font-size:11px;font-weight:500;color:var(--ink4);line-height:1.6;padding-top:16px">'
+      +'צבע הבסיס של כל תחנה הוא מידע — לא העדפה.</p></section></div>';
+  }
+
+  app.innerHTML=h;
+  mountMap(document.getElementById(S.mapOpen?"mapslot2":"mapslot")||document.getElementById("mapslot"));
+  if(!map)initMap(); else {map.resize();draw();}
+  bind();
+  if(isDay)centerPager(S.sel);
 }
-function openSheet(){ $("#scrim").hidden=false; $("#sheet").hidden=false; renderSheet(); }
-function closeSheet(){ $("#scrim").hidden=true; $("#sheet").hidden=true; }
 
-/* ---- boot ----------------------------------------------------------------- */
-$("#gear").innerHTML=svg("M12 15.4a3.4 3.4 0 1 0 0-6.8 3.4 3.4 0 0 0 0 6.8Z"
-  +"M19.4 15a1.6 1.6 0 0 0 .32 1.77l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.6 1.6 0 0 0-1.77-.32 1.6 1.6 0 0 0-1 1.47V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 9 19.4a1.6 1.6 0 0 0-1.77.32l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.6 1.6 0 0 0 4.6 15a1.6 1.6 0 0 0-1.47-1H3a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 9a1.6 1.6 0 0 0-.32-1.77l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.6 1.6 0 0 0 9 4.6h.07A1.6 1.6 0 0 0 10 3.13V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.47 1.6 1.6 0 0 0 1.77-.32l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.6 1.6 0 0 0 19.4 9v.07a1.6 1.6 0 0 0 1.47 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1Z",17);
-$("#gear").addEventListener("click", openSheet);
-$("#scrim").addEventListener("click", closeSheet);
-document.addEventListener("keydown", function(e){ if(e.key==="Escape") closeSheet(); });
+function bind(){
+  var q=function(s){return Array.prototype.slice.call(document.querySelectorAll(s));};
+  q("[data-go]").forEach(function(b){b.onclick=function(){go(+b.dataset.go);};});
+  q("[data-jump]").forEach(function(b){b.onclick=function(){go(+b.dataset.jump);};});
+  q("[data-view]").forEach(function(b){b.onclick=function(){S.view=b.dataset.view;S.open=null;render();
+    var y=document.getElementById("body");if(y)y.scrollTop=0;};});
+  q("[data-stop]").forEach(function(b){b.onclick=function(e){
+    if(e.target.closest("a"))return;                 /* let the Maps link through */
+    if(b.dataset.stop)jump(b.dataset.stop);};});
+  q("[data-var]").forEach(function(b){b.onclick=function(){
+    var m=Object.assign({},S.variant);m[T.DAYS[S.sel].d]=+b.dataset.var;S.variant=m;S.open=null;save();render();};});
+  q("[data-prep]").forEach(function(b){b.onclick=function(){S.prep=b.dataset.prep;render();};});
+  q("[data-done]").forEach(function(b){b.onclick=function(){
+    var m=Object.assign({},S.done),id=b.dataset.done;
+    var cur=(S.done[id]!==undefined)?S.done[id]:b.querySelector(".box").style.background!=="transparent";
+    m[id]=!cur;S.done=m;save();render();};});
+  q("[data-theme]").forEach(function(b){b.onclick=function(){S.theme=b.dataset.theme;save();
+    if(map){try{map.setStyle(darkNow()?"data/style-liberty-dark.json":"data/style-liberty-latin.json");
+      styleReady=false;map.once("style.load",function(){styleReady=true;addLayers();draw();});}catch(e){}}
+    render();};});
+  q("[data-size]").forEach(function(b){b.onclick=function(){S.size=b.dataset.size;save();render();};});
+  var g=document.getElementById("gear"); if(g)g.onclick=function(){S.sheet=true;render();};
+  var sc=document.getElementById("scrim"); if(sc)sc.onclick=function(){S.sheet=false;render();};
+  var gr=document.getElementById("grab"); if(gr){gr.onclick=function(){S.mapOpen=true;render();};
+    gr.onpointerdown=function(e){dragUp(e,function(){S.mapOpen=true;render();},-26);};}
+  var mc=document.getElementById("mapclose"); if(mc)mc.onclick=function(){S.mapOpen=false;render();};
+  var sb=document.getElementById("sheetbar"); if(sb)sb.onpointerdown=function(e){
+    dragUp(e,function(){S.mapOpen=false;render();},30);};
+  var body=document.getElementById("body");
+  if(body&&S.view==="day")body.onpointerdown=swipeDays;
+}
+function dragUp(e,fn,threshold){
+  var sy=e.clientY,fired=false;
+  function move(ev){var dy=ev.clientY-sy;
+    if(!fired&&((threshold<0&&dy<threshold)||(threshold>0&&dy>threshold))){fired=true;fn();up();}}
+  function up(){window.removeEventListener("pointermove",move);window.removeEventListener("pointerup",up);}
+  window.addEventListener("pointermove",move);window.addEventListener("pointerup",up);
+}
+function swipeDays(e){
+  var sx=e.clientX,sy=e.clientY,fired=false;
+  function move(ev){
+    if(fired)return;
+    var dx=ev.clientX-sx,dy=ev.clientY-sy;
+    if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.6){
+      fired=true;
+      var n=S.sel+(dx>0?-1:1);           /* RTL: drag right = earlier day */
+      if(n>=0&&n<T.DAYS.length)go(n);
+      up();
+    }
+  }
+  function up(){window.removeEventListener("pointermove",move);window.removeEventListener("pointerup",up);}
+  window.addEventListener("pointermove",move);window.addEventListener("pointerup",up);
+}
 
-applyPrefs();
-renderRail();
+/* ===================== live weather =====================
+   Open-Meteo: free, no key, CORS-open. It only forecasts ~16 days out, and the
+   trip is further away than that for now — so until mid-September every day
+   legitimately has no forecast and we keep showing October climate normals,
+   labelled as such. Once a date comes into range the real numbers replace them
+   on their own, and the label changes to say it is a forecast. */
+var LIVE={};
+function wxFetch(base){
+  var day=T.DAYS[S.sel], pt=T.WX_POINT[base];
+  if(!pt||LIVE[base+day.d]!==undefined)return;
+  LIVE[base+day.d]=null;                       /* in-flight: don't refetch */
+  var date="2026-10-"+String(day.d).padStart(2,"0");
+  var u="https://api.open-meteo.com/v1/forecast?latitude="+pt[0]+"&longitude="+pt[1]
+    +"&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code"
+    +"&timezone=Asia%2FTokyo&start_date="+date+"&end_date="+date;
+  fetch(u).then(function(r){return r.json();}).then(function(j){
+    if(!j||j.error||!j.daily||j.daily.temperature_2m_max[0]==null)return;   /* out of range */
+    var code=j.daily.weather_code[0];
+    LIVE[base+day.d]={hi:Math.round(j.daily.temperature_2m_max[0]),lo:Math.round(j.daily.temperature_2m_min[0]),
+      rain:j.daily.precipitation_probability_max[0]!=null?j.daily.precipitation_probability_max[0]:0,
+      k: code>=51?"rain":code>=2?"mixed":"clear", live:true};
+    render();
+  }).catch(function(){});
+}
+
+matchMedia("(prefers-color-scheme:dark)").addEventListener("change",function(){if(S.theme==="auto")render();});
 render();
-$("#body").addEventListener("scroll", onScroll);
-fetch("data/route.json").then(function(r){ return r.json(); }).then(function(j){ R=j; render(); draw(); })
-  .catch(function(e){ console.warn("route data failed:", e); });
+fetch("data/route.json").then(function(r){return r.json();}).then(function(j){R=j;render();})
+  .catch(function(e){console.warn("route data:",e);});
 </script>
 </body>
 </html>
