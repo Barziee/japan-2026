@@ -21,7 +21,7 @@
    this gets used on mobile data in rural Japan, so nothing external can stall.
    The Hebrew subsets are 7–18 KB each, which is what actually loads here. */
 *{box-sizing:border-box}
-html,body{height:100%;margin:0}
+html,body{height:100%;margin:0;overflow:hidden;overscroll-behavior:none}
 :root{
   --page:#E9E2D6;--bg:#F7F3EC;--card:#FFFDFA;--line:#E7E0D3;--line2:#DCD3C4;
   --ink:#14181F;--ink2:#5C6371;--ink3:#8A9099;--ink4:#9AA0A9;
@@ -57,9 +57,9 @@ button{font-family:inherit;color:inherit;border:0;background:none;cursor:pointer
 .maplibregl-ctrl-attrib a{color:var(--ink3)}
 .maplibregl-ctrl-top-left,.maplibregl-ctrl-bottom-left,.maplibregl-ctrl-top-right{display:none}
 
-#app{position:relative;width:100%;max-width:440px;height:100vh;height:100dvh;min-height:100dvh;display:flex;flex-direction:column;
+#app{position:fixed;inset:0;width:100%;max-width:none;display:flex;flex-direction:column;
   background:var(--bg);overflow:hidden}
-@media(min-width:760px){#app{height:min(940px,calc(100vh - 48px));min-height:720px;border-radius:46px;
+@media(min-width:760px){#app{position:relative;inset:auto;width:100%;max-width:440px;height:min(940px,calc(100vh - 48px));min-height:720px;border-radius:46px;
   box-shadow:0 30px 90px rgba(20,24,31,.26);border:1px solid var(--line2)}}
 
 header{flex:none;color:#fff;padding:calc(var(--sat) + 10px) 20px 0}
