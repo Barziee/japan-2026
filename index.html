@@ -2,18 +2,21 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#F7F3EC">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <title>יפן 2026 · בר ונועה</title>
-<!-- Home-screen install. black-translucent puts the status bar over our header,
-     which already pads for safe-area-inset-top, and the header is always a dark
-     or saturated colour so the white status text stays legible. -->
+<!-- Home-screen install. black-translucent + viewport-fit=cover left the web view
+     a status-bar height short of the physical bottom on iPhone (the canvas hugged
+     the top under the status bar), so the footer floated above the screen edge.
+     Use the standard status bar and drop cover: the web view then fills the safe
+     area down to the bottom and the footer anchors correctly. Trade-off: the
+     status bar no longer blends into the coloured header. -->
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="יפן 2026">
 <link rel="stylesheet" href="vendor/maplibre-gl.css">
 <link rel="stylesheet" href="vendor/fonts.css">
@@ -794,21 +797,13 @@ function wxFetch(base){
    viewport-fit=cover over-reported (ran under the toolbar), and svh is a fixed value
    that mismatches whenever the toolbar sits collapsed. visualViewport.height is the
    measured truth — use it, and re-measure whenever Safari resizes or shifts it.
-   The CSS 100svh stays as the pre-paint fallback.
-   Standalone (home-screen) installs are the exception. With the black-translucent
-   status bar the web view is genuinely full-screen, but iOS reports innerHeight as
-   (screen height - status bar), so a shell sized to innerHeight stops a status-bar
-   height short of the real bottom -> the footer gap. Size it to screen.height
-   instead so it fills the actual screen. Tag <html> .standalone for detection. */
-if(window.navigator.standalone===true||(window.matchMedia&&matchMedia("(display-mode:standalone)").matches)){
-  document.documentElement.classList.add("standalone");
-}
+   The CSS 100svh stays as the pre-paint fallback. Without viewport-fit=cover the
+   standalone web view fills the safe area (below the status bar, down to the
+   bottom), so the measured visualViewport height is correct on its own — no
+   standalone special-case, no under-reporting to compensate for. */
 function fitShell(){
   var app=document.getElementById("app"); if(!app) return;
   if(innerWidth>=760){ app.style.height=""; return; }   /* desktop keeps the card */
-  if(document.documentElement.classList.contains("standalone")){
-    app.style.height=Math.max(screen.height||0,innerHeight)+"px"; return;   /* fill the full screen, not the under-reported innerHeight */
-  }
   var vv=window.visualViewport;
   app.style.height=Math.round(vv?vv.height:innerHeight)+"px";
 }
