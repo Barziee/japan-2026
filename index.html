@@ -30,11 +30,18 @@ html,body{height:100%;margin:0;overflow:hidden;overscroll-behavior:none}
   --page:#E9E2D6;--bg:#F7F3EC;--card:#FFFDFA;--line:#E7E0D3;--line2:#DCD3C4;
   --ink:#14181F;--ink2:#5C6371;--ink3:#8A9099;--ink4:#9AA0A9;
   --acc:#274B8C;--ok:#2E7D5B;--warn:#B4471F;--warnbg:#FBEADF;--warnbd:#F0D6C4;
-  --sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);--fs:1;
+  /* --sab is "bottom space this app must reserve itself". Only the installed app
+     has to clear the home indicator; in Safari the browser toolbar already covers
+     it, and reserving it there too double-counts and leaves a band under the nav. */
+  --sat:env(safe-area-inset-top,0px);--sab:0px;--fs:1;
   /* header for the non-day screens: must stay dark in BOTH themes, the header
      text is always white. Using --ink here goes white-on-white in dark mode. */
   --headneutral:#14181F;
 }
+/* Set by fitShell() when the shell actually reaches the physical bottom of the
+   screen, i.e. nothing (browser toolbar) sits below it — only then must the app
+   clear the home indicator itself. Measured, not inferred from the display mode. */
+html.fullbleed{--sab:env(safe-area-inset-bottom,0px)}
 :root[data-t="dark"]{
   --page:#0A0C10;--bg:#14181F;--card:#1B212B;--line:#252C38;--line2:#2E3644;
   --ink:#EDF0F5;--ink2:#A8B0BD;--ink3:#7E8695;--ink4:#6E7686;
@@ -175,7 +182,7 @@ nav button[data-on="1"] svg{animation:pop .26s cubic-bezier(.2,.9,.3,1)}
 /* the -1px margin + matching padding bleeds the bar past the shell's bottom edge
    (clipped by #app's overflow) so sub-pixel flex rounding can't leave a hairline
    of page colour under it; the labels themselves do not move. */
-nav{flex:none;position:relative;display:flex;padding:5px 10px calc(var(--sab) + 1px);margin-bottom:-1px;
+nav{flex:none;position:relative;display:flex;padding:5px 10px calc(max(var(--sab),8px) + 1px);margin-bottom:-1px;
   background:var(--card);border-top:1px solid var(--line);box-shadow:0 -1px 10px rgba(20,24,31,.05)}
 nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px;min-height:46px;
   position:relative}
@@ -813,18 +820,38 @@ function wxFetch(base){
    so use the real screen height instead. navigator.standalone is iOS-only, which
    keeps this override off Safari, desktop and Android. */
 var IOS_APP = window.navigator.standalone===true;
+/* real px value of env(safe-area-inset-top), measured — custom properties do not
+   resolve env() through getComputedStyle. Cached; only orientation changes it. */
+var _satPx=null;
+function safeTopPx(){
+  if(_satPx!=null) return _satPx;
+  var p=document.createElement("div");
+  p.style.cssText="position:fixed;top:0;left:0;width:0;visibility:hidden;pointer-events:none;height:env(safe-area-inset-top,0px)";
+  (document.body||document.documentElement).appendChild(p);
+  _satPx=p.getBoundingClientRect().height; p.parentNode.removeChild(p);
+  return _satPx;
+}
 function fitShell(){
-  var app=document.getElementById("app"); if(!app) return;
-  if(innerWidth>=760){ app.style.height=""; return; }   /* desktop keeps the card */
-  if(IOS_APP){
-    var sh=screen.height||0;                                     /* only trust it if the shortfall is status-bar sized */
-    app.style.height=((sh>innerHeight&&sh-innerHeight<=140)?sh:innerHeight)+"px"; return;
+  var app=document.getElementById("app"), de=document.documentElement; if(!app) return;
+  if(innerWidth>=760){ app.style.height=""; de.classList.remove("fullbleed"); return; }   /* desktop keeps the card */
+  var sh=screen.height||0, vv=window.visualViewport, h;
+  /* Distinguish the two reasons the viewport can come up short: the iOS
+     black-translucent under-report (shortfall == the status-bar inset, and the
+     view really does reach the bottom) versus a browser toolbar genuinely
+     sitting below us (any other shortfall). Only the first should be ignored. */
+  if(IOS_APP && sh>innerHeight && Math.abs((sh-innerHeight)-safeTopPx())<=6){
+    h=sh;
+  }else{
+    h=Math.round(vv?vv.height:innerHeight);
   }
-  var vv=window.visualViewport;
-  app.style.height=Math.round(vv?vv.height:innerHeight)+"px";
+  app.style.height=h+"px";
+  /* Does the shell actually end at the physical bottom edge? If a browser toolbar
+     sits below it, it does not, and the toolbar already covers the home indicator
+     — reserving for it again is what left a band under the nav. */
+  de.classList.toggle("fullbleed", sh>0 && h>=sh-4);
 }
 addEventListener("resize",fitShell);
-addEventListener("orientationchange",function(){setTimeout(fitShell,200);});
+addEventListener("orientationchange",function(){_satPx=null;setTimeout(fitShell,200);});
 if(window.visualViewport){ visualViewport.addEventListener("resize",fitShell);
   visualViewport.addEventListener("scroll",fitShell); }
 fitShell();
