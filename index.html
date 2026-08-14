@@ -62,10 +62,6 @@ button{font-family:inherit;color:inherit;border:0;background:none;cursor:pointer
   display:flex;flex-direction:column;background:var(--bg);overflow:hidden}
 @media(min-width:760px){#app{position:relative;inset:auto;width:100%;max-width:440px;height:min(940px,calc(100vh - 48px));min-height:720px;border-radius:46px;
   box-shadow:0 30px 90px rgba(20,24,31,.26);border:1px solid var(--line2)}}
-/* Home-screen (standalone) install: there is no browser toolbar, so the
-   visualViewport height fitShell() measures under-reports and leaves a gap
-   below the footer. Anchor the shell to the true screen bottom instead. */
-@media(max-width:759.98px){html.standalone #app{top:0;bottom:0;height:auto}}
 
 header{flex:none;color:#fff;padding:calc(var(--sat) + 10px) 20px 0}
 .hrow{display:flex;align-items:center;justify-content:space-between;gap:12px}
@@ -799,16 +795,20 @@ function wxFetch(base){
    that mismatches whenever the toolbar sits collapsed. visualViewport.height is the
    measured truth — use it, and re-measure whenever Safari resizes or shifts it.
    The CSS 100svh stays as the pre-paint fallback.
-   Standalone (home-screen) installs are the exception: no toolbar exists there,
-   so visualViewport under-reports and leaves a gap below the footer. Tag <html>
-   as .standalone and let CSS anchor the shell to the true screen bottom. */
+   Standalone (home-screen) installs are the exception. With the black-translucent
+   status bar the web view is genuinely full-screen, but iOS reports innerHeight as
+   (screen height - status bar), so a shell sized to innerHeight stops a status-bar
+   height short of the real bottom -> the footer gap. Size it to screen.height
+   instead so it fills the actual screen. Tag <html> .standalone for detection. */
 if(window.navigator.standalone===true||(window.matchMedia&&matchMedia("(display-mode:standalone)").matches)){
   document.documentElement.classList.add("standalone");
 }
 function fitShell(){
   var app=document.getElementById("app"); if(!app) return;
   if(innerWidth>=760){ app.style.height=""; return; }   /* desktop keeps the card */
-  if(document.documentElement.classList.contains("standalone")){ app.style.height=""; return; }   /* CSS bottom:0 anchors it */
+  if(document.documentElement.classList.contains("standalone")){
+    app.style.height=Math.max(screen.height||0,innerHeight)+"px"; return;   /* fill the full screen, not the under-reported innerHeight */
+  }
   var vv=window.visualViewport;
   app.style.height=Math.round(vv?vv.height:innerHeight)+"px";
 }
@@ -837,7 +837,7 @@ fitShell();
       "vv.h="+(vv?Math.round(vv.height):"-")+" innerH="+window.innerHeight+" clientH="+de.clientHeight+" screen.h="+screen.height+"\n"+
       "#app pos="+ac.position+" cssH="+ac.height+" cssBottom="+ac.bottom+"\n"+
       "#app rect: top="+Math.round(a.top)+" bottom="+Math.round(a.bottom)+"\n"+
-      "nav.bottom="+Math.round(n.bottom)+"   GAP(innerH - navBottom)="+(window.innerHeight-Math.round(n.bottom))+"\n"+
+      "nav.bottom="+Math.round(n.bottom)+"   GAP(screen.h - navBottom)="+(screen.height-Math.round(n.bottom))+"  <- want 0\n"+
       "--sab="+cs.getPropertyValue("--sab").trim()+"  --sat="+cs.getPropertyValue("--sat").trim();
   }
   if(document.body)document.body.appendChild(box);
