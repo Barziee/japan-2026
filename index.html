@@ -62,6 +62,10 @@ button{font-family:inherit;color:inherit;border:0;background:none;cursor:pointer
   display:flex;flex-direction:column;background:var(--bg);overflow:hidden}
 @media(min-width:760px){#app{position:relative;inset:auto;width:100%;max-width:440px;height:min(940px,calc(100vh - 48px));min-height:720px;border-radius:46px;
   box-shadow:0 30px 90px rgba(20,24,31,.26);border:1px solid var(--line2)}}
+/* Home-screen (standalone) install: there is no browser toolbar, so the
+   visualViewport height fitShell() measures under-reports and leaves a gap
+   below the footer. Anchor the shell to the true screen bottom instead. */
+@media(max-width:759.98px){html.standalone #app{top:0;bottom:0;height:auto}}
 
 header{flex:none;color:#fff;padding:calc(var(--sat) + 10px) 20px 0}
 .hrow{display:flex;align-items:center;justify-content:space-between;gap:12px}
@@ -659,9 +663,17 @@ function bind(){
     var m=Object.assign({},S.variant);m[T.DAYS[S.sel].d]=+b.dataset.var;S.variant=m;S.open=null;save();render();};});
   q("[data-prep]").forEach(function(b){b.onclick=function(){S.prep=b.dataset.prep;render();};});
   q("[data-done]").forEach(function(b){b.onclick=function(){
-    var m=Object.assign({},S.done),id=b.dataset.done;
+    var id=b.dataset.done;
     var cur=(S.done[id]!==undefined)?S.done[id]:b.querySelector(".box").style.background!=="transparent";
-    m[id]=!cur;S.done=m;save();render();};});
+    var now=!cur,m=Object.assign({},S.done);m[id]=now;S.done=m;save();
+    /* patch this one row in place. A full render() here rebuilds #body, which
+       resets its scroll to the top on every tap and makes fast taps miss. */
+    var box=b.querySelector(".box");
+    box.style.background=now?"var(--ok)":"transparent";
+    box.style.borderColor=now?"var(--ok)":"var(--line2)";
+    box.innerHTML=now?svg("M5 12.5 10 17l9-9",12,3):"";
+    var nm=b.querySelector(".nm");
+    if(nm){nm.style.color=now?"var(--ink3)":"var(--ink)";nm.style.textDecoration=now?"line-through":"none";}};});
   var td=document.getElementById("today"); if(td)td.onclick=function(){var i=todayIdx();if(i>=0)go(i);};
   var gr=document.getElementById("grab"); if(gr){gr.onclick=function(){S.mapOpen=true;render();};
     gr.onpointerdown=function(e){dragUp(e,function(){S.mapOpen=true;render();},-26);};}
@@ -728,10 +740,17 @@ function wxFetch(base){
    viewport-fit=cover over-reported (ran under the toolbar), and svh is a fixed value
    that mismatches whenever the toolbar sits collapsed. visualViewport.height is the
    measured truth — use it, and re-measure whenever Safari resizes or shifts it.
-   The CSS 100svh stays as the pre-paint fallback. */
+   The CSS 100svh stays as the pre-paint fallback.
+   Standalone (home-screen) installs are the exception: no toolbar exists there,
+   so visualViewport under-reports and leaves a gap below the footer. Tag <html>
+   as .standalone and let CSS anchor the shell to the true screen bottom. */
+if(window.navigator.standalone===true||(window.matchMedia&&matchMedia("(display-mode:standalone)").matches)){
+  document.documentElement.classList.add("standalone");
+}
 function fitShell(){
   var app=document.getElementById("app"); if(!app) return;
   if(innerWidth>=760){ app.style.height=""; return; }   /* desktop keeps the card */
+  if(document.documentElement.classList.contains("standalone")){ app.style.height=""; return; }   /* CSS bottom:0 anchors it */
   var vv=window.visualViewport;
   app.style.height=Math.round(vv?vv.height:innerHeight)+"px";
 }
