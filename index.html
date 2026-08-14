@@ -2,21 +2,21 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F7F3EC">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <title>יפן 2026 · בר ונועה</title>
-<!-- Home-screen install. black-translucent + viewport-fit=cover left the web view
-     a status-bar height short of the physical bottom on iPhone (the canvas hugged
-     the top under the status bar), so the footer floated above the screen edge.
-     Use the standard status bar and drop cover: the web view then fills the safe
-     area down to the bottom and the footer anchors correctly. Trade-off: the
-     status bar no longer blends into the coloured header. -->
+<!-- Home-screen install. black-translucent puts the status bar over our header,
+     which already pads for safe-area-inset-top, and the header is always a dark
+     or saturated colour so the white status text stays legible.
+     NB: in this mode iOS under-reports innerHeight/visualViewport by the status
+     bar height (793 vs a real 852), so fitShell() must not measure here — see
+     the comment on fitShell below. -->
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="יפן 2026">
 <link rel="stylesheet" href="vendor/maplibre-gl.css">
 <link rel="stylesheet" href="vendor/fonts.css">
@@ -169,7 +169,14 @@ nav button[data-on="1"] svg{animation:pop .26s cubic-bezier(.2,.9,.3,1)}
 .subtabs button{flex:1;padding:9px 6px;border-radius:10px;font-size:calc(12.5px*var(--fs));font-weight:700;
   border:1px solid var(--line2);text-align:center}
 
-nav{flex:none;position:relative;display:flex;padding:5px 10px calc(18px + var(--sab));background:var(--bg);border-top:1px solid var(--line)}
+/* The bar bleeds to the physical bottom edge; --sab keeps the labels clear of the
+   home indicator. Its own surface + lift separate it from the page, so that
+   clearance reads as part of the bar instead of a gap under a floating strip. */
+/* the -1px margin + matching padding bleeds the bar past the shell's bottom edge
+   (clipped by #app's overflow) so sub-pixel flex rounding can't leave a hairline
+   of page colour under it; the labels themselves do not move. */
+nav{flex:none;position:relative;display:flex;padding:5px 10px calc(var(--sab) + 1px);margin-bottom:-1px;
+  background:var(--card);border-top:1px solid var(--line);box-shadow:0 -1px 10px rgba(20,24,31,.05)}
 nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px;min-height:46px;
   position:relative}
 /* one sliding tab indicator, positioned by render() via FLIP — replaces the old
@@ -797,13 +804,22 @@ function wxFetch(base){
    viewport-fit=cover over-reported (ran under the toolbar), and svh is a fixed value
    that mismatches whenever the toolbar sits collapsed. visualViewport.height is the
    measured truth — use it, and re-measure whenever Safari resizes or shifts it.
-   The CSS 100svh stays as the pre-paint fallback. Without viewport-fit=cover the
-   standalone web view fills the safe area (below the status bar, down to the
-   bottom), so the measured visualViewport height is correct on its own — no
-   standalone special-case, no under-reporting to compensate for. */
+   The CSS 100svh stays as the pre-paint fallback.
+   The home-screen install is the exception, and measuring there is what caused
+   the footer gap: with black-translucent the web view is positioned full-screen
+   from y=0, but iOS reports innerHeight/visualViewport as (screen - status bar)
+   — 793 on an 852pt iPhone. Sizing the shell to that stops it 59px short of the
+   physical bottom, which is the gap. There is no toolbar to compensate for here,
+   so use the real screen height instead. navigator.standalone is iOS-only, which
+   keeps this override off Safari, desktop and Android. */
+var IOS_APP = window.navigator.standalone===true;
 function fitShell(){
   var app=document.getElementById("app"); if(!app) return;
   if(innerWidth>=760){ app.style.height=""; return; }   /* desktop keeps the card */
+  if(IOS_APP){
+    var sh=screen.height||0;                                     /* only trust it if the shortfall is status-bar sized */
+    app.style.height=((sh>innerHeight&&sh-innerHeight<=140)?sh:innerHeight)+"px"; return;
+  }
   var vv=window.visualViewport;
   app.style.height=Math.round(vv?vv.height:innerHeight)+"px";
 }
