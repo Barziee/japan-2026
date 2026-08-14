@@ -819,6 +819,35 @@ if(window.visualViewport){ visualViewport.addEventListener("resize",fitShell);
 fitShell();
 render();
 fitShell();
+/* ===== TEMP FOOTER-GAP DIAGNOSTIC — remove after we read the numbers ===== */
+(function(){
+  var box=document.createElement("pre");
+  box.id="gapdbg";
+  box.style.cssText="position:fixed;top:0;left:0;right:0;z-index:99999;margin:0;padding:6px 9px;"
+    +"font:700 10px/1.4 ui-monospace,Menlo,monospace;color:#fff;background:rgba(176,26,26,.95);"
+    +"white-space:pre-wrap;pointer-events:none;letter-spacing:.2px";
+  function upd(){
+    var app=document.getElementById("app"),a=app?app.getBoundingClientRect():{top:0,bottom:0};
+    var nav=document.querySelector("nav"),n=nav?nav.getBoundingClientRect():{bottom:0};
+    var cs=getComputedStyle(document.documentElement),ac=app?getComputedStyle(app):{};
+    var vv=window.visualViewport,de=document.documentElement;
+    box.textContent=
+      "BUILD gap-dbg-1   "+new Date().toLocaleTimeString()+"\n"+
+      "standalone: nav="+window.navigator.standalone+" mq="+(window.matchMedia&&matchMedia("(display-mode:standalone)").matches)+" html="+de.classList.contains("standalone")+"\n"+
+      "vv.h="+(vv?Math.round(vv.height):"-")+" innerH="+window.innerHeight+" clientH="+de.clientHeight+" screen.h="+screen.height+"\n"+
+      "#app pos="+ac.position+" cssH="+ac.height+" cssBottom="+ac.bottom+"\n"+
+      "#app rect: top="+Math.round(a.top)+" bottom="+Math.round(a.bottom)+"\n"+
+      "nav.bottom="+Math.round(n.bottom)+"   GAP(innerH - navBottom)="+(window.innerHeight-Math.round(n.bottom))+"\n"+
+      "--sab="+cs.getPropertyValue("--sab").trim()+"  --sat="+cs.getPropertyValue("--sat").trim();
+  }
+  if(document.body)document.body.appendChild(box);
+  upd();
+  addEventListener("resize",upd);
+  addEventListener("orientationchange",function(){setTimeout(upd,250);});
+  if(window.visualViewport){visualViewport.addEventListener("resize",upd);visualViewport.addEventListener("scroll",upd);}
+  setInterval(upd,1000);
+})();
+/* ===== END TEMP DIAGNOSTIC ===== */
 fetch("data/route.json").then(function(r){return r.json();}).then(function(j){R=j;render();})
   .catch(function(e){console.warn("route data:",e);});
 </script>
