@@ -8,10 +8,7 @@
 <title>יפן 2026 · בר ונועה</title>
 <!-- Home-screen install. black-translucent puts the status bar over our header,
      which already pads for safe-area-inset-top, and the header is always a dark
-     or saturated colour so the white status text stays legible.
-     NB: in this mode iOS under-reports innerHeight/visualViewport by the status
-     bar height (793 vs a real 852), so fitShell() must not measure here — see
-     the comment on fitShell below. -->
+     or saturated colour so the white status text stays legible. -->
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -30,18 +27,11 @@ html,body{height:100%;margin:0;overflow:hidden;overscroll-behavior:none}
   --page:#E9E2D6;--bg:#F7F3EC;--card:#FFFDFA;--line:#E7E0D3;--line2:#DCD3C4;
   --ink:#14181F;--ink2:#5C6371;--ink3:#8A9099;--ink4:#9AA0A9;
   --acc:#274B8C;--ok:#2E7D5B;--warn:#B4471F;--warnbg:#FBEADF;--warnbd:#F0D6C4;
-  /* --sab is "bottom space this app must reserve itself". Only the installed app
-     has to clear the home indicator; in Safari the browser toolbar already covers
-     it, and reserving it there too double-counts and leaves a band under the nav. */
-  --sat:env(safe-area-inset-top,0px);--sab:0px;--fs:1;
+  --sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);--fs:1;
   /* header for the non-day screens: must stay dark in BOTH themes, the header
      text is always white. Using --ink here goes white-on-white in dark mode. */
   --headneutral:#14181F;
 }
-/* Set by fitShell() when the shell actually reaches the physical bottom of the
-   screen, i.e. nothing (browser toolbar) sits below it — only then must the app
-   clear the home indicator itself. Measured, not inferred from the display mode. */
-html.fullbleed{--sab:env(safe-area-inset-bottom,0px)}
 :root[data-t="dark"]{
   --page:#0A0C10;--bg:#14181F;--card:#1B212B;--line:#252C38;--line2:#2E3644;
   --ink:#EDF0F5;--ink2:#A8B0BD;--ink3:#7E8695;--ink4:#6E7686;
@@ -106,11 +96,6 @@ main{flex:1;min-height:0;touch-action:pan-y}
 /* content settles in on every screen/day change; press states give buttons weight */
 @keyframes rise{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
 #body>*{animation:rise .22s cubic-bezier(.2,.8,.3,1) both}
-/* directional slide+fade when moving between the four footer pages */
-@keyframes pageNext{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:none}}
-@keyframes pagePrev{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
-#body.pnav-next>*{animation:pageNext .28s cubic-bezier(.2,.8,.3,1) both}
-#body.pnav-prev>*{animation:pagePrev .28s cubic-bezier(.2,.8,.3,1) both}
 .stop,.prow,.pg,.chips button,nav button,.gbtn,.vars button{transition:transform .12s ease,opacity .12s ease}
 .stop:active,.prow:active,.gbtn:active,.vars button:active{transform:scale(.985);opacity:.9}
 .pg:active,nav button:active,.chips button:active{transform:scale(.92)}
@@ -118,7 +103,7 @@ nav button svg,nav button span{transition:color .16s ease}
 nav button[data-on="1"] svg{animation:pop .26s cubic-bezier(.2,.9,.3,1)}
 @keyframes pop{0%{transform:scale(.8)}60%{transform:scale(1.12)}100%{transform:scale(1)}}
 .stop .cv{transition:transform .2s cubic-bezier(.2,.8,.3,1)}
-@media (prefers-reduced-motion:reduce){#body>*,#body.pnav-next>*,#body.pnav-prev>*,nav button[data-on="1"] svg{animation:none!important}}
+@media (prefers-reduced-motion:reduce){#body>*,nav button[data-on="1"] svg{animation:none}}
 .card{margin:12px 20px 0;padding:12px 13px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
 .hint{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:700;color:var(--ink3)}
 .vars{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
@@ -176,20 +161,11 @@ nav button[data-on="1"] svg{animation:pop .26s cubic-bezier(.2,.9,.3,1)}
 .subtabs button{flex:1;padding:9px 6px;border-radius:10px;font-size:calc(12.5px*var(--fs));font-weight:700;
   border:1px solid var(--line2);text-align:center}
 
-/* The bar bleeds to the physical bottom edge; --sab keeps the labels clear of the
-   home indicator. Its own surface + lift separate it from the page, so that
-   clearance reads as part of the bar instead of a gap under a floating strip. */
-/* the -1px margin + matching padding bleeds the bar past the shell's bottom edge
-   (clipped by #app's overflow) so sub-pixel flex rounding can't leave a hairline
-   of page colour under it; the labels themselves do not move. */
-nav{flex:none;position:relative;display:flex;padding:5px 10px calc(max(var(--sab),8px) + 1px);margin-bottom:-1px;
-  background:var(--card);border-top:1px solid var(--line);box-shadow:0 -1px 10px rgba(20,24,31,.05)}
+nav{flex:none;display:flex;padding:5px 10px calc(8px + var(--sab));background:var(--bg);border-top:1px solid var(--line)}
 nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px;min-height:46px;
   position:relative}
-/* one sliding tab indicator, positioned by render() via FLIP — replaces the old
-   per-button ::before, which could only pop onto a tab, never glide between them */
-.navind{position:absolute;top:0;left:0;width:26px;height:2.5px;border-radius:0 0 3px 3px;
-  background:#C25A2A;pointer-events:none;will-change:transform}
+nav button[data-on="1"]::before{content:"";position:absolute;top:0;width:26px;height:2.5px;
+  border-radius:0 0 3px 3px;background:#C25A2A}
 nav span{font-size:10px}
 
 .sheetwrap{position:absolute;inset:0;z-index:90}
@@ -412,14 +388,15 @@ function dayScreen(day){
   if(vs.length>1){
     var pick=S.variant[day.d]||0;
     var CONDS={6:["יום צלול","גם בענן","נשארים בעיר"],10:["הליכה מלאה","בלי הליכה","ישר"],
-               11:["אוטובוס","נהיגה","קליל"],14:["ראות מצוינת","מעונן חלקית","ההר מוסתר"]};
+               11:["אוטובוס","נהיגה","קליל"],
+               14:["ההר נראה","עננים נעים","הכול מעונן","ההר מוסתר, איזו בהיר","איזו — קצר יותר"]};
     h+='<div class="card"><div class="hint">'+svg(T.I.cloud,14)+' '
       +(day.d===14?"בודקים עננות בבוקר ובוחרים":"היום גמיש — בוחרים לפי התחזית")+'</div><div class="vars">';
     vs.forEach(function(v,i){
       var on=i===pick;
       h+='<button data-var="'+i+'" style="background:'+(on?"var(--ink)":"transparent")+';color:'
         +(on?"var(--bg)":"var(--ink2)")+';border-color:'+(on?"var(--ink)":"var(--line2)")+'">'
-        +'<span class="l">'+esc(v.n.replace(/^(אופציה|גרסה|חלופה)\s*[A-Cא-ת]?\s*·?\s*/,"")||v.n)+'</span>'
+        +'<span class="l">'+esc(v.n.replace(/^(אופציה|גרסה|חלופה)\s*[A-Zא-ת]?\d?\s*·?\s*/,"")||v.n)+'</span>'
         +'<span class="c">'+esc((CONDS[day.d]||[])[i]||"")+'</span></button>';
     });
     h+='</div></div>';
@@ -577,15 +554,6 @@ function placesScreen(){
   return h+'</div>';
 }
 
-var VIEWS=["day","trip","prep","places"], pageDir=0, lastNavX=null, PAGE_EDGE=28;
-/* switch footer page with a directional transition; the direction is inferred
-   from the move, so an edge-swipe and a footer tap animate identically. */
-function goView(name){
-  if(name===S.view||VIEWS.indexOf(name)<0)return;
-  pageDir=VIEWS.indexOf(name)>VIEWS.indexOf(S.view)?1:-1;
-  S.view=name;S.open=null;render();
-  var y=document.getElementById("body");if(y)y.scrollTop=0;
-}
 function render(){
   var app=document.getElementById("app");
   document.documentElement.setAttribute("data-t","light");
@@ -640,9 +608,8 @@ function render(){
       +'<button class="grab" id="grab">'+svg("M7 14l5-5 5 5",13,2)+'גררו למפה מלאה</button></div>';
   }
 
-  h+='<main class="scroll'+(pageDir>0?' pnav-next':pageDir<0?' pnav-prev':'')+'" id="body">'
+  h+='<main class="scroll" id="body">'
     +(isDay?dayScreen(day):isTrip?tripScreen():S.view==="prep"?prepScreen():placesScreen())+'</main>';
-  pageDir=0;
 
   var NAV=[["day","היום","M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"],
            ["trip","הטיול",T.I.map],["prep","הכנות",T.I.check],["places","המלצות",T.I.star]];
@@ -652,7 +619,7 @@ function render(){
     h+='<button data-view="'+nv[0]+'"'+(on?' data-on="1"':'')+' style="color:'+(on?"#C25A2A":"var(--ink3)")+'">'
       +svg(nv[2],20,on?2:1.6)+'<span style="font-weight:'+(on?700:600)+'">'+nv[1]+'</span></button>';
   });
-  h+='<span class="navind"></span></nav>';
+  h+='</nav>';
 
   if(S.mapOpen){
     h+='<div class="mapfull"><div style="flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:calc(var(--sat) + 20px) 22px 12px;touch-action:none" id="sheetbar">'
@@ -678,31 +645,14 @@ function render(){
   if(!map)initMap(); else {map.resize();draw();}
   bind();
   if(isDay)centerPager(S.sel);
-  slideNavInd();
-}
-/* glide the footer underline to the active tab. Measures the real button rect, so
-   it stays correct in RTL and inside the desktop card; FLIPs from its previous
-   spot so a freshly re-rendered element still animates instead of popping. */
-function slideNavInd(){
-  var nav=document.querySelector("nav"), ind=nav&&nav.querySelector(".navind"),
-      btn=nav&&nav.querySelector('button[data-on="1"]');
-  if(!ind||!btn)return;
-  var nr=nav.getBoundingClientRect(), br=btn.getBoundingClientRect();
-  var x=(br.left-nr.left)+br.width/2-13;                 /* centre the 26px bar on the tab */
-  if(lastNavX!=null&&Math.abs(lastNavX-x)>1){
-    ind.style.transition="none";ind.style.transform="translateX("+lastNavX+"px)";
-    ind.getBoundingClientRect();                         /* reflow so the change below animates */
-    ind.style.transition="transform .28s cubic-bezier(.2,.8,.3,1)";
-  }
-  ind.style.transform="translateX("+x+"px)";
-  lastNavX=x;
 }
 
 function bind(){
   var q=function(s){return Array.prototype.slice.call(document.querySelectorAll(s));};
   q("[data-go]").forEach(function(b){b.onclick=function(){go(+b.dataset.go);};});
   q("[data-jump]").forEach(function(b){b.onclick=function(){go(+b.dataset.jump);};});
-  q("[data-view]").forEach(function(b){b.onclick=function(){goView(b.dataset.view);};});
+  q("[data-view]").forEach(function(b){b.onclick=function(){S.view=b.dataset.view;S.open=null;render();
+    var y=document.getElementById("body");if(y)y.scrollTop=0;};});
   q("[data-stop]").forEach(function(b){b.onclick=function(e){
     if(e.target.closest("a"))return;                 /* let the Maps link through */
     if(b.dataset.stop)jump(b.dataset.stop);};});
@@ -710,17 +660,9 @@ function bind(){
     var m=Object.assign({},S.variant);m[T.DAYS[S.sel].d]=+b.dataset.var;S.variant=m;S.open=null;save();render();};});
   q("[data-prep]").forEach(function(b){b.onclick=function(){S.prep=b.dataset.prep;render();};});
   q("[data-done]").forEach(function(b){b.onclick=function(){
-    var id=b.dataset.done;
+    var m=Object.assign({},S.done),id=b.dataset.done;
     var cur=(S.done[id]!==undefined)?S.done[id]:b.querySelector(".box").style.background!=="transparent";
-    var now=!cur,m=Object.assign({},S.done);m[id]=now;S.done=m;save();
-    /* patch this one row in place. A full render() here rebuilds #body, which
-       resets its scroll to the top on every tap and makes fast taps miss. */
-    var box=b.querySelector(".box");
-    box.style.background=now?"var(--ok)":"transparent";
-    box.style.borderColor=now?"var(--ok)":"var(--line2)";
-    box.innerHTML=now?svg("M5 12.5 10 17l9-9",12,3):"";
-    var nm=b.querySelector(".nm");
-    if(nm){nm.style.color=now?"var(--ink3)":"var(--ink)";nm.style.textDecoration=now?"line-through":"none";}};});
+    m[id]=!cur;S.done=m;save();render();};});
   var td=document.getElementById("today"); if(td)td.onclick=function(){var i=todayIdx();if(i>=0)go(i);};
   var gr=document.getElementById("grab"); if(gr){gr.onclick=function(){S.mapOpen=true;render();};
     gr.onpointerdown=function(e){dragUp(e,function(){S.mapOpen=true;render();},-26);};}
@@ -738,7 +680,6 @@ function dragUp(e,fn,threshold){
   window.addEventListener("pointermove",move);window.addEventListener("pointerup",up);
 }
 function swipeDays(e){
-  if(e.clientX<=PAGE_EDGE||e.clientX>=innerWidth-PAGE_EDGE)return;   /* edges belong to page-swipe */
   var sx=e.clientX,sy=e.clientY,fired=false;
   function move(ev){
     if(fired)return;
@@ -753,29 +694,6 @@ function swipeDays(e){
   function up(){window.removeEventListener("pointermove",move);window.removeEventListener("pointerup",up);}
   window.addEventListener("pointermove",move);window.addEventListener("pointerup",up);
 }
-/* Edge-swipe between the four footer pages. Only a drag that BEGINS within
-   PAGE_EDGE of the left/right screen edge counts, so the day screen keeps its
-   centre day-swipe. RTL: the right edge advances to the next (leftward) page,
-   the left edge goes back. Ignored over the map sheet and the home-indicator. */
-(function(){
-  var st=null;
-  addEventListener("pointerdown",function(e){
-    if(innerWidth>=760||S.mapOpen||S.sheet||e.clientY>innerHeight-44){st=null;return;}
-    var l=e.clientX<=PAGE_EDGE, r=e.clientX>=innerWidth-PAGE_EDGE;
-    st=(l||r)?{x:e.clientX,y:e.clientY,left:l}:null;
-  },true);
-  addEventListener("pointermove",function(e){
-    if(!st)return;
-    var dx=e.clientX-st.x, dy=e.clientY-st.y;
-    if(Math.abs(dx)<50||Math.abs(dx)<=Math.abs(dy)*1.5)return;
-    var i=VIEWS.indexOf(S.view), to=i;
-    if(st.left&&dx>0)to=i-1; else if(!st.left&&dx<0)to=i+1;
-    st=null;
-    if(to>=0&&to<VIEWS.length&&to!==i)goView(VIEWS[to]);
-  },true);
-  addEventListener("pointerup",function(){st=null;},true);
-  addEventListener("pointercancel",function(){st=null;},true);
-})();
 
 /* ===================== live weather =====================
    Open-Meteo: free, no key, CORS-open. It only forecasts ~16 days out, and the
@@ -811,47 +729,15 @@ function wxFetch(base){
    viewport-fit=cover over-reported (ran under the toolbar), and svh is a fixed value
    that mismatches whenever the toolbar sits collapsed. visualViewport.height is the
    measured truth — use it, and re-measure whenever Safari resizes or shifts it.
-   The CSS 100svh stays as the pre-paint fallback.
-   The home-screen install is the exception, and measuring there is what caused
-   the footer gap: with black-translucent the web view is positioned full-screen
-   from y=0, but iOS reports innerHeight/visualViewport as (screen - status bar)
-   — 793 on an 852pt iPhone. Sizing the shell to that stops it 59px short of the
-   physical bottom, which is the gap. There is no toolbar to compensate for here,
-   so use the real screen height instead. navigator.standalone is iOS-only, which
-   keeps this override off Safari, desktop and Android. */
-var IOS_APP = window.navigator.standalone===true;
-/* real px value of env(safe-area-inset-top), measured — custom properties do not
-   resolve env() through getComputedStyle. Cached; only orientation changes it. */
-var _satPx=null;
-function safeTopPx(){
-  if(_satPx!=null) return _satPx;
-  var p=document.createElement("div");
-  p.style.cssText="position:fixed;top:0;left:0;width:0;visibility:hidden;pointer-events:none;height:env(safe-area-inset-top,0px)";
-  (document.body||document.documentElement).appendChild(p);
-  _satPx=p.getBoundingClientRect().height; p.parentNode.removeChild(p);
-  return _satPx;
-}
+   The CSS 100svh stays as the pre-paint fallback. */
 function fitShell(){
-  var app=document.getElementById("app"), de=document.documentElement; if(!app) return;
-  if(innerWidth>=760){ app.style.height=""; de.classList.remove("fullbleed"); return; }   /* desktop keeps the card */
-  var sh=screen.height||0, vv=window.visualViewport, h;
-  /* Distinguish the two reasons the viewport can come up short: the iOS
-     black-translucent under-report (shortfall == the status-bar inset, and the
-     view really does reach the bottom) versus a browser toolbar genuinely
-     sitting below us (any other shortfall). Only the first should be ignored. */
-  if(IOS_APP && sh>innerHeight && Math.abs((sh-innerHeight)-safeTopPx())<=6){
-    h=sh;
-  }else{
-    h=Math.round(vv?vv.height:innerHeight);
-  }
-  app.style.height=h+"px";
-  /* Does the shell actually end at the physical bottom edge? If a browser toolbar
-     sits below it, it does not, and the toolbar already covers the home indicator
-     — reserving for it again is what left a band under the nav. */
-  de.classList.toggle("fullbleed", sh>0 && h>=sh-4);
+  var app=document.getElementById("app"); if(!app) return;
+  if(innerWidth>=760){ app.style.height=""; return; }   /* desktop keeps the card */
+  var vv=window.visualViewport;
+  app.style.height=Math.round(vv?vv.height:innerHeight)+"px";
 }
 addEventListener("resize",fitShell);
-addEventListener("orientationchange",function(){_satPx=null;setTimeout(fitShell,200);});
+addEventListener("orientationchange",function(){setTimeout(fitShell,200);});
 if(window.visualViewport){ visualViewport.addEventListener("resize",fitShell);
   visualViewport.addEventListener("scroll",fitShell); }
 fitShell();

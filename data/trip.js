@@ -88,12 +88,12 @@ var DAYS = [
   note2:"⚠️ שתי המסעדות קטנות בעיירה קטנה — להזמין ברגע שאפשר, עדיף דרך המלון."},
 
 {d:10,dow:"ש׳",base:"matsumoto",t:"גוג׳ו → קיסו → מטסומוטו",items:[
-  {c:"walk",k:"tsumago",n:"אופציה A · נקאסנדו מלא",s:"יוצאים 07:30 · חונים ב-Tsumago, אוטובוס ל-Magome, הליכה 9 ק״מ חזרה (~3 ש׳) · מטסומוטו ~16:45",drive:"gujo_tsumago"},
+  {c:"walk",k:"magome",n:"אופציה A · נקאסנדו מלא",s:"יוצאים מגוג׳ו 06:15 · חונים ב-Magome · הליכה 08:00–11:00 (~9 ק״מ, טיפוס בהתחלה ואז יורד) · צהריים ב-Tsumago · אוטובוס חזרה אל הרכב ~13:30 · Narai אופציונלי 15:15–16:30 · מטסומוטו 17:15 (בלי Narai ~16:00)",t:"06:15",drive:"gujo_magome"},
   {c:"town",k:"narai",n:"אופציה C · קיסו בלי ההליכה",s:"בוקר רגוע בגוג׳ו · Tsumago 11:00 + צהריים · Narai 14:00 · מטסומוטו ~16:00",drive:"gujo_tsumago"},
   {c:"drive",k:"matsumoto",n:"אופציה B · ישר למטסומוטו",s:"⚠️ המסלול המהיר עובר 0.4 ק״מ ממרכז Takayama בפסטיבל — נמנעים ממנו = ~3:05 דרך קיסו בכל מקרה",drive:"gujo_matsumoto"},
-  {c:"stay",k:"matsumoto",n:"Matsumoto Jujo · צ׳ק-אין",s:"צ׳ק-אין ~15:00 · הערב שמור למלון ולאמבט"}],
-  note:"⚠️ פסטיבל Takayama הוא 9–10/10. Narai עולה 2 דקות נהיגה בלבד — הוא יושב על כביש 19 בין Tsumago למטסומוטו.",
-  note2:"לוגיסטיקת ההליכה: חונים בסוף (Tsumago), נוסעים לתחילתו (Magome), והולכים חזרה אל הרכב. הכיוון הקל. ⚠️ לאמת לוח אוטובוסים — מצומצם ועונתי."},
+  {c:"stay",k:"matsumoto",n:"Matsumoto Jujo · צ׳ק-אין",s:"מגיעים 17:00–18:00 בנחת — לא רודפים אחרי הצ׳ק-אין · ארוחת ערב 19:30–20:00"}],
+  note:"⚠️ פסטיבל Takayama הוא 9–10/10 — לא לעבור דרך מרכז Takayama. לאמת את לוח האוטובוס Tsumago→Magome לאוקטובר 2026, ועדיף להזמין מונית מראש.",
+  note2:"חונים ב-Magome (לא ב-Tsumago), הולכים לכיוון הקל, וחוזרים באוטובוס אל הרכב. לקחת מים וחטיפים — כמעט אין אוכל בשביל; קפה ב-Magome לפני היציאה אם משהו פתוח. ❌ לא הולכים Tsumago→Nagiso. שימו לב: האוטובוס עכשיו בסוף היום — מה שקובע הוא האחרון, לא הראשון. מרחקים: גוג׳ו→Magome 92.2 ק״מ/1:23 · Magome→Narai 66.8/1:12 · Narai→מטסומוטו 44.6/0:46 · ישר מ-Magome 111.2/1:56."},
 
 {d:11,dow:"א׳",base:"matsumoto",t:"יום הטבע הגדול",items:[
   {c:"drive",k:"sawando",n:"אופציה · Kamikōchi",s:"חונים ב-Sawando (רכב פרטי אסור) ואוטובוס פנימה · Taishō-ike → Kappa-bashi",drive:"dt_sawando"},
@@ -104,9 +104,14 @@ var DAYS = [
 
 {d:12,dow:"ב׳",base:"matsumoto",t:"מטסומוטו · חג ופסטיבל הסובה",items:[
   {c:"sight",k:"matsumoto",n:"טירת Matsumoto + פסטיבל הסובה",s:"הפסטיבל בפארק הטירה 10–12/10 · להגיע לפני שיא הצהריים",t:"בוקר"},
-  {c:"town",n:"Nawate + Nakamachi",s:"רחוב הצפרדעים לאורך התעלה, מחסני kura, קרמיקה, קפה",q:"Nakamachi Street Matsumoto"},
-  {c:"nature",n:"Alps Park",s:"רק ביום עם ראות טובה",opt:1,q:"Matsumoto City Alps Park"}],
-  note:"⚠️ Sports Day + פסטיבל הסובה — העיר, החניה והמסעדות עמוסות בדיוק בלילות שלנו."},
+  {c:"town",k:"nawate",n:"Nawate Street",s:"רחוב הצפרדעים לאורך התעלה"},
+  {c:"town",n:"Nakamachi Street",s:"מחסני kura לבנים-שחורים, קרמיקה, סאקה, קפה",q:"Nakamachi Street Matsumoto"},
+  {c:"cafe",n:"צהריים / קפה",s:"הפסקה אמיתית באמצע — זה יום רגוע, לא מרתון",q:"Nakamachi Matsumoto cafe"},
+  {c:"sight",k:"oldhs",n:"התיכון הישן של מטסומוטו",s:"旧制松本高等学校 · מבנה עץ היסטורי (אגתה-נו-מורי)"},
+  {c:"nature",k:"agatanomori",n:"פארק Agatanomori",s:"סוגרים את היום בפארק שמסביב — נחיתה רכה, לא עוד אתר"},
+  {c:"nature",n:"Alps Park",s:"אופציונלי · רק ביום עם ראות טובה לאלפים",opt:1,q:"Matsumoto City Alps Park"}],
+  note:"⚠️ Sports Day + פסטיבל הסובה — העיר, החניה והמסעדות עמוסות בדיוק בלילות שלנו.",
+  note2:"הזרימה: טירה → Nawate → Nakamachi → צהריים/קפה → התיכון הישן + Agatanomori. שני האחרונים יושבים יחד, ~1.5 ק״מ ממזרח ל-Nakamachi."},
 
 {d:13,dow:"ג׳",base:"fuji",t:"לגוטמבה + החלפת רכב",items:[
   {c:"drive",k:"matsumoto",n:"יוצאים מוקדם ממטסומוטו",s:"עצירה אחת לכל היותר"},
@@ -117,8 +122,11 @@ var DAYS = [
 {d:14,dow:"ד׳",base:"fuji",t:"יום פוג׳י · מודולרי לפי ראות",items:[
   {c:"nature",k:"panoramadai",n:"גרסה A · ראות מצוינת",s:"Panorama-dai → Oshino Hakkai מוקדם → צפון Kawaguchiko → Ōishi Park",drive:"fuji_loop"},
   {c:"nature",k:"oshino",n:"גרסה B · מעונן חלקית",s:"נשארים קרוב: Gotemba, Yamanakako, Oshino, מזרח Kawaguchiko"},
-  {c:"nature",k:"hakone",n:"גרסה C · פוג׳י מוסתר → Hakone",s:"יום נהיגה נופי: אגם Ashi, Ōwakudani, המוזיאון הפתוח",drive:"fuji_hakone"}],
-  note:"פוג׳י הוא הר של בקרים — בודקים עננות בערב הקודם ובבוקר, ומחליטים אז. שקיעה ~17:00."},
+  {c:"nature",k:"hakone",n:"גרסה C · פוג׳י מוסתר → Hakone",s:"יום נהיגה נופי: אגם Ashi, Ōwakudani, המוזיאון הפתוח · הגיבוי הקל והקרוב",opt:1,drive:"fuji_hakone"},
+  {c:"water",k:"jogasaki",n:"גרסה D · איזו מזרחי",s:"Ito (עיירת אונסן לחוף הים) → הר Ōmuro (נוף וולקני) → חוף Jōgasaki (מצוקים) · יום שונה לגמרי",opt:1,drive:"fuji_izu_east"},
+  {c:"bath",k:"shuzenji",n:"גרסה D2 · איזו מרכזי",s:"Shuzenji + הטבע והאונסן סביבו, אולי מפלי Joren · קצר וקל יותר",opt:1,drive:"fuji_izu_central"}],
+  note:"פוג׳י הוא הר של בקרים — בודקים עננות בערב הקודם ובבוקר, ומחליטים אז. שקיעה ~17:00.",
+  note2:"איזו נכנס רק אם פוג׳י מכוסה ומזג האוויר באיזו טוב — פוג׳י תמיד קודם בראות מצוינת. את D להחליט מוקדם בבוקר (1:19 לכיוון אחד). ❌ לא יורדים עד Shimoda. אם הכול מעונן וגשום — Hakone."},
 
 {d:15,dow:"ה׳",base:"tokyo",t:"בוקר פוג׳י אחרון → טוקיו",items:[
   {c:"drive",k:"gotemba",n:"בוקר אחרון + החזרת GR Yaris",s:"נקודה מזרחית אם ההר נראה · תדלוק אוקטן גבוה · החזרה 14:30",t:"14:30"},
@@ -126,10 +134,11 @@ var DAYS = [
   {c:"town",k:"kagurazaka",n:"ערב · Kagurazaka",s:"עלייה ברחוב הראשי, סמטאות מרוצפות, ביסטרו או איזקאיה"}]},
 
 {d:16,dow:"ו׳",base:"tokyo",t:"טוקיו · אשכול לבחירה",items:[
-  {c:"sight",k:"asakusa",n:"אופציה · טוקיו הישנה",s:"Sensō-ji ב-07:00 → Kappabashi (סכינים וכלי מטבח) → Nezu-jinja → Yanaka Ginza",t:"07:00"},
-  {c:"town",k:"nakameguro",n:"אופציה · מערב מעוצב",s:"Shibuya סימון-וי קצר → Daikanyama (T-Site) → Nakameguro לאורך נהר Meguro"},
-  {c:"town",k:"shimokita",n:"אופציה · מערב חלופי",s:"Yoyogi-Uehara → Shimokitazawa · מאפיות, קפה, וינטג׳, תקליטים"}],
-  note:"16–19/10 פתוחים בכוונה. אשכול אחד ליום ועוד ערב — לא שניים. משאירים לפחות פעמיים חצי יום ריק."},
+  {c:"walk",k:"yanakacem",n:"אופציה · ⭐ ינאקה → אואנו בהליכה",s:"Nezu/Yanaka → הליכה דרך ינאקה → בית הקברות של Yanaka → פארק Ueno → Ueno → Ameyoko/Okachimachi לקראת ערב (איזקאיות, יאקיטורי, אוכל רחוב, מזכרות) · Asakusa ב-07:00 בתחילת היום — אופציונלי"},
+  {c:"shop",k:"shimokita",n:"אופציה · ⭐ מערב טוקיו",s:"Yoyogi-Uehara (בוקר שקט, קפה) → Shimokitazawa (העוגן) → Harajuku/Cat Street/Omotesando (קניות) → Shibuya (ערב)"},
+  {c:"town",k:"nakameguro",n:"אופציה · מערב מעוצב",s:"Daikanyama (T-Site) → Nakameguro לאורך נהר Meguro → אולי Ebisu"}],
+  note:"16–19/10 פתוחים בכוונה — טוקיו נשארת גמישה, בלי הצמדה לתאריכים. אשכול אחד ליום ועוד ערב — לא שניים.",
+  note2:"את ינאקה→אואנו הולכים ברגל — לא להחליף את הקטע ברכבת. את Ameyoko לתזמן לאחה״צ-ערב, שם הוא הכי חי. ולא לצרף Daikanyama+Nakameguro ליום של מערב טוקיו — הם אשכול נפרד."},
 
 {d:17,dow:"ש׳",base:"tokyo",t:"טוקיו · אשכול לבחירה",items:[
   {c:"shop",k:"nakano",n:"אופציה · מקומי ואלטרנטיבי",s:"Nakano Broadway (מקורה, טוב לגשם) → Koenji · יד-שנייה, תקליטים, ארקדות, ברים"},
@@ -138,12 +147,12 @@ var DAYS = [
 
 {d:18,dow:"א׳",base:"tokyo",t:"טוקיו · אשכול לבחירה",items:[
   {c:"town",k:"koenji",n:"אופציה · Koenji",s:"יד-שנייה, תקליטים, ארקדת Pal, קפה, live houses"},
-  {c:"town",k:"yanaka",n:"אופציה · Yanaka ו-Nezu",s:"רחוב מסחר ישן, קיסאטן, בית קברות, מנהרת הטוריים"},
+  {c:"food",k:"ameyoko",n:"אופציה · אואנו ו-Ameyoko",s:"אם עושים את הליכת ינאקה→אואנו ביום הזה — הסוף ב-Ameyoko/Okachimachi לקראת ערב"},
   {c:"town",k:"daikanyama",n:"אופציה · Daikanyama ו-Nakameguro",s:"T-Site, בוטיקים, נהר Meguro"}]},
 
 {d:19,dow:"ב׳",base:"tokyo",t:"טוקיו · אשכול לבחירה",items:[
   {c:"sight",k:"meiji",n:"אופציה · Meiji Jingū מוקדם",s:"יער שקט, שבילי חצץ — אמצע שבוע = רגוע",t:"08:00"},
-  {c:"shop",k:"kappabashi",n:"אופציה · Kappabashi",s:"רחוב המטבח — סכינים, קרמיקה, כלי מטבח"},
+  {c:"shop",k:"omotesando",n:"אופציה · Harajuku / Cat Street / Omotesando",s:"בעיקר קניות — יושב בול בין Meiji ל-Shibuya"},
   {c:"town",k:"shibuya",n:"אופציה · Shibuya סימון-וי",s:"Hachiko והמעבר — שעה עד שעה וחצי, לא יותר"}],
   note:"הערב האחרון — שווה לשמור אותו לארוחה טובה ליד המלון ב-Kagurazaka."},
 
@@ -176,7 +185,7 @@ var SCREENS = {
       {icon:"star",name:"teamLab Biovortex · 7/10",sub:"¥3,600–5,600 · Flexible Pass · לאמת ימי סגירה",meta:"לא הוזמן",tone:"warn"},
       {icon:"bowl",name:"ארוחות ערב מטסומוטו · 10, 11, 12/10",sub:"חלון פעולה ~8–12 בספטמבר · דרך Jujo · חג + פסטיבל = עיר מלאה",meta:"לא הוזמן",tone:"warn"},
       {icon:"bowl",name:"ערב גוג׳ו · 9/10",sub:"だいこく家 או Pizzeria Gonza · עיירה קטנה",meta:"לא הוזמן",tone:"warn"},
-      {icon:"bus",name:"אוטובוס Tsumago → Magome · 10/10",sub:"רק אם בוחרים אפשרות A · לוח מצומצם · מונית ~¥4,000–5,000 גיבוי",meta:"לבדוק",tone:"warn"},
+      {icon:"bus",name:"אוטובוס Tsumago → Magome · 10/10",sub:"נסיעת חזרה אל הרכב — קובע האוטובוס האחרון, לא הראשון · לאמת לוח אוקטובר 2026 · עדיף מונית מוזמנת מראש ~¥3,000–5,000",meta:"לבדוק",tone:"warn"},
       {icon:"bus",name:"אוטובוסי Kamikōchi / Norikura",sub:"הזמנה חובה אם עושים",meta:"לבדוק",tone:"warn"}]}]},
 
   lists:{groups:[
@@ -197,7 +206,7 @@ var SCREENS = {
       {name:"2–3 מתאמי חשמל Type A",sub:"+ מפצל USB",meta:"פתוח",tone:"todo"},
       {name:"תרופות בטן",sub:"לופרמיד, נגד בחילה, פרוביוטיקה",meta:"פתוח",tone:"todo"}]},
     {label:"לקנות שם",rows:[
-      {icon:"shop",name:"סכין יפנית",sub:"Seki ב-9/10 · Kappabashi בטוקיו",meta:"",tone:""},
+      {icon:"shop",name:"סכין יפנית",sub:"Seki ב-9/10 — ההזדמנות היחידה (Kappabashi ירד מהתוכנית)",meta:"",tone:""},
       {icon:"shop",name:"קרמיקה",sub:"Nakamachi במטסומוטו",meta:"",tone:""},
       {icon:"shop",name:"וינטג׳ ותקליטים",sub:"Koenji, Shimokitazawa, Nakano",meta:"",tone:""}]}]},
 
