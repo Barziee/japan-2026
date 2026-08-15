@@ -57,14 +57,17 @@ var DAYS = [
   {c:"cafe",n:"ערב · Tenma + Don-chan",s:"קפיצות איזקאיה · Don-chan ב-Umeda Higashidōri",q:"Tenma Osaka izakaya",rk:"r_tenma"}],
   note:"5/10 כבר סגור על מינו, אז השאלה כאן היא רק האם עוד יציאה או לא. אם מרגיש עמוס — יום עיר בלי אשמה."},
 
-{d:7,dow:"ד׳",base:"kyoto",t:"מעבר לקיוטו · teamLab",items:[
-  {c:"town",k:"osaka",n:"בוקר אחרון באוסקה",s:"קפה, אריזה, צ׳ק-אאוט"},
-  {c:"sight",k:"teamlab",n:"teamLab Biovortex Kyoto",s:"10 דק׳ הליכה משער Hachijō המזרחי — ממש על הדרך מאוסקה. 09:00–21:00, כניסה אחרונה 19:30",t:"אחה״צ",leg:{mode:"rail",hrs:0.5,txt:"אוסקה → תחנת Kyoto"}},
-  {c:"stay",k:"kyoto",n:"Miru Kyoto Gion · צ׳ק-אין",s:"מונית או אוטובוס מהתחנה, 10–15 דק׳"},
+{d:7,dow:"ד׳",base:"kyoto",t:"מעבר לקיוטו · A או B",items:[
+  {c:"town",k:"osaka",n:"בוקר אחרון באוסקה",s:"קפה, אריזה, צ׳ק-אאוט · ב-B יוצאים מוקדם יותר (~08:45)"},
+  {c:"sight",k:"teamlab",n:"אופציה A · teamLab Biovortex",s:"10 דק׳ הליכה משער Hachijō המזרחי — ממש על הדרך מאוסקה · 09:00–21:00, כניסה אחרונה 19:30 · ¥3,600–5,600, Flexible Pass עדיף",t:"אחה״צ",leg:{mode:"rail",hrs:0.5,txt:"אוסקה → תחנת Kyoto"}},
+  {c:"nature",k:"kifune",n:"אופציה B · חצי יום בקיבונה",s:"3–4 ש׳ של כפר, נחל ויער — לא הליכת Kurama. מדרגות הפנסים האדומים ואל המקדש הראשי, גורלות המים, Yui-no-Yashiro (+300 מ׳), Okumiya (+475 מ׳, סה״כ 776 מ׳ מהראשי), צהריים/קפה ליד המים",t:"~11:15",leg:{mode:"rail",hrs:2.4,txt:"אוסקה → Kibuneguchi (Keihan+Eizan)"}},
+  {c:"stay",k:"kyoto",n:"Miru Kyoto Gion · צ׳ק-אין",s:"ב-B: חוזרים ~16:05 ל-Gion-Shijo, אוספים טרולי, 5–10 דק׳ הליכה"},
   {c:"water",k:"shirakawa",n:"Gion Shirakawa והסמטאות",s:"תעלת Shirakawa, Furumonzen, רחובות קטנים"},
   {c:"water",k:"kamo",n:"נהר Kamo לפנות ערב",s:"הליכה על הגדה סביב Sanjō"},
   {c:"food",n:"ערב · Yakiniku no GANSAN",s:"יאקיניקו ב-Pontochō · @gansan_pontocho",q:"Yakiniku GANSAN Pontocho Kyoto"}],
-  note:"⚠️ להזמין כרטיסי teamLab מראש — תמחור דינמי ¥3,600–5,600. Flexible Pass עדיף על שעה קבועה, זה יום מעבר."},
+  note:"⚠️ אם בוחרים A — להזמין כרטיסי teamLab מראש (Flexible Pass). אם בוחרים B — לא לקנות אותם, ובמקום: לוודא מול MIRU קבלת מזוודות, לשלוח takkyubin ב-6.10, ולאמת לוח אוטובוס 33 + מסעדה בקיבונה.",
+  note2:"A ו-B הן חלופיות — לא מחברים אותן. A היא תוכנית הגשם (הכול בפנים), B היא תוכנית מזג האוויר הטוב. הערב זהה בשתיהן. אם בוחרים B, teamLab כנראה יורד מהטיול — 8.10 תפוס ו-9.10 בוקר קצר לפני איסוף הרכב.",
+  note3:"קיבונה: 2:15–2:45 לכיוון מ-Meander (מידוסוג׳י → Keihan 特急 49 דק׳ → Eizan 27 דק׳ → אוטובוס 5 דק׳). לוקרים: Gion-Shijo עדיף על Demachiyanagi — היא על הקו לפניה, אז אם מלא עדיין אפשר להמשיך ולאחסן שם. שלכת רק באמצע נובמבר, ועונת ה-kawadoko נגמרת בסוף ספטמבר — ב-7.10 ירוק, בלי פלטפורמות."},
 
 {d:8,dow:"ה׳",base:"kyoto",t:"מזרח קיוטו · מצפון לדרום",items:[
   {c:"sight",k:"honenin",n:"Hōnen-in · מוקדם",s:"שער האזוב והחצר לפני שהאזור מתמלא · כניסה לחצר חופשית",t:"07:30"},
@@ -182,7 +185,8 @@ var SCREENS = {
       {icon:"car",name:"ETC · כרטיס אגרה",sub:"לוודא שמגיע עם שני הרכבים",meta:"לבדוק",tone:"todo"}]},
     {label:"⚠️ להזמין — לפי דחיפות",rows:[
       {icon:"bowl",name:"Hikiniku to Come · 8/10",sub:"ההזמנות לאוקטובר נפתחות 1/9 בחצות שעון יפן · בלי זה צריך תור מ-07:00 שמתנגש עם Hōnen-in",meta:"1 בספטמבר",tone:"warn"},
-      {icon:"star",name:"teamLab Biovortex · 7/10",sub:"¥3,600–5,600 · Flexible Pass · לאמת ימי סגירה",meta:"לא הוזמן",tone:"warn"},
+      {icon:"star",name:"teamLab Biovortex · 7/10",sub:"רק אם בוחרים אופציה A ל-7/10 — אם קיבונה, לא לקנות · ¥3,600–5,600 · Flexible Pass",meta:"תלוי A/B",tone:"warn"},
+      {icon:"bus",name:"אם בוחרים קיבונה (B) · 7/10",sub:"לוודא מול MIRU קבלת מזוודות · takkyubin מאוסקה ב-6/10 · לוקרים ב-Gion-Shijo · אוטובוס 33 (יום-חול) · מסעדה בקיבונה",meta:"תלוי A/B",tone:"warn"},
       {icon:"bowl",name:"ארוחות ערב מטסומוטו · 10, 11, 12/10",sub:"חלון פעולה ~8–12 בספטמבר · דרך Jujo · חג + פסטיבל = עיר מלאה",meta:"לא הוזמן",tone:"warn"},
       {icon:"bowl",name:"ערב גוג׳ו · 9/10",sub:"だいこく家 או Pizzeria Gonza · עיירה קטנה",meta:"לא הוזמן",tone:"warn"},
       {icon:"bus",name:"אוטובוס Tsumago → Magome · 10/10",sub:"נסיעת חזרה אל הרכב — קובע האוטובוס האחרון, לא הראשון · לאמת לוח אוקטובר 2026 · עדיף מונית מוזמנת מראש ~¥3,000–5,000",meta:"לבדוק",tone:"warn"},
