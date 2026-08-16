@@ -210,7 +210,7 @@ var SCREENS = {
       {name:"2–3 מתאמי חשמל Type A",sub:"+ מפצל USB",meta:"פתוח",tone:"todo"},
       {name:"תרופות בטן",sub:"לופרמיד, נגד בחילה, פרוביוטיקה",meta:"פתוח",tone:"todo"}]},
     {label:"לקנות שם",rows:[
-      {icon:"shop",name:"סכין יפנית",sub:"Seki ב-9/10 — ההזדמנות היחידה (Kappabashi ירד מהתוכנית)",meta:"",tone:""},
+      {icon:"shop",name:"סכין יפנית",sub:"שתי הזדמנויות: Tower Knives אוסקה (4–7/10, Shinsekai) או Seki ב-9/10 · בטיסה הביתה — במזוודה, לא בעלייה למטוס",meta:"",tone:""},
       {icon:"shop",name:"קרמיקה",sub:"Nakamachi במטסומוטו",meta:"",tone:""},
       {icon:"shop",name:"וינטג׳ ותקליטים",sub:"Koenji, Shimokitazawa, Nakano",meta:"",tone:""}]}]},
 
@@ -241,7 +241,6 @@ var SCREENS = {
     {label:"אוסקה · אוכל",city:"osaka",rows:[
       {icon:"bowl",name:"人情麺屋 牛骨王 · Ninjomenya Gyukotsuo",sub:"ראמן מרק עצמות בקר במקום חזיר · דלפק קטן · Minami-Semba",meta:"בטוח לנועה",tone:"ok",q:"人情麺屋 牛骨王 南船場"},
       {icon:"bowl",name:"Tokito · ときと",sub:"Kawarayamachi 1-2-11, Chūō-ku (からほりかわらやえん101) · להגיע מוקדם, הוואגיו סנדו במלאי מוגבל",meta:"להגיע מוקדם",tone:"warn",q:"ときと 瓦屋町 大阪"},
-      {icon:"bowl",name:"Dekasan",sub:"אותו וואגיו סנדו כמו Tokito — לא רודפים אחרי שניהם",meta:"בוחרים אחד",tone:"",q:"Dekasan Osaka wagyu sando"},
       {icon:"bowl",name:"Kitan Hibiki",sub:"הולכים בשביל ההמבורגרים · ההמבורגרים מוגשים 17:00–19:00 בלבד — הזמנה ל-20:00 = בלי המבורגר ובלי החזר",meta:"לאמת שעות",tone:"warn",q:"Kitan Hibiki Osaka"},
       {icon:"cafe",name:"pognam",sub:"נשלח בלי פרטים — לברר מה זה ואיפה",meta:"לברר",tone:"warn",q:"pognam Osaka"}]},
     {label:"אוסקה · מתוקים",city:"osaka",rows:[
@@ -249,6 +248,8 @@ var SCREENS = {
       {icon:"cafe",name:"MooKEN",sub:"פחזניות",meta:"",tone:"",q:"MooKEN cream puff Osaka",rk:"r_mooken"}]},
     {label:"אוסקה · מוזיקה",city:"osaka",rows:[
       {icon:"cafe",name:"MUSICBAR FLAG",sub:"Nipponbashi 5-13-7, בניין Ueda · Naniwa-ku",meta:"",tone:"",q:"MUSICBAR FLAG 日本橋 大阪"}]},
+    {label:"אוסקה · קניות",city:"osaka",rows:[
+      {icon:"shop",name:"Tower Knives Osaka",sub:"סכינים · Shinsekai, ליד Tsūtenkaku · צוות דובר אנגלית · הזדמנות הסכינים הראשונה בטיול, לפני Seki ב-9/10",meta:"",tone:"",q:"Tower Knives Osaka",rk:"r_towerknives"}]},
     {label:"אוסקה · אזורי ערב",city:"osaka",rows:[
       {icon:"bowl",name:"Fukushima",sub:"אזור ארוחות ערב",meta:"אזור",tone:"",q:"Fukushima Osaka izakaya",rk:"r_fukushima"},
       {icon:"cafe",name:"Tenma",sub:"קפיצות איזקאיה ובארים",meta:"אזור",tone:"",q:"Tenma Osaka izakaya",rk:"r_tenma"},
