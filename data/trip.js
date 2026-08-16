@@ -230,18 +230,25 @@ var SCREENS = {
   recs:{groups:[
     {label:"קיוטו · ארוחות ערב",city:"kyoto",rows:[
       {icon:"bowl",name:"挽肉と米 · Hikiniku to Come",sub:"המועמד המוביל · בשר בקר 100% · בגיון, מרחק הליכה מהמלון",meta:"להזמין 1/9",tone:"warn",q:"挽肉と米 京都",rk:"r_hikiniku"},
-      {icon:"bowl",name:"Yakiniku no GANSAN",sub:"יאקיניקו ב-Pontochō · @gansan_pontocho · בקר",meta:"מועמד",tone:"",q:"Yakiniku GANSAN Pontocho Kyoto"}]},
+      {icon:"bowl",name:"Yakiniku no GANSAN",sub:"יאקיניקו ב-Pontochō · @gansan_pontocho · בקר",meta:"מועמד",tone:"",q:"Yakiniku GANSAN Pontocho Kyoto"},
+      {icon:"bowl",name:"Ramen Nishiki",sub:"לאמת שהמרק לא על בסיס חזיר לפני שנועה מזמינה",meta:"לברר",tone:"warn",q:"Ramen Nishiki Kyoto"}]},
+    {label:"קיוטו · מתוקים",city:"kyoto",rows:[
+      {icon:"cafe",name:"Brulee Kyoto · 烏丸五条店",sub:"סניף Karasuma-Gojō",meta:"",tone:"",q:"Brulee 京都 烏丸五条店"}]},
     {label:"קיוטו · איזקאיה וברים",city:"kyoto",rows:[
       {icon:"cafe",name:"365 Sakaba · Kawaramachi",sub:"איזקאיה זולה ותוססת",meta:"ללא הזמנה",tone:"",q:"365 Sakaba Kawaramachi Kyoto"},
       {icon:"cafe",name:"Bar Alchemist",sub:"קוקטייל בר",meta:"ללא הזמנה",tone:"",q:"Bar Alchemist Kyoto",rk:"r_alchemist"},
       {icon:"cafe",name:"Rocking Bar ING",sub:"בר רוק ותקליטים",meta:"ללא הזמנה",tone:"",q:"Rocking Bar ING Kyoto",rk:"r_ing"}]},
     {label:"אוסקה · אוכל",city:"osaka",rows:[
       {icon:"bowl",name:"人情麺屋 牛骨王 · Ninjomenya Gyukotsuo",sub:"ראמן מרק עצמות בקר במקום חזיר · דלפק קטן · Minami-Semba",meta:"בטוח לנועה",tone:"ok",q:"人情麺屋 牛骨王 南船場"},
-      {icon:"bowl",name:"Tokito · ときと",sub:"אזור Karahori, Chūō-ku · וואגיו סנדו",meta:"בוחרים אחד",tone:"",q:"ときと tokito Karahori Osaka"},
-      {icon:"bowl",name:"Dekasan",sub:"אותו וואגיו סנדו — לא רודפים אחרי שניהם",meta:"בוחרים אחד",tone:"",q:"Dekasan Osaka wagyu sando"}]},
+      {icon:"bowl",name:"Tokito · ときと",sub:"Kawarayamachi 1-2-11, Chūō-ku (からほりかわらやえん101) · להגיע מוקדם, הוואגיו סנדו במלאי מוגבל",meta:"להגיע מוקדם",tone:"warn",q:"ときと 瓦屋町 大阪"},
+      {icon:"bowl",name:"Dekasan",sub:"אותו וואגיו סנדו כמו Tokito — לא רודפים אחרי שניהם",meta:"בוחרים אחד",tone:"",q:"Dekasan Osaka wagyu sando"},
+      {icon:"bowl",name:"Kitan Hibiki",sub:"הולכים בשביל ההמבורגרים · ההמבורגרים מוגשים 17:00–19:00 בלבד — הזמנה ל-20:00 = בלי המבורגר ובלי החזר",meta:"לאמת שעות",tone:"warn",q:"Kitan Hibiki Osaka"},
+      {icon:"cafe",name:"pognam",sub:"נשלח בלי פרטים — לברר מה זה ואיפה",meta:"לברר",tone:"warn",q:"pognam Osaka"}]},
     {label:"אוסקה · מתוקים",city:"osaka",rows:[
-      {icon:"cafe",name:"Grenier Patisserie · Kitahama",sub:"הפחזנייה עם הקרם ברולה של נועה",meta:"",tone:"",q:"Grenier Patisserie Kitahama Osaka"},
+      {icon:"cafe",name:"grenier · 北浜店",sub:"סניף Kitahama · הפחזנייה עם הקרם ברולה של נועה",meta:"",tone:"",q:"grenier 北浜店"},
       {icon:"cafe",name:"MooKEN",sub:"פחזניות",meta:"",tone:"",q:"MooKEN cream puff Osaka",rk:"r_mooken"}]},
+    {label:"אוסקה · מוזיקה",city:"osaka",rows:[
+      {icon:"cafe",name:"MUSICBAR FLAG",sub:"Nipponbashi 5-13-7, בניין Ueda · Naniwa-ku",meta:"",tone:"",q:"MUSICBAR FLAG 日本橋 大阪"}]},
     {label:"אוסקה · אזורי ערב",city:"osaka",rows:[
       {icon:"bowl",name:"Fukushima",sub:"אזור ארוחות ערב",meta:"אזור",tone:"",q:"Fukushima Osaka izakaya",rk:"r_fukushima"},
       {icon:"cafe",name:"Tenma",sub:"קפיצות איזקאיה ובארים",meta:"אזור",tone:"",q:"Tenma Osaka izakaya",rk:"r_tenma"},
@@ -252,7 +259,8 @@ var SCREENS = {
     {label:"מטסומוטו · 10, 11, 12/10",city:"matsumoto",rows:[
       {icon:"bowl",name:"עדיין אין מועמדים",sub:"שלוש ארוחות ערב פתוחות — לא ממציאים שמות",meta:"פתוח",tone:"warn"}]},
     {label:"טוקיו",city:"tokyo",rows:[
-      {icon:"star",name:"עדיין אין מועמדים",sub:"נועה תאסוף מ-TikTok/Instagram · תשלח ואוסיף",meta:"פתוח",tone:"todo"}]}]}
+      {icon:"bowl",name:"pizza marumo",sub:"",meta:"",tone:"",q:"pizza marumo Tokyo"},
+      {icon:"star",name:"עוד מועמדים",sub:"נועה תאסוף מ-TikTok/Instagram · תשלח ואוסיף",meta:"פתוח",tone:"todo"}]}]}
 };
 
 /* October climate normals per base (published station averages, 15–30yr).
