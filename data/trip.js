@@ -240,6 +240,7 @@ var SCREENS = {
       {icon:"cafe",name:"Rocking Bar ING",sub:"בר רוק ותקליטים",meta:"ללא הזמנה",tone:"",q:"Rocking Bar ING Kyoto",rk:"r_ing"}]},
     {label:"אוסקה · אוכל",city:"osaka",rows:[
       {icon:"bowl",name:"人情麺屋 牛骨王 · Ninjomenya Gyukotsuo",sub:"ראמן מרק עצמות בקר במקום חזיר · דלפק קטן · Minami-Semba",meta:"בטוח לנועה",tone:"ok",q:"人情麺屋 牛骨王 南船場"},
+      {icon:"bowl",name:"MAREN · 心斎橋",sub:"ראמן עוף · Shinsaibashi · מרק עוף ולא חזיר — האופציה השנייה לנועה אחרי Gyukotsuo. לאמת שגם הצ׳אשו אינו חזיר",meta:"בטוח לנועה",tone:"ok",q:"MAREN 心斎橋"},
       {icon:"bowl",name:"Tokito · ときと",sub:"Kawarayamachi 1-2-11, Chūō-ku (からほりかわらやえん101) · להגיע מוקדם, הוואגיו סנדו במלאי מוגבל",meta:"להגיע מוקדם",tone:"warn",q:"ときと 瓦屋町 大阪"},
       {icon:"bowl",name:"Kitan Hibiki",sub:"הולכים בשביל ההמבורגרים · ההמבורגרים מוגשים 17:00–19:00 בלבד — הזמנה ל-20:00 = בלי המבורגר ובלי החזר",meta:"לאמת שעות",tone:"warn",q:"Kitan Hibiki Osaka"},
       {icon:"cafe",name:"pognam",sub:"נשלח בלי פרטים — לברר מה זה ואיפה",meta:"לברר",tone:"warn",q:"pognam Osaka"}]},
