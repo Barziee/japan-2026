@@ -94,16 +94,16 @@ header .sub{font-size:calc(13.5px*var(--fs));font-weight:500;opacity:.82;margin-
 
 main{flex:1;min-height:0;touch-action:pan-y}
 /* content settles in on every screen/day change; press states give buttons weight */
-@keyframes rise{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
-#body>*{animation:rise .22s cubic-bezier(.2,.8,.3,1) both}
-.stop,.prow,.pg,.chips button,nav button,.gbtn,.vars button{transition:transform .12s ease,opacity .12s ease}
+@keyframes rise{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+#app[data-moved="1"] #body>*{animation:rise .34s cubic-bezier(.22,.61,.36,1) both}
+.stop,.prow,.pg,.chips button,nav button,.gbtn,.vars button{transition:transform .16s cubic-bezier(.22,.61,.36,1),opacity .16s ease}
 .stop:active,.prow:active,.gbtn:active,.vars button:active{transform:scale(.985);opacity:.9}
 .pg:active,nav button:active,.chips button:active{transform:scale(.92)}
 nav button svg,nav button span{transition:color .16s ease}
-nav button[data-on="1"] svg{animation:pop .26s cubic-bezier(.2,.9,.3,1)}
+#app[data-moved="1"] nav button[data-on="1"] svg{animation:pop .34s cubic-bezier(.22,.61,.36,1)}
 @keyframes pop{0%{transform:scale(.8)}60%{transform:scale(1.12)}100%{transform:scale(1)}}
 .stop .cv{transition:transform .2s cubic-bezier(.2,.8,.3,1)}
-@media (prefers-reduced-motion:reduce){#body>*,nav button[data-on="1"] svg{animation:none}}
+@media (prefers-reduced-motion:reduce){#app[data-moved="1"] #body>*,#app[data-moved="1"] nav button[data-on="1"] svg{animation:none}}
 .card{margin:12px 20px 0;padding:12px 13px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
 .hint{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:700;color:var(--ink3)}
 .vars{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
@@ -162,6 +162,11 @@ nav button[data-on="1"] svg{animation:pop .26s cubic-bezier(.2,.9,.3,1)}
   border:1px solid var(--line2);text-align:center}
 
 nav{flex:none;display:flex;padding:5px 10px calc(8px + var(--sab));background:var(--bg);border-top:1px solid var(--line)}
+@media(max-width:759px){
+  /* glue it to the viewport bottom rather than trusting the shell height */
+  nav{position:fixed;left:0;right:0;bottom:0;z-index:30}
+  main{padding-bottom:var(--navh,74px)}
+}
 nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px;min-height:46px;
   position:relative}
 nav button[data-on="1"]::before{content:"";position:absolute;top:0;width:26px;height:2.5px;
@@ -571,7 +576,8 @@ function render(){
              places:["מקומות","רק מה שבחרנו","לחיצה פותחת ב-Google Maps"]};
   var SCREENCOL={trip:"#274B8C",prep:"#2E7D5B",places:"#C25A2A"};
   var headCol=isDay?col:(SCREENCOL[S.view]||"var(--headneutral)"), dateLine, title, sub;
-  if(isDay){ dateLine=day.dow+" · "+day.d+" ב"+MONTH; title="יום "+day.d+" · "+T.BASENAME[day.base]; sub=day.t; }
+  if(isDay){ dateLine=day.dow+" · ⁦"+day.d+"⁩ ב"+MONTH;
+    title="יום ⁦"+(S.sel+1)+"⁩ · "+T.BASENAME[day.base]; sub=day.t; }
   else { var hh=HEADS[S.view]; dateLine=hh[0]; title=hh[1]; sub=hh[2]; }
 
   var ti0=todayIdx();
@@ -641,7 +647,16 @@ function render(){
   }
 
 
+  var navKey=S.view+":"+(isDay?S.sel:"-");
+  app.dataset.moved = (navKey!==LASTNAV) ? "1" : "0";
+  LASTNAV=navKey;
   app.innerHTML=h;
+  /* iOS paints the status-bar strip and the area behind the shell from theme-color;
+     it was a fixed cream, so it never followed the header. */
+  var tc=document.querySelector('meta[name="theme-color"]');
+  if(tc && /^#/.test(headCol)) tc.setAttribute("content", headCol);
+  var nv=app.querySelector("nav");
+  if(nv) app.style.setProperty("--navh", Math.ceil(nv.getBoundingClientRect().height)+"px");
   mountMap(document.getElementById(S.mapOpen?"mapslot2":"mapslot")||document.getElementById("mapslot"));
   if(!map)initMap(); else {map.resize();draw();}
   bind();
@@ -703,6 +718,7 @@ function swipeDays(e){
    labelled as such. Once a date comes into range the real numbers replace them
    on their own, and the label changes to say it is a forecast. */
 var LIVE={};
+var LASTNAV=null;   /* last screen+day, so the entrance animation only runs on real navigation */
 function wxFetch(base){
   var day=T.DAYS[S.sel], pt=T.WX_POINT[base];
   if(!pt||LIVE[base+day.d]!==undefined)return;
@@ -744,6 +760,46 @@ if(window.visualViewport){ visualViewport.addEventListener("resize",fitShell);
 fitShell();
 render();
 fitShell();
+/* ?debug=1 — read-only readout of the numbers that decide whether the nav lands on
+   the bottom edge. Four shell-sizing attempts failed on iOS without ever seeing these,
+   so if it is still wrong, screenshot this instead of guessing again. */
+if(/[?&]debug=1/.test(location.search)){
+  var dbg=document.createElement("div");
+  dbg.style.cssText="position:fixed;left:6px;bottom:6px;z-index:9999;max-width:94vw;"
+    +"background:rgba(0,0,0,.88);color:#0f0;font:11px/1.45 ui-monospace,Menlo,monospace;"
+    +"padding:8px 10px;border-radius:8px;white-space:pre;direction:ltr;text-align:left;pointer-events:none";
+  document.body.appendChild(dbg);
+  var probe=document.createElement("div");
+  probe.style.cssText="position:fixed;top:0;left:0;width:0;height:100dvh;pointer-events:none;visibility:hidden";
+  document.body.appendChild(probe);
+  var draw=function(){
+    var vv=window.visualViewport, app=document.getElementById("app");
+    var nav=app&&app.querySelector("nav"), ar=app?app.getBoundingClientRect():null;
+    var nr=nav?nav.getBoundingClientRect():null;
+    var cs=getComputedStyle(document.documentElement);
+    var L=[];
+    L.push("standalone   "+(navigator.standalone||matchMedia("(display-mode:standalone)").matches));
+    L.push("innerHeight  "+innerHeight);
+    L.push("vv.height    "+(vv?Math.round(vv.height*10)/10:"-"));
+    L.push("vv.offsetTop "+(vv?Math.round((vv.offsetTop||0)*10)/10:"-"));
+    L.push("vv.pageTop   "+(vv?Math.round((vv.pageTop||0)*10)/10:"-"));
+    L.push("vv.scale     "+(vv?Math.round((vv.scale||1)*100)/100:"-"));
+    L.push("100dvh       "+probe.getBoundingClientRect().height);
+    L.push("safe-top     "+cs.getPropertyValue("--sat"));
+    L.push("safe-bottom  "+cs.getPropertyValue("--sab"));
+    L.push("app.top      "+(ar?Math.round(ar.top*10)/10:"-"));
+    L.push("app.bottom   "+(ar?Math.round(ar.bottom*10)/10:"-"));
+    L.push("app.height   "+(ar?Math.round(ar.height*10)/10:"-"));
+    L.push("nav.bottom   "+(nr?Math.round(nr.bottom*10)/10:"-"));
+    L.push("nav.height   "+(nr?Math.round(nr.height*10)/10:"-"));
+    L.push("GAP below nav "+(nr&&vv?Math.round((vv.height-nr.bottom)*10)/10:"-"));
+    dbg.textContent=L.join(String.fromCharCode(10));
+  };
+  draw();
+  addEventListener("resize",draw); addEventListener("scroll",draw,true);
+  if(window.visualViewport){visualViewport.addEventListener("resize",draw);visualViewport.addEventListener("scroll",draw);}
+  setInterval(draw,500);
+}
 fetch("data/route.json").then(function(r){return r.json();}).then(function(j){R=j;render();})
   .catch(function(e){console.warn("route data:",e);});
 </script>
