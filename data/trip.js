@@ -157,7 +157,7 @@ var DAYS = [
   {c:"sight",k:"meiji",n:"אופציה · Meiji Jingū מוקדם",s:"יער שקט, שבילי חצץ — אמצע שבוע = רגוע",t:"08:00"},
   {c:"shop",k:"omotesando",n:"אופציה · Harajuku / Cat Street / Omotesando",s:"בעיקר קניות — יושב בול בין Meiji ל-Shibuya"},
   {c:"town",k:"shibuya",n:"אופציה · Shibuya סימון-וי",s:"Hachiko והמעבר — שעה עד שעה וחצי, לא יותר"}],
-  note:"הערב האחרון — שווה לשמור אותו לארוחה טובה ליד המלון ב-Kagurazaka."},
+  note:"הערב האחרון — שתי גרסאות: T · 中目黒 (וואגיו T-bone, דורש הזמנה) או ארוחה טובה ליד המלון ב-Kagurazaka.",note2:"T הוא ב-Nakameguro, לא ליד המלון — אם בוחרים בו, הגיוני לחבר את היום האחרון לאשכול Daikanyama→Nakameguro ולסגור שם. ו-19/10 הוא יום שני — לוודא שהם פתוחים."},
 
 {d:20,dow:"ג׳",base:"tokyo",t:"יציאה · NRT 18:00",items:[
   {c:"town",k:"kagurazaka",n:"בוקר קליל ליד המלון",s:"ארוחת בוקר, קניות אחרונות, קפה"},
@@ -190,6 +190,7 @@ var SCREENS = {
       {icon:"bowl",name:"ארוחות ערב מטסומוטו · 10, 11, 12/10",sub:"חלון פעולה ~8–12 בספטמבר · דרך Jujo · חג + פסטיבל = עיר מלאה",meta:"לא הוזמן",tone:"warn"},
       {icon:"bowl",name:"ערב גוג׳ו · 9/10",sub:"だいこく家 או Pizzeria Gonza · עיירה קטנה",meta:"לא הוזמן",tone:"warn"},
       {icon:"bus",name:"אוטובוס Tsumago → Magome · 10/10",sub:"נסיעת חזרה אל הרכב — קובע האוטובוס האחרון, לא הראשון · לאמת לוח אוקטובר 2026 · עדיף מונית מוזמנת מראש ~¥3,000–5,000",meta:"לבדוק",tone:"warn"},
+      {icon:"bowl",name:"T · 中目黒 · ערב אחרון 19/10",sub:"עדיין לא נפתח לאוקטובר · לבדוק <b>1/9</b> (אותו יום כמו Hikiniku) ואם לא — שוב <b>19/9</b> · לוודא שפתוחים ביום שני",meta:"להזמין",tone:"warn"},
       {icon:"bus",name:"אוטובוסי Kamikōchi / Norikura",sub:"הזמנה חובה אם עושים",meta:"לבדוק",tone:"warn"}]}]},
 
   lists:{groups:[
@@ -262,6 +263,7 @@ var SCREENS = {
     {label:"מטסומוטו · 10, 11, 12/10",city:"matsumoto",rows:[
       {icon:"bowl",name:"עדיין אין מועמדים",sub:"שלוש ארוחות ערב פתוחות — לא ממציאים שמות",meta:"פתוח",tone:"warn"}]},
     {label:"טוקיו",city:"tokyo",rows:[
+      {icon:"bowl",name:"T · 中目黒",sub:"וואגיו T-bone · המועמד לערב האחרון ביפן (19/10) · עדיין אי-אפשר להזמין לאוקטובר — לבדוק 1/9 ושוב 19/9",meta:"להזמין",tone:"warn",q:"T 中目黒 ステーキ"},
       {icon:"bowl",name:"pizza marumo",sub:"",meta:"",tone:"",q:"pizza marumo Tokyo"},
       {icon:"star",name:"עוד מועמדים",sub:"נועה תאסוף מ-TikTok/Instagram · תשלח ואוסיף",meta:"פתוח",tone:"todo"}]}]}
 };
