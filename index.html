@@ -255,8 +255,8 @@ function dayItems(day){
   var p=S.variant[day.d]||0;
   return day.items.filter(function(it){return !isVar(it)||it===vs[p];});
 }
-function dayKm(day){return R?day.items.reduce(function(a,it){return a+(it.drive&&R.drives[it.drive]?R.drives[it.drive].km:0);},0):0;}
-function dayHrs(day){return R?day.items.reduce(function(a,it){return a+(it.drive&&R.drives[it.drive]?R.drives[it.drive].hrs:0);},0):0;}
+function dayKm(day){return R?dayItems(day).reduce(function(a,it){return a+(it.drive&&R.drives[it.drive]?R.drives[it.drive].km:0);},0):0;}
+function dayHrs(day){return R?dayItems(day).reduce(function(a,it){return a+(it.drive&&R.drives[it.drive]?R.drives[it.drive].hrs:0);},0):0;}
 function daySig(day){
   var have={};day.items.forEach(function(it){if(it.c)have[it.c]=1;});
   if(dayKm(day)>60)have.drive=1;
@@ -395,7 +395,7 @@ function dayScreen(day){
     var CONDS={6:["יום צלול","גם בענן","נשארים בעיר"],7:["גם בגשם","רק במזג טוב"],
                10:["הליכה מלאה","בלי הליכה","ישר"],
                11:["אוטובוס","נהיגה","קליל"],
-               14:["ההר נראה","עננים נעים","הכול מעונן","ההר מוסתר, איזו בהיר","איזו — קצר יותר"]};
+               14:["ההר נראה","עננים נעים","הכול מעונן","מערב איזו · היום המלא","איזו מזרחי","איזו — קצר"]};
     h+='<div class="card"><div class="hint">'+svg(T.I.cloud,14)+' '
       +(day.d===14?"בודקים עננות בבוקר ובוחרים":"היום גמיש — בוחרים לפי התחזית")+'</div><div class="vars">';
     vs.forEach(function(v,i){
@@ -409,7 +409,7 @@ function dayScreen(day){
   }
   /* ⚠️ notes are booking/logistics warnings — they belong in הכנות, not in the
      middle of the day you are walking. Plain notes stay. */
-  [day.note,day.note2,day.note3].forEach(function(nt){
+  (function(){var a=[];for(var i=1;i<=8;i++){var v=day[i===1?"note":"note"+i];if(v)a.push(v);}return a;})().forEach(function(nt){
     if(!nt||nt.indexOf("⚠️")===0)return;
     var warn=false;
     h+='<div class="note'+(warn?" warn":"")+'"><span style="flex:none;margin-top:1px;color:'
