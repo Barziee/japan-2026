@@ -193,8 +193,8 @@ var SCREENS = {
       {icon:"bowl",name:"ארוחות ערב מטסומוטו · 10, 11, 12/10",sub:"חלון פעולה ~8–12 בספטמבר · דרך Jujo · חג + פסטיבל = עיר מלאה",meta:"לא הוזמן",tone:"warn"},
       {icon:"bowl",name:"ערב גוג׳ו · 9/10",sub:"だいこく家 או Pizzeria Gonza · עיירה קטנה",meta:"לא הוזמן",tone:"warn"},
       {icon:"bus",name:"אוטובוס Tsumago → Magome · 10/10",sub:"נסיעת חזרה אל הרכב — קובע האוטובוס האחרון, לא הראשון · לאמת לוח אוקטובר 2026 · עדיף מונית מוזמנת מראש ~¥3,000–5,000",meta:"לבדוק",tone:"warn"},
-      {icon:"bowl",name:"T · 中目黒 · ערב אחרון 19/10",sub:"עדיין לא נפתח לאוקטובר · לבדוק <b>1/9</b> (אותו יום כמו Hikiniku) ואם לא — שוב <b>19/9</b> · לוודא שפתוחים ביום שני",meta:"להזמין",tone:"warn"},
-      {icon:"bus",name:"אוטובוסי Kamikōchi / Norikura",sub:"הזמנה חובה אם עושים",meta:"לבדוק",tone:"warn"}]}]},
+      {icon:"bowl",name:"T · 中目黒 · ערב אחרון 19/10",sub:"עדיין לא נפתח לאוקטובר · לבדוק 1/9 (אותו יום כמו Hikiniku) ואם לא — שוב 19/9 · לוודא שפתוחים ביום שני",meta:"להזמין",tone:"warn"},
+      {icon:"bus",name:"אוטובוסי Kamikōchi / Norikura",sub:"לא שמורים — עולים במקום, בלי הזמנה מראש",meta:"",tone:"ok"}]}]},
 
   lists:{groups:[
     {label:"מסמכים",rows:[
@@ -212,11 +212,7 @@ var SCREENS = {
       {name:"שכבות · 7–23°",sub:"נוחתים ב-24°, ועומדים על 2,000מ׳ תוך עשרה ימים",meta:"פתוח",tone:"todo"},
       {name:"נעלי הליכה אמיתיות",sub:"נקאסנדו ~9 ק״מ",meta:"פתוח",tone:"todo"},
       {name:"2–3 מתאמי חשמל Type A",sub:"+ מפצל USB",meta:"פתוח",tone:"todo"},
-      {name:"תרופות בטן",sub:"לופרמיד, נגד בחילה, פרוביוטיקה",meta:"פתוח",tone:"todo"}]},
-    {label:"לקנות שם",rows:[
-      {icon:"shop",name:"סכין יפנית",sub:"שתי הזדמנויות: Tower Knives אוסקה (4–7/10, Shinsekai) או Seki ב-9/10 · בטיסה הביתה — במזוודה, לא בעלייה למטוס",meta:"",tone:""},
-      {icon:"shop",name:"קרמיקה",sub:"Nakamachi במטסומוטו",meta:"",tone:""},
-      {icon:"shop",name:"וינטג׳ ותקליטים",sub:"Koenji, Shimokitazawa, Nakano",meta:"",tone:""}]}]},
+      {name:"תרופות בטן",sub:"לופרמיד, נגד בחילה, פרוביוטיקה",meta:"פתוח",tone:"todo"}]}]},
 
   weather:{groups:[
     {label:"ימים שנקבעים לפי התחזית",rows:[
@@ -255,7 +251,7 @@ var SCREENS = {
     {label:"אוסקה · מוזיקה",city:"osaka",rows:[
       {icon:"cafe",name:"MUSICBAR FLAG",sub:"Nipponbashi 5-13-7, בניין Ueda · Naniwa-ku",meta:"",tone:"",q:"MUSICBAR FLAG 日本橋 大阪"}]},
     {label:"אוסקה · קניות",city:"osaka",rows:[
-      {icon:"shop",name:"Tower Knives Osaka",sub:"סכינים · Shinsekai, ליד Tsūtenkaku · צוות דובר אנגלית · הזדמנות הסכינים הראשונה בטיול, לפני Seki ב-9/10",meta:"",tone:"",q:"Tower Knives Osaka",rk:"r_towerknives"}]},
+      {icon:"shop",name:"Tower Knives Osaka",sub:"סכינים · Shinsekai, ליד Tsūtenkaku · צוות דובר אנגלית · ההזדמנות הראשונה, לפני Seki ב-9/10 · בטיסה הביתה נוסע במזוודה, לא בעלייה למטוס",meta:"",tone:"",q:"Tower Knives Osaka",rk:"r_towerknives"}]},
     {label:"אוסקה · אזורי ערב",city:"osaka",rows:[
       {icon:"bowl",name:"Fukushima",sub:"אזור ארוחות ערב",meta:"אזור",tone:"",q:"Fukushima Osaka izakaya",rk:"r_fukushima"},
       {icon:"cafe",name:"Tenma",sub:"קפיצות איזקאיה ובארים",meta:"אזור",tone:"",q:"Tenma Osaka izakaya",rk:"r_tenma"},
@@ -265,6 +261,8 @@ var SCREENS = {
       {icon:"bowl",name:"Pizzeria Gonza",sub:"גיבוי אמיתי, לא פרס ניחומים",meta:"להזמין",tone:"warn",q:"Pizzeria Gonza Gujo"}]},
     {label:"מטסומוטו · 10, 11, 12/10",city:"matsumoto",rows:[
       {icon:"bowl",name:"עדיין אין מועמדים",sub:"שלוש ארוחות ערב פתוחות — לא ממציאים שמות",meta:"פתוח",tone:"warn"}]},
+    {label:"מטסומוטו · קניות",city:"matsumoto",rows:[
+      {icon:"shop",name:"קרמיקה ב-Nakamachi",sub:"",meta:"",tone:"",q:"Nakamachi Street Matsumoto"}]},
     {label:"טוקיו",city:"tokyo",rows:[
       {icon:"bowl",name:"T · 中目黒",sub:"וואגיו T-bone · המועמד לערב האחרון ביפן (19/10) · עדיין אי-אפשר להזמין לאוקטובר — לבדוק 1/9 ושוב 19/9",meta:"להזמין",tone:"warn",q:"T 中目黒 ステーキ"},
       {icon:"bowl",name:"pizza marumo",sub:"",meta:"",tone:"",q:"pizza marumo Tokyo"},
