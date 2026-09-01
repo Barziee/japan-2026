@@ -14,7 +14,7 @@ import { climate } from "../../data/lists.js";
 import { state, save } from "../store.js";
 import {
   svg, esc, timeLabel, isSoft, minutesOf, dLabel, mapsSearch, mapsDir,
-  dayRoute, NOTE_ICON, CAT_ICON, WALLET_ICON, MODE_ICON
+  dayRoute, NOTE_ICON, CAT_ICON, WALLET_ICON, MODE_ICON, SKY_ICON
 } from "../ui.js";
 
 /* Which day the app should be showing. Before departure this is day one, so
@@ -67,7 +67,8 @@ function countdown() {
   if (ms <= 0) return "";
   const d = Math.floor(ms / 86400000);
   const h = Math.floor(ms / 3600000) % 24;
-  return `<div class="countdown"><i></i>Flight in ${d}d ${h}h</div>`;
+  const m = Math.floor(ms / 60000) % 60;
+  return `<div class="countdown"><i></i><b>${d}d ${h}h ${m}m</b> to the flight</div>`;
 }
 
 /* ------------------------------------------------------------ sections */
@@ -213,6 +214,9 @@ function clusterBank(day) {
   return `<div class="sect">Pick one</div>${rows}`;
 }
 
+const shot = day =>
+  `<span class="shot"><img src="./assets/${day.dest}.jpg" alt="" decoding="async"></span>`;
+
 function upNext(day, idx) {
   /* Tokyo is a bank of clusters, not an itinerary. */
   if (day.bank) {
@@ -226,6 +230,7 @@ function upNext(day, idx) {
             <a class="btn btn-primary" href="#/day/${day.id}">See the options</a>
           </div>
         </div>
+        ${shot(day)}
       </div>`;
   }
 
@@ -243,6 +248,7 @@ function upNext(day, idx) {
             <a class="btn btn-primary" href="#/day/${day.id}">View details</a>
           </div>
         </div>
+        ${shot(day)}
       </div>`;
   }
 
@@ -272,6 +278,7 @@ function upNext(day, idx) {
           ${state.stopOffset[day.id] ? `<button class="btn btn-text" data-reset="${day.id}">Reset to schedule</button>` : ""}
         </div>
       </div>
+      ${shot(day)}
     </div>`;
 }
 
@@ -291,11 +298,11 @@ export function render() {
         <div class="todayhead">
           <div>
             <h1 class="display">${esc(dest.name)}</h1>
-            <div class="ja">${esc(dest.ja)} · ${esc(day.title)}</div>
+            <div class="ja">${esc(day.title)}</div>
           </div>
           ${wx ? `<div class="wx">
-            <div class="t">${wx.hi}°</div>
-            <div class="d">${esc(wx.text)} · ${wx.lo}°</div>
+            <span class="glyph">${svg(SKY_ICON[wx.sky] || "partly")}</span>
+            <span><span class="t">${wx.hi}°</span><br><span class="lo">${wx.lo}°</span></span>
           </div>` : ""}
         </div>
         ${upNext(day, idx)}

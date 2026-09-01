@@ -15,15 +15,20 @@ const catLabel = id => CATEGORIES.find(c => c.id === id)?.label || id;
 export function placeRow(p) {
   const pinned = isPinned(p);
   const area = p.area ? destById[p.area]?.name : null;
-  const sub = [catLabel(p.cat), p.where || area].filter(Boolean).join(" · ");
+  /* What it is comes first and in the category's colour; where it is follows
+     in grey. This is the line Noa reads instead of guessing from the name. */
+  const what = p.kind || catLabel(p.cat);
+  const where = p.where || area;
 
   return `
     <div class="prow" data-place="${p.id}" aria-expanded="false">
       <button class="head" data-toggle="${p.id}" aria-label="${esc(p.name)}">
-        <span class="sw">${svg(CAT_ICON[p.cat])}</span>
+        <span class="sw k-${p.cat}">${svg(CAT_ICON[p.cat])}</span>
         <span class="t">
-          <span class="n">${esc(p.name)}${p.ja ? ` <span style="color:var(--ink3);font-weight:500">${esc(p.ja)}</span>` : ""}</span>
-          <span class="c">${esc(sub)}</span>
+          <span class="n">${esc(p.name)}</span>
+          <span class="c" style="color:var(--c-${p.cat})">
+            <em>${esc(what)}</em>${where ? `<span class="where"> · ${esc(where)}</span>` : ""}
+          </span>
         </span>
         ${pinned ? `<span class="pin">${svg("star")}</span>` : ""}
         <span class="chev">${svg("chev")}</span>
@@ -105,13 +110,10 @@ export function renderSaved(query = {}) {
     html: `
       <div class="screen">
         <div style="padding-bottom:var(--s4)">
-          <h1 class="display" style="font-size:40px">Saved</h1>
-          <div class="muted tiny" style="margin-top:7px">
-            ${places.length} places we already did the homework on.
-          </div>
+          <h1 class="display" style="font-size:42px">Saved</h1>
         </div>
-        <div class="pillrow">${areaPills}</div>
-        <div class="pillrow">${catPills}</div>
+        <div class="pillrow areas">${areaPills}</div>
+        <div class="pillrow cats">${catPills}</div>
         ${rows}
         <div style="height:var(--s7)"></div>
       </div>`,

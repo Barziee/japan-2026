@@ -4,10 +4,18 @@
    ============================================================ */
 
 :root{
-  --canvas:#f7f5f1;
+  --canvas:#f4f1ea;
   --surface:#ffffff;
-  --sand:#ede1d4;
-  --soft:#f1f1f4;
+  --sand:#e9dcc9;
+  --sand-deep:#dccbb2;
+  --soft:#efece6;
+
+  /* Category colours. These carry meaning — a coral tile is always food. */
+  --c-food:#d8503c;      --c-food-bg:#fbe8e4;
+  --c-coffee:#9c6b3c;    --c-coffee-bg:#f5eadd;
+  --c-do:#4a55c4;        --c-do-bg:#e8eafb;
+  --c-shopping:#8a4f96;  --c-shopping-bg:#f3e9f6;
+  --c-nature:#2b7f55;    --c-nature-bg:#e2f1e8;
 
   --ink:#202126;
   --ink2:#6e7078;
@@ -16,8 +24,8 @@
   --line:rgba(32,33,38,.085);
   --line2:rgba(32,33,38,.16);
 
-  --indigo:#5059c9;
-  --indigo-soft:#eceefb;
+  --indigo:#4a55c4;
+  --indigo-soft:#e8eafb;
   --teal:#269c92;
   --teal-soft:#e4f3f1;
   --coral:#e65b45;
@@ -64,10 +72,10 @@ ul{margin:0;padding:0;list-style:none}
 /* The one display face. Destination and screen titles only — never a
    section heading, never body copy. */
 .display{
-  font-family:"Instrument Serif",Georgia,"Times New Roman",serif;
+  font-family:Georgia,"Times New Roman",serif;
   font-weight:400;
-  letter-spacing:-.02em;
-  line-height:1;
+  letter-spacing:-.035em;
+  line-height:1.02;
 }
 
 /* ============================ shell ============================ */
@@ -77,6 +85,7 @@ ul{margin:0;padding:0;list-style:none}
   padding-bottom:var(--nav-h);
 }
 .screen{
+  touch-action:pan-y;
   padding:0 var(--pad);
   max-width:720px;
   margin:0 auto;
@@ -102,8 +111,10 @@ ul{margin:0;padding:0;list-style:none}
   color:var(--ink2);transition:background var(--dur) var(--ease),color var(--dur) var(--ease);
 }
 .iconbtn:active{background:var(--soft);color:var(--ink)}
-.iconbtn svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.iconbtn.yen{font-weight:600;font-size:17px}
+.iconbtn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.iconbtn.yen{font-weight:700;font-size:18px}
+/* Solid dots rather than a hairline stroke — it was too faint to aim at. */
+.iconbtn.more svg{width:22px;height:22px;fill:currentColor;stroke:none}
 
 /* bottom nav -------------------------------------------------- */
 .tabbar{
@@ -126,15 +137,28 @@ ul{margin:0;padding:0;list-style:none}
   transition:transform 220ms var(--ease)}
 .tab span{font-size:10.5px;font-weight:600;letter-spacing:.01em}
 .tab[aria-current="page"]{color:var(--indigo)}
-.tab[aria-current="page"] svg{transform:translateY(-1px) scale(1.06)}
-.tab:active svg{transform:scale(.9)}
+.tab[aria-current="page"] svg{animation:tabpop 420ms var(--ease)}
+.tab:active svg{transform:scale(.86)}
+@keyframes tabpop{
+  0%{transform:scale(.82) translateY(2px)}
+  45%{transform:scale(1.18) translateY(-3px)}
+  70%{transform:scale(.96) translateY(0)}
+  100%{transform:scale(1) translateY(-1px)}
+}
+/* The active tab keeps a small lift once the pop finishes. */
+.tab[aria-current="page"] svg{transform:translateY(-1px)}
+.tab[aria-current="page"]::after{
+  content:"";position:absolute;bottom:2px;width:16px;height:2.5px;border-radius:2px;
+  background:var(--indigo);animation:tabbar-in 300ms var(--ease)}
+.tab{position:relative}
+@keyframes tabbar-in{from{transform:scaleX(0);opacity:0}to{transform:none;opacity:1}}
 
 /* ============================ type ============================ */
 
 .sect{
   display:flex;align-items:baseline;justify-content:space-between;gap:var(--s3);
-  font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
-  color:var(--ink2);
+  font-size:11px;font-weight:750;letter-spacing:.1em;text-transform:uppercase;
+  color:#8a7f6d;
   padding:var(--s6) 0 var(--s3);
 }
 .sect .more{font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--indigo)}
@@ -163,6 +187,8 @@ ul{margin:0;padding:0;list-style:none}
   transition:background 160ms var(--ease),color 160ms var(--ease);
 }
 .pill[aria-pressed="true"]{background:var(--indigo);border-color:var(--indigo);color:#fff}
+.pillrow.areas .pill[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.pillrow.cats .pill[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
 .pillrow{display:flex;gap:7px;overflow-x:auto;padding:2px 0 var(--s2);scrollbar-width:none;
   margin:0 calc(var(--pad) * -1);padding-left:var(--pad);padding-right:var(--pad)}
 .pillrow::-webkit-scrollbar{display:none}
@@ -179,39 +205,50 @@ ul{margin:0;padding:0;list-style:none}
 
 /* countdown --------------------------------------------------- */
 .countdown{
-  display:inline-flex;align-items:center;gap:7px;
-  height:27px;padding:0 12px;border-radius:var(--r-pill);
-  background:var(--coral-soft);color:var(--coral);
-  font-size:12.5px;font-weight:650;
-  margin-bottom:var(--s4);
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11.5px;font-weight:700;letter-spacing:.02em;
+  color:var(--coral);
+  margin-bottom:var(--s3);
 }
 .countdown i{width:5px;height:5px;border-radius:50%;background:currentColor;
   animation:pulse 2.4s ease-in-out infinite}
+.countdown b{font-weight:750;font-variant-numeric:tabular-nums}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 
 /* today head -------------------------------------------------- */
 .todayhead{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--s4);margin-bottom:var(--s5)}
-.todayhead h1{font-size:44px;overflow-wrap:anywhere}
-.todayhead .ja{font-size:13px;color:var(--ink3);margin-top:5px;letter-spacing:.04em}
-.wx{text-align:right;flex:none;padding-top:6px}
-.wx .t{font-size:19px;font-weight:600;letter-spacing:-.02em}
-.wx .d{font-size:11.5px;color:var(--ink2);margin-top:2px;max-width:112px;line-height:1.35}
+.todayhead h1{font-size:48px;overflow-wrap:anywhere}
+.todayhead .ja{font-size:14px;color:var(--ink2);margin-top:7px}
+.wx{flex:none;padding-top:8px;display:flex;align-items:center;gap:8px}
+.wx .glyph{width:30px;height:30px;color:var(--ink2)}
+.wx .glyph svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.wx .t{font-size:23px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.wx .lo{font-size:12px;color:var(--ink3);font-weight:550}
 
 /* up next ----------------------------------------------------- */
 .upnext{
   display:block;border-radius:var(--r-img);overflow:hidden;
-  background:var(--surface);border:1px solid var(--line);
+  background:linear-gradient(158deg,#fffdf9 0%,var(--sand) 190%);
+  border:1px solid var(--sand-deep);
   transition:transform 180ms var(--ease);
 }
 .upnext:active{transform:scale(.988)}
-.upnext .body{padding:var(--s4) var(--s4) var(--s4)}
+.upnext{display:flex;align-items:stretch}
+.upnext .body{padding:var(--s4);flex:1;min-width:0}
+.upnext .shot{width:104px;flex:none;position:relative;overflow:hidden}
+.upnext .shot img{width:100%;height:100%;object-fit:cover;display:block}
+.upnext .shot::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(to right,rgba(255,253,249,.9) 0%,rgba(255,253,249,0) 42%);
+}
+@media (max-width:359px){ .upnext .shot{display:none} }
 .upnext .tag{
   display:inline-block;padding:4px 9px;border-radius:6px;
   background:var(--indigo);color:#fff;
   font-size:9.5px;font-weight:750;letter-spacing:.1em;text-transform:uppercase;
   margin-bottom:11px;
 }
-.upnext h2{font-size:31px;margin-bottom:3px}
+.upnext h2{font-size:33px;margin-bottom:4px}
 .upnext .sub{font-size:13.5px;color:var(--ink2)}
 .upnext .when{margin-top:11px;font-size:14px;font-weight:650;color:var(--coral)}
 .upnext .how{font-size:13px;color:var(--ink2);margin-top:2px}
@@ -281,12 +318,19 @@ ul{margin:0;padding:0;list-style:none}
 .rows{border-top:1px solid var(--line)}
 .prow{display:block;width:100%;text-align:left;border-bottom:1px solid var(--line)}
 .prow .head{display:flex;align-items:center;gap:12px;padding:13px 0;width:100%;text-align:left}
-.prow .sw{width:38px;height:38px;border-radius:10px;flex:none;background:var(--soft);
-  display:grid;place-items:center;color:var(--ink2)}
+.prow .sw{width:40px;height:40px;border-radius:11px;flex:none;
+  display:grid;place-items:center}
+.sw.k-food{background:var(--c-food-bg);color:var(--c-food)}
+.sw.k-coffee{background:var(--c-coffee-bg);color:var(--c-coffee)}
+.sw.k-do{background:var(--c-do-bg);color:var(--c-do)}
+.sw.k-shopping{background:var(--c-shopping-bg);color:var(--c-shopping)}
+.sw.k-nature{background:var(--c-nature-bg);color:var(--c-nature)}
 .prow .sw svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .prow .t{flex:1;min-width:0}
-.prow .t .n{font-size:14.5px;font-weight:650;letter-spacing:-.005em}
-.prow .t .c{font-size:12px;color:var(--ink3);margin-top:1px}
+.prow .t .n{font-size:15px;font-weight:650;letter-spacing:-.005em}
+.prow .t .c{font-size:12.5px;margin-top:2px;font-weight:600}
+.prow .t .c em{font-style:normal;font-weight:650}
+.prow .t .c .where{color:var(--ink3);font-weight:500}
 .prow .pin{flex:none;color:var(--coral)}
 .prow .pin svg{width:14px;height:14px;fill:currentColor;stroke:none}
 .prow .chev{flex:none;color:var(--ink3);transition:transform var(--dur) var(--ease)}
@@ -336,13 +380,12 @@ ul{margin:0;padding:0;list-style:none}
   margin-bottom:var(--s3);transition:transform 180ms var(--ease)}
 .destcard:active{transform:scale(.99)}
 .destcard .t{flex:1;min-width:0;padding:15px var(--s4)}
-.destcard .dates{font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3)}
-.destcard h3{font-size:26px;margin:6px 0 3px}
-.destcard .n{font-size:12.5px;color:var(--ink2)}
-.destcard .l{font-size:12.5px;color:var(--ink3);margin-top:9px}
-.destcard .art{width:104px;flex:none;background:var(--sand);position:relative}
-.destcard .art .ja{position:absolute;inset:0;display:grid;place-items:center;
-  font-family:"Instrument Serif",Georgia,serif;font-size:27px;color:rgba(32,33,38,.24)}
+.destcard .dates{font-size:11px;font-weight:750;letter-spacing:.09em;text-transform:uppercase;color:var(--coral)}
+.destcard h3{font-size:30px;margin:7px 0 4px}
+.destcard .n{font-size:13.5px;color:var(--ink2);font-weight:550}
+.destcard .l{font-size:13.5px;color:var(--ink3);margin-top:10px}
+.destcard .art{width:118px;flex:none;background:var(--sand);position:relative;overflow:hidden}
+.destcard .art img{width:100%;height:100%;object-fit:cover;display:block}
 
 
 /* Row text stacks are spans (so the whole row can be one <a>), which means
@@ -354,6 +397,27 @@ ul{margin:0;padding:0;list-style:none}
 .prow .t .c{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lrow .t .n,.lrow .t .s{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .destcard .n{margin-top:2px}
+
+/* destination banner ------------------------------------------- */
+.destbanner{
+  margin:0 calc(var(--pad) * -1) var(--s4);
+  height:170px;overflow:hidden;background:var(--sand);
+  position:relative;
+}
+.destbanner img{width:100%;height:100%;object-fit:cover;display:block}
+.destbanner::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 45%,rgba(244,241,234,.92) 100%);
+}
+@media (min-width:760px){
+  .destbanner{margin-left:calc(var(--s6) * -1);margin-right:calc(var(--s6) * -1);border-radius:0}
+}
+
+/* Tab changes slide in the direction you swiped. */
+.screen.from-right{animation:slide-from-right 260ms var(--ease)}
+.screen.from-left{animation:slide-from-left 260ms var(--ease)}
+@keyframes slide-from-right{from{opacity:0;transform:translateX(22px)}to{opacity:1;transform:none}}
+@keyframes slide-from-left{from{opacity:0;transform:translateX(-22px)}to{opacity:1;transform:none}}
 
 /* ============================ sheets ============================ */
 

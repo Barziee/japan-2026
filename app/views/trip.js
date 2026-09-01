@@ -28,7 +28,7 @@ export function renderTrip() {
           <span class="n">${d.nights} night${d.nights > 1 ? "s" : ""} · ${n} day${n > 1 ? "s" : ""}</span>
           <span class="l">${esc(d.places)}</span>
         </span>
-        <span class="art"><span class="ja">${esc(d.ja)}</span></span>
+        <span class="art"><img src="./assets/${d.id}.jpg" alt="" loading="lazy" decoding="async"></span>
       </a>`;
   }).join("");
 
@@ -40,9 +40,9 @@ export function renderTrip() {
           <div style="font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--coral)">
             ${esc(trip.title)} · ${trip.year}
           </div>
-          <h1 class="display" style="font-size:42px;margin-top:8px">Your trip</h1>
-          <div class="muted tiny" style="margin-top:7px">
-            ${esc(rangeLabel(trip.from, trip.to))} · ${trip.nights} nights · Osaka to Tokyo
+          <h1 class="display" style="font-size:46px;margin-top:8px">Noa &amp; Bar<br>go to Japan</h1>
+          <div class="muted" style="margin-top:9px;font-size:14px">
+            ${esc(rangeLabel(trip.from, trip.to))} · ${trip.nights} nights · Osaka all the way to Tokyo
           </div>
         </div>
         <div class="sect">The journey</div>
@@ -66,7 +66,7 @@ export function renderDestination(id) {
     <a class="lrow" href="#/day/${x.id}">
       <span class="t">
         <span class="n">${esc(x.dow)} ${dShort(x.date).split(" ")[1]} · ${esc(x.title)}</span>
-        <span class="s">${(x.plan || []).length} stop${(x.plan || []).length === 1 ? "" : "s"}${x.flexible ? " · flexible" : ""}</span>
+        <span class="s">${x.flexible ? "Flexible" : (x.plan || []).length + " stop" + ((x.plan || []).length === 1 ? "" : "s")}</span>
       </span>
       <span class="go">${svg("right")}</span>
     </a>`).join("");
@@ -76,8 +76,9 @@ export function renderDestination(id) {
     back: "#/trip",
     html: `
       <div class="screen">
+        <div class="destbanner"><img src="./assets/${d.id}.jpg" alt="" decoding="async"></div>
         <div style="padding-bottom:var(--s5)">
-          <h1 class="display" style="font-size:42px">${esc(d.name)}</h1>
+          <h1 class="display" style="font-size:44px">${esc(d.name)}</h1>
           <div class="muted tiny" style="margin-top:8px">
             ${esc(d.ja)} · ${esc(rangeLabel(d.from, d.to))} · ${d.nights} night${d.nights > 1 ? "s" : ""}
           </div>

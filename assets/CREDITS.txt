@@ -1,0 +1,9 @@
+Destination photographs — lead images from the corresponding Wikipedia articles,
+which host freely licensed media. See each Commons file page for licence and author.
+
+osaka.jpg — Dōtonbori — https://en.wikipedia.org/wiki/D%C5%8Dtonbori
+kyoto.jpg — Gion — https://en.wikipedia.org/wiki/Gion
+gujo.jpg — Gujō, Gifu — https://en.wikipedia.org/wiki/Guj%C5%8D%2C_Gifu
+matsumoto.jpg — Matsumoto Castle — https://en.wikipedia.org/wiki/Matsumoto_Castle
+fuji.jpg — Mount Fuji — https://en.wikipedia.org/wiki/Mount_Fuji
+tokyo.jpg — Tokyo — https://en.wikipedia.org/wiki/Tokyo

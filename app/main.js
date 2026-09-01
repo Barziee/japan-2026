@@ -74,7 +74,7 @@ function topbar(view) {
       <div class="eyebrow">${esc(view.eyebrow || "")}</div>
       <button class="iconbtn" data-search aria-label="Search">${svg("search")}</button>
       <button class="iconbtn yen" data-fx aria-label="Currency converter">¥</button>
-      <button class="iconbtn" data-more aria-label="More">${svg("dots")}</button>
+      <button class="iconbtn more" data-more aria-label="More">${svg("dots")}</button>
     </header>`;
 }
 
@@ -91,6 +91,69 @@ function tabbar(active) {
 /* ------------------------------------------------------------ render */
 
 let lastPath = null;
+let slideDir = null;      // set by a swipe so the incoming screen moves with it
+
+/* Swipe left and right between the three main tabs.
+
+   Listens on touch first, because that is what iOS Safari delivers, and
+   falls back to pointer events for a trackpad. Drags that start inside
+   something which scrolls sideways — the filter rows, the route strip — are
+   left alone, as are gestures more vertical than horizontal, so the page
+   still scrolls normally. */
+function wireSwipe(root, activeTab) {
+  const order = TABS.map(t => t[0]);
+  const at = order.indexOf(activeTab);
+  if (at < 0) return;
+
+  let x0 = 0, y0 = 0, t0 = 0, live = false;
+
+  const startsInScroller = target => {
+    let n = target;
+    while (n && n !== root) {
+      if (n.scrollWidth > n.clientWidth + 4) return true;
+      n = n.parentElement;
+    }
+    return false;
+  };
+
+  const begin = (x, y, target) => {
+    if (startsInScroller(target)) { live = false; return; }
+    x0 = x; y0 = y; t0 = Date.now(); live = true;
+  };
+
+  const finish = (x, y) => {
+    if (!live) return;
+    live = false;
+    const dx = x - x0, dy = y - y0;
+    if (Date.now() - t0 > 800) return;
+    if (Math.abs(dx) < 56 || Math.abs(dx) < Math.abs(dy) * 1.6) return;
+    const next = order[at + (dx < 0 ? 1 : -1)];
+    if (!next) return;
+    slideDir = dx < 0 ? "from-right" : "from-left";
+    go("#/" + next);
+  };
+
+  root.addEventListener("touchstart", e => {
+    const t = e.changedTouches[0];
+    begin(t.clientX, t.clientY, e.target);
+  }, { passive: true });
+
+  root.addEventListener("touchend", e => {
+    const t = e.changedTouches[0];
+    finish(t.clientX, t.clientY);
+  }, { passive: true });
+
+  root.addEventListener("pointerdown", e => {
+    if (e.pointerType === "touch") return;          // touch path handles it
+    if (e.button !== 0) return;
+    begin(e.clientX, e.clientY, e.target);
+  }, { passive: true });
+
+  root.addEventListener("pointerup", e => {
+    if (e.pointerType === "touch") return;
+    finish(e.clientX, e.clientY);
+  }, { passive: true });
+}
 
 function render() {
   const view = resolve();
@@ -99,6 +162,12 @@ function render() {
   app.innerHTML = topbar(view) + `<main id="view">${view.html}</main>` + tabbar(view.tab);
 
   const root = app.querySelector("#view");
+
+  if (slideDir) {
+    root.querySelector(".screen")?.classList.add(slideDir);
+    slideDir = null;
+  }
+  wireSwipe(root, view.tab);
 
   /* Scroll to the top on a genuine navigation, but not when a filter
      re-renders the same screen underneath the reader. */

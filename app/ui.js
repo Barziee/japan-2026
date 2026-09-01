@@ -3,7 +3,7 @@
 
 const P = {
   search:"M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm10 2-4.35-4.35",
-  dots:"M5 12h.01M12 12h.01M19 12h.01",
+  dots:"M6 10.1a1.9 1.9 0 1 1 0 3.8 1.9 1.9 0 1 1 0-3.8M12 10.1a1.9 1.9 0 1 1 0 3.8 1.9 1.9 0 1 1 0-3.8M18 10.1a1.9 1.9 0 1 1 0 3.8 1.9 1.9 0 1 1 0-3.8",
   today:"M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0-13v5l3 2",
   trip:"M9 4 3 6.5v13L9 17l6 2.5 6-2.5v-13L15 6.5 9 4Zm0 0v13m6 2.5v-13",
   saved:"M12 20s-7-4.6-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.4-7 10-7 10Z",
@@ -39,7 +39,12 @@ const P = {
   parking:"M8 20V4h5a4.5 4.5 0 0 1 0 9H8",
   cloud:"M7 18a4 4 0 0 1 .6-7.96A5.5 5.5 0 0 1 18 11a3.5 3.5 0 0 1 0 7H7Z",
   info:"M12 16.5v-5m0-3.3v.01M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z",
-  list:"M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"
+  list:"M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01",
+
+  /* Weather, as a glyph instead of a sentence. */
+  sun:"M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4",
+  partly:"M14.5 7.2a4.2 4.2 0 0 0-6.8-1.9M11 2.6v1.6M5.6 4.8l1.1 1.1M16.4 4.8l-1.1 1.1M7 19a4 4 0 0 1 .6-7.96A5.5 5.5 0 0 1 18 12a3.5 3.5 0 0 1 0 7H7Z",
+  rain:"M7 15.5a4 4 0 0 1 .6-7.96A5.5 5.5 0 0 1 18 8.5a3.5 3.5 0 0 1 0 7H7ZM8.5 18.5 7.5 21M12.5 18.5l-1 2.5M16.5 18.5l-1 2.5"
 };
 
 export const svg = (name, cls = "") =>
@@ -65,6 +70,8 @@ export const WALLET_ICON = {
 };
 
 export const MODE_ICON = { train:"train", walk:"walk", car:"car", bus:"bus" };
+
+export const SKY_ICON = { clear:"sun", mixed:"partly", rain:"rain" };
 
 /* ---------------------------------------------------------------- time */
 /* Research that said "morning" stays morning. Nothing is ever promoted
