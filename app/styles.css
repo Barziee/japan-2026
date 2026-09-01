@@ -217,6 +217,11 @@ ul{margin:0;padding:0;list-style:none}
 .upnext .how{font-size:13px;color:var(--ink2);margin-top:2px}
 .upnext .acts{display:flex;gap:var(--s2);margin-top:var(--s4)}
 
+.upnext .nudge{display:flex;gap:2px;margin-bottom:11px}
+.upnext .step{width:28px;height:28px}
+.upnext .step svg{width:16px;height:16px}
+.upnext .step:disabled{opacity:.25;pointer-events:none}
+
 /* route strip -------------------------------------------------- */
 .routestrip{
   display:flex;align-items:stretch;gap:0;overflow-x:auto;scrollbar-width:none;

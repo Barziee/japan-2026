@@ -5,13 +5,13 @@
    logistics, then alternatives. Every section renders only if it has
    something to say. */
 
-import { days, dayById } from "../../data/days.js";
+import { days } from "../../data/days.js";
 import { byId as destById, trip } from "../../data/destinations.js";
 import { placeById, mapsUrl } from "../../data/places.js";
 import { notesForDay, leadNotes } from "../../data/notes.js";
 import { walletById } from "../../data/wallet.js";
 import { climate } from "../../data/lists.js";
-import { state, save, isPinned } from "../store.js";
+import { state, save } from "../store.js";
 import {
   svg, esc, timeLabel, isSoft, minutesOf, dLabel, mapsSearch, mapsDir,
   dayRoute, NOTE_ICON, CAT_ICON, WALLET_ICON, MODE_ICON
@@ -195,6 +195,9 @@ function alternatives(day) {
 
 /* ------------------------------------------------------------ up next */
 
+const stepBtn = (delta, label, icon, off) =>
+  `<button class="iconbtn step" data-nudge="${delta}" aria-label="${label}"${off ? " disabled" : ""}>${svg(icon)}</button>`;
+
 function upNext(day, idx) {
   /* A flexible day has no fixed next stop — it has a recommendation. */
   if (day.flexible && day.lead) {
@@ -222,7 +225,13 @@ function upNext(day, idx) {
   return `
     <div class="upnext">
       <div class="body">
-        <span class="tag">Up next</span>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--s2)">
+          <span class="tag">Up next</span>
+          <span class="nudge">
+            ${stepBtn("-1", "Show previous stop", "left", idx === 0)}
+            ${stepBtn("1", "Show next stop", "right", idx >= (day.plan || []).length - 1)}
+          </span>
+        </div>
         <h2 class="display">${esc(step.name)}</h2>
         ${step.detail ? `<div class="sub">${esc(step.detail)}</div>` : ""}
         ${label ? `<div class="when">${isSoft(step.t) ? "" : "Planned around "}${esc(label)}</div>` : ""}
@@ -230,6 +239,7 @@ function upNext(day, idx) {
         <div class="acts">
           ${dir ? `<a class="btn btn-secondary" href="${dir}" target="_blank" rel="noopener">Directions</a>` : ""}
           <a class="btn btn-primary" href="#/day/${day.id}">View details</a>
+          ${state.stopOffset[day.id] ? `<button class="btn btn-text" data-reset="${day.id}">Reset to schedule</button>` : ""}
         </div>
       </div>
     </div>`;
@@ -267,7 +277,20 @@ export function render() {
         ${alternatives(day)}
         <div style="height:var(--s7)"></div>
       </div>`,
-    day
+    day,
+    wire(root, go) {
+      root.querySelectorAll("[data-nudge]").forEach(b =>
+        b.addEventListener("click", () => {
+          nudge(day.id, Number(b.dataset.nudge));
+          go(location.hash);
+        }));
+      root.querySelectorAll("[data-reset]").forEach(b =>
+        b.addEventListener("click", () => {
+          delete state.stopOffset[day.id];
+          save();
+          go(location.hash);
+        }));
+    }
   };
 }
 

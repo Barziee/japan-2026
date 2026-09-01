@@ -8,7 +8,7 @@ import { lists, climate, weatherDays, daylight, foliage, CLIMATE_NOTE } from "..
 import { dayById } from "../../data/days.js";
 import { destinations } from "../../data/destinations.js";
 import { isChecked, toggleCheck } from "../store.js";
-import { svg, esc, dLabel, dShort, mapsSearch, copy, WALLET_ICON } from "../ui.js";
+import { svg, esc, dShort, mapsSearch, copy, WALLET_ICON } from "../ui.js";
 
 const today = () => new Date().toISOString().slice(0, 10);
 const dateOf = w => (w.from || "").slice(0, 10);
