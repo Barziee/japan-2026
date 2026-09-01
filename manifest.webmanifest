@@ -1,18 +1,25 @@
 {
-  "name": "יפן 2026 · בר ונועה",
-  "short_name": "יפן 2026",
-  "start_url": "./",
+  "name": "Japan 2026",
+  "short_name": "Japan 2026",
+  "description": "Our Japan trip — what is relevant right now.",
+  "start_url": "./#/today",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "lang": "he",
-  "dir": "rtl",
-  "background_color": "#F7F3EC",
-  "theme_color": "#F7F3EC",
+  "lang": "en",
+  "dir": "ltr",
+  "background_color": "#f7f5f1",
+  "theme_color": "#f7f5f1",
   "icons": [
     {
       "src": "icons/icon-512.png",
       "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/apple-touch-icon.png",
+      "sizes": "180x180",
       "type": "image/png",
       "purpose": "any"
     }
