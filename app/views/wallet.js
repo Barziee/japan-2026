@@ -5,6 +5,7 @@
 
 import { wallet, walletById } from "../../data/wallet.js";
 import { lists, climate, weatherDays, daylight, foliage, CLIMATE_NOTE } from "../../data/lists.js";
+import { deadlines, inTrip } from "../../data/deadlines.js";
 import { dayById } from "../../data/days.js";
 import { destinations } from "../../data/destinations.js";
 import { isChecked, toggleCheck } from "../store.js";
@@ -202,6 +203,22 @@ export function renderInfo() {
       </a>`;
   }).join("");
 
+  /* Deadlines first — they are the only part of this screen that expires. */
+  const today = new Date().toISOString().slice(0, 10);
+  const upcoming = deadlines.filter(x => x.on >= today);
+  const dueList = (upcoming.length ? upcoming : deadlines).concat(inTrip.filter(x => x.on >= today));
+  const dueRows = dueList.length ? `
+    <div class="sect">What expires, and when</div>
+    ${dueList.map(x => `
+      <div style="padding:13px 0;border-bottom:1px solid var(--line)">
+        <div style="display:flex;align-items:baseline;gap:8px">
+          <span style="font-size:11px;font-weight:700;letter-spacing:.06em;color:${x.urgent ? "var(--coral)" : "var(--ink3)"};white-space:nowrap">${esc(dShort(x.on)).toUpperCase()}</span>
+          <span style="font-size:14.5px;font-weight:650">${esc(x.title)}</span>
+        </div>
+        <p class="muted tiny" style="margin-top:4px">${esc(x.body)}</p>
+        ${x.also ? `<p class="tiny" style="margin-top:5px;color:var(--ink3)">${esc(x.also)}</p>` : ""}
+      </div>`).join("")}` : "";
+
   const block = (title, items) => `
     <div class="sect">${title}</div>
     ${items.map(x => `
@@ -219,6 +236,7 @@ export function renderInfo() {
           <h1 class="display" style="font-size:38px">Useful info</h1>
           <div class="muted tiny" style="margin-top:7px">${esc(CLIMATE_NOTE)}</div>
         </div>
+        ${dueRows}
         <div class="sect">Climate by base</div>${wxRows}
         <div class="sect">Days decided on the forecast</div>${wd}
         ${block("Daylight", daylight)}

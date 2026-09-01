@@ -29,7 +29,8 @@ const SHELL = [
   "./data/places.js",
   "./data/notes.js",
   "./data/wallet.js",
-  "./data/lists.js"
+  "./data/lists.js",
+  "./data/deadlines.js"
 ];
 
 self.addEventListener("install", e => {

@@ -16,7 +16,7 @@ export const wallet = [
     ref: null,
     status: "confirmed",
     notes: [
-      "Booked 4–8 originally; the request to shorten to 4–7 still needs confirming.",
+      "Booked 4–8 originally; the request to shorten to 4–7 still needs confirming — this one is on us, not them.",
       "Big suitcases get forwarded from here to MIRU Kyoto Gion on 5–6 Oct."
     ]
   },
@@ -65,7 +65,8 @@ export const wallet = [
     notes: [
       "Cancellation ladder from the hotel (15 Aug): from 19 Sep — 10% (¥20,790). From 4 Oct — 30% (¥62,370). From 7 Oct — 50% (¥103,950). From 9 Oct — 100% (¥207,900).",
       "The no-show percentage was not stated in what they sent. Probably 100%, but do not assume it.",
-      "The most expensive stay of the trip."
+      "The most expensive stay of the trip.",
+      "A real forecast for 10 Oct only appears around 24 Sep, so the free-cancellation date passes before the weather can say anything."
     ]
   },
   {
@@ -102,12 +103,13 @@ export const wallet = [
     from: "2026-10-09T09:30:00+09:00",
     to: "2026-10-13T14:30:00+09:00",
     detail: "Pick up Kyoto 09:30 · drop Gotemba 14:30",
-    ref: null,
+    ref: "99902885400",
     status: "confirmed",
     notes: [
       "Includes NOC and the collision waiver.",
       "Kyoto → Gujō direct is 180.4 km / 2:40. Going via Seki is 185.3 km / 2:44 — the knife stop costs 4.9 km and five minutes of driving.",
-      "Check the ETC card is in the car before leaving the counter."
+      "Check the ETC card is in the car before leaving the counter.",
+      "Bring the 2026 IDP, the Israeli licence and the passport to the counter."
     ]
   },
   {
@@ -118,12 +120,14 @@ export const wallet = [
     from: "2026-10-13T14:30:00+09:00",
     to: "2026-10-15T14:30:00+09:00",
     detail: "Gotemba return trip · two days",
-    ref: null,
+    ref: "99903334000",
     status: "confirmed",
     notes: [
       "Swap happens in one visit: bags to edit×seven first, then Corolla back, then Yaris out.",
       "Small boot. Luggage stays at the hotel.",
-      "Takes high-octane fuel — fill before returning it."
+      "Takes high-octane fuel — fill before returning it.",
+      "Bring the IDP, the Israeli licence and the passport to this pickup too.",
+      "Confirm parking at edit×seven — it is still on the open list."
     ]
   },
   {
@@ -180,7 +184,8 @@ export const wallet = [
       "Osaka to Kyoto is a next-day service, not same-day. Send on the 6th to arrive on the 7th; send on the 5th if we want a margin, but then MIRU hold it an extra night and that needs confirming too.",
       "Roughly ¥1,500–2,000 per suitcase, from a convenience store or the Meander desk.",
       "Confirm MIRU will receive and store it before sending anything.",
-      "On 7 Oct we travel with cabin trolleys only — they go in a coin locker at Demachiyanagi."
+      "On 7 Oct we travel with cabin trolleys only — they go in a coin locker at Demachiyanagi.",
+      "Optional second leg: forwarding bags from Jujo or Gotemba to the Edmont would take the strain out of the Gotemba→Tokyo train. It usually arrives next day, so plan a night without them."
     ]
   }
 ];

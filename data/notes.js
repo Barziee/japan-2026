@@ -12,6 +12,11 @@
 export const notes = [
   /* ---------------- trip-wide ---------------- */
   {
+    id: "n-pork", kind: "food", trip: true, lead: true,
+    title: "Noa does not eat pork, and Japan makes that hard",
+    body: "Most ramen is tonkotsu, and chāshū, gyoza and plenty of otherwise neutral broths carry pork too. A non-pork broth does not guarantee a non-pork topping, so ask about both. Two Osaka answers that work: Gyukotsuo on beef bone and MAREN on chicken — verify the chāshū at each. Ramen Nishiki in Kyoto is unverified on both counts."
+  },
+  {
     id: "n-knives", kind: "warning", trip: true,
     title: "Knives fly checked",
     body: "Anything bought at Tower Knives or Seki goes in the hold on the way home, never in the cabin."
@@ -118,6 +123,11 @@ export const notes = [
     body: "The moss gate and the courtyard are free to enter and empty that early. This is the reason the day starts north and works south."
   },
   {
+    id: "n-hikiniku-risk", kind: "food", day: "d08",
+    title: "Two things to confirm about Hikiniku",
+    body: "English sources give its closing day as Wednesday, which would put 7 Oct out and leave the 8th as the only night. It is also card or QR only, no cash. The beef is 100% per the official site, so it works for Noa — some English guides call it a beef-and-pork mince, and that is wrong for this branch. Ask anyway when booking."
+  },
+  {
     id: "n-eastkyoto-order", kind: "route", day: "d08", lead: true,
     title: "North to south, one temple only",
     body: "Hōnen-in, a stretch of the Philosopher's Path, then Eikandō around opening. We are not adding Ginkaku-ji just because it is close."
@@ -217,6 +227,16 @@ export const notes = [
 
   /* ---------------- 12 Oct · Matsumoto ---------------- */
   {
+    id: "n-matsumoto-book", kind: "food", day: "d10", lead: true,
+    title: "Book the dinners through Jujo",
+    body: "Jujo is a ryokan and its staff routinely book the good restaurants in town, including ones that take no online reservations. Email them with all three evenings. Then TableCheck or the restaurant's own site, then Tabelog filtered by area and open-on-date, then the phone — which Jujo will also dial for you. For the 10th ask explicitly for 19:30–20:00: we arrive around 17:00–18:00 after three hours of walking and three of driving, and want a shower first."
+  },
+  {
+    id: "n-matsumoto-evenings", kind: "food", day: "d11",
+    title: "What each evening wants to be",
+    body: "The 11th is the special one — Shinshu beef as yakiniku or steak, or a light kaiseki — and it is the hardest to get, so book it first. The 12th wants good soba, which Matsumoto is known for, or an izakaya doing Shinshu plates: basashi, mountain vegetables, local sake. Some soba places close in the afternoon or at weekends, so confirm the evening specifically."
+  },
+  {
     id: "n-sportsday", kind: "warning", day: "d12", lead: true,
     title: "Sports Day and the soba festival, both",
     body: "The festival runs 10–12 Oct in the castle park and the 12th is a national holiday. The city, the parking and the restaurants are full on exactly our nights."
@@ -248,32 +268,48 @@ export const notes = [
   {
     id: "n-izu-shape", kind: "route", day: "d14", lead: true,
     title: "Four stops, and the driving is the point",
-    body: "Forest and waterfall, local coffee, wild coast, mountain pass at sunset. 238.5 km and 4h16 of measured driving — plan on about five hours behind the wheel with stops and traffic."
+    body: "Forest and waterfall, local coffee, wild coast, mountain pass at sunset. 220 km and about 4h10 measured — plan on five hours behind the wheel, because Izu's roads wind and the routing engine does not price that in."
   },
   {
     id: "n-izu-return", kind: "route", day: "d14", lead: true,
-    title: "Take the coast home, not the ridge",
-    body: "The short way stays on prefectural roads 59 and 411 for about 25 km of mountain road in the dark. Dropping to the coast at Toi and running north on Route 136 costs 24 km and 17 minutes and halves that."
+    title: "Come home the long way over the ridge",
+    body: "Two routes were measured. The direct one drops off the ridge to Route 136 and the expressway: 75.1 km, 1h12. Staying on the Nishi-Izu Skyline to Darumayama and descending to Shuzenji is 81.7 km, 1h21. Nine minutes for a wider road after dark, and neither doubles back down the climb we came up."
   },
   {
     id: "n-izu-sunset", kind: "timing", day: "d14", lead: true,
-    title: "Sunset 17:14 — arrive by 16:30",
-    body: "That leaves time to park, walk up to the platform and be there before the light rather than chasing it."
+    title: "Sunset 17:16 at the pass, golden hour from 16:16",
+    body: "Computed for the pass itself at 897 m with a sea horizon west; 17:12 down at sea level. Arriving 16:15–16:30 lands exactly on the start of the good light rather than chasing the end of it."
   },
   {
     id: "n-izu-coast", kind: "route", day: "d14",
     title: "Koganezaki over Dōgashima",
-    body: "Dōgashima is the famous one, but the tombolo out to Sanshirojima is what makes it worth stopping for, and it rarely uncovers in daylight between October and February. What is left is a timetabled boat tour. Koganezaki is free, unticketed and 15 minutes below the pass."
+    body: "Koganezaki peaks exactly when we are there — the rock is propylite and turns gold in afternoon light, which is what the name says. Volcanic, free, and 15 minutes below the pass against Dōgashima's 21. Dōgashima's draw is the tombolo out to Sanshirojima, and local sources suggest the daytime low between October and February does not uncover it — but the town's own page just points at a tide table, so treat that as unconfirmed for the 14th rather than settled. Either way it sits on Route 136 going north, so a short viewpoint stop costs nothing."
   },
   {
     id: "n-izu-roads", kind: "warning", day: "d14",
-    title: "Avoid the old Amagi tunnel",
-    body: "旧天城トンネル is a single-lane gravel road that navigation apps sometimes offer as a tourist route. The correct crossing is the new tunnel on Route 414."
+    title: "Roads to know about",
+    body: "Avoid 旧天城トンネル, the old Amagi tunnel — a single-lane gravel road that navigation apps offer as a tourist route. The correct crossing is the new tunnel on Route 414. The cross-peninsula leg uses prefectural road 15 over the Basara pass: winding, but a proper two-lane road, and we take it in daylight. The climb to the pass is the one narrow, steep stretch of the day and we go up it at 15:55 in full light. Check closures beforehand on 0558-76-5718."
   },
   {
     id: "n-izu-hodohodo", kind: "parking", day: "d14",
     title: "Four parking spaces at HODOHODO",
     body: "Open 10:00–16:30 and closed Mondays; the 14th is a Wednesday. Irregular closures are only announced on Instagram."
+  },
+
+  {
+    id: "n-izu-decide", kind: "timing", day: "d14", lead: true,
+    title: "This one is decided the night before",
+    body: "West Izu starts at 07:45 and is locked to a 17:16 sunset, so it cannot be chosen at 10:00 over breakfast. On the evening of the 13th: check HODOHODO is open on Instagram, check Izu road closures, and check the west-coast forecast. In fog there is no reason to go up to the pass — switch to Shuzenji or Hakone, which stay morning decisions."
+  },
+  {
+    id: "n-fuji-mornings", kind: "weather", dest: "fuji", lead: true,
+    title: "Fuji is a mountain of mornings",
+    body: "It shows early and hides by afternoon. Sunrise is about 05:50 and sunset 17:00–17:05, so there are roughly eleven hours of light. Check Windy, tenki.jp and the Kawaguchiko live cameras the evening before and again on waking."
+  },
+  {
+    id: "n-fuji-parking", kind: "parking", dest: "fuji",
+    title: "The good viewpoints have paid car parks that fill",
+    body: "Ōishi Park, Oshino and Panorama-dai all fill on a fine morning and at weekends. Early or not at all. Hotel parking at edit×seven still needs confirming."
   },
 
   /* ---------------- 15 Oct · to Tokyo ---------------- */

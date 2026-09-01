@@ -66,8 +66,11 @@ export const days = [
       { t: { k: "part", v: "evening" }, name: "Tenma and Don-chan", detail: "Izakaya hopping, ending at Umeda Higashidōri.", saved: "p-tenma" }
     ],
     alts: [
-      { title: "Nara, the quiet version", when: "A normal day", body: "Naramachi, the merchant streets, the gardens and Kasugayama forest. Not the deer circuit. About 48 minutes out." },
-      { title: "Ine no Funaya", when: "Only on a genuinely clear day", body: "The fishing village built over the water. Roughly three hours each way, so it takes the whole day. There is an organised tour that removes the need for a car." },
+      { title: "Nara · town, garden, no deer", when: "The leading option · 45–60 min by train", body: "Naramachi, the old merchant quarter — machiya, cafés, workshops — then Isuien or Yoshikien, which are quiet gardens where the colour starts early. The edge of Nara Park only in passing, and Tōdai-ji from the outside. This is not a deer day." },
+      { title: "Nara · the forest", when: "If we want the walk instead", body: "Kasugayama Primeval Forest behind Kasuga Taisha: an ancient-woodland loop of about 7–9 km, two to three hours, quiet and almost tourist-free. Pair it with Naramachi for lunch." },
+      { title: "Ikaruga or Asuka", when: "For deep quiet · 1:00–1:20", body: "Hōryū-ji is among the oldest temples anywhere and the area around it is still. Asuka is villages, rice fields, ancient tombs and bicycles — the most off-route thing on the list, and it needs more transport planning." },
+      { title: "Uji", when: "A calmer substitute for Nara · 50–70 min", body: "The tea town. River, Byōdō-in, and a slower pace than Nara centre." },
+      { title: "Ine no Funaya", when: "Only on a genuinely clear day", body: "The fishing village built over the water. Roughly three hours each way, so it takes the whole day and a lot of energy. An organised tour removes the need for a car. Do not add a long drive just because it photographs well." },
       { title: "A wet day in Osaka", when: "If it rains", body: "Kuromon market, the Kaiyukan aquarium, Umeda Sky and the covered shopping at Shinsaibashi are all indoors." }
     ],
     logistics: [],
@@ -185,8 +188,10 @@ export const days = [
     ],
     alts: [
       { title: "Senjōjiki Cirque", when: "If Kamikōchi looks crowded or closed", body: "Park at Suganodai (¥500/day), 40 minutes by bus, 8 minutes of ropeway to 2,612 m. A flat loop at the top means you decide up there whether to climb Kisokoma. Expect hour-plus ropeway queues in peak colour, and snow can start mid-October." },
-      { title: "Utsukushigahara", when: "Clear but tired", body: "A 2,000 m plateau reached by the scenic Venus Line. All of it from the car if that is the day we are having." },
-      { title: "Azumino and Daiō Wasabi", when: "Low energy", body: "Half a day of streams, farms and wasabi fields. The easy option, deliberately." }
+      { title: "Utsukushigahara", when: "Excellent visibility · ~1 h each way", body: "A 2,000 m plateau up the scenic Venus Line, and simple logistics — most of it works from the car. Check the Skyline is open; it closes for snow towards the end of October." },
+      { title: "Azumino and Daiō Wasabi", when: "Cloudy or low energy · 30–40 min", body: "Half a day of streams, farms and wasabi fields, and it holds up in poor weather. Pair it with half a day in the city." },
+      { title: "Tsubame Onsen and Myōkō", when: "Only on a clear day that is not the 12th", body: "Two free outdoor baths, Kawara-no-yu and Ōgon-no-yu, about fifteen minutes' walk above the village at 1,100 m, open sunrise to sunset and closed Mondays. But it is 1h40–2h each way, so four hours in the car, and the colour at Myōkō is only starting in mid-October. Leave 08:00, be there 10:00, back by 17:00. Food up there is thin — plan lunch at Myōkō Kōgen or carry it. Imori Pond, a 500 m loop with Myōkō reflected in it, and Naena Falls are the backup if the baths are shut or full." },
+      { title: "Norikura", when: "Probably not, on these dates", body: "Tatamidaira is above 2,700 m, private cars are banned so it is park-and-ride from Norikura Kōgen or Suzuran, and first snow is possible. High effort, very weather-dependent." }
     ],
     logistics: ["w-corolla", "w-jujo"],
     saved: ["p-tsubame"]
@@ -209,7 +214,8 @@ export const days = [
       { t: { k: "seq" }, name: "Agatanomori park", detail: "Finish in the park around it. A soft landing, not another site.", place: "Agatanomori Park Matsumoto" }
     ],
     alts: [
-      { title: "Alps Park", when: "Only with good visibility", body: "Worth it for the view across to the Alps, otherwise skip." }
+      { title: "Alps Park", when: "Only with good visibility", body: "Worth it for the view across to the Alps, otherwise skip." },
+      { title: "A full wet-weather city day", when: "If it rains", body: "Inside the castle, Nakamachi and Nawate which are partly covered, coffee, and the Matsumoto art museum. Do not go up into the mountains in rain." }
     ],
     logistics: ["w-jujo"],
     saved: ["p-nakamachi", "p-tsubame"]
@@ -241,16 +247,17 @@ export const days = [
       { name: "Kawazu", via: "9 km", mode: "car" },
       { name: "Koganezaki", via: "42.8 km across the peninsula", mode: "car" },
       { name: "Nishina Pass", via: "14.2 km climbing to ~900 m", mode: "car" },
-      { name: "Gotemba", via: "98.7 km home via the coast at Toi", mode: "car" }
+      { name: "Gotemba", via: "81.7 km home over the ridge via Shuzenji", mode: "car" }
     ],
     plan: [
-      { t: { k: "exact", v: "08:30" }, name: "Leave edit×seven", detail: "Tōmei, then Shin-Tōmei, then Route 136 and Route 414 through the new Amagi tunnel and the loop bridge.", wallet: "w-editseven" },
-      { t: { k: "approx", v: "10:05" }, name: "Ō-daru Falls", detail: "One waterfall, forest and river. Not all seven.", saved: "p-odaru" },
-      { t: { k: "approx", v: "11:30" }, name: "HODOHODO Base", detail: "Lunch and coffee in Kawazu. Four parking spaces, so it matters when we arrive.", saved: "p-hodohodo" },
-      { t: { k: "part", v: "afternoon" }, name: "Across to the west coast", detail: "Route 15 then Route 136. Past Shimoda without stopping. Iwachi and Dōgashima are on the road north if we feel like ten minutes." },
-      { t: { k: "approx", v: "14:00" }, name: "Koganezaki", detail: "Golden lava cliffs over Suruga Bay. Free, no ticket, 30–40 minutes.", saved: "p-koganezaki" },
-      { t: { k: "exact", v: "16:15" }, name: "Nishina Pass", detail: "Park, walk up, and be there before the light. Sunset is 17:14.", saved: "p-nishina" },
-      { t: { k: "approx", v: "17:30" }, name: "Home the long way", detail: "Down to the coast at Toi and north on Route 136. Back around 19:00." }
+      { t: { k: "exact", v: "07:45" }, name: "Leave edit×seven", detail: "Tōmei, then Shin-Tōmei, then Route 136 and Route 414 through the new Amagi tunnel and the loop bridge. This is an evening-before decision, not a morning one — the whole day is locked to a 17:16 sunset.", wallet: "w-editseven" },
+      { t: { k: "approx", v: "09:30" }, name: "Ō-daru Falls", detail: "A 30 m fall from a public, free viewing deck. About an hour and a half here and in the valley — not all seven falls.", saved: "p-odaru" },
+      { t: { k: "approx", v: "11:20" }, name: "HODOHODO Base", detail: "Coffee and a vegetable-heavy lunch with home baking, and no pork on the menu — which removes the usual check. Four parking spaces, so arrive before 12:00.", saved: "p-hodohodo" },
+      { t: { k: "approx", v: "12:40" }, name: "Across to the west coast", detail: "Route 15 over the Basara pass — winding but a proper two-lane road, and we do it in daylight. Past Shimoda without stopping.", place: "Basara Pass Izu" },
+      { t: { k: "approx", v: "13:30" }, name: "Dōgashima, optional", detail: "It sits on Route 136 going north, so a 15–20 minute viewpoint stop costs nothing. The cave cruise is 20 minutes and ¥1,500, running 10:00–16:00.", saved: "p-dogashima" },
+      { t: { k: "approx", v: "14:30" }, name: "Koganezaki", detail: "Propylite rock that turns gold in the afternoon light — that is literally what the name means. Free, 92 parking spaces, and Fuji across Suruga Bay on a clear day. Leave by 15:55: the car park shuts at 17:00, so this is not the sunset spot.", saved: "p-koganezaki" },
+      { t: { k: "exact", v: "16:20" }, name: "Nishina Pass", detail: "897 m. Golden hour starts at 16:16 and sunset is 17:16 up here — 17:12 down at sea level. Arriving now means parking and walking up before the light, not chasing it.", saved: "p-nishina" },
+      { t: { k: "approx", v: "17:35" }, name: "Home over the ridge", detail: "Stay on the Nishi-Izu Skyline to Darumayama, then down to Shuzenji. 81.7 km against 75.1 for the direct ridge line — nine minutes for a wider road in the dark. Back around 19:10." }
     ],
     alts: [
       { title: "Panorama-dai and the lakes", when: "Excellent Fuji visibility", body: "Panorama-dai, then Oshino Hakkai early, then north Kawaguchiko and Ōishi Park." },
