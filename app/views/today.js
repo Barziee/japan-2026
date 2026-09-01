@@ -5,7 +5,7 @@
    logistics, then alternatives. Every section renders only if it has
    something to say. */
 
-import { days } from "../../data/days.js";
+import { days, clusters } from "../../data/days.js";
 import { byId as destById, trip } from "../../data/destinations.js";
 import { placeById, mapsUrl } from "../../data/places.js";
 import { notesForDay, leadNotes } from "../../data/notes.js";
@@ -198,7 +198,37 @@ function alternatives(day) {
 const stepBtn = (delta, label, icon, off) =>
   `<button class="iconbtn step" data-nudge="${delta}" aria-label="${label}"${off ? " disabled" : ""}>${svg(icon)}</button>`;
 
+function clusterBank(day) {
+  const bank = clusters[day.bank] || [];
+  if (!bank.length) return "";
+  const rows = bank.map(c => `
+    <div style="padding:15px 0;border-bottom:1px solid var(--line)">
+      <div style="display:flex;align-items:baseline;gap:7px">
+        ${c.star ? '<span style="color:var(--coral);font-size:12px">\u2605</span>' : ""}
+        <div style="font-size:15.5px;font-weight:650">${esc(c.title)}</div>
+      </div>
+      <div style="font-size:12px;font-weight:600;color:var(--teal);margin-top:3px">${esc(c.when)}</div>
+      <p class="muted tiny" style="margin-top:6px">${esc(c.body)}</p>
+    </div>`).join("");
+  return `<div class="sect">Pick one</div>${rows}`;
+}
+
 function upNext(day, idx) {
+  /* Tokyo is a bank of clusters, not an itinerary. */
+  if (day.bank) {
+    return `
+      <div class="upnext">
+        <div class="body">
+          <span class="tag">Today is yours</span>
+          <h2 class="display">${esc(destById[day.dest].name)}</h2>
+          <div class="sub">One cluster and an evening. Never two — and leave half a day genuinely free twice across the five nights.</div>
+          <div class="acts">
+            <a class="btn btn-primary" href="#/day/${day.id}">See the options</a>
+          </div>
+        </div>
+      </div>`;
+  }
+
   /* A flexible day has no fixed next stop — it has a recommendation. */
   if (day.flexible && day.lead) {
     const p = day.lead;
@@ -269,6 +299,7 @@ export function render() {
           </div>` : ""}
         </div>
         ${upNext(day, idx)}
+        ${clusterBank(day)}
         ${routeStrip(day)}
         ${timeline(day, idx)}
         ${knowBefore(day)}

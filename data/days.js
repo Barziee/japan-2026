@@ -27,7 +27,7 @@ export const days = [
       { t: { k: "exact", v: "11:40" }, name: "Land at KIX", detail: "Immigration, bags, then the train or airport limousine into the city.", place: "Kansai International Airport" },
       { t: { k: "approx", v: "13:30" }, name: "Meander Osaka", detail: "Drop bags in Namba. Check in when the room is ready.", wallet: "w-meander" },
       { t: { k: "part", v: "afternoon" }, name: "Namba on foot", detail: "No plan beyond getting our bearings and staying awake." },
-      { t: { k: "part", v: "evening" }, name: "Ura-Namba and Hōzenji", detail: "Five minutes from the hotel. The right size of evening after a fourteen-hour door-to-door day.", place: "Hozenji Yokocho Osaka" }
+      { t: { k: "part", v: "evening" }, name: "Ura-Namba and Hōzenji", detail: "Authentic izakaya alleys, less touristy than Dōtonbori. A short taste of Dōtonbori too if we feel like it, then a light meal and an early night.", saved: "p-hozenji" }
     ],
     logistics: ["w-meander", "w-out"],
     saved: ["p-gorichan"]
@@ -43,8 +43,8 @@ export const days = [
       { name: "Nakazakichō", via: "Back into the city", mode: "train" }
     ],
     plan: [
-      { t: { k: "part", v: "morning" }, name: "Minoh", detail: "The waterfall trail climbs gently from the station through the gorge.", place: "Minoo Falls Osaka" },
-      { t: { k: "seq" }, name: "Katsuō-ji", detail: "The daruma temple further up the valley.", saved: "p-katsuoji" },
+      { t: { k: "part", v: "morning" }, name: "Minoh Falls", detail: "Hankyū from Umeda to Minoh-o, about 30 minutes. The gorge trail is an easy paved 2.8 km each way.", saved: "p-minoh" },
+      { t: { k: "seq" }, name: "Katsuō-ji", detail: "The daruma temple further up the valley — bus or taxi from the top of the trail.", saved: "p-katsuoji" },
       { t: { k: "part", v: "afternoon" }, name: "Back into the city", detail: "Nakazakichō for coffee and small shops." },
       { t: { k: "part", v: "evening" }, name: "Tenma or Fukushima", detail: "Izakaya hopping. Neither needs booking." }
     ],
@@ -67,7 +67,8 @@ export const days = [
     ],
     alts: [
       { title: "Nara, the quiet version", when: "A normal day", body: "Naramachi, the merchant streets, the gardens and Kasugayama forest. Not the deer circuit. About 48 minutes out." },
-      { title: "Ine no Funaya", when: "Only on a genuinely clear day", body: "The fishing village built over the water. Roughly three hours each way, so it takes the whole day. There is an organised tour that removes the need for a car." }
+      { title: "Ine no Funaya", when: "Only on a genuinely clear day", body: "The fishing village built over the water. Roughly three hours each way, so it takes the whole day. There is an organised tour that removes the need for a car." },
+      { title: "A wet day in Osaka", when: "If it rains", body: "Kuromon market, the Kaiyukan aquarium, Umeda Sky and the covered shopping at Shinsaibashi are all indoors." }
     ],
     logistics: [],
     saved: ["p-gyukotsuo", "p-maren", "p-tokito", "p-grenier", "p-brooklyn", "p-flag", "p-towerknives"]
@@ -110,11 +111,14 @@ export const days = [
       { name: "Gion", via: "South through Gyōjabashi", mode: "walk" }
     ],
     plan: [
+      { t: { k: "exact", v: "07:00" }, name: "Check out of MIRU", detail: "They would not link the two bookings, so we check out and back in. Pack the night before.", wallet: "w-miru" },
       { t: { k: "exact", v: "07:30" }, name: "Hōnen-in", detail: "The moss gate and the courtyard before the area fills. Courtyard entry is free.", place: "Honen-in Kyoto" },
       { t: { k: "seq" }, name: "Philosopher's Path", detail: "A stretch of it walking south. We are not adding Ginkaku-ji just because it is close.", place: "Philosophers Path Kyoto" },
       { t: { k: "approx", v: "09:00" }, name: "Eikandō", detail: "The one temple of the day, around opening time.", place: "Eikando Zenrinji Kyoto" },
-      { t: { k: "part", v: "afternoon" }, name: "Lunch · Hinode Udon", detail: "On the way south.", place: "Hinode Udon Kyoto" },
-      { t: { k: "seq" }, name: "Gyōjabashi and into Gion", detail: "Working down towards the river." },
+      { t: { k: "approx", v: "11:30" }, name: "Lunch · Hinode Udon", detail: "Early, a little before it opens. No reservations and cash only — the whole day is built around getting here.", saved: "p-hinode" },
+      { t: { k: "seq" }, name: "Nanzen-ji and the aqueduct", detail: "Optional. Only if there is time and appetite left after Eikandō.", place: "Nanzenji Suirokaku Kyoto" },
+      { t: { k: "seq" }, name: "Gyōjabashi", detail: "The narrow stone bridge over the Shirakawa near Higashiyama station — not the one over the Kamo.", saved: "p-gyojabashi" },
+      { t: { k: "seq" }, name: "Furumonzen into Gion", detail: "Working down towards the river, with time for coffee and the hotel." },
       { t: { k: "part", v: "evening" }, name: "Dinner · Hikiniku to Come", detail: "If the 1 Sep booking landed. Walking distance from MIRU.", saved: "p-hikiniku" }
     ],
     logistics: ["w-miru"],
@@ -132,8 +136,9 @@ export const days = [
     plan: [
       { t: { k: "part", v: "morning" }, name: "Short Kyoto morning", detail: "Coffee and out. The driving day starts early." },
       { t: { k: "exact", v: "09:30" }, name: "Pick up the Corolla", detail: "Toyota Rent a Car, Sanjo Keihan-Kita.", wallet: "w-corolla" },
-      { t: { k: "seq" }, name: "Seki", detail: "Seven centuries of blade-making, directly on the route. The last knife opportunity of the trip.", place: "Seki City Gifu knives" },
-      { t: { k: "approx", v: "13:30" }, name: "Gujō Hachiman", detail: "Check in, then a full afternoon in the old town — canals, water channels, the streets above the river.", wallet: "w-fairfield" },
+      { t: { k: "approx", v: "11:45" }, name: "Seki Cutlery Hall", detail: "45–60 minutes. A direct sales hall with the output of the Seki factories, which is what we want if the point is to buy.", saved: "p-sekihall" },
+      { t: { k: "approx", v: "13:30" }, name: "Gujō Hachiman", detail: "Lunch around 14:00, then a full afternoon of light. Sunset is 17:20, so arriving now buys about three and a half hours.", wallet: "w-fairfield" },
+      { t: { k: "part", v: "afternoon" }, name: "Igawa Komichi and the water", detail: "The carp channel behind the houses, the Sōgi-sui spring, Yanaka Mizu-no-Komichi, the alleys and the cafés. The castle only if we feel like it.", saved: "p-igawa" },
       { t: { k: "part", v: "evening" }, name: "Dinner · Daikokuya", detail: "Wagyu yakiniku. Small town, so this needs booking.", saved: "p-daikokuya" }
     ],
     logistics: ["w-corolla", "w-fairfield"],
@@ -151,7 +156,7 @@ export const days = [
     ],
     plan: [
       { t: { k: "exact", v: "06:15" }, name: "Leave Gujō", detail: "Early start. The walk is the fixed point of the day." },
-      { t: { k: "exact", v: "08:00" }, name: "Walk Magome → Tsumago", detail: "Park at Magome and walk the easier direction. About 9 km, climbing at first and then down. Finishes around 11:00.", place: "Magome-juku" },
+      { t: { k: "exact", v: "08:00" }, name: "Walk Magome → Tsumago", detail: "Park at Magome and walk the easier direction: 600 m up to the 790 m pass, then down to Tsumago at 420 m. About 9 km and three hours with stops. Coffee first only if anything is open — most of Magome opens at 08:30.", place: "Magome-juku" },
       { t: { k: "approx", v: "11:30" }, name: "Lunch in Tsumago", detail: "The first real food since Gujō.", place: "Tsumago-juku" },
       { t: { k: "approx", v: "13:30" }, name: "Bus back to the car", detail: "The last bus is what matters, not the first." },
       { t: { k: "approx", v: "15:15" }, name: "Narai", detail: "Optional. Adds about an hour and a quarter.", place: "Narai-juku" },
@@ -278,74 +283,37 @@ export const days = [
 
   {
     id: "d16", date: "2026-10-16", dow: "Fri", dest: "tokyo",
-    title: "Yanaka, and slowly south",
-    route: [
-      { name: "Nezu" },
-      { name: "Yanaka", via: "On foot", mode: "walk" },
-      { name: "Ueno", via: "Through the park", mode: "walk" },
-      { name: "Ameyoko", via: "Evening", mode: "walk" }
-    ],
-    plan: [
-      { t: { k: "part", v: "morning" }, name: "Nezu and Yanaka", detail: "Old low-rise streets, the cemetery, Yanaka Ginza.", place: "Yanaka Ginza Tokyo" },
-      { t: { k: "part", v: "afternoon" }, name: "Ueno Park", detail: "Walking south through the park." },
-      { t: { k: "part", v: "evening" }, name: "Ameyoko", detail: "The market arcade under the tracks.", place: "Ameyoko Tokyo" }
-    ],
-    alts: [
-      { title: "Asakusa first", when: "If we are up very early", body: "Sensō-ji before the crowds, then back north to Yanaka." }
-    ],
+    title: "Tokyo · one cluster and an evening",
+    flexible: true, bank: "tokyo",
+    plan: [],
     logistics: [],
-    saved: ["p-coconemaru"]
+    saved: []
   },
 
   {
     id: "d17", date: "2026-10-17", dow: "Sat", dest: "tokyo",
-    title: "Meiji early, then west",
-    route: [
-      { name: "Meiji Jingū" },
-      { name: "Shibuya", via: "Short, on foot", mode: "walk" },
-      { name: "Daikanyama", via: "Train", mode: "train" },
-      { name: "Nakameguro", via: "Along the canal", mode: "walk" }
-    ],
-    plan: [
-      { t: { k: "part", v: "morning" }, name: "Meiji Jingū", detail: "Early, while the forest path is still quiet.", place: "Meiji Jingu Tokyo" },
-      { t: { k: "seq" }, name: "Shibuya", detail: "Briefly. It is on the way, not the point." },
-      { t: { k: "part", v: "afternoon" }, name: "Daikanyama and Nakameguro", detail: "Shops, coffee, the canal.", saved: "p-travelers" }
-    ],
+    title: "Tokyo · one cluster and an evening",
+    flexible: true, bank: "tokyo",
+    plan: [],
     logistics: [],
-    saved: ["p-travelers", "p-lelabo", "p-philocoffea", "p-t-nakameguro"]
+    saved: []
   },
 
   {
     id: "d18", date: "2026-10-18", dow: "Sun", dest: "tokyo",
-    title: "Shimokitazawa",
-    flexible: true,
-    lead: {
-      name: "Shimokitazawa",
-      detail: "Second-hand shops, small record stores, coffee. A wandering day.",
-      place: "Shimokitazawa Tokyo"
-    },
+    title: "Tokyo · one cluster and an evening",
+    flexible: true, bank: "tokyo",
     plan: [],
-    alts: [
-      { title: "Add Kichijōji", when: "If the day still has energy", body: "Inokashira Park and the streets around it. Best paired with Kichijōji rather than as a trip for the park alone." }
-    ],
     logistics: [],
-    saved: ["p-marumo", "p-melt"]
+    saved: []
   },
 
   {
     id: "d19", date: "2026-10-19", dow: "Mon", dest: "tokyo",
-    title: "Kōenji, and the last dinner",
-    flexible: true,
-    lead: {
-      name: "Kōenji",
-      detail: "Vintage, records, small bars. The last full day.",
-      place: "Koenji Tokyo"
-    },
+    title: "Tokyo · the last full day",
+    flexible: true, bank: "tokyo",
     plan: [
-      { t: { k: "part", v: "evening" }, name: "Dinner · T, Nakameguro", detail: "Wagyu T-bone. The last dinner in Japan, if the booking landed.", saved: "p-t-nakameguro" }
-    ],
-    alts: [
-      { title: "Add Nakano", when: "If Kōenji runs short", body: "Nakano Broadway is one stop away." }
+      { t: { k: "part", v: "evening" }, name: "Dinner · T, Nakameguro", detail: "Wagyu T-bone, and the last dinner in Japan — if the booking landed.", saved: "p-t-nakameguro" }
     ],
     logistics: [],
     saved: ["p-t-nakameguro", "p-yamada", "p-goodmorning"]
@@ -360,13 +328,56 @@ export const days = [
     ],
     plan: [
       { t: { k: "part", v: "morning" }, name: "Easy morning near the hotel", detail: "Nothing that needs a train across the city." },
-      { t: { k: "approx", v: "14:30" }, name: "Leave for Narita", detail: "About an hour and a half." },
+      { t: { k: "approx", v: "14:30" }, name: "Leave for Narita", detail: "N'EX from central Tokyo is about 1h15–1h45." },
       { t: { k: "exact", v: "18:00" }, name: "NRT departure", detail: "Knives in the hold.", wallet: "w-home" }
     ],
     logistics: ["w-home", "w-edmont"],
     saved: []
   }
 ];
+
+/* Clusters, not itineraries. One per day plus an evening — never two.
+   Leave at least half a day genuinely free twice across the five nights. */
+export const clusters = {
+  tokyo: [
+    {
+      id: "c-yanaka", star: true,
+      title: "Yanaka → Ueno",
+      when: "Midweek, morning through evening",
+      body: "Nezu and Yanaka, through the back lanes and the cemetery, into Ueno Park, then Ueno itself. The walk between them is the point — do not replace it with a train. Time the day so it ends at Ameyoko and Okachimachi: cheap izakaya, yakitori, street food and a local racket. Sensō-ji at 07:00–08:00 can start the day if it happens, but only then."
+    },
+    {
+      id: "c-west", star: true,
+      title: "West Tokyo",
+      when: "A full day",
+      body: "Yoyogi-Uehara for a quiet morning and coffee, then Shimokitazawa as the anchor of the day, then Harajuku, Cat Street and Omotesandō for shopping, closing in Shibuya in the evening. Do not bolt Daikanyama and Nakameguro onto this — they are their own cluster."
+    },
+    {
+      id: "c-meguro",
+      title: "Daikanyama → Nakameguro",
+      when: "Afternoon into evening",
+      body: "T-Site and the boutiques in Daikanyama, then down the Meguro river into Nakameguro. Ebisu if there is appetite for more."
+    },
+    {
+      id: "c-local",
+      title: "Nakano → Kōenji",
+      when: "Good in rain, good on a gig night",
+      body: "Nakano Broadway is retro and entirely covered. Kōenji is second-hand shops, records, the Pal arcade and bars. The live houses here are the reason to keep an evening loose."
+    },
+    {
+      id: "c-central",
+      title: "Ginza and shopping",
+      when: "An excellent rainy day",
+      body: "Ginza plus whatever Noa has collected from TikTok and Instagram, konbini hunting and the department stores. Deliberately unstructured."
+    },
+    {
+      id: "c-kagurazaka",
+      title: "Kagurazaka, from the hotel",
+      when: "An arrival evening or a free one",
+      body: "Iidabashi into Kagurazaka: the main street, the cobbled side lanes, Akagi-jinja, then a bistro or an izakaya. Ten minutes from the room."
+    }
+  ]
+};
 
 export const dayById = Object.fromEntries(days.map(d => [d.id, d]));
 export const dayByDate = Object.fromEntries(days.map(d => [d.date, d]));

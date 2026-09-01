@@ -5,7 +5,7 @@
    and its saved places rather than restating them. */
 
 import { destinations, byId as destById, trip } from "../../data/destinations.js";
-import { days, dayById, daysFor } from "../../data/days.js";
+import { days, dayById, daysFor, clusters } from "../../data/days.js";
 import { places, placeById, mapsUrl } from "../../data/places.js";
 import { notesForDay } from "../../data/notes.js";
 import { walletById } from "../../data/wallet.js";
@@ -166,6 +166,18 @@ export function renderDay(id) {
           <div class="tiny muted">${esc(dest.name)}</div>
           <h1 class="display" style="font-size:34px;margin-top:6px">${esc(day.title)}</h1>
         </div>
+
+        ${day.bank && (clusters[day.bank] || []).length ? `
+          <div class="sect">Pick one cluster</div>
+          ${clusters[day.bank].map(c => `
+            <div style="padding:15px 0;border-bottom:1px solid var(--line)">
+              <div style="display:flex;align-items:baseline;gap:7px">
+                ${c.star ? '<span style="color:var(--coral);font-size:12px">\u2605</span>' : ""}
+                <div style="font-size:15.5px;font-weight:650">${esc(c.title)}</div>
+              </div>
+              <div style="font-size:12px;font-weight:600;color:var(--teal);margin-top:3px">${esc(c.when)}</div>
+              <p class="muted tiny" style="margin-top:6px">${esc(c.body)}</p>
+            </div>`).join("")}` : ""}
 
         ${day.flexible && day.lead ? `
           <div class="card" style="padding:var(--s4)">

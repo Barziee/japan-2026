@@ -100,6 +100,17 @@ export const notes = [
     body: "The Eizan line passes through it on the way to Kurama. It is famous lit up in autumn, which is later than we are there — but you go through it either way."
   },
 
+  {
+    id: "n-arrival-noplan", kind: "route", day: "d04",
+    title: "No attraction list today",
+    body: "Drop the bags, walk Namba, eat something light and sleep early. Ura-Namba and Hōzenji are more authentic and far less crowded than Dōtonbori — a short taste of Dōtonbori is enough."
+  },
+  {
+    id: "n-minoh-colour", kind: "timing", day: "d05",
+    title: "Minoh is green in early October",
+    body: "The colour here peaks around late November. We walk the gorge for the gorge, not the leaves."
+  },
+
   /* ---------------- 8 Oct · East Kyoto ---------------- */
   {
     id: "n-honenin", kind: "timing", day: "d08", lead: true,
@@ -112,9 +123,24 @@ export const notes = [
     body: "Hōnen-in, a stretch of the Philosopher's Path, then Eikandō around opening. We are not adding Ginkaku-ji just because it is close."
   },
   {
-    id: "n-room-change", kind: "warning", day: "d08",
-    title: "Possible room change this morning",
-    body: "MIRU is two consecutive bookings. If they could not link them, we move rooms on the 8th. Luggage stays with the hotel either way."
+    id: "n-room-change", kind: "warning", day: "d08", lead: true,
+    title: "Check out and back in this morning",
+    body: "MIRU refused to link the two bookings, so we pack on the evening of the 7th and check out before leaving. They will move the luggage. This is why the day starts at 07:00 rather than 07:30."
+  },
+  {
+    id: "n-hinode", kind: "food", day: "d08", lead: true,
+    title: "Hinode Udon is cash only, no bookings",
+    body: "Nanzenji Kitanobōchō 36. Arrive a little before it opens. The whole shape of this day is built around getting there at the right time, so check its hours and closing days before relying on it."
+  },
+  {
+    id: "n-gyojabashi", kind: "route", day: "d08",
+    title: "Gyōjabashi crosses the Shirakawa",
+    body: "The narrow stone bridge near Higashiyama station, not the one over the Kamo. It is a common mix-up."
+  },
+  {
+    id: "n-kyoto-dropped", kind: "route", day: "d08",
+    title: "What we deliberately left out",
+    body: "Fushimi Inari and Arashiyama are off this day, Ginkaku-ji is not added just because it is next to the path, and Kiyomizu-dera came off the arrival day. Eikandō is the one temple."
   },
 
   /* ---------------- 9 Oct · Kyoto → Seki → Gujō ---------------- */
@@ -127,6 +153,17 @@ export const notes = [
     id: "n-seki", kind: "culture", day: "d09", lead: true,
     title: "Seki is the knife stop",
     body: "Seven centuries of blade-making, and it is directly on the route. The second and last knife opportunity after Tower Knives in Osaka."
+  },
+
+  {
+    id: "n-seki-hall", kind: "culture", day: "d09",
+    title: "Cutlery Hall, not the sword museum",
+    body: "岐阜関刃物会館 is open 9:00–17:00, closed only over New Year, with about 100 parking spaces. It is a direct sales hall carrying the Seki factories' output — right if the point is to buy. The sword museum next door only runs forging demonstrations on set dates, usually the first Sunday, so a Friday is unlikely to have one."
+  },
+  {
+    id: "n-gujo-light", kind: "timing", day: "d09", lead: true,
+    title: "Arriving at 13:30 buys three and a half hours of light",
+    body: "Sunset in Gujō is around 17:20. That is the whole reason for the early start and for not adding Mino City or Monet's pond — they cost daylight in the town we actually came for."
   },
 
   /* ---------------- 10 Oct · Kiso valley ---------------- */
@@ -144,6 +181,11 @@ export const notes = [
     id: "n-nakasendo-bus", kind: "transport", day: "d10",
     title: "The last bus governs, not the first",
     body: "The Tsumago to Magome return is what gets us back to the car. Verify the October 2026 timetable, and a pre-booked taxi at ¥3,000–5,000 is the safer version."
+  },
+  {
+    id: "n-magome-coffee", kind: "timing", day: "d10",
+    title: "Coffee in Magome is not guaranteed",
+    body: "Most of the town opens at 08:30–09:00 and we want to be walking by 08:00. Nice if something is open, but do not build the morning on it."
   },
   {
     id: "n-nakasendo-food", kind: "food", day: "d10",
@@ -243,9 +285,24 @@ export const notes = [
 
   /* ---------------- Tokyo ---------------- */
   {
-    id: "n-tokyo-order", kind: "route", dest: "tokyo", lead: true,
-    title: "The neighbourhood order is a default, not a plan",
-    body: "Yanaka, then Nakameguro and Daikanyama, then Shimokitazawa, then Kōenji. Swap them freely for weather or for anything worth seeing live."
+    id: "n-tokyo-clusters", kind: "route", dest: "tokyo", lead: true,
+    title: "One cluster a day, and never two",
+    body: "The day-by-day Tokyo plan was dropped. Clusters are not assigned to dates — we pick one each morning for the weather, our energy, a booking or whatever is playing. Leave at least half a day genuinely free twice across the five nights."
+  },
+  {
+    id: "n-tokyo-classic", kind: "timing", dest: "tokyo",
+    title: "The famous ones, early or midweek only",
+    body: "Meiji Jingū and Sensō-ji are worth it at 07:00–08:00 or on a weekday, and not otherwise. Bar has done Tokyo before; this is Noa's first time, so a measured taste of the classic city is the point rather than the whole trip."
+  },
+  {
+    id: "n-tokyo-rain", kind: "weather", dest: "tokyo",
+    title: "Wet-day clusters",
+    body: "Nakano Broadway, Ginza, T-Site and the live houses in Kōenji and Shimokitazawa are all under cover."
+  },
+  {
+    id: "n-kappabashi", kind: "route", dest: "tokyo",
+    title: "Kappabashi is off the list",
+    body: "Dropped deliberately — the kitchenware street stopped being interesting to us."
   },
   {
     id: "n-tokyo-lastnight", kind: "food", dest: "tokyo",

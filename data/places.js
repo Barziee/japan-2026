@@ -115,6 +115,24 @@ export const places = [
     note: "Good Chinese food."
   },
   {
+    id: "p-minoh", name: "Minoh Falls", ja: "箕面大滝", cat: "nature",
+    area: "osaka", where: "Minoh",
+    maps: "箕面大滝",
+    note: "Hankyū from Umeda to Minoh-o, about 30 minutes. The gorge trail is easy and paved, roughly 2.8 km each way. The colour here peaks in late November, so we walk it for the gorge, not the leaves."
+  },
+  {
+    id: "p-hozenji", name: "Hōzenji Yokochō", ja: "法善寺横丁", cat: "do",
+    area: "osaka", where: "Namba",
+    maps: "法善寺横丁",
+    note: "Lantern-lit stone alley five minutes from Meander. With Ura-Namba it is the whole of the arrival evening — more authentic and much less crowded than Dōtonbori."
+  },
+  {
+    id: "p-tenjinbashi", name: "Tenjinbashisuji", ja: "天神橋筋商店街", cat: "shopping",
+    area: "osaka", where: "Osaka",
+    maps: "天神橋筋商店街",
+    note: "The longest shopping arcade in Japan, and the food along it is local rather than aimed at visitors."
+  },
+  {
     id: "p-grenier", name: "grenier", ja: "北浜店", cat: "coffee",
     area: "osaka", where: "Kitahama",
     maps: "grenier 北浜店",
@@ -181,12 +199,31 @@ export const places = [
     note: ""
   },
 
+  {
+    id: "p-hinode", name: "Hinode Udon", ja: "日の出うどん", cat: "food",
+    area: "kyoto", where: "Nanzenji", pin: true,
+    maps: "日の出うどん 京都",
+    note: "Sakyō-ku, Nanzenji Kitanobōchō 36. No reservations and cash only, so arrive a little before it opens. The whole eastern Kyoto day is arranged around getting here at the right time — check its hours and closing days before relying on it."
+  },
+  {
+    id: "p-gyojabashi", name: "Gyōjabashi", ja: "行者橋", cat: "do",
+    area: "kyoto", where: "Higashiyama",
+    maps: "行者橋 京都",
+    note: "The narrow stone bridge over the Shirakawa near Higashiyama station. Not the one over the Kamo — that is the usual mix-up."
+  },
+
   /* ============================ Gujō ============================ */
   {
     id: "p-daikokuya", name: "Daikokuya Gujō", ja: "だいこく家 郡上店", cat: "food",
     area: "gujo", where: "Gujō Hachiman", pin: true,
     maps: "だいこく家 郡上",
     note: "Wagyu yakiniku. First choice for the one Gujō evening — small town, so book it."
+  },
+  {
+    id: "p-igawa", name: "Igawa Komichi", ja: "いがわ小径", cat: "do",
+    area: "gujo", where: "Gujō Hachiman",
+    maps: "いがわ小径 郡上八幡",
+    note: "The water channel running behind the houses with carp in it. Sōgi-sui, the spring, and Yanaka Mizu-no-Komichi are the same short walk — this is what the afternoon is for."
   },
   {
     id: "p-gonza", name: "Pizzeria Gonza", cat: "food",
@@ -328,6 +365,12 @@ export const places = [
   },
 
   /* ============================ On the road ============================ */
+  {
+    id: "p-sekihall", name: "Gifu Seki Cutlery Hall", ja: "岐阜関刃物会館", cat: "shopping",
+    area: null, where: "Seki, Gifu", pin: true,
+    maps: "岐阜関刃物会館",
+    note: "関市平和通4-12-6, inside the Sekiterrace complex. Open 9:00–17:00 and closed only over New Year, so it is open on the 9th. Around 100 parking spaces. Worth 45–60 minutes — it is a direct sales hall with the output of the Seki factories rather than a museum. (The sword museum next door only runs forging demonstrations on set dates, usually the first Sunday, so not on a Friday.) Tel 0575-22-4941."
+  },
   {
     id: "p-metasequoia", name: "Avenue of Metasequoias", ja: "メタセコイア並木", cat: "nature",
     area: null, where: "Takashima, Shiga",

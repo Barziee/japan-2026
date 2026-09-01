@@ -30,23 +30,25 @@ export const wallet = [
     detail: "2 nights · check-in from 15:00",
     ref: null,
     status: "confirmed",
+    alert: "MIRU refused to link the two bookings. Check out and back in on the morning of 8 Oct.",
     notes: [
-      "Two consecutive bookings: 7–8 Deluxe, 8–9 Superior. We asked them to link the stay and keep one room.",
-      "If they cannot, expect a room change on the morning of 8 Oct. Luggage stays at the hotel either way.",
-      "Receiving our forwarded suitcases — confirm with them before sending."
+      "Two separate bookings: 7–8 Deluxe, 8–9 Superior. They will not merge them and will not hold the same room.",
+      "They will move the luggage for us, but we check out and re-check in on the morning of 8 Oct — so pack on the evening of the 7th, not on the way out of the door.",
+      "This is what sets the departure time for Hōnen-in at 07:30.",
+      "They are receiving our forwarded suitcases — but confirm it before anything is sent. They already said no once."
     ]
   },
   {
     id: "w-fairfield",
     kind: "stay",
     title: "Fairfield by Marriott Gifu Gujō",
-    where: "Yamato, Gujō",
+    where: "Gujō-Yamato",
     from: "2026-10-09",
     to: "2026-10-10",
     detail: "1 night",
     ref: null,
     status: "confirmed",
-    notes: []
+    notes: ["About 15–20 minutes from the old town, so the afternoon happens in town and we come back out to sleep."]
   },
   {
     id: "w-jujo",
@@ -104,7 +106,8 @@ export const wallet = [
     status: "confirmed",
     notes: [
       "Includes NOC and the collision waiver.",
-      "Kyoto → Seki → Gujō on pickup day is 185 km / 2h44 measured."
+      "Kyoto → Gujō direct is 180.4 km / 2:40. Going via Seki is 185.3 km / 2:44 — the knife stop costs 4.9 km and five minutes of driving.",
+      "Check the ETC card is in the car before leaving the counter."
     ]
   },
   {
@@ -174,7 +177,8 @@ export const wallet = [
     ref: null,
     status: "todo",
     notes: [
-      "Send one or two days before leaving Osaka so it lands before we do.",
+      "Osaka to Kyoto is a next-day service, not same-day. Send on the 6th to arrive on the 7th; send on the 5th if we want a margin, but then MIRU hold it an extra night and that needs confirming too.",
+      "Roughly ¥1,500–2,000 per suitcase, from a convenience store or the Meander desk.",
       "Confirm MIRU will receive and store it before sending anything.",
       "On 7 Oct we travel with cabin trolleys only — they go in a coin locker at Demachiyanagi."
     ]
