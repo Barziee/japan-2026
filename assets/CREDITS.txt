@@ -1,9 +1,12 @@
-Destination photographs — lead images from the corresponding Wikipedia articles,
-which host freely licensed media. See each Commons file page for licence and author.
+Destination photographs
 
-osaka.jpg — Dōtonbori — https://en.wikipedia.org/wiki/D%C5%8Dtonbori
-kyoto.jpg — Gion — https://en.wikipedia.org/wiki/Gion
-gujo.jpg — Gujō, Gifu — https://en.wikipedia.org/wiki/Guj%C5%8D%2C_Gifu
-matsumoto.jpg — Matsumoto Castle — https://en.wikipedia.org/wiki/Matsumoto_Castle
-fuji.jpg — Mount Fuji — https://en.wikipedia.org/wiki/Mount_Fuji
-tokyo.jpg — Tokyo — https://en.wikipedia.org/wiki/Tokyo
+Freely licensed media from Wikimedia Commons, downloaded at 1200 px and
+committed so the app looks right offline. See each file page on Commons for
+its licence and photographer.
+
+osaka.jpg — Osaka_Dotonbori_Ebisu_Bridge.jpg — https://commons.wikimedia.org/wiki/File:Osaka_Dotonbori_Ebisu_Bridge.jpg
+kyoto.jpg — 150124_Gion_Kyoto_Japan01s3.jpg — https://commons.wikimedia.org/wiki/File:150124_Gion_Kyoto_Japan01s3.jpg
+gujo.jpg — Gujo_Gifu_Japan.jpg — https://commons.wikimedia.org/wiki/File:Gujo_Gifu_Japan.jpg
+matsumoto.jpg — Matsumoto_Castle_Keep_Tower.jpg — https://commons.wikimedia.org/wiki/File:Matsumoto_Castle_Keep_Tower.jpg
+fuji.jpg — Lake_Motosu03.jpg — https://commons.wikimedia.org/wiki/File:Lake_Motosu03.jpg
+tokyo.jpg — Tokyo_-_Yanaka_143.jpg — https://commons.wikimedia.org/wiki/File:Tokyo_-_Yanaka_143.jpg

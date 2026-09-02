@@ -8,7 +8,7 @@
    The exchange-rate call is deliberately never cached — a stale rate served
    silently is worse than the app knowing it is offline and saying so. */
 
-const VERSION = "jp2026-v4-2026-09-02";
+const VERSION = "jp2026-v5-2026-09-02";
 const SHELL = [
   "./",
   "./index.html",

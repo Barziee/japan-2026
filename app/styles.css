@@ -235,7 +235,7 @@ ul{margin:0;padding:0;list-style:none}
 .upnext:active{transform:scale(.988)}
 .upnext{display:flex;align-items:stretch}
 .upnext .body{padding:var(--s4);flex:1;min-width:0}
-.upnext .shot{width:104px;flex:none;position:relative;overflow:hidden}
+.upnext .shot{width:118px;flex:none;position:relative;overflow:hidden}
 .upnext .shot img{width:100%;height:100%;object-fit:cover;display:block}
 .upnext .shot::after{
   content:"";position:absolute;inset:0;
@@ -375,16 +375,18 @@ ul{margin:0;padding:0;list-style:none}
 
 /* ============================ trip ============================ */
 
-.destcard{display:flex;align-items:stretch;gap:0;overflow:hidden;
+.destcard{display:flex;align-items:stretch;gap:0;overflow:hidden;min-height:140px;
   border-radius:var(--r-img);background:var(--surface);border:1px solid var(--line);
   margin-bottom:var(--s3);transition:transform 180ms var(--ease)}
 .destcard:active{transform:scale(.99)}
-.destcard .t{flex:1;min-width:0;padding:15px var(--s4)}
+.destcard .t{flex:1;min-width:0;padding:16px var(--s4);
+  display:flex;flex-direction:column;justify-content:center}
 .destcard .dates{font-size:11px;font-weight:750;letter-spacing:.09em;text-transform:uppercase;color:var(--coral)}
 .destcard h3{font-size:30px;margin:7px 0 4px}
 .destcard .n{font-size:13.5px;color:var(--ink2);font-weight:550}
 .destcard .l{font-size:13.5px;color:var(--ink3);margin-top:10px}
-.destcard .art{width:118px;flex:none;background:var(--sand);position:relative;overflow:hidden}
+.destcard .art{width:44%;max-width:270px;min-width:132px;flex:none;
+  background:var(--sand);position:relative;overflow:hidden}
 .destcard .art img{width:100%;height:100%;object-fit:cover;display:block}
 
 
@@ -401,7 +403,7 @@ ul{margin:0;padding:0;list-style:none}
 /* destination banner ------------------------------------------- */
 .destbanner{
   margin:0 calc(var(--pad) * -1) var(--s4);
-  height:170px;overflow:hidden;background:var(--sand);
+  height:210px;overflow:hidden;background:var(--sand);
   position:relative;
 }
 .destbanner img{width:100%;height:100%;object-fit:cover;display:block}
