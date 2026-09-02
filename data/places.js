@@ -212,7 +212,45 @@ export const places = [
     note: "The narrow stone bridge over the Shirakawa near Higashiyama station. Not the one over the Kamo — that is the usual mix-up."
   },
 
+  /* ============================ Mino ============================ */
+  {
+    id: "p-mino", name: "Mino udatsu townscape", ja: "うだつの上がる町並み", kind: "Old merchant street", cat: "do",
+    area: null, where: "Mino, Gifu",
+    maps: "うだつの上がる町並み 美濃市",
+    note: "Edo merchant houses with udatsu — the raised fire walls between roofs that were a way of showing off. Free car parks around it; the tourist-centre car park is ¥100 for two hours. Five minutes off the Mino IC, so it costs almost nothing to drop into."
+  },
+  {
+    id: "p-minobashi", name: "Mino Bridge", ja: "美濃橋", kind: "Suspension bridge", cat: "do",
+    area: null, where: "Nagara River, Mino",
+    maps: "美濃橋 美濃市",
+    note: "The oldest surviving modern suspension bridge in Japan, over the Nagara. Five minutes from the old town and the reason to walk down to the river at all."
+  },
+  {
+    id: "p-yamamizu", name: "Yamamizu Honten", ja: "山水本店", kind: "Udon and set meals", cat: "food",
+    area: null, where: "Mino, Gifu",
+    maps: "山水本店 美濃市",
+    note: "Lunch candidate for the Mino version. A Taishō-era place doing udon and teishoku that locals actually eat at. 11:00–14:30, closed Wednesdays — 9 Oct is a Friday, so open — and it has its own parking."
+  },
+  {
+    id: "p-happastand", name: "HAPPA STAND", kind: "Tea in an old house", cat: "coffee",
+    area: null, where: "Mino, Gifu",
+    maps: "HAPPA STAND 美濃市",
+    note: "The lighter Mino option: organic tea in a renovated machiya, 8:00–15:00, closed Wednesdays and Thursdays. Good if we want the street and the river more than a full sit-down meal."
+  },
+
   /* ============================ Gujō ============================ */
+  {
+    id: "p-gujoshokudo", name: "Gujō Hachiman Old Town Hall canteen", ja: "郡上八幡旧庁舎食堂", kind: "Keichan · local set meals", cat: "food",
+    area: "gujo", where: "Jōkamachi Plaza, Gujō",
+    maps: "郡上八幡旧庁舎食堂",
+    note: "Lunch candidate if we skip Mino. Keichan — chicken fried in miso — is the Gujō dish, and the set is about ¥1,080. Open 10:00–16:00 with parking, right in the middle of town, no booking."
+  },
+  {
+    id: "p-izumizaka", name: "Izumizaka", ja: "鉄板料理 泉坂", kind: "Hōba miso on the griddle", cat: "food",
+    area: "gujo", where: "Central Gujō Hachiman",
+    maps: "鉄板料理 泉坂 郡上八幡",
+    note: "The other Gujō lunch: hōba-miso-yaki, meat and vegetables grilled on a magnolia leaf with miso. In the middle of the old castle town."
+  },
   {
     id: "p-daikokuya", name: "Daikokuya Gujō", ja: "だいこく家 郡上店", kind: "Wagyu yakiniku", cat: "food",
     area: "gujo", where: "Gujō Hachiman", pin: true,

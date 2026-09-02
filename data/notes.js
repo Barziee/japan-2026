@@ -156,8 +156,18 @@ export const notes = [
   /* ---------------- 9 Oct · Kyoto → Seki → Gujō ---------------- */
   {
     id: "n-car-pickup", kind: "transport", day: "d09", lead: true,
-    title: "Car at 09:30, Sanjo Keihan-Kita",
-    body: "Kyoto to Seki to Gujō is 185 km and 2h44 measured. Short Kyoto morning, then go."
+    title: "Car between 09:00 and 09:30, on the road by 09:45",
+    body: "Toyota Rent a Car, Sanjo Keihan-Kita, 11-2 Magohashichō, Sakyō-ku. Paperwork, the ETC card and loading the boot all take time, so plan the day from 09:45 rather than from the booking slot. Kyoto to Seki is 147.5 km and 2h14, which puts us at the Cutlery Hall around noon."
+  },
+  {
+    id: "n-mino-free", kind: "route", day: "d09", lead: true,
+    title: "Mino costs one kilometre and three minutes",
+    body: "Via Mino the day is 185.0 km and 2h47; straight past it, 184.0 km and 2h44. It sits directly on the Seki-to-Gujō line, so this is never a routing decision — it is only whether we would rather spend 75 minutes there or 75 more minutes in Gujō."
+  },
+  {
+    id: "n-mino-lunch", kind: "food", day: "d09",
+    title: "Where to eat in Mino, and what to avoid",
+    body: "Yamamizu Honten is the proper option — a Taishō-era udon and teishoku place with its own parking, 11:00–14:30, closed Wednesdays, so open on our Friday. HAPPA STAND is the lighter version, tea in a renovated machiya, 8:00–15:00. Do not aim for みのカフェ makana: it closes on Fridays, which is the day we are there."
   },
   {
     id: "n-seki", kind: "culture", day: "d09", lead: true,
@@ -172,8 +182,13 @@ export const notes = [
   },
   {
     id: "n-gujo-light", kind: "timing", day: "d09", lead: true,
-    title: "Arriving at 13:30 buys three and a half hours of light",
-    body: "Sunset in Gujō is around 17:20. That is the whole reason for the early start and for not adding Mino City or Monet's pond — they cost daylight in the town we actually came for."
+    title: "Either way there is real daylight in Gujō",
+    body: "Sunset is around 17:20. Stopping in Mino puts us in Gujō about 14:40, which still leaves two and a half hours; going straight there lands about 13:20 and gives nearly four. If anything runs long, Mino is the thing to drop — daylight in Gujō is what the early start was for."
+  },
+  {
+    id: "n-gujo-known", kind: "route", day: "d09",
+    title: "We have been here before",
+    body: "So there is no checklist. Canals, the water lanes, the streets above the river, coffee if we want it. The castle only if it happens to fit, and Monet's pond stays off — it costs daylight in the town we actually came for."
   },
 
   /* ---------------- 10 Oct · Kiso valley ---------------- */

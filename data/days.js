@@ -133,19 +133,26 @@ export const days = [
     title: "Kyoto → Seki → Gujō Hachiman",
     route: [
       { name: "Kyoto" },
-      { name: "Seki", via: "Car · knives", mode: "car" },
-      { name: "Gujō Hachiman", via: "185 km · 2h44 total", mode: "car" }
+      { name: "Seki", via: "147.5 km · 2h14", mode: "car" },
+      { name: "Mino", via: "8.9 km · 9 min · optional", mode: "car" },
+      { name: "Gujō", via: "28.7 km · 24 min", mode: "car" }
     ],
     plan: [
-      { t: { k: "part", v: "morning" }, name: "Short Kyoto morning", detail: "Coffee and out. The driving day starts early." },
-      { t: { k: "exact", v: "09:30" }, name: "Pick up the Corolla", detail: "Toyota Rent a Car, Sanjo Keihan-Kita.", wallet: "w-corolla" },
-      { t: { k: "approx", v: "11:45" }, name: "Seki Cutlery Hall", detail: "45–60 minutes. A direct sales hall with the output of the Seki factories, which is what we want if the point is to buy.", saved: "p-sekihall" },
-      { t: { k: "approx", v: "13:30" }, name: "Gujō Hachiman", detail: "Lunch around 14:00, then a full afternoon of light. Sunset is 17:20, so arriving now buys about three and a half hours.", wallet: "w-fairfield" },
-      { t: { k: "part", v: "afternoon" }, name: "Igawa Komichi and the water", detail: "The carp channel behind the houses, the Sōgi-sui spring, Yanaka Mizu-no-Komichi, the alleys and the cafés. The castle only if we feel like it.", saved: "p-igawa" },
-      { t: { k: "part", v: "evening" }, name: "Dinner · Daikokuya", detail: "Wagyu yakiniku. Small town, so this needs booking.", saved: "p-daikokuya" }
+      { t: { k: "part", v: "morning" }, name: "Short Kyoto morning", detail: "Coffee, pack, check out. The driving day starts properly at the rental counter." },
+      { t: { k: "exact", v: "09:00" }, name: "Pick up the Corolla", detail: "Toyota Rent a Car, Sanjo Keihan-Kita — 11-2 Magohashichō, Sakyō-ku. Paperwork, ETC check and loading means we are realistically rolling about 09:45.", wallet: "w-corolla" },
+      { t: { k: "approx", v: "12:00" }, name: "Gifu-Seki Cutlery Hall", detail: "The core stop. 45–60 minutes to browse and probably buy — it is a direct sales hall for the Seki makers, not a museum. Around 100 parking spaces.", saved: "p-sekihall" },
+      { t: { k: "approx", v: "13:00" }, name: "Mino, if the day is relaxed", detail: "Nine minutes on. Lunch, the udatsu street, and a short walk down to the Nagara and the old suspension bridge. 60–75 minutes total — not a full Mino visit.", saved: "p-mino", opt: 1 },
+      { t: { k: "approx", v: "14:40" }, name: "Gujō Hachiman", detail: "About 13:20 if we skipped Mino. Either way there is real daylight left — sunset is 17:20.", place: "Gujō Hachiman" },
+      { t: { k: "part", v: "afternoon" }, name: "Wander", detail: "Canals, the water lanes, the streets above the river. We have been here before, so there is no list — coffee and drifting is the point.", saved: "p-igawa" },
+      { t: { k: "part", v: "evening" }, name: "Dinner · Daikokuya", detail: "Wagyu yakiniku. Small town, so book it — Pizzeria Gonza is the real backup.", saved: "p-daikokuya" }
+    ],
+    alts: [
+      { title: "A · stop in Mino", when: "If Seki went quickly and nobody is tired", body: "Lunch at Yamamizu Honten, then the udatsu street and five minutes down to Mino Bridge. Puts us in Gujō about 14:40 with roughly two and a half hours of daylight. The whole day is 185.0 km and 2h47 of driving." },
+      { title: "B · straight to Gujō", when: "If Seki ran long, traffic is bad, or we just want more Gujō", body: "Seki to Gujō direct is 36.5 km and half an hour, landing about 13:20 — nearly four hours of daylight. Eat in town: the old town hall canteen does keichan sets with parking, or Izumizaka does hōba miso. The drive is 184.0 km and 2h44." },
+      { title: "What Mino actually costs", when: "The decision, honestly", body: "One kilometre and three minutes of driving — it sits directly on the Seki-to-Gujō line. So this is not a routing question. It is only ever a question of whether we would rather have 75 minutes in Mino or 75 more minutes in Gujō." }
     ],
     logistics: ["w-corolla", "w-fairfield"],
-    saved: ["p-daikokuya", "p-gonza"]
+    saved: ["p-sekihall", "p-mino", "p-minobashi", "p-yamamizu", "p-happastand", "p-gujoshokudo", "p-izumizaka", "p-igawa", "p-daikokuya", "p-gonza"]
   },
 
   {
