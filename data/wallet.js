@@ -105,9 +105,11 @@ export const wallet = [
     detail: "Pick up Kyoto 09:30 · drop Gotemba 14:30",
     ref: "99902885400",
     status: "confirmed",
+    alert: "The 13 Oct return is booked for 14:30, but the western-lakes route reaches Gotemba around 16:15.",
     notes: [
       "Includes NOC and the collision waiver.",
       "Kyoto → Gujō direct is 180.4 km / 2:40. Going via Seki is 185.3 km / 2:44 — the knife stop costs 4.9 km and five minutes of driving.",
+      "Ask Toyota to move the 13 Oct handover to around 16:30 — both the return and the Yaris pickup are the same appointment.",
       "Check the ETC card is in the car before leaving the counter.",
       "Bring the 2026 IDP, the Israeli licence and the passport to the counter."
     ]
@@ -122,6 +124,7 @@ export const wallet = [
     detail: "Gotemba return trip · two days",
     ref: "99903334000",
     status: "confirmed",
+    alert: "Pickup is booked for 14:30 on 13 Oct; we now plan to arrive about 16:15.",
     notes: [
       "Swap happens in one visit: bags to edit×seven first, then Corolla back, then Yaris out.",
       "Small boot. Luggage stays at the hotel.",

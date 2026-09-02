@@ -248,6 +248,48 @@ export const places = [
 
   /* ============================ Fuji · Izu ============================ */
   {
+    id: "p-shoji", name: "Tatego-hama, Lake Shōji", ja: "精進湖 他手合浜", kind: "Fuji viewpoint", cat: "nature",
+    area: "fuji", where: "Lake Shōji", pin: true,
+    maps: "精進湖 他手合浜",
+    note: "The Kodaki Fuji view — Mount Ōmuro sitting in front of Fuji like a child being carried. Also searchable as 子抱き富士ビューポイント. Straight off the road, no walking."
+  },
+  {
+    id: "p-motosu", name: "Motosuko Lakeside Walkway", ja: "本栖湖畔線歩道", kind: "Fuji viewpoint", cat: "nature",
+    area: "fuji", where: "Lake Motosu, by Kōan", pin: true,
+    maps: "本栖湖畔線歩道 浩庵",
+    note: "The Lake Motosu and Fuji composition from the ¥1,000 note, from the shore near Kōan. The exact elevated angle on the note is up at Nakanokura Pass and takes over an hour on foot — we are not doing that one."
+  },
+  {
+    id: "p-tanuki", name: "Lake Tanuki", ja: "田貫湖", kind: "Lake walk", cat: "nature",
+    area: "fuji", where: "Fujinomiya",
+    maps: "田貫湖",
+    note: "Ten minutes from Shiraito. Worth 45–60 minutes if Fuji is out and there is energy left; not worth forcing if it is clouded in."
+  },
+  {
+    id: "p-otodome", name: "Otodome Falls", ja: "音止の滝", kind: "Waterfall", cat: "nature",
+    area: "fuji", where: "Beside Shiraito",
+    maps: "音止の滝",
+    note: "A single hard drop right next to Shiraito, on the same walk. No reason to skip it."
+  },
+  {
+    id: "p-hiraishiya", name: "Hiraishiya", ja: "平石屋", kind: "Fujinomiya yakisoba", cat: "food",
+    area: "fuji", where: "By Otodome Falls",
+    maps: "平石屋 富士宮やきそば 白糸の滝",
+    note: "Lunch candidate. The local speciality, cooked on a teppan in the room, with terrace seating right by Otodome. Own car park, free with ¥600 spent. Being at the falls means zero extra driving — but confirm Tuesday opening."
+  },
+  {
+    id: "p-asagiri", name: "Buffet Restaurant Fujisan", ja: "ビュッフェレストランふじさん", kind: "Buffet · local dairy", cat: "food",
+    area: "fuji", where: "Asagiri Food Park",
+    maps: "ビュッフェレストランふじさん あさぎりフードパーク",
+    note: "Lunch candidate. Inside Asagiri Food Park on Route 139, directly on the road south. Built around Asagiri dairy milk and local eggs. 11:00–15:40, last orders 14:30, big car park, no booking needed. Closures are irregular — confirm the day."
+  },
+  {
+    id: "p-masunoie", name: "Masu no Ie", ja: "鱒の家", kind: "Rainbow trout", cat: "food",
+    area: "fuji", where: "Inokashira, Fujinomiya",
+    maps: "鱒の家 猪之頭",
+    note: "Lunch candidate. Trout farmed in Fuji spring water, which is what this valley is known for. Lunch only, 11:00–15:00, sets from about ¥2,100. Sit-down and unhurried. Confirm Tuesday opening."
+  },
+  {
     id: "p-odaru", name: "Ō-daru Falls", ja: "大滝", kind: "Waterfall", cat: "nature",
     area: "fuji", where: "Kawazu, Izu",
     maps: "大滝 滝見台 河津",
@@ -279,9 +321,9 @@ export const places = [
   },
   {
     id: "p-shiraito", name: "Shiraito Falls", ja: "白糸の滝", kind: "Waterfall", cat: "nature",
-    area: "fuji", where: "Fujinomiya",
+    area: "fuji", where: "Fujinomiya", pin: true,
     maps: "白糸の滝 富士宮",
-    note: ""
+    note: "A 150 m curtain of spring water coming straight out of the rock face rather than over it. Municipal car park, 100+ spaces, ¥500 for the day. Give it an hour and a half to two hours with Otodome — this is not a photo stop."
   },
   {
     id: "p-asama", name: "Kawaguchi Asama Shrine", ja: "河口浅間神社", kind: "Shrine", cat: "do",

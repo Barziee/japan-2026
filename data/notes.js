@@ -254,14 +254,39 @@ export const notes = [
 
   /* ---------------- 13 Oct · to Gotemba ---------------- */
   {
-    id: "n-carswap", kind: "transport", day: "d13", lead: true,
-    title: "One stop, three jobs, 14:30",
-    body: "Bags into edit×seven first, then the Corolla back, then the Yaris out. Matsumoto to Gotemba is 171 km and 2:38 measured, so leave early with one stop at most."
+    id: "n-carswap", kind: "warning", day: "d13", lead: true,
+    title: "The car swap is booked for 14:30 and this route lands at 16:15",
+    body: "Both rentals are timed to 14:30 at Gotemba — the Corolla back and the GR Yaris out. Going via the western lakes gets us there closer to 16:15, so something has to give. Moving both bookings to about 16:30 is one phone call; the alternative is dropping Tanuki and cutting Shiraito short, which takes the point out of the day. Sort it well before the 13th, not on the morning."
+  },
+  {
+    id: "n-carswap-order", kind: "transport", day: "d13",
+    title: "Three jobs in one stop",
+    body: "Bags into edit×seven first, then the Corolla back, then the Yaris out. Doing it in that order means never carrying luggage that does not fit the car we are picking up."
+  },
+  {
+    id: "n-d13-route", kind: "route", day: "d13", lead: true,
+    title: "Two hours to the first lake, then it is all short hops",
+    body: "Matsumoto to Tatego-hama is 125.9 km and about two hours — the long leg is done before the day really starts. After that: Shōji to Motosu is nine minutes, Motosu to Shiraito twenty, Shiraito to Tanuki ten, Tanuki to Gotemba fifty. The whole day with every stop is 212 km and about 3h30 of driving."
+  },
+  {
+    id: "n-d13-lunch", kind: "food", day: "d13", lead: true,
+    title: "Eat properly, and early",
+    body: "Leaving at 07:00 means real hunger by 11:00. Three candidates sit on the route: Hiraishiya for Fujinomiya yakisoba right beside Otodome, the Asagiri Food Park buffet on Route 139 for local dairy, and Masu no Ie for trout raised in Fuji spring water. None needs a booking. All three need their Tuesday hours confirmed nearer the time — nothing here is locked in."
+  },
+  {
+    id: "n-d13-nakanokura", kind: "route", day: "d13",
+    title: "Not the ¥1,000-note climb",
+    body: "The exact banknote angle is from Nakanokura Pass, which is a solid uphill walk and over an hour of the day. We want the easy shore view near Kōan instead — same lake, same mountain, no climb."
+  },
+  {
+    id: "n-d13-kawaguchiko", kind: "route", day: "d13",
+    title: "West of the mountain, not east",
+    body: "Kawaguchiko is deliberately not on this route. The western lakes flow naturally into Asagiri and Shiraito; going east would add distance and put us in the busiest part of the Five Lakes for no gain."
   },
   {
     id: "n-yaris-boot", kind: "warning", day: "d13",
     title: "The suitcases do not fit the Yaris",
-    body: "They stay at the hotel for the two Fuji days."
+    body: "They stay at the hotel for the two Fuji days, which is why the bags go into edit×seven before the swap rather than after."
   },
 
   /* ---------------- 14 Oct · west Izu ---------------- */

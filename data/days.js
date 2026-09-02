@@ -223,19 +223,32 @@ export const days = [
 
   {
     id: "d13", date: "2026-10-13", dow: "Tue", dest: "fuji",
-    title: "To Gotemba, and a change of car",
+    title: "Matsumoto → the western lakes → Gotemba",
     route: [
       { name: "Matsumoto" },
-      { name: "Gotemba", via: "171 km · 2h38", mode: "car" },
-      { name: "Yamanakako", via: "First Fuji loop", mode: "car" }
+      { name: "Lake Shōji", via: "125.9 km · ~2 h", mode: "car" },
+      { name: "Lake Motosu", via: "9.7 km · 9 min", mode: "car" },
+      { name: "Shiraito", via: "Lunch on the way · ~35 min", mode: "car" },
+      { name: "Lake Tanuki", via: "5.3 km · 10 min · optional", mode: "car" },
+      { name: "Gotemba", via: "47.7 km · 50 min", mode: "car" }
     ],
     plan: [
-      { t: { k: "part", v: "morning" }, name: "Leave Matsumoto early", detail: "One stop at most on the way." },
-      { t: { k: "exact", v: "14:30" }, name: "Car swap at Gotemba", detail: "Bags into edit×seven first, then the Corolla back, then the GR Yaris out.", wallet: "w-yaris" },
-      { t: { k: "part", v: "afternoon" }, name: "Yamanakako", detail: "One good sunset spot. Not a chase around several lakes.", place: "Lake Yamanaka" }
+      { t: { k: "exact", v: "07:00" }, name: "Leave Matsumoto Jujo", detail: "Early on purpose. This is a road trip south, not a transfer.", wallet: "w-jujo" },
+      { t: { k: "approx", v: "09:05" }, name: "Tatego-hama, Lake Shōji", detail: "The Kodaki Fuji view, with Mount Ōmuro in front of the mountain. Twenty to thirty minutes at the shore, no walking. If Fuji is hidden, cut it short or drive on.", saved: "p-shoji" },
+      { t: { k: "approx", v: "09:45" }, name: "Lake Motosu, by Kōan", detail: "The lakeside walkway and the ¥1,000-note composition from the shore. Not the climb to Nakanokura Pass — that is over an hour we do not have today.", saved: "p-motosu" },
+      { t: { k: "approx", v: "10:25" }, name: "South on Route 139", detail: "Through Asagiri. Twenty minutes to Shiraito, half an hour to Fujinomiya — lunch decides which." },
+      { t: { k: "approx", v: "11:15" }, name: "A proper sit-down lunch", detail: "Three candidates, all on the route: Hiraishiya for Fujinomiya yakisoba beside Otodome, the Asagiri Food Park buffet on the 139, or Masu no Ie for spring-water trout. Pick one nearer the time and check it opens on a Tuesday.", saved: "p-masunoie" },
+      { t: { k: "approx", v: "12:40" }, name: "Shiraito Falls", detail: "The core of the day. A hundred and fifty metres of spring water straight out of the rock. Otodome is on the same walk. Ninety minutes to two hours, unhurried.", saved: "p-shiraito" },
+      { t: { k: "approx", v: "14:30" }, name: "Lake Tanuki, if the mountain is out", detail: "Ten minutes away, and 45–60 minutes round the water. Skip it without regret if Fuji is in cloud or we are running late.", saved: "p-tanuki", opt: 1 },
+      { t: { k: "approx", v: "16:15" }, name: "edit×seven Fuji Gotemba", detail: "Fifty minutes from Tanuki, forty-two straight from Shiraito. No need to land on check-in time.", wallet: "w-editseven" }
     ],
-    logistics: ["w-corolla", "w-yaris", "w-editseven"],
-    saved: []
+    alts: [
+      { title: "Fuji is completely hidden", when: "Cloud right down", body: "Do not spend the morning collecting lake viewpoints that have nothing in them. Drive straight through to an early lunch, give Shiraito the full two hours — it is spring water and it is beautiful in any weather — and get to Gotemba in daylight." },
+      { title: "Fuji is only partly out", when: "Broken cloud", body: "Take the stronger of the two lakes rather than both. Motosu is the better composition; Shōji is the quicker stop." },
+      { title: "Everything is clear", when: "The good version", body: "Both lakes in the morning, then Tanuki after Shiraito. That is 212 km and about 3h30 of driving, which is a full but comfortable day." }
+    ],
+    logistics: ["w-corolla", "w-yaris", "w-editseven", "w-jujo"],
+    saved: ["p-shoji", "p-motosu", "p-shiraito", "p-otodome", "p-tanuki", "p-hiraishiya", "p-asagiri", "p-masunoie"]
   },
 
   {
