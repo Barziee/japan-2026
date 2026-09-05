@@ -604,20 +604,21 @@ ul{margin:0;padding:0;list-style:none}
 
 
 /* ============================================================
-   Today · v10
+   v10 design system — Today, Trip and Saved
+   Scoped to .v10 so Wallet, Lists and Info stay on the previous system.
    ============================================================ */
 
-.today-v10{padding-top:var(--s1)}
-.today-v10 .section{margin-top:30px}
+.v10{padding-top:var(--s1)}
+.v10 .section{margin-top:30px}
 
 /* section heads: a coral dash, then a tight uppercase label ---------- */
-.today-v10 .sectionhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
-.today-v10 .sectiontitle{font-size:10.5px;font-weight:800;letter-spacing:.13em;
+.v10 .sectionhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+.v10 .sectiontitle{font-size:10.5px;font-weight:800;letter-spacing:.13em;
   text-transform:uppercase;color:var(--ink)}
-.today-v10 .sectiontitle:before{content:"";display:inline-block;width:17px;height:3px;
+.v10 .sectiontitle:before{content:"";display:inline-block;width:17px;height:3px;
   border-radius:9px;background:var(--coral);margin-right:8px;vertical-align:3px}
-.today-v10 .sectionhead a{font-size:10.5px;font-weight:700;color:var(--indigo)}
-.today-v10 .section.route .sectiontitle:before{background:#fff}
+.v10 .sectionhead a{font-size:10.5px;font-weight:700;color:var(--indigo)}
+.v10 .section.route .sectiontitle:before{background:#fff}
 
 /* live countdown ---------------------------------------------------- */
 .flight-countdown{
@@ -685,9 +686,9 @@ ul{margin:0;padding:0;list-style:none}
 .hero-when span{display:block;font-size:10.5px;color:rgba(255,255,255,.72);margin-top:3px;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:150px}
 .hero-btns{display:flex;gap:7px}
-.today-v10 .btn{border:0;border-radius:11px;height:39px;padding:0 13px;font-size:11.5px;
+.v10 .btn{border:0;border-radius:11px;height:39px;padding:0 13px;font-size:11.5px;
   font-weight:800;display:inline-flex;align-items:center;transition:transform 160ms var(--ease)}
-.today-v10 .btn:active{transform:scale(.96)}
+.v10 .btn:active{transform:scale(.96)}
 .btn-light{background:#fff;color:var(--indigo-deep)}
 .btn-ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.22)}
 .resetline{display:block;margin:-16px 0 20px;font-size:11.5px;font-weight:700;color:var(--indigo)}
@@ -701,7 +702,7 @@ ul{margin:0;padding:0;list-style:none}
 .routeflow{display:flex;align-items:center;overflow-x:auto;scrollbar-width:none}
 .routeflow::-webkit-scrollbar{display:none}
 .routeflow .stop{font-size:13px;font-weight:800;white-space:nowrap;letter-spacing:-.01em}
-.connector{flex:1;min-width:76px;margin:0 10px;text-align:center}
+.connector{flex:0 0 auto;min-width:84px;margin:0 12px;text-align:center}
 .connector .line{height:2px;border-radius:9px;background:rgba(255,255,255,.35);position:relative;display:block}
 .connector .line:after{content:"";position:absolute;right:-1px;top:-3px;
   border-left:6px solid rgba(255,255,255,.58);border-top:4px solid transparent;
@@ -710,15 +711,15 @@ ul{margin:0;padding:0;list-style:none}
   white-space:nowrap}
 
 /* timeline ---------------------------------------------------------- */
-.today-v10 .timeline{position:relative}
+.v10 .timeline{position:relative}
 .trow{display:grid;grid-template-columns:57px 18px 1fr;gap:4px;min-height:76px}
 .trow:last-child{min-height:50px}
 .tmeta{font-size:12px;font-weight:700;color:var(--ink);padding-top:2px;
   font-variant-numeric:tabular-nums;letter-spacing:-.01em}
 .tmeta.soft{font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
   color:#9a9ca3;padding-top:4px}
-.today-v10 .rail{position:relative}
-.today-v10 .dot{position:absolute;top:5px;left:4px;width:9px;height:9px;border-radius:50%;
+.v10 .rail{position:relative}
+.v10 .dot{position:absolute;top:5px;left:4px;width:9px;height:9px;border-radius:50%;
   background:var(--canvas);border:2px solid #aeb0b7;z-index:2}
 .trow.now .dot{background:var(--coral);border-color:var(--coral);
   box-shadow:0 0 0 4px rgba(232,90,66,.16)}
@@ -799,11 +800,111 @@ ul{margin:0;padding:0;list-style:none}
   .clockpart{min-width:29px}
   .clockpart strong{font-size:14px}
   .hero-when b{font-size:18px}
-  .today-v10 .btn{padding:0 11px}
+  .v10 .btn{padding:0 11px}
   .hero-actions{grid-template-columns:1fr;gap:10px;min-height:0}
   .hero-btns{width:100%}
   .hero-btns .btn{flex:1 1 0;justify-content:center}
   .hero-when span{max-width:none}
+}
+
+
+/* ============================================================
+   v10 · Trip and Saved
+   ============================================================ */
+
+/* a day title is a sentence, not a place name, so it runs smaller */
+.v10 h1.dayname{font-size:32px;line-height:1.06;letter-spacing:-.022em}
+
+/* destination cards ------------------------------------------------- */
+.v10 .destcard{display:flex;align-items:stretch;overflow:hidden;min-height:150px;
+  border-radius:18px;background:var(--surface);border:1px solid var(--line);
+  margin-bottom:var(--s4);box-shadow:0 10px 30px rgba(32,29,23,.07),0 1px 3px rgba(32,29,23,.05);
+  transition:transform 180ms var(--ease)}
+.v10 .destcard:active{transform:scale(.99)}
+.v10 .destcard .t{flex:1;min-width:0;padding:16px var(--s4);display:flex;
+  flex-direction:column;justify-content:center}
+.v10 .destcard .t > *{display:block}
+.v10 .destcard .dates{font-size:10px;font-weight:800;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--coral)}
+.v10 .destcard h3{font-family:Manrope,Inter,system-ui,sans-serif;font-weight:800;
+  font-size:31px;line-height:1;letter-spacing:-.028em;margin:8px 0 5px}
+.v10 .destcard .n{font-size:12px;font-weight:700;color:var(--ink2)}
+.v10 .destcard .l{font-size:11.5px;color:var(--ink3);margin-top:9px;line-height:1.4}
+.v10 .destcard .art{width:42%;max-width:250px;min-width:126px;flex:none;
+  background:var(--sand);position:relative;overflow:hidden}
+.v10 .destcard .art img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* destination banner ------------------------------------------------ */
+.v10 .destbanner{margin:0 calc(var(--pad) * -1) var(--s4);height:212px;overflow:hidden;
+  background:var(--sand);position:relative}
+.v10 .destbanner img{width:100%;height:100%;object-fit:cover;display:block}
+.v10 .destbanner::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 42%,var(--canvas) 100%)}
+
+/* day rows on a destination ----------------------------------------- */
+.drows{border-top:1px solid var(--line)}
+.drow{display:grid;grid-template-columns:52px 1fr auto;gap:11px;align-items:center;
+  padding:13px 0;border-bottom:1px solid var(--line)}
+.drow .dwhen{font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--coral)}
+.drow .dwhat{min-width:0}
+.drow .dwhat b{display:block;font-size:14px;font-weight:750;letter-spacing:-.01em;line-height:1.3}
+.drow .dwhat small{display:block;font-size:10.5px;color:var(--ink3);margin-top:3px}
+.drow .chev{color:var(--ink3)}
+.drow .chev svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;
+  stroke-linecap:round;stroke-linejoin:round}
+
+/* the flat note list under the context headline ---------------------- */
+.notelist{margin-top:var(--s4)}
+.noterow{display:grid;grid-template-columns:26px 1fr;gap:11px;padding:13px 0;
+  border-bottom:1px solid var(--line)}
+.noterow:last-child{border-bottom:0}
+.noterow .ng{width:26px;height:26px;border-radius:8px;display:grid;place-items:center}
+.noterow .ng svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.9;
+  stroke-linecap:round;stroke-linejoin:round}
+.noterow b{display:block;font-size:13.5px;font-weight:750;letter-spacing:-.008em}
+.noterow p{font-size:11.5px;line-height:1.5;color:var(--ink2);margin-top:4px}
+
+/* Saved rows: the v10 tile and type, keeping the inline drawer -------- */
+.v10 .prow{display:block;width:100%;text-align:left;border-bottom:1px solid var(--line)}
+.v10 .prow .head{display:grid;grid-template-columns:44px 1fr auto auto;gap:11px;
+  align-items:center;padding:12px 0;width:100%;text-align:left}
+.v10 .prow .sq{width:44px;height:44px;border-radius:13px;display:grid;place-items:center}
+.v10 .prow .sq svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;
+  stroke-linecap:round;stroke-linejoin:round}
+.v10 .prow .t{min-width:0}
+.v10 .prow .t b{display:block;font-size:13.5px;font-weight:750;letter-spacing:-.008em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.v10 .prow .t small{display:block;font-size:10.5px;font-weight:700;margin-top:3px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.v10 .prow .t small em{font-style:normal}
+.v10 .prow .t small .where{color:var(--ink3);font-weight:500}
+.v10 .prow .pin{color:var(--coral)}
+.v10 .prow .pin svg{width:13px;height:13px;fill:currentColor;stroke:none}
+.v10 .prow .chev{color:var(--ink3);transition:transform var(--dur) var(--ease)}
+.v10 .prow .chev svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round}
+.v10 .prow[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.v10 .prow .drawer .inner{padding:0 0 16px 55px}
+.v10 .prow .drawer p{font-size:11.5px;line-height:1.55;color:var(--ink2);margin-bottom:12px}
+.v10 .prow .drawer .btn{height:34px;border-radius:10px;padding:0 11px;font-size:11.5px;
+  font-weight:750;background:var(--surface);border:1px solid var(--line2);color:var(--ink);
+  gap:5px}
+.v10 .prow .drawer .btn svg{width:13px;height:13px}
+
+/* filters ------------------------------------------------------------ */
+.v10 .pillrow{padding-bottom:var(--s2)}
+.v10 .pill{height:33px;font-size:12.5px;font-weight:700;border-radius:var(--r-pill)}
+.v10 .pillrow.areas .pill[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.v10 .pillrow.cats .pill[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
+
+/* search results reuse the same rows ---------------------------------- */
+.searchresults.v10 .sectionhead{margin-top:var(--s5)}
+
+@media (max-width:370px){
+  .v10 .destcard h3{font-size:27px}
+  .v10 .destcard .art{min-width:112px}
+  .v10 .destbanner{height:180px}
 }
 
 @media (prefers-reduced-motion:reduce){

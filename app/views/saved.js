@@ -23,12 +23,12 @@ export function placeRow(p) {
   return `
     <div class="prow" data-place="${p.id}" aria-expanded="false">
       <button class="head" data-toggle="${p.id}" aria-label="${esc(p.name)}">
-        <span class="sw k-${p.cat}">${svg(CAT_ICON[p.cat])}</span>
+        <span class="sq k-${p.cat}">${svg(CAT_ICON[p.cat])}</span>
         <span class="t">
-          <span class="n">${esc(p.name)}</span>
-          <span class="c" style="color:var(--c-${p.cat})">
+          <b>${esc(p.name)}</b>
+          <small style="color:var(--c-${p.cat})">
             <em>${esc(what)}</em>${where ? `<span class="where"> · ${esc(where)}</span>` : ""}
-          </span>
+          </small>
         </span>
         ${pinned ? `<span class="pin">${svg("star")}</span>` : ""}
         <span class="chev">${svg("chev")}</span>
@@ -102,19 +102,22 @@ export function renderSaved(query = {}) {
     <button class="pill" data-area="${a.id}" aria-pressed="${a.id === area}">${esc(a.label)}</button>`).join("");
 
   const rows = list.length
-    ? `<div class="rows">${list.map(placeRow).join("")}</div>`
+    ? list.map(placeRow).join("")
     : `<div class="empty">Nothing saved here yet.</div>`;
 
   return {
     eyebrow: "Saved places",
     html: `
-      <div class="screen">
-        <div style="padding-bottom:var(--s4)">
-          <h1 class="display" style="font-size:42px">Saved</h1>
+      <div class="screen v10">
+        <div class="destination">
+          <div class="destination-copy">
+            <div class="kicker">${places.length} places</div>
+            <h1>Saved</h1>
+          </div>
         </div>
         <div class="pillrow areas">${areaPills}</div>
         <div class="pillrow cats">${catPills}</div>
-        ${rows}
+        <div class="savedrows">${rows}</div>
         <div style="height:var(--s7)"></div>
       </div>`,
     wire(root, go) {

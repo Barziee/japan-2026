@@ -319,7 +319,7 @@ export function render() {
   return {
     eyebrow: dLabel(day.date).toUpperCase(),
     html: `
-      <div class="screen today-v10">
+      <div class="screen v10">
         ${countdown()}
         ${header(day, dest)}
         ${hero(day, idx)}

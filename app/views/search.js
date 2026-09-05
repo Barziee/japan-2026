@@ -50,15 +50,15 @@ export function results(raw) {
   for (const c of CATEGORIES) {
     const group = matched.filter(p => p.cat === c.id);
     if (!group.length) continue;
-    html += `<div class="sect">${esc(c.label)}</div>
-             <div class="rows">${group.map(placeRow).join("")}</div>`;
+    html += `<div class="sectionhead"><div class="sectiontitle">${esc(c.label)}</div></div>
+             <div class="savedrows">${group.map(placeRow).join("")}</div>`;
   }
 
   const dayHits = days.filter(d =>
     norm(d.title).includes(q) ||
     (d.plan || []).some(s => norm(s.name).includes(q)));
   if (dayHits.length) {
-    html += `<div class="sect">Days</div>` + dayHits.slice(0, 6).map(d => `
+    html += `<div class="sectionhead"><div class="sectiontitle">Days</div></div>` + dayHits.slice(0, 6).map(d => `
       <a class="lrow" href="#/day/${d.id}">
         <span class="ic">${svg("today")}</span>
         <span class="t"><span class="n">${esc(d.title)}</span>
@@ -70,7 +70,7 @@ export function results(raw) {
   const noteHits = notes.filter(n =>
     norm(n.title).includes(q) || norm(n.body).includes(q));
   if (noteHits.length) {
-    html += `<div class="sect">Notes</div>` + noteHits.slice(0, 6).map(n => `
+    html += `<div class="sectionhead"><div class="sectiontitle">Notes</div></div>` + noteHits.slice(0, 6).map(n => `
       <div class="note k-${n.kind}" style="padding-top:var(--s2)">
         <span class="g g-${n.kind}">${svg("info")}</span>
         <div><h4>${esc(n.title)}</h4><p>${esc(n.body)}</p></div>
@@ -93,7 +93,7 @@ export function mount(go) {
       </div>
       <button class="btn btn-text" id="cancel">Cancel</button>
     </div>
-    <div class="searchresults" id="out"></div>`;
+    <div class="searchresults v10" id="out"></div>`;
   document.body.appendChild(el);
 
   const input = el.querySelector("#q");
