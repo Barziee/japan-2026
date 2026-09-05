@@ -1,9 +1,10 @@
 /* Today — the home screen, always.
 
-   Order follows the brief: where we are, what is next, the shape of the day,
-   the plan, what we already learned about this place, saved things nearby,
-   logistics, then alternatives. Every section renders only if it has
-   something to say. */
+   Visual direction ported from the approved v10 prototype: an image-first
+   hero with an indigo action bar, a solid indigo route block, a warm sand
+   context surface, teal logistics and a live coral countdown. The section
+   order, the data and every piece of logic are unchanged — this is the same
+   Today, composed the way v10 composes it. */
 
 import { days, clusters } from "../../data/days.js";
 import { byId as destById, trip } from "../../data/destinations.js";
@@ -14,7 +15,7 @@ import { climate } from "../../data/lists.js";
 import { state, save } from "../store.js";
 import {
   svg, esc, timeLabel, isSoft, minutesOf, dLabel, mapsSearch, mapsDir,
-  dayRoute, NOTE_ICON, CAT_ICON, WALLET_ICON, MODE_ICON, SKY_ICON
+  dayRoute, NOTE_ICON, CAT_ICON, WALLET_ICON, SKY_ICON
 } from "../ui.js";
 
 /* Which day the app should be showing. Before departure this is day one, so
@@ -45,55 +46,52 @@ function upNextIndex(day) {
   return Math.max(0, Math.min(steps.length - 1, idx + nudge));
 }
 
-function stepTarget(step) {
-  if (step.saved && placeById[step.saved]) return mapsUrl(placeById[step.saved]);
-  if (step.place) return mapsSearch(step.place + ", Japan");
-  return null;
-}
+const stepTarget = step =>
+  step.saved && placeById[step.saved] ? mapsUrl(placeById[step.saved])
+  : step.place ? mapsSearch(step.place + ", Japan") : null;
 
 function stepDirections(step) {
   if (step.saved && placeById[step.saved]) {
     const p = placeById[step.saved];
     return mapsDir((p.maps || p.name) + ", Japan");
   }
-  if (step.place) return mapsDir(step.place + ", Japan");
-  return null;
+  return step.place ? mapsDir(step.place + ", Japan") : null;
 }
 
 /* ------------------------------------------------------------ countdown */
-
+/* Target is the real outbound departure: TLV wheels-up at 15:00 Israel time
+   on 3 October. Not the KIX arrival, not a midnight boundary. */
 const DEPARTURE = () => new Date(trip.departure).getTime();
-
-function cdParts(ms) {
-  const t = Math.max(0, ms);
-  return {
-    d: Math.floor(t / 86400000),
-    h: Math.floor(t / 3600000) % 24,
-    m: Math.floor(t / 60000) % 60,
-    s: Math.floor(t / 1000) % 60
-  };
-}
-
 const pad = n => String(n).padStart(2, "0");
+
+const cdParts = ms => ({
+  d: Math.floor(Math.max(0, ms) / 86400000),
+  h: Math.floor(Math.max(0, ms) / 3600000) % 24,
+  m: Math.floor(Math.max(0, ms) / 60000) % 60,
+  s: Math.floor(Math.max(0, ms) / 1000) % 60
+});
 
 function countdown() {
   const ms = DEPARTURE() - Date.now();
-  if (ms <= 0) return "";                       // trip has started; it disappears
+  if (ms <= 0) return "";                       // trip has started; it goes away
   const p = cdParts(ms);
-  const cell = (k, v, label) =>
-    `<span class="cd-cell"><b data-cd="${k}">${v}</b><i>${label}</i></span>`;
+  const part = (k, v, label) =>
+    `<span class="clockpart"><strong data-cd="${k}">${v}</strong><small>${label}</small></span>`;
   return `
-    <div class="countdown" id="countdown" role="timer">
-      <span class="lead"><i></i><span>To the flight</span></span>
-      ${cell("d", p.d, "Days")}<span class="cd-sep">:</span>
-      ${cell("h", pad(p.h), "Hours")}<span class="cd-sep">:</span>
-      ${cell("m", pad(p.m), "Min")}<span class="cd-sep">:</span>
-      ${cell("s", pad(p.s), "Sec")}
+    <div class="flight-countdown" id="countdown" role="timer">
+      <span class="intro">
+        <i class="pip"></i>
+        <span class="intro-copy"><b>Flight in</b><span>Japan ${trip.year}</span></span>
+      </span>
+      <span class="clock">
+        ${part("d", p.d, "Days")}<span class="clocksep">:</span>
+        ${part("h", pad(p.h), "Hours")}<span class="clocksep">:</span>
+        ${part("m", pad(p.m), "Min")}<span class="clocksep">:</span>
+        ${part("s", pad(p.s), "Sec")}
+      </span>
     </div>`;
 }
 
-/* One interval for the whole app, cleared on every re-render so nothing
-   leaks and no two timers ever run at once. */
 let cdTimer = null;
 function startCountdown(root) {
   clearInterval(cdTimer);
@@ -101,133 +99,206 @@ function startCountdown(root) {
   if (!el) return;
   const cells = {};
   el.querySelectorAll("[data-cd]").forEach(n => { cells[n.dataset.cd] = n; });
-
   const tick = () => {
     const ms = DEPARTURE() - Date.now();
     if (ms <= 0) { clearInterval(cdTimer); el.remove(); return; }
     const p = cdParts(ms);
-    if (cells.d) cells.d.textContent = p.d;
-    if (cells.h) cells.h.textContent = pad(p.h);
-    if (cells.m) cells.m.textContent = pad(p.m);
-    if (cells.s) cells.s.textContent = pad(p.s);
+    cells.d.textContent = p.d;
+    cells.h.textContent = pad(p.h);
+    cells.m.textContent = pad(p.m);
+    cells.s.textContent = pad(p.s);
   };
   tick();
   cdTimer = setInterval(tick, 1000);
 }
 
+/* ------------------------------------------------------------ header */
+
+function header(day, dest) {
+  const wx = climate[day.dest];
+  const n = days.findIndex(d => d.id === day.id) + 1;
+  const kicker = `Day ${n} of ${days.length}${day.flexible ? " · flexible" : ""}`;
+  return `
+    <div class="destination">
+      <div class="destination-copy">
+        <div class="kicker">${esc(kicker)}</div>
+        <h1>${esc(dest.name)}</h1>
+        <p class="subtitle">${esc(day.title)}</p>
+      </div>
+      ${wx ? `<div class="weather">
+        <span class="sun">${svg(SKY_ICON[wx.sky] || "partly")}</span>
+        <span><b>${wx.hi}°</b><small>${wx.lo}° low</small></span>
+      </div>` : ""}
+    </div>`;
+}
+
+/* ------------------------------------------------------------ hero */
+
+function hero(day, idx) {
+  const steps = day.plan || [];
+  const step = steps[idx];
+
+  /* A cluster day or a flexible day has no single next thing, so the hero
+     carries the recommendation instead of a stop. */
+  const lead = day.bank
+    ? { name: destById[day.dest].name, label: "Today is yours",
+        detail: "One cluster and an evening — never two.",
+        when: "Pick one", sub: "", href: `#/day/${day.id}`, dir: null }
+    : day.flexible && day.lead
+      ? { name: day.lead.name, label: "Ideas for today", detail: day.lead.detail,
+          when: "Recommended", sub: "", href: `#/day/${day.id}`,
+          dir: day.lead.place ? mapsDir(day.lead.place + ", Japan") : null }
+      : step
+        ? { name: step.name, label: "Up next", detail: step.detail || "",
+            when: timeLabel(step.t),
+            sub: step.place || (step.saved && placeById[step.saved]?.name) || "",
+            href: `#/day/${day.id}`, dir: stepDirections(step) }
+        : null;
+  if (!lead) return "";
+
+  const canStep = !day.bank && !day.flexible && steps.length > 1;
+  return `
+    <div class="hero">
+      <div class="hero-image">
+        <img src="./assets/${day.dest}.jpg" alt="" decoding="async">
+        <span class="hero-label">${esc(lead.label)}</span>
+        ${canStep ? `<span class="hero-step">
+          <button data-nudge="-1" aria-label="Show previous stop"${idx === 0 ? " disabled" : ""}>${svg("left")}</button>
+          <button data-nudge="1" aria-label="Show next stop"${idx >= steps.length - 1 ? " disabled" : ""}>${svg("right")}</button>
+        </span>` : ""}
+        <div class="hero-copy">
+          <h2>${esc(lead.name)}</h2>
+          ${lead.detail ? `<p>${esc(lead.detail)}</p>` : ""}
+        </div>
+      </div>
+      <div class="hero-actions">
+        <div class="hero-when">
+          <b>${esc(lead.when || "")}</b>
+          ${lead.sub ? `<span>${esc(lead.sub)}</span>` : ""}
+        </div>
+        <div class="hero-btns">
+          ${lead.dir ? `<a class="btn btn-ghost" href="${lead.dir}" target="_blank" rel="noopener">Directions</a>` : ""}
+          <a class="btn btn-light" href="${lead.href}">Details</a>
+        </div>
+      </div>
+    </div>
+    ${state.stopOffset[day.id] ? `<button class="resetline" data-reset="${day.id}">Reset to schedule</button>` : ""}`;
+}
+
 /* ------------------------------------------------------------ sections */
 
-function routeStrip(day) {
-  if (!(day.route || []).length || day.route.length < 2) return "";
-  const url = dayRoute(day);
-  const nodes = day.route.map((r, i) => {
-    const link = i === 0 ? "" : `
-      <div class="rlink">
-        <div class="bar"></div>
-        <div class="v">${esc(r.via || "")}</div>
-      </div>`;
-    return link + `<div class="rnode"><div class="n">${esc(r.name)}</div></div>`;
-  }).join("");
+const sectionHead = (title, link) => `
+  <div class="sectionhead">
+    <div class="sectiontitle">${esc(title)}</div>
+    ${link || ""}
+  </div>`;
 
+function routeBlock(day) {
+  const nodes = day.route || [];
+  if (nodes.length < 2) return "";
+  const url = dayRoute(day);
+  const flow = nodes.map((r, i) => (i ? `
+    <span class="connector"><span class="line"></span><small>${esc(r.via || "")}</small></span>` : "")
+    + `<span class="stop">${esc(r.name)}</span>`).join("");
   return `
-    <div class="sect">Today's route
-      ${url ? `<a class="more" href="${url}" target="_blank" rel="noopener">Open route ↗</a>` : ""}
-    </div>
-    <div class="routestrip">${nodes}</div>`;
+    <div class="section route">
+      <div class="routebox">
+        <div class="routehead">
+          <div class="sectiontitle">Today's route</div>
+          ${url ? `<a href="${url}" target="_blank" rel="noopener">Open route ↗</a>` : ""}
+        </div>
+        <div class="routeflow">${flow}</div>
+      </div>
+    </div>`;
 }
 
 function timeline(day, activeIdx) {
   const steps = day.plan || [];
   if (!steps.length) return "";
-
   const rows = steps.map((s, i) => {
-    const label = timeLabel(s.t);
-    const soft = isSoft(s.t);
     const href = stepTarget(s);
-    const mode = s.mode && MODE_ICON[s.mode];
     return `
-      <div class="tl${i === activeIdx && isLive(day) ? " now" : ""}">
-        <div class="time${soft ? " soft" : ""}">${esc(label)}</div>
-        <div class="rail"><span class="dot"></span><span class="line"></span></div>
-        <div class="body">
-          <h4>${esc(s.name)}</h4>
+      <div class="trow${i === activeIdx && isLive(day) ? " now" : ""}">
+        <div class="tmeta${isSoft(s.t) ? " soft" : ""}">${esc(timeLabel(s.t))}</div>
+        <div class="rail"><span class="dot"></span><span class="linev"></span></div>
+        <div class="tbody">
+          <h3>${esc(s.name)}</h3>
           ${s.detail ? `<p>${esc(s.detail)}</p>` : ""}
-          ${href ? `<a class="meta" href="${href}" target="_blank" rel="noopener">${svg("pin")}Maps</a>` : ""}
-          ${mode ? `<span class="meta">${svg(mode)}</span>` : ""}
+          ${href ? `<a class="maps" href="${href}" target="_blank" rel="noopener"><span class="arrow">→</span> Maps</a>` : ""}
         </div>
       </div>`;
   }).join("");
-
-  return `<div class="sect">Today's plan</div><div class="timeline">${rows}</div>`;
+  return `<div class="section">${sectionHead("Today's plan")}<div class="timeline">${rows}</div></div>`;
 }
 
-function knowBefore(day) {
+/* The editorial moment: the strongest researched note becomes the headline,
+   the next becomes the tip beneath it. Real notes, never filler. */
+function context(day) {
   const all = notesForDay(day.id, day.dest);
   if (!all.length) return "";
   const lead = leadNotes(day.id, day.dest, 3);
-  const shown = lead.length ? lead : all.slice(0, 2);
-  const rest = all.length - shown.length;
-
-  const items = shown.map(n => `
-    <div class="note k-${n.kind}">
-      <span class="g g-${n.kind}">${svg(NOTE_ICON[n.kind] || "info")}</span>
-      <div><h4>${esc(n.title)}</h4><p>${esc(n.body)}</p></div>
-    </div>`).join("");
-
+  const picked = lead.length ? lead : all.slice(0, 2);
+  const main = picked[0], tip = picked[1];
   return `
-    <div class="sect">Know before you go
-      ${rest > 0 ? `<a class="more" href="#/day/${day.id}">All notes · ${all.length}</a>` : ""}
-    </div>
-    ${items}`;
+    <div class="section">
+      ${sectionHead("Know before you go", `<a href="#/day/${day.id}">All notes · ${all.length}</a>`)}
+      <div class="context">
+        <h3>${esc(main.title)}</h3>
+        <p>${esc(main.body)}</p>
+        ${tip ? `<div class="tip">
+          <i>${svg(NOTE_ICON[tip.kind] || "info")}</i>
+          <div><b>${esc(tip.title)}</b>${esc(tip.body)}</div>
+        </div>` : ""}
+      </div>
+    </div>`;
 }
 
 function savedNearby(day) {
-  const ids = day.saved || [];
+  const ids = (day.saved || []).slice(0, 3).map(id => placeById[id]).filter(Boolean);
   if (!ids.length) return "";
-  const shown = ids.slice(0, 3).map(id => placeById[id]).filter(Boolean);
-  if (!shown.length) return "";
-
-  const rows = shown.map(p => `
-    <a class="lrow" href="${mapsUrl(p)}" target="_blank" rel="noopener">
-      <span class="ic">${svg(CAT_ICON[p.cat])}</span>
-      <span class="t">
-        <span class="n">${esc(p.name)}</span>
-        <span class="s">${esc(p.note ? p.note.split(". ")[0] + "." : p.where || "")}</span>
-      </span>
-      <span class="go">${esc(p.where || "")}</span>
+  const rows = ids.map(p => `
+    <a class="srow" href="${mapsUrl(p)}" target="_blank" rel="noopener">
+      <span class="sq k-${p.cat}">${svg(CAT_ICON[p.cat])}</span>
+      <span><b>${esc(p.name)}</b><small>${esc(p.kind || "")}</small></span>
+      <span class="where">${esc(p.where || "")}</span>
     </a>`).join("");
-
   return `
-    <div class="sect">Saved near today's plan
-      ${ids.length > 3 ? `<a class="more" href="#/saved?area=${day.dest}">See all ${ids.length} →</a>` : ""}
-    </div>
-    <div>${rows}</div>`;
+    <div class="section">
+      ${sectionHead("Saved near today's plan",
+        (day.saved || []).length > 3 ? `<a href="#/saved?area=${day.dest}">See all →</a>` : "")}
+      <div class="savedrows">${rows}</div>
+    </div>`;
 }
 
 function logistics(day) {
-  const ids = day.logistics || [];
-  if (!ids.length) return "";
-  const items = ids.map(id => walletById[id]).filter(Boolean);
+  const items = (day.logistics || []).map(id => walletById[id]).filter(Boolean);
   if (!items.length) return "";
-
   const rows = items.map(w => `
     <a class="lrow" href="#/wallet/${w.id}">
-      <span class="ic">${svg(WALLET_ICON[w.kind] || "doc")}</span>
-      <span class="t">
-        <span class="n">${esc(w.title)}</span>
-        <span class="s">${esc(w.detail || "")}</span>
-      </span>
-      <span class="go">${svg("right")}</span>
+      <span class="lic">${svg(WALLET_ICON[w.kind] || "doc")}</span>
+      <span><b>${esc(w.title)}</b><small>${esc(w.detail || w.where || "")}</small></span>
+      <span class="chev">${svg("right")}</span>
     </a>`).join("");
+  return `<div class="section">${sectionHead("Logistics")}<div class="logistics">${rows}</div></div>`;
+}
 
-  return `<div class="sect">Logistics</div><div class="logi">${rows}</div>`;
+function clusterBank(day) {
+  const bank = clusters[day.bank] || [];
+  if (!bank.length) return "";
+  const rows = bank.map(c => `
+    <div class="bankrow">
+      <div class="bankhead">${c.star ? `<span class="star">★</span>` : ""}<b>${esc(c.title)}</b></div>
+      <div class="bankwhen">${esc(c.when)}</div>
+      <p>${esc(c.body)}</p>
+    </div>`).join("");
+  return `<div class="section">${sectionHead("Pick one")}<div class="bank">${rows}</div></div>`;
 }
 
 function alternatives(day) {
   const n = (day.alts || []).length;
   if (!n) return "";
   return `
-    <div style="margin-top:var(--s6)">
+    <div class="section">
       <button class="altbtn" data-alts="${day.id}">
         <span class="t">
           <span class="n">Plans changed?</span>
@@ -238,122 +309,24 @@ function alternatives(day) {
     </div>`;
 }
 
-/* ------------------------------------------------------------ up next */
-
-const stepBtn = (delta, label, icon, off) =>
-  `<button class="iconbtn step" data-nudge="${delta}" aria-label="${label}"${off ? " disabled" : ""}>${svg(icon)}</button>`;
-
-function clusterBank(day) {
-  const bank = clusters[day.bank] || [];
-  if (!bank.length) return "";
-  const rows = bank.map(c => `
-    <div style="padding:15px 0;border-bottom:1px solid var(--line)">
-      <div style="display:flex;align-items:baseline;gap:7px">
-        ${c.star ? '<span style="color:var(--coral);font-size:12px">\u2605</span>' : ""}
-        <div style="font-size:15.5px;font-weight:650">${esc(c.title)}</div>
-      </div>
-      <div style="font-size:12px;font-weight:600;color:var(--teal);margin-top:3px">${esc(c.when)}</div>
-      <p class="muted tiny" style="margin-top:6px">${esc(c.body)}</p>
-    </div>`).join("");
-  return `<div class="sect">Pick one</div>${rows}`;
-}
-
-const shot = day =>
-  `<span class="shot"><img src="./assets/${day.dest}.jpg" alt="" decoding="async"></span>`;
-
-function upNext(day, idx) {
-  /* Tokyo is a bank of clusters, not an itinerary. */
-  if (day.bank) {
-    return `
-      <div class="upnext">
-        <div class="body">
-          <span class="tag">Today is yours</span>
-          <h2 class="display">${esc(destById[day.dest].name)}</h2>
-          <div class="sub">One cluster and an evening. Never two — and leave half a day genuinely free twice across the five nights.</div>
-          <div class="acts">
-            <a class="btn btn-primary" href="#/day/${day.id}">See the options</a>
-          </div>
-        </div>
-        ${shot(day)}
-      </div>`;
-  }
-
-  /* A flexible day has no fixed next stop — it has a recommendation. */
-  if (day.flexible && day.lead) {
-    const p = day.lead;
-    return `
-      <div class="upnext">
-        <div class="body">
-          <span class="tag">Ideas for today</span>
-          <h2 class="display">${esc(p.name)}</h2>
-          <div class="sub">${esc(p.detail)}</div>
-          <div class="acts">
-            ${p.place ? `<a class="btn btn-secondary" href="${mapsDir(p.place + ", Japan")}" target="_blank" rel="noopener">Directions</a>` : ""}
-            <a class="btn btn-primary" href="#/day/${day.id}">Details</a>
-          </div>
-        </div>
-        ${shot(day)}
-      </div>`;
-  }
-
-  const step = (day.plan || [])[idx];
-  if (!step) return "";
-  const dir = stepDirections(step);
-  const label = timeLabel(step.t);
-  const leg = (day.route || []).find(r => r.name === step.name && r.via);
-
-  return `
-    <div class="upnext">
-      <div class="body">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--s2)">
-          <span class="tag">Up next</span>
-          <span class="nudge">
-            ${stepBtn("-1", "Show previous stop", "left", idx === 0)}
-            ${stepBtn("1", "Show next stop", "right", idx >= (day.plan || []).length - 1)}
-          </span>
-        </div>
-        <h2 class="display">${esc(step.name)}</h2>
-        ${step.detail ? `<div class="sub">${esc(step.detail)}</div>` : ""}
-        ${label ? `<div class="when">${isSoft(step.t) ? "" : "Planned around "}${esc(label)}</div>` : ""}
-        ${leg ? `<div class="how">${esc(leg.via)}</div>` : ""}
-        <div class="acts">
-          ${dir ? `<a class="btn btn-secondary" href="${dir}" target="_blank" rel="noopener">Directions</a>` : ""}
-          <a class="btn btn-primary" href="#/day/${day.id}">Details</a>
-          ${state.stopOffset[day.id] ? `<button class="btn btn-text" data-reset="${day.id}">Reset to schedule</button>` : ""}
-        </div>
-      </div>
-      ${shot(day)}
-    </div>`;
-}
-
 /* ------------------------------------------------------------ render */
 
 export function render() {
   const day = currentDay();
   const dest = destById[day.dest];
-  const wx = climate[day.dest];
   const idx = upNextIndex(day);
 
   return {
     eyebrow: dLabel(day.date).toUpperCase(),
     html: `
-      <div class="screen">
+      <div class="screen today-v10">
         ${countdown()}
-        <div class="todayhead">
-          <div>
-            <h1 class="display">${esc(dest.name)}</h1>
-            <div class="ja">${esc(day.title)}</div>
-          </div>
-          ${wx ? `<div class="wx">
-            <span class="glyph">${svg(SKY_ICON[wx.sky] || "partly")}</span>
-            <span><span class="t">${wx.hi}°</span><br><span class="lo">${wx.lo}°</span></span>
-          </div>` : ""}
-        </div>
-        ${upNext(day, idx)}
+        ${header(day, dest)}
+        ${hero(day, idx)}
         ${clusterBank(day)}
-        ${routeStrip(day)}
+        ${routeBlock(day)}
         ${timeline(day, idx)}
-        ${knowBefore(day)}
+        ${context(day)}
         ${savedNearby(day)}
         ${logistics(day)}
         ${alternatives(day)}
