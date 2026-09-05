@@ -270,6 +270,38 @@ export const places = [
     note: "A real backup, not a consolation prize."
   },
 
+  /* ============================ Kiso valley ============================ */
+  {
+    id: "p-atera", name: "Atera Gorge", ja: "阿寺渓谷", kind: "Emerald granite gorge", cat: "nature",
+    area: "matsumoto", where: "Ōkuwa, Kiso", pin: true,
+    maps: "阿寺渓谷",
+    note: "Turquoise water over white granite under cypress forest, about 15 km of valley. Park at the Akahiko monument car park and walk from there — the trail out to Unarijima and the Nakahatchō suspension bridge is the best of it. Private cars are restricted between the entrance and the campground in high summer, but not in October."
+  },
+  {
+    id: "p-forespa", name: "Forespa Kiso canteen", ja: "フォレスパ木曽", kind: "Soba set with gohei mochi", cat: "food",
+    area: "matsumoto", where: "Ōkuwa, by the gorge",
+    maps: "フォレスパ木曽 阿寺荘",
+    note: "Lunch candidate, and the closest one to Atera — it sits at the mouth of the gorge. Soba teishoku that comes with gohei mochi. 10:00–14:00, closed Wednesdays, so open on our Saturday."
+  },
+  {
+    id: "p-nakamura", name: "Shokudō Nakamura", ja: "食堂中村", kind: "Gohei mochi", cat: "food",
+    area: "matsumoto", where: "Agematsu, Kiso",
+    maps: "食堂中村 上松",
+    note: "Lunch candidate on the way north. Known for gohei mochi in a sweet-savoury soy tare heavy with walnut, sesame and peanut, made by hand without additives. Small and local rather than polished."
+  },
+  {
+    id: "p-kurumaya", name: "Kurumaya, Route 19 branch", ja: "くるまや国道店", kind: "Kiso soba", cat: "food",
+    area: "matsumoto", where: "Kiso-Fukushima",
+    maps: "くるまや国道店 木曽福島",
+    note: "Lunch candidate further north, straight off Route 19 with several car parks. Proper Kiso soba — kakiage and tenzaru. The michi-no-eki at Kiso-Fukushima is the fallback, lunch 11:00–15:00 with Ontake from the terrace."
+  },
+  {
+    id: "p-narai", name: "Narai-juku", ja: "奈良井宿", kind: "Post town", cat: "do",
+    area: "matsumoto", where: "Shiojiri, Kiso",
+    maps: "奈良井宿",
+    note: "The longest of the Nakasendō post towns, and it sits directly on the road north — adding it costs about two minutes of driving. Forty-five minutes to an hour is enough to walk the length of it."
+  },
+
   /* ============================ Matsumoto ============================ */
   {
     id: "p-nakamachi", name: "Nakamachi Street", ja: "中町通り", kind: "Ceramics street", cat: "shopping",

@@ -157,27 +157,29 @@ export const days = [
 
   {
     id: "d10", date: "2026-10-10", dow: "Sat", dest: "matsumoto",
-    title: "Gujō → the Kiso valley → Matsumoto",
+    title: "Gujō → Atera Gorge → Matsumoto",
     route: [
       { name: "Gujō" },
-      { name: "Magome", via: "92.2 km · 1h23", mode: "car" },
-      { name: "Tsumago", via: "~9 km on the Nakasendō", mode: "walk" },
-      { name: "Matsumoto", via: "Bus back to the car, then north", mode: "car" }
+      { name: "Atera Gorge", via: "103.5 km · 1h30", mode: "car" },
+      { name: "Kiso valley", via: "Lunch on the way north", mode: "car" },
+      { name: "Matsumoto", via: "91.8 km · 1h36 from the gorge", mode: "car" }
     ],
     plan: [
-      { t: { k: "exact", v: "06:15" }, name: "Leave Gujō", detail: "Early start. The walk is the fixed point of the day." },
-      { t: { k: "exact", v: "08:00" }, name: "Walk Magome → Tsumago", detail: "Park at Magome and walk the easier direction: 600 m up to the 790 m pass, then down to Tsumago at 420 m. About 9 km and three hours with stops. Coffee first only if anything is open — most of Magome opens at 08:30.", place: "Magome-juku" },
-      { t: { k: "approx", v: "11:30" }, name: "Lunch in Tsumago", detail: "The first real food since Gujō.", place: "Tsumago-juku" },
-      { t: { k: "approx", v: "13:30" }, name: "Bus back to the car", detail: "The last bus is what matters, not the first." },
-      { t: { k: "approx", v: "15:15" }, name: "Narai", detail: "Optional. Adds about an hour and a quarter.", place: "Narai-juku" },
-      { t: { k: "approx", v: "17:15" }, name: "Matsumoto Jujo", detail: "Around 16:00 if we skip Narai. Arrive gently — dinner is 19:30–20:00.", wallet: "w-jujo" }
+      { t: { k: "exact", v: "07:30" }, name: "Leave Fairfield", detail: "An hour and a half to the gorge on Routes 256 and 257. Leaving at 07:00 instead simply buys another half hour at the water.", wallet: "w-fairfield" },
+      { t: { k: "approx", v: "09:00" }, name: "Atera Gorge, Akahiko car park", detail: "Drive in from the entrance and stop at the Shimaki Akahiko monument car park. Do not push further up the forest road than that — everything worth seeing is walkable from here.", saved: "p-atera" },
+      { t: { k: "approx", v: "09:15" }, name: "Walk the gorge", detail: "Akahiko to Tanuki-ga-fuchi is about 15 minutes, on to Unarijima about 30, then the Nakahatchō suspension bridge looks back down the valley. Turn around there. Two hours with proper time sitting by the water.", saved: "p-atera" },
+      { t: { k: "approx", v: "11:45" }, name: "Lunch in the Kiso valley", detail: "Forespa Kiso is right at the gorge mouth and does a soba set with gohei mochi. Further north there is Shokudō Nakamura in Agematsu for gohei mochi, or Kurumaya on Route 19 at Kiso-Fukushima for proper soba.", saved: "p-forespa" },
+      { t: { k: "approx", v: "13:45" }, name: "Narai-juku, if we feel like it", detail: "Optional. It is on the road north and costs about two minutes of driving, so this is purely about appetite. Forty-five minutes to an hour.", saved: "p-narai", opt: 1 },
+      { t: { k: "approx", v: "15:40" }, name: "Matsumoto Jujo", detail: "About 14:45 if we skip Narai. Check in, shower, breathe.", wallet: "w-jujo" },
+      { t: { k: "approx", v: "19:30" }, name: "Dinner in Matsumoto", detail: "Booked for 19:30–20:00 deliberately, so the afternoon never has to hurry." }
     ],
     alts: [
-      { title: "Kiso without the walk", when: "Low energy or bad weather", body: "A slow morning in Gujō, Tsumago at 11:00 with lunch, Narai at 14:00, Matsumoto around 16:00." },
-      { title: "Straight to Matsumoto", when: "If the day has gone sideways", body: "Still about 3h05 via Kiso, because the fast line passes through Takayama during the festival and we avoid it either way." }
+      { title: "The Nakasendō walk, if we change our minds", when: "The old plan for this day", body: "Magome to Tsumago is about 9 km and three hours, and Magome to Tsumago is the easier direction — 600 m up to the 790 m pass, then down to 420 m. Park at Magome and take the bus back to the car, which makes the last bus of the day the thing that matters, not the first. Almost no food on the trail. It is a heritage walking day rather than a nature one, which is why it came off." },
+      { title: "If the gorge is wet or the water is high", when: "After heavy rain", body: "Granite goes slippery and the pools stop being inviting. Shorten the walk to the first stretch, eat properly, and put the time into Narai instead — it is covered ground and works in weather." },
+      { title: "If Atera runs long", when: "The good problem", body: "Drop Narai and go straight to Matsumoto. There is roughly two hours of slack in this day, so the gorge can overrun without anything breaking." }
     ],
-    logistics: ["w-corolla", "w-jujo"],
-    saved: ["p-nakamachi"]
+    logistics: ["w-corolla", "w-fairfield", "w-jujo"],
+    saved: ["p-atera", "p-forespa", "p-nakamura", "p-kurumaya", "p-narai", "p-nakamachi"]
   },
 
   {

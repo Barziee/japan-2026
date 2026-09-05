@@ -191,36 +191,41 @@ export const notes = [
     body: "So there is no checklist. Canals, the water lanes, the streets above the river, coffee if we want it. The castle only if it happens to fit, and Monet's pond stays off — it costs daylight in the town we actually came for."
   },
 
-  /* ---------------- 10 Oct · Kiso valley ---------------- */
+  /* ---------------- 10 Oct · Atera Gorge ---------------- */
   {
-    id: "n-takayama", kind: "warning", day: "d10", lead: true,
-    title: "Do not route through Takayama",
-    body: "The Takayama festival runs 9–10 Oct. The fast line from Gujō passes 400 m from the centre. Avoiding it costs nothing — the Kiso route is about 3h05 either way."
+    id: "n-atera-cars", kind: "parking", day: "d10", lead: true,
+    title: "Private cars are allowed in on 10 October",
+    body: "Ōkuwa village restricts vehicles between the gorge entrance and the campground in high summer. For 2026 that ran 18 July to 6 September, plus 12–13 September and 19–23 September. Our date sits well outside all of it, so we drive in and park at Akahiko rather than paying ¥1,000 and taking the shuttle. The village publishes this each year, so confirm it nearer the time."
   },
   {
-    id: "n-nakasendo", kind: "route", day: "d10", lead: true,
-    title: "Magome to Tsumago, not the reverse",
-    body: "Park at Magome, walk the easier direction, and take the bus back to the car. About 9 km, climbing at first and then downhill."
+    id: "n-atera-walk", kind: "route", day: "d10", lead: true,
+    title: "Park at Akahiko and walk from there",
+    body: "From the Akahiko monument car park it is about 15 minutes to Tanuki-ga-fuchi and around 30 to Unarijima, with the Nakahatchō suspension bridge looking back down the valley. Turning around there makes a comfortable two hours with real time by the water. Kumaga-fuchi and Ushiga-fuchi are further up the car road — reachable, but they mean driving deeper into the forest for diminishing returns."
   },
   {
-    id: "n-nakasendo-bus", kind: "transport", day: "d10",
-    title: "The last bus governs, not the first",
-    body: "The Tsumago to Magome return is what gets us back to the car. Verify the October 2026 timetable, and a pre-booked taxi at ¥3,000–5,000 is the safer version."
+    id: "n-atera-water", kind: "warning", day: "d10", lead: true,
+    title: "Feet in, maybe. Do not assume it is swimmable",
+    body: "This is a mountain stream in October and it will be cold. Wet granite is slippery, and pools that look still can be moving underneath. Check recent rainfall, the water level and any local advisory on the day, keep to shallow edges, and stay out of anything deep or fast. Treat a dip as a bonus that might not happen."
   },
   {
-    id: "n-magome-coffee", kind: "timing", day: "d10",
-    title: "Coffee in Magome is not guaranteed",
-    body: "Most of the town opens at 08:30–09:00 and we want to be walking by 08:00. Nice if something is open, but do not build the morning on it."
+    id: "n-atera-timing", kind: "timing", day: "d10",
+    title: "There are about two hours of slack in this day",
+    body: "Gujō to the gorge is 1h30 and the gorge to Matsumoto is 1h36, so even with two hours of walking and a proper lunch we reach Matsumoto by mid-afternoon. Nothing here needs rushing, and dinner is deliberately at 19:30."
   },
   {
-    id: "n-nakasendo-food", kind: "food", day: "d10",
-    title: "Almost no food on the trail",
-    body: "Take water and snacks. Coffee in Magome before setting off if anything is open. Lunch waits until Tsumago."
+    id: "n-atera-saturday", kind: "timing", day: "d10",
+    title: "A Saturday, and the start of a long weekend",
+    body: "Sports Day falls on the Monday, so the 10th is the front of a three-day weekend. The colour at Atera peaks later in October, which should keep the crowd down, but arriving around 09:00 is still the difference between having the water to ourselves and sharing it."
   },
   {
-    id: "n-nakasendo-dist", kind: "transport", day: "d10",
-    title: "Measured distances",
-    body: "Gujō→Magome 92.2 km / 1:23. Magome→Narai 66.8 / 1:12. Narai→Matsumoto 44.6 / 0:46. Straight from Magome 111.2 / 1:56."
+    id: "n-takayama", kind: "route", day: "d10",
+    title: "This route already avoids Takayama",
+    body: "The festival is on 9–10 Oct and the old fast line to Matsumoto passed 400 m from the centre. Gujō to Atera on Routes 256 and 257 stays 40 km clear of it, so the problem solves itself."
+  },
+  {
+    id: "n-narai-cheap", kind: "route", day: "d10",
+    title: "Narai costs two minutes",
+    body: "Going Gujō–Atera–Narai–Matsumoto is 198.4 km against 198.1 direct, because Narai sits on the road north anyway. So it is never a driving decision — only whether we want another hour on our feet after the gorge."
   },
 
   /* ---------------- 11 Oct · the big nature day ---------------- */
