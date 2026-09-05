@@ -71,7 +71,7 @@ export function results(raw) {
     norm(n.title).includes(q) || norm(n.body).includes(q));
   if (noteHits.length) {
     html += `<div class="sect">Notes</div>` + noteHits.slice(0, 6).map(n => `
-      <div class="note" style="padding-top:var(--s2)">
+      <div class="note k-${n.kind}" style="padding-top:var(--s2)">
         <span class="g g-${n.kind}">${svg("info")}</span>
         <div><h4>${esc(n.title)}</h4><p>${esc(n.body)}</p></div>
       </div>`).join("");
