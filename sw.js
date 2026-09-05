@@ -8,7 +8,7 @@
    The exchange-rate call is deliberately never cached — a stale rate served
    silently is worse than the app knowing it is offline and saying so. */
 
-const VERSION = "jp2026-v6-2026-09-06";
+const VERSION = "jp2026-v7-2026-09-06";
 const SHELL = [
   "./",
   "./index.html",
@@ -42,7 +42,13 @@ const SHELL = [
 self.addEventListener("install", e => {
   e.waitUntil(
     caches.open(VERSION)
-      .then(c => c.addAll(SHELL))
+      .then(c => Promise.all(SHELL.map(url =>
+        /* reload, not addAll: addAll would happily precache whatever the
+           HTTP cache still holds from before the deploy. */
+        fetch(new Request(url, { cache: "reload" }))
+          .then(res => res.ok ? c.put(url, res) : null)
+          .catch(() => null)
+      )))
       .then(() => self.skipWaiting())
   );
 });
@@ -81,13 +87,12 @@ self.addEventListener("fetch", e => {
 
   if (url.origin !== location.origin) return;
 
-  /* Network first for our own files. You have signal for almost all of this
-     trip, and a cache-first shell means a deploy silently does not arrive
-     until the cache version changes - which is exactly the bug you do not
-     want to debug from a train. The cache is the offline safety net, not
-     the primary source. */
+  /* Network first for our own files, and revalidating so the HTTP cache
+     cannot hand back a stale copy either. The app is small, so the cost is a
+     conditional request that usually answers 304. The cache stays the offline
+     safety net rather than the primary source. */
   e.respondWith(
-    fetch(request)
+    fetch(new Request(request, { cache: "no-cache" }))
       .then(res => {
         if (res.ok && res.type === "basic") {
           const copy = res.clone();
