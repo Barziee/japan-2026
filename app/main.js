@@ -203,5 +203,23 @@ document.addEventListener("visibilitychange", () => {
 });
 
 if ("serviceWorker" in navigator) {
-  addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
+  addEventListener("load", async () => {
+    try {
+      /* updateViaCache:"none" stops the browser serving sw.js itself from the
+         HTTP cache, which is what let a stale worker survive a deploy. */
+      const reg = await navigator.serviceWorker.register("./sw.js", { updateViaCache: "none" });
+      reg.update();
+
+      /* When the replacement worker claims the page its caches are already
+         rebuilt, so one reload swaps every asset at once. Guarded so a first
+         install does not bounce, and so it cannot loop. */
+      const hadController = !!navigator.serviceWorker.controller;
+      let reloading = false;
+      navigator.serviceWorker.addEventListener("controllerchange", () => {
+        if (!hadController || reloading) return;
+        reloading = true;
+        location.reload();
+      });
+    } catch { /* private mode, or no worker support */ }
+  });
 }
