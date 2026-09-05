@@ -125,7 +125,7 @@ function knowBefore(day) {
   const rest = all.length - shown.length;
 
   const items = shown.map(n => `
-    <div class="note">
+    <div class="note k-${n.kind}">
       <span class="g g-${n.kind}">${svg(NOTE_ICON[n.kind] || "info")}</span>
       <div><h4>${esc(n.title)}</h4><p>${esc(n.body)}</p></div>
     </div>`).join("");
@@ -176,7 +176,7 @@ function logistics(day) {
       <span class="go">${svg("right")}</span>
     </a>`).join("");
 
-  return `<div class="sect">Logistics</div><div>${rows}</div>`;
+  return `<div class="sect">Logistics</div><div class="logi">${rows}</div>`;
 }
 
 function alternatives(day) {
@@ -245,7 +245,7 @@ function upNext(day, idx) {
           <div class="sub">${esc(p.detail)}</div>
           <div class="acts">
             ${p.place ? `<a class="btn btn-secondary" href="${mapsDir(p.place + ", Japan")}" target="_blank" rel="noopener">Directions</a>` : ""}
-            <a class="btn btn-primary" href="#/day/${day.id}">View details</a>
+            <a class="btn btn-primary" href="#/day/${day.id}">Details</a>
           </div>
         </div>
         ${shot(day)}
@@ -274,7 +274,7 @@ function upNext(day, idx) {
         ${leg ? `<div class="how">${esc(leg.via)}</div>` : ""}
         <div class="acts">
           ${dir ? `<a class="btn btn-secondary" href="${dir}" target="_blank" rel="noopener">Directions</a>` : ""}
-          <a class="btn btn-primary" href="#/day/${day.id}">View details</a>
+          <a class="btn btn-primary" href="#/day/${day.id}">Details</a>
           ${state.stopOffset[day.id] ? `<button class="btn btn-text" data-reset="${day.id}">Reset to schedule</button>` : ""}
         </div>
       </div>

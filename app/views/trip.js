@@ -151,7 +151,7 @@ export function renderDay(id) {
   }).join("");
 
   const noteItems = all.map(n => `
-    <div class="note">
+    <div class="note k-${n.kind}">
       <span class="g g-${n.kind}">${svg(NOTE_ICON[n.kind] || "info")}</span>
       <div><h4>${esc(n.title)}</h4><p>${esc(n.body)}</p></div>
     </div>`).join("");
@@ -198,12 +198,12 @@ export function renderDay(id) {
         ${steps ? `<div class="sect">The plan</div><div class="timeline">${steps}</div>` : ""}
         ${noteItems ? `<div class="sect">Know before you go</div>${noteItems}` : ""}
 
-        ${logi.length ? `<div class="sect">Logistics</div>` + logi.map(w => `
+        ${logi.length ? `<div class="sect">Logistics</div><div class="logi">` + logi.map(w => `
           <a class="lrow" href="#/wallet/${w.id}">
             <span class="ic">${svg(WALLET_ICON[w.kind] || "doc")}</span>
             <span class="t"><span class="n">${esc(w.title)}</span><span class="s">${esc(w.detail || "")}</span></span>
             <span class="go">${svg("right")}</span>
-          </a>`).join("") : ""}
+          </a>`).join("") + `</div>` : ""}
 
         ${(day.alts || []).length ? `
           <div class="sect">If plans change</div>
