@@ -4,11 +4,11 @@
    ============================================================ */
 
 :root{
-  --canvas:#f7f5f1;
+  --canvas:#f8f5ee;
   --surface:#ffffff;
-  --sand:#ede1d4;
-  --sand-deep:#dfceb8;
-  --soft:#f1f0ec;
+  --sand:#ede0ce;
+  --sand-deep:#ddcbb1;
+  --soft:#f2efe8;
 
   /* Tints are what give the scroll its landmarks. Surfaces, not dots. */
   --tint-indigo:rgba(80,89,201,.055);
@@ -27,7 +27,7 @@
   --c-shopping:#8a4f96;  --c-shopping-bg:#f3e9f6;
   --c-nature:#2b7f55;    --c-nature-bg:#e2f1e8;
 
-  --ink:#202126;
+  --ink:#181a20;
   --ink2:#5c5e66;
   --ink3:#8e9099;
   /* Section labels carry the backbone of the page, so they are graphite,
@@ -37,12 +37,13 @@
   --line:rgba(32,33,38,.085);
   --line2:rgba(32,33,38,.16);
 
-  --indigo:#5059c9;
-  --indigo-soft:#eceefb;
-  --teal:#269c92;
-  --teal-soft:#e4f3f1;
-  --coral:#e65b45;
-  --coral-soft:#fdeae6;
+  --indigo:#4e59c9;
+  --indigo-deep:#3f49ad;
+  --indigo-soft:#e9ebfb;
+  --teal:#178f86;
+  --teal-soft:#def1ee;
+  --coral:#e85a42;
+  --coral-soft:#fae2dc;
 
   --r-btn:11px;
   --r-card:14px;
@@ -85,11 +86,10 @@ ul{margin:0;padding:0;list-style:none}
 /* The one display face. Destination and screen titles only — never a
    section heading, never body copy. */
 .display{
-  font-family:"Instrument Serif",Georgia,"Times New Roman",serif;
-  font-weight:400;
-  letter-spacing:.004em;
-  line-height:1.02;
-  font-feature-settings:"liga" 1,"kern" 1;
+  font-family:Manrope,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  font-weight:800;
+  letter-spacing:-.032em;
+  line-height:1.05;
 }
 
 /* ============================ shell ============================ */
@@ -228,16 +228,24 @@ ul{margin:0;padding:0;list-style:none}
 
 /* countdown --------------------------------------------------- */
 .countdown{
-  display:inline-flex;align-items:center;gap:7px;
-  padding:6px 11px 6px 9px;border-radius:9px;
-  background:var(--tint-coral);border:1px solid var(--edge-coral);
-  font-size:12px;font-weight:600;letter-spacing:.01em;
-  color:#b8412c;
+  display:inline-flex;align-items:stretch;gap:2px;
+  padding:9px 12px;border-radius:12px;
+  background:var(--coral-soft);border:1px solid rgba(232,90,66,.18);
   margin-bottom:var(--s4);
 }
-.countdown i{width:5px;height:5px;border-radius:50%;background:currentColor;
+.countdown .lead{display:flex;align-items:center;gap:6px;padding-right:11px;margin-right:5px;
+  border-right:1px solid rgba(232,90,66,.22)}
+.countdown .lead i{width:6px;height:6px;border-radius:50%;background:var(--coral);
   animation:pulse 2.4s ease-in-out infinite}
-.countdown b{font-weight:750;font-variant-numeric:tabular-nums}
+.countdown .lead span{font-size:10.5px;font-weight:750;letter-spacing:.07em;
+  text-transform:uppercase;color:#b8412c;white-space:nowrap}
+.cd-cell{display:flex;flex-direction:column;align-items:center;min-width:31px}
+.cd-cell b{font-size:17px;font-weight:800;line-height:1.05;color:#c2402a;
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.cd-cell i{font-style:normal;font-size:8.5px;font-weight:700;letter-spacing:.07em;
+  text-transform:uppercase;color:rgba(184,65,44,.66);margin-top:2px}
+.cd-sep{align-self:flex-start;font-size:15px;font-weight:700;color:rgba(184,65,44,.36);
+  line-height:1.2;padding:0 1px}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 
 /* today head -------------------------------------------------- */
@@ -339,8 +347,8 @@ ul{margin:0;padding:0;list-style:none}
   border:1px solid transparent}
 .note.k-culture{background:var(--tint-sand);border-color:var(--edge-sand)}
 .note.k-warning{background:var(--tint-coral);border-color:var(--edge-coral)}
-.note.k-culture h4{font-family:"Instrument Serif",Georgia,serif;font-size:19px;
-  font-weight:400;letter-spacing:.004em}
+.note.k-culture h4{font-family:Manrope,system-ui,sans-serif;font-size:16px;
+  font-weight:800;letter-spacing:-.018em}
 .note.k-culture p{line-height:1.62;margin-top:4px}
 .note .g{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;flex:none}
 .note .g svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
@@ -578,6 +586,21 @@ ul{margin:0;padding:0;list-style:none}
   .screen{padding:0 var(--s6)}
   .topbar{padding-left:var(--s6);padding-right:var(--s6)}
 }
+
+/* The countdown is 304px wide with its label. On a 320pt phone that is
+   more than the column, so below 370 the label collapses to just its dot and
+   the cells tighten — the numbers, which are the point, all survive. */
+@media (max-width:370px){
+  .countdown{padding:8px 10px}
+  .countdown .lead span{display:none}
+  .countdown .lead{padding-right:8px;margin-right:3px}
+  .cd-cell{min-width:27px}
+  .cd-cell b{font-size:16px}
+  .cd-cell i{font-size:8px}
+}
+/* Manrope at hero size splits "Land at / KIX" badly; balance evens the lines. */
+.upnext h2{text-wrap:balance}
+@media (max-width:400px){ .upnext h2{font-size:31px} }
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}

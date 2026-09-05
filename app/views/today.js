@@ -62,13 +62,57 @@ function stepDirections(step) {
 
 /* ------------------------------------------------------------ countdown */
 
+const DEPARTURE = () => new Date(trip.departure).getTime();
+
+function cdParts(ms) {
+  const t = Math.max(0, ms);
+  return {
+    d: Math.floor(t / 86400000),
+    h: Math.floor(t / 3600000) % 24,
+    m: Math.floor(t / 60000) % 60,
+    s: Math.floor(t / 1000) % 60
+  };
+}
+
+const pad = n => String(n).padStart(2, "0");
+
 function countdown() {
-  const ms = new Date(trip.departure) - Date.now();
-  if (ms <= 0) return "";
-  const d = Math.floor(ms / 86400000);
-  const h = Math.floor(ms / 3600000) % 24;
-  const m = Math.floor(ms / 60000) % 60;
-  return `<div class="countdown"><i></i><b>${d}d ${h}h ${m}m</b> to the flight</div>`;
+  const ms = DEPARTURE() - Date.now();
+  if (ms <= 0) return "";                       // trip has started; it disappears
+  const p = cdParts(ms);
+  const cell = (k, v, label) =>
+    `<span class="cd-cell"><b data-cd="${k}">${v}</b><i>${label}</i></span>`;
+  return `
+    <div class="countdown" id="countdown" role="timer">
+      <span class="lead"><i></i><span>To the flight</span></span>
+      ${cell("d", p.d, "Days")}<span class="cd-sep">:</span>
+      ${cell("h", pad(p.h), "Hours")}<span class="cd-sep">:</span>
+      ${cell("m", pad(p.m), "Min")}<span class="cd-sep">:</span>
+      ${cell("s", pad(p.s), "Sec")}
+    </div>`;
+}
+
+/* One interval for the whole app, cleared on every re-render so nothing
+   leaks and no two timers ever run at once. */
+let cdTimer = null;
+function startCountdown(root) {
+  clearInterval(cdTimer);
+  const el = root.querySelector("#countdown");
+  if (!el) return;
+  const cells = {};
+  el.querySelectorAll("[data-cd]").forEach(n => { cells[n.dataset.cd] = n; });
+
+  const tick = () => {
+    const ms = DEPARTURE() - Date.now();
+    if (ms <= 0) { clearInterval(cdTimer); el.remove(); return; }
+    const p = cdParts(ms);
+    if (cells.d) cells.d.textContent = p.d;
+    if (cells.h) cells.h.textContent = pad(p.h);
+    if (cells.m) cells.m.textContent = pad(p.m);
+    if (cells.s) cells.s.textContent = pad(p.s);
+  };
+  tick();
+  cdTimer = setInterval(tick, 1000);
 }
 
 /* ------------------------------------------------------------ sections */
@@ -317,6 +361,7 @@ export function render() {
       </div>`,
     day,
     wire(root, go) {
+      startCountdown(root);
       root.querySelectorAll("[data-nudge]").forEach(b =>
         b.addEventListener("click", () => {
           nudge(day.id, Number(b.dataset.nudge));
