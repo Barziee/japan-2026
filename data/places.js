@@ -14,7 +14,7 @@ export const places = [
     id: "p-hikiniku", name: "Hikiniku to Come", ja: "挽肉と米", kind: "Hamburg steak", cat: "food",
     area: "kyoto", where: "Gion", pin: true,
     maps: "挽肉と米 京都",
-    note: "The leading dinner candidate. 100% beef, so it works for Noa, and it is walking distance from MIRU. October seats open 1 Sep at midnight Japan time — without a booking you are queueing from 07:00, which collides with Hōnen-in."
+    note: "Charcoal hamburg, ¥1,980 for the set. 100% beef, so it works for Noa. Right by Tatsumi-bashi on the Shirakawa, walking distance from MIRU. Closed Wednesdays, cashless only. The 8 Oct online seats sold out. The remaining ways in: cancellations on TableCheck until 30 Sep, the free list that opens 7 days ahead, same-day cancellations announced on X, or the morning line — tickets from about 09:00, sometimes 08:30, and on busy days the line forms from about 07:00."
   },
   {
     id: "p-gansan", name: "Yakiniku no GANSAN", kind: "Yakiniku", cat: "food",
@@ -91,10 +91,10 @@ export const places = [
     note: "Inside the station we arrive at from KIX and walk from Meander. Good for an early departure morning."
   },
   {
-    id: "p-tokito", name: "Tokito", ja: "ときと", kind: "Wagyu sando", cat: "food",
-    area: "osaka", where: "Kawarayamachi, Chūō-ku",
-    maps: "ときと 瓦屋町 大阪",
-    note: "Kawarayamachi 1-2-11 (からほりかわらやえん101). Go early — the wagyu sando is made in limited numbers."
+    id: "p-tokito", name: "Tokito", ja: "と木と", kind: "Wagyu sando", cat: "food",
+    area: "osaka", where: "Karahori", pin: true,
+    maps: "と木と 大阪 瓦屋町",
+    note: "Noa's highlight. Kawarayamachi 1-2-11 (からほりかわらやえん101), a few minutes from Matsuyamachi station. The wagyu sando is a lunch thing: 11:00–15:00, walk-in only, made in limited numbers, so go at opening. Dinner, 18:00–24:00, is bookable. Closed on irregular days, posted on its Instagram stories (@tokito_karahori)."
   },
   {
     id: "p-kitan", name: "Kitan Hibiki", kind: "Burgers", cat: "food",
@@ -118,7 +118,7 @@ export const places = [
     id: "p-minoh", name: "Minoh Falls", ja: "箕面大滝", kind: "Waterfall walk", cat: "nature",
     area: "osaka", where: "Minoh",
     maps: "箕面大滝",
-    note: "Hankyū from Umeda to Minoh-o, about 30 minutes. The gorge trail is easy and paved, roughly 2.8 km each way. The colour here peaks in late November, so we walk it for the gorge, not the leaves."
+    note: "Hankyū from Umeda to Minoh-o, about 30 minutes. The gorge trail is easy and paved, roughly 2.8 km, and we walk it one way, downhill from the falls to the station. The colour here peaks in late November, so we walk it for the gorge, not the leaves."
   },
   {
     id: "p-hozenji", name: "Hōzenji Yokochō", ja: "法善寺横丁", kind: "Lantern alley", cat: "do",
@@ -136,7 +136,7 @@ export const places = [
     id: "p-grenier", name: "grenier", ja: "北浜店", kind: "Choux pastry", cat: "coffee",
     area: "osaka", where: "Kitahama",
     maps: "grenier 北浜店",
-    note: "The crème brûlée choux Noa wants."
+    note: "The crème brûlée choux Noa wants. Open every day, 10:00–19:00."
   },
   {
     id: "p-mooken", name: "MooKEN", kind: "Cream puffs", cat: "coffee",
@@ -178,7 +178,7 @@ export const places = [
     id: "p-katsuoji", name: "Katsuō-ji", ja: "勝尾寺", kind: "Temple", cat: "do",
     area: "osaka", where: "Minoh",
     maps: "Katsuoji",
-    note: "The daruma temple above Minoh. Already in the 5 Oct plan."
+    note: "The daruma temple above Minoh, open 08:00–17:00. First stop on 6 Oct, because the taxis to the falls wait here and not the other way round."
   },
   {
     id: "p-fukushima", name: "Fukushima", kind: "Izakaya district", cat: "food",
@@ -193,10 +193,10 @@ export const places = [
     note: "Izakaya and bar hopping."
   },
   {
-    id: "p-donchan", name: "Don-chan", kind: "Izakaya", cat: "food",
+    id: "p-donchan", name: "Don-chan", ja: "肉大衆酒場ドンちゃん", kind: "Izakaya · meat, all-you-can-eat", cat: "food",
     area: "osaka", where: "Umeda Higashidōri",
-    maps: "Don-chan Umeda Higashidori Osaka",
-    note: ""
+    maps: "肉大衆酒場ドンちゃん 梅田",
+    note: "A meat-focused all-you-can-eat-and-drink izakaya, so check what is not pork before settling in. Weekdays from 17:00, closed on irregular days."
   },
 
   {
@@ -425,7 +425,7 @@ export const places = [
     id: "p-t-nakameguro", name: "T", ja: "中目黒", kind: "Wagyu T-bone", cat: "food",
     area: "tokyo", where: "Nakameguro", pin: true,
     maps: "T 中目黒 ステーキ",
-    note: "Wagyu T-bone. The candidate for our last night in Japan on 19 Oct. October is not open for booking yet — check 1 Sep, then again 19 Sep, and confirm they open on a Monday."
+    note: "Omi beef T-bone. Booked for our last night in Japan: Monday 19 Oct at 20:30, the T Genesis course. Tel 03-6303-0849."
   },
   {
     id: "p-marumo", name: "pizza marumo", kind: "Pizza", cat: "food",
@@ -494,7 +494,99 @@ export const places = [
     area: null, where: "Ōmi-Hachiman, Shiga",
     maps: "ラ コリーナ近江八幡",
     note: "Weird looking garden, park and food garage. Odd place, worth a look."
+  },
+  {
+    id: "p-kuromon", name: "Kuromon Ichiba Market", ja: "黒門市場",
+    kind: "Market · food and souvenirs", cat: "shopping",
+    area: "osaka", where: "Nipponbashi", pin: true,
+    maps: "黒門市場",
+    note: "A local's pick for authentic souvenirs, and his read is that it is calmer and less tourist-trappy than Nishiki in Kyoto, which we also see. Trading runs roughly 08:00-18:00, but many stalls are 08:00-16:00 and most are winding down by 17:30. Sunday is the market's regular holiday, so it is the optional first stop on Monday the 5th."
+  },
+  {
+    id: "p-doguyasuji", name: "Sennichimae Doguyasuji", ja: "千日前道具屋筋商店街",
+    kind: "Kitchenware arcade", cat: "shopping",
+    area: "osaka", where: "Namba", pin: true,
+    maps: "千日前道具屋筋商店街",
+    note: "A local pointed at the Sennichimae shopping street; the one worth the walk is this, a 150 m covered arcade of restaurant-supply and kitchenware shops a few minutes from Namba. More than a dozen of them sell knives, which is a wider choice than Tower Knives and makes this the real first knife stop before Seki on 9 Oct. Whatever we buy flies home checked."
+  },
+  {
+    id: "p-nambaparks", name: "Namba Parks", ja: "なんばパークス",
+    kind: "Mall · rooftop garden", cat: "shopping",
+    area: "osaka", where: "Namba",
+    maps: "なんばパークス",
+    note: "A local's practical stop rather than a sight: fast shopping and konbini restocking, together with the underground streets running out of Namba station. Useful on the arrival Sunday, when Kuromon is shut."
+  },
+  {
+    id: "p-dendentown", name: "Den Den Town", ja: "日本橋でんでんタウン",
+    kind: "Electronics and anime", cat: "shopping",
+    area: "osaka", where: "Nipponbashi",
+    maps: "日本橋でんでんタウン",
+    note: "Osaka's electronics and anime district, immediately next door to Namba. A local's if-that-is-your-thing rather than a recommendation. We are already in Nipponbashi for MUSICBAR FLAG, and Kuromon is on the same side of Namba, so all three chain together."
+  },
+  {
+    id: "p-shinsekai", name: "Shinsekai", ja: "新世界",
+    kind: "Retro district", cat: "do",
+    area: "osaka", where: "Shinsekai",
+    maps: "新世界",
+    note: "A local's pick for a lively evening district, built around Tsutenkaku. Tower Knives is here, so the two combine into one trip. Tennoji and its park sit next door, and he singled out the zoo there as unexpectedly tranquil."
+  },
+  {
+    id: "p-nakanoshima", name: "Nakanoshima", ja: "中之島",
+    kind: "Riverside island", cat: "do",
+    area: "osaka", where: "Kitahama",
+    maps: "中之島公園",
+    note: "A local favourite, with his own caveat: it sits closer to Hommachi than Namba, though never more than about 20 minutes away. It pairs with coffee we have already saved, since grenier and Brooklyn Roasting are both in Kitahama, directly across the water."
+  },
+  {
+    id: "p-donki-dotonbori", name: "Don Quijote Dotonbori", ja: "ドン・キホーテ道頓堀店",
+    kind: "24-hour discount store", cat: "shopping",
+    area: "osaka", where: "Dotonbori",
+    maps: "ドン・キホーテ道頓堀店",
+    note: "The sharpest tip in the local's whole message: this branch trades 24 hours, so go late and miss the daytime crush entirely. It is the one with the yellow ferris wheel on the front, the same short walk from Meander as Hozenji."
+  },
+  {
+    id: "p-yodobashi", name: "Yodobashi Umeda", ja: "ヨドバシカメラ マルチメディア梅田", kind: "Electronics megastore", cat: "shopping",
+    area: "osaka", where: "Umeda",
+    maps: "ヨドバシカメラ マルチメディア梅田",
+    note: "The local's paradise. In front of the north gate of JR Osaka Station — there is no Yodobashi in Namba, where the rival is Bic Camera. Open every day 09:30–22:00, so it can be the last stop up north on the 5th, after the castle and before dinner in Shinsaibashi."
+  },
+  {
+    id: "p-osakacastle", name: "Osaka Castle", ja: "大阪城天守閣", kind: "Castle keep · museum", cat: "do",
+    area: "osaka", where: "Chūō-ku",
+    maps: "大阪城天守閣",
+    note: "The keep is open every day, 09:00–18:00, last entry 17:30. Nishinomaru Garden in the same grounds closes on Mondays, and 5 Oct is a Monday."
+  },
+  {
+    id: "p-uniqlo", name: "UNIQLO Shinsaibashi", ja: "ユニクロ 心斎橋店", kind: "Clothing · six floors", cat: "shopping",
+    area: "osaka", where: "Shinsaibashi-suji",
+    maps: "ユニクロ 心斎橋店",
+    note: "The big one, on the Shinsaibashi-suji arcade near Shinsaibashi station, 15 to 20 minutes' walk from Namba. There is a smaller branch in Namba Walk, the underground mall beneath Namba. Tax-free above the minimum spend."
+  },
+  {
+    id: "p-dotonbori", name: "Dōtonbori", ja: "道頓堀", kind: "Canal · neon · Glico sign", cat: "do",
+    area: "osaka", where: "Namba",
+    maps: "道頓堀 グリコサイン",
+    note: "The canal, the neon and the Glico sign, the same few minutes from Meander as Hōzenji. For actually eating, Hōzenji and Ura-Namba next door are more authentic and much calmer."
+  },
+  {
+    id: "p-torikizoku", name: "Torikizoku", ja: "鳥貴族", kind: "Yakitori chain · ¥390 an item", cat: "food",
+    area: "osaka", where: "Dōtonbori · Sennichimae", pin: true,
+    maps: "鳥貴族 難波",
+    note: "Cheap yakitori, one price for everything: ¥390 including tax. You order on a tablet at the table, in English. Four branches within a short walk of the hotel: Dōtonbori, Dōtonbori Nakaza, Sennichimae and Sennichimae 2. For Noa, going by their own allergen table (1 Sep 2026): the tare and the salt have no pork, and every skewer is fine except the pork belly one. The things to avoid are less obvious: the signature Toriki karaage, the chicken mayo salad, the chicken hamburg steak, the kids' plates, and every noodle and rice finisher except the two donburi. Everything comes out of one kitchen."
+  },
+  {
+    id: "p-toratoriya", name: "TORA鶏YA", ja: "炭火焼鳥と一口餃子 TORA鶏YA 難波千日前店", kind: "Yakitori · one-bite gyoza", cat: "food",
+    area: "osaka", where: "Sennichimae", pin: true,
+    maps: "炭火焼鳥と一口餃子 TORA鶏YA 難波千日前店",
+    note: "Booked for 4 Oct at 19:30. Chicken grilled over binchotan and served off the skewer. The one-bite gyoza do not list their filling, so ask before ordering them for Noa."
+  },
+  {
+    id: "p-kibitaki", name: "Kibitaki Bettei", ja: "YAKITORI KIBITAKI 別邸", kind: "Yakitori · chef's 7 skewers", cat: "food",
+    area: "osaka", where: "Shinsaibashi-suji", pin: true,
+    maps: "YAKITORI KIBITAKI 別邸 心斎橋",
+    note: "Booked for 5 Oct at 20:30, the chef's seven skewers. All chicken from three local breeds — Aizu jidori, Kawamata shamo and Date chicken — and nothing on the menu is pork. In the same block as the big UNIQLO."
   }
+
 ];
 
 export const CATEGORIES = [

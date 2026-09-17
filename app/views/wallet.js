@@ -97,7 +97,7 @@ export function renderWalletItem(id) {
     html: `
       <div class="screen">
         <div style="padding-bottom:var(--s3)">
-          <div class="tiny muted">${esc(w.kind === "stay" ? "Accommodation" : w.kind === "car" ? "Car rental" : w.kind === "flight" ? "Flight" : "Logistics")}</div>
+          <div class="tiny muted">${esc(w.kind === "stay" ? "Accommodation" : w.kind === "car" ? "Car rental" : w.kind === "flight" ? "Flight" : w.kind === "meal" ? "Restaurant booking" : "Logistics")}</div>
           <h1 class="display" style="font-size:34px;margin-top:6px">${esc(w.title)}</h1>
         </div>
 
@@ -120,7 +120,9 @@ export function renderWalletItem(id) {
           ${w.notes.map(n => `<p class="muted" style="font-size:13.5px;margin-bottom:11px">${esc(n)}</p>`).join("")}` : ""}
 
         ${!w.ref ? `<p class="tiny" style="color:var(--ink3);margin-top:var(--s5)">
-          No confirmation number stored yet. Add it to <code>data/wallet.js</code> when the email arrives.</p>` : ""}
+          ${w.refPrivate
+            ? "The booking number is in the confirmation email. It is deliberately not stored here."
+            : `No confirmation number stored yet. Add it to <code>data/wallet.js</code> when the email arrives.`}</p>` : ""}
 
         <div style="height:var(--s7)"></div>
       </div>`,

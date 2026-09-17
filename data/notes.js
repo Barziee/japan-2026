@@ -36,31 +36,36 @@ export const notes = [
   {
     id: "n-firstnight", kind: "timing", day: "d04", lead: true,
     title: "Keep the first evening light",
-    body: "Ura-Namba and Hōzenji are five minutes from the hotel. After a fourteen-hour door-to-door day that is the right size of evening."
+    body: "Dinner is booked at TORA鶏YA at 19:30, a short walk from the hotel, with a two-hour table and Hōzenji next door. After a fourteen-hour door-to-door day that is the right size of evening."
   },
 
-  /* ---------------- 5 Oct · Minoh ---------------- */
+  /* ---------------- 5 Oct · the neighbourhoods ---------------- */
   {
-    id: "n-minoh-fixed", kind: "route", day: "d05", lead: true,
-    title: "This day is settled",
-    body: "Minoh, the waterfall and Katsuō-ji in the morning, then a neighbourhood evening in Nakazakichō, Tenma or Fukushima. Umeda to Minoh is about 30 minutes."
+    id: "n-city-day", kind: "route", day: "d05", lead: true,
+    title: "Tokito first, then a loop north",
+    body: "Tokito opens at 11:00, about a kilometre from Kuromon. From the castle it is all walking: along the river to Kitahama, over it and up Tenjinbashisuji to Nakazakichō, then Umeda. No single walk is much over two kilometres. Yodobashi is the last stop up north, then the Midosuji line runs three stops south to Shinsaibashi for dinner at 20:30."
   },
   {
-    id: "n-minoh-order", kind: "route", day: "d05",
-    title: "Walk up, ride down",
-    body: "The waterfall trail climbs gently from the station. Katsuō-ji sits further up the valley and needs the bus."
+    id: "n-monday", kind: "warning", day: "d05",
+    title: "It is a Monday",
+    body: "Osaka Castle's keep is open, but Nishinomaru Garden in the same grounds is not. grenier is open every day."
   },
 
-  /* ---------------- 6 Oct · flexible ---------------- */
+  /* ---------------- 6 Oct · Katsuō-ji and Minoh ---------------- */
   {
-    id: "n-day6-open", kind: "route", day: "d06", lead: true,
-    title: "Deliberately unplanned",
-    body: "5 Oct is already fixed on Minoh, so the only question here is whether we want another trip out at all. If it feels heavy, a city day is not a failure."
+    id: "n-minoh-order", kind: "route", day: "d06", lead: true,
+    title: "Temple first, then down",
+    body: "Taxis wait at Katsuō-ji and there are none at the falls, so this order is the reliable one: bus up to the temple, taxi across to the car park above the falls, then walk down the gorge to the station. The advice comes from someone who did it the other way round, walked up to the car park in the rain, and only got to the temple because a taxi happened to drop someone off."
   },
   {
-    id: "n-ine", kind: "transport", day: "d06",
-    title: "Ine is a three-hour commitment each way",
-    body: "The fishing village on the water is only worth it on a genuinely clear day, and it eats the whole day."
+    id: "n-minoh-bus", kind: "transport", day: "d06", lead: true,
+    title: "The first bus is 09:00",
+    body: "Bus 30 from Minoh-Kayano runs every 30 minutes on weekdays, 09:00 to 15:00. Some English guides still say every one to two hours; the current timetable says otherwise. The Midosuji line runs through from Namba to Minoh-Kayano, so there is no change of train."
+  },
+  {
+    id: "n-minoh-colour", kind: "timing", day: "d06",
+    title: "Minoh is green in early October",
+    body: "The colour here peaks around late November. We walk the gorge for the gorge, not the leaves."
   },
 
   /* ---------------- 7 Oct · Kurama → Kibune ---------------- */
@@ -107,13 +112,8 @@ export const notes = [
 
   {
     id: "n-arrival-noplan", kind: "route", day: "d04",
-    title: "No attraction list today",
-    body: "Drop the bags, walk Namba, eat something light and sleep early. Ura-Namba and Hōzenji are more authentic and far less crowded than Dōtonbori — a short taste of Dōtonbori is enough."
-  },
-  {
-    id: "n-minoh-colour", kind: "timing", day: "d05",
-    title: "Minoh is green in early October",
-    body: "The colour here peaks around late November. We walk the gorge for the gorge, not the leaves."
+    title: "Everything today is on foot",
+    body: "Dōtonbori is a few minutes from the hotel and Shinsaibashi about a kilometre further, so nothing today needs a train, and the only booking is dinner. Yodobashi Camera has no store in Namba — it is in Umeda, so it is on tomorrow's route. Bic Camera is its Namba rival if we want electronics today."
   },
 
   /* ---------------- 8 Oct · East Kyoto ---------------- */
@@ -124,8 +124,8 @@ export const notes = [
   },
   {
     id: "n-hikiniku-risk", kind: "food", day: "d08",
-    title: "Two things to confirm about Hikiniku",
-    body: "English sources give its closing day as Wednesday, which would put 7 Oct out and leave the 8th as the only night. It is also card or QR only, no cash. The beef is 100% per the official site, so it works for Noa — some English guides call it a beef-and-pork mince, and that is wrong for this branch. Ask anyway when booking."
+    title: "Hikiniku: the morning line",
+    body: "Closed Wednesdays, so the 8th is the only night. Tickets are handed out at the door from about 09:00, earlier on busy days — Reddit reports 08:30 to 08:35. In 2026 people found 40 in line by 08:34, and one person in line at 08:30 got nothing. From 08:15 to 08:30 on weekdays, some still got dinner. But twice, people in line at 07:45 were offered lunch only, because dinner had already gone online. Expect 40 to 45 minutes in line. One of us can probably hold the place, but both must be there at the table time, and more than 10 minutes late cancels it. The time on the ticket is not a seat — there is more waiting, and the Waiting Bar upstairs is the place to do it. Cashless only. The beef is 100%, which works for Noa."
   },
   {
     id: "n-eastkyoto-order", kind: "route", day: "d08", lead: true,
@@ -387,13 +387,28 @@ export const notes = [
   },
   {
     id: "n-tokyo-lastnight", kind: "food", dest: "tokyo",
-    title: "19 Oct is the last dinner in Japan",
-    body: "T in Nakameguro is the candidate. October bookings are not open yet — check 1 Sep and again 19 Sep, and confirm they trade on a Monday."
+    title: "The last dinner is booked: T, 19 Oct at 20:30",
+    body: "Wagyu T-bone in Nakameguro. The flight home is not until 18:00 on the 20th, so a late dinner costs nothing."
   },
   {
     id: "n-departure", kind: "timing", day: "d20", lead: true,
     title: "NRT 18:00 — leave Tokyo around 14:30",
     body: "An easy morning near the hotel, nothing that needs a train across the city."
+  },
+  {
+    id: "n-namba-local", kind: "culture", dest: "osaka",
+    title: "Why Namba is the right base",
+    body: "From a local: Umeda is the city centre, but Naniwa-ku is where Osaka actually happens, and Namba is the neighbourhood everyone loves. The food is better and things are cheaper, so the move is to spend less on the hotel and more on dinner, which is what we have done. His real advice is the unstructured kind though: walk the area at night and sit down at whatever corner restaurant looks quiet, because the food is better than it looks. Even the Glico sign is closer from here than from Umeda, a short walk or one stop on the metro."
+  },
+  {
+    id: "n-kuromon-sunday", kind: "timing", day: "d04",
+    title: "Kuromon is shut on arrival day",
+    body: "Sunday is the market's regular holiday and 4 Oct is a Sunday, so Kuromon moves to Monday morning, before we head north. Most stalls close between 16:00 and 17:30 even on trading days, so it is never a late-afternoon plan."
+  },
+  {
+    id: "n-toriki-noa", kind: "food", dest: "osaka",
+    title: "At Torikizoku, Noa sticks to the skewers",
+    body: "Their allergen table, updated 1 Sep 2026: the tare and the salt contain no pork, and neither does any skewer except the pork belly. Pork is in the signature Toriki karaage, the chicken mayo salad, the chicken hamburg steak, the kids' plates, the chicken paitan noodles, the chicken-salt ramen, the kamameshi, the zosui and the rice set. Of the rice dishes only the two donburi are clear. It is all one kitchen, so shared equipment is possible."
   }
 ];
 
