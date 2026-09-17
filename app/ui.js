@@ -66,7 +66,7 @@ export const CAT_ICON = {
 
 /* wallet kind -> glyph */
 export const WALLET_ICON = {
-  stay:"bed", car:"car", flight:"plane", transport:"box", document:"doc"
+  stay:"bed", car:"car", flight:"plane", transport:"box", document:"doc", meal:"bowl"
 };
 
 export const MODE_ICON = { train:"train", walk:"walk", car:"car", bus:"bus" };

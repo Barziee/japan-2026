@@ -103,7 +103,7 @@ export const wallet = [
     from: "2026-10-09T09:30:00+09:00",
     to: "2026-10-13T14:30:00+09:00",
     detail: "Pick up Kyoto 09:30 · drop Gotemba 14:30",
-    ref: "99902885400",
+    ref: null, refPrivate: true,
     status: "confirmed",
     alert: "The 13 Oct return is booked for 14:30, but the western-lakes route reaches Gotemba around 16:15.",
     notes: [
@@ -122,7 +122,7 @@ export const wallet = [
     from: "2026-10-13T14:30:00+09:00",
     to: "2026-10-15T14:30:00+09:00",
     detail: "Gotemba return trip · two days",
-    ref: "99903334000",
+    ref: null, refPrivate: true,
     status: "confirmed",
     alert: "Pickup is booked for 14:30 on 13 Oct; we now plan to arrive about 16:15.",
     notes: [
@@ -190,7 +190,47 @@ export const wallet = [
       "On 7 Oct we travel with cabin trolleys only — they go in a coin locker at Demachiyanagi.",
       "Optional second leg: forwarding bags from Jujo or Gotemba to the Edmont would take the strain out of the Gotemba→Tokyo train. It usually arrives next day, so plan a night without them."
     ]
+  },
+  {
+    id: "w-toratoriya", kind: "meal", title: "TORA鶏YA · Sennichimae",
+    where: "大阪府大阪市中央区難波3-4-14 岸田ビル 4F",
+    from: "2026-10-04T19:30:00+09:00",
+    detail: "19:30 · 2 guests · 2-hour table",
+    ref: null, refPrivate: true, status: "confirmed",
+    price: "Seats only · ¥420 + tax table charge each",
+    notes: [
+      "Tel 06-4309-6311.",
+      "Food and drink are paid at the restaurant on the night.",
+      "The one-bite gyoza do not list their filling, and gyoza in Japan are usually pork — ask before ordering them for Noa."
+    ]
+  },
+  {
+    id: "w-kibitaki", kind: "meal", title: "Kibitaki Bettei · Shinsaibashi",
+    where: "2-1-10 Shinsaibashisuji, SAMBOA Bldg 2F, Chuo-ku, Osaka",
+    from: "2026-10-05T20:30:00+09:00",
+    detail: "20:30 · 2 guests · chef's 7 skewers",
+    ref: null, refPrivate: true, status: "confirmed",
+    price: "¥2,800 × 2 = ¥5,600, paid at the restaurant",
+    notes: [
+      "The card is held as a deposit only; the meal is paid on the night.",
+      "From 24 hours before, cancelling or changing costs the full course price.",
+      "Sake is noted as our drink.",
+      "All chicken from three local breeds, and nothing on the menu is pork."
+    ]
+  },
+  {
+    id: "w-t", kind: "meal", title: "T · Nakameguro",
+    where: "東京都目黒区上目黒2-37-12 コンフォート中目黒 1F",
+    from: "2026-10-19T20:30:00+09:00",
+    detail: "20:30 · 2 guests · 2 h 30 min table",
+    ref: null, refPrivate: true, status: "confirmed",
+    price: "T Genesis course · ¥23,000 per person, tax included",
+    notes: [
+      "Tel 03-6303-0849.",
+      "It is a set course, so it is worth telling them one guest does not eat pork."
+    ]
   }
+
 ];
 
 export const walletById = Object.fromEntries(wallet.map(w => [w.id, w]));
