@@ -712,11 +712,11 @@ ul{margin:0;padding:0;list-style:none}
 
 /* timeline ---------------------------------------------------------- */
 .v10 .timeline{position:relative}
-.trow{display:grid;grid-template-columns:57px 18px 1fr;gap:4px;min-height:76px}
+.trow{display:grid;grid-template-columns:66px 18px 1fr;gap:4px;min-height:76px}
 .trow:last-child{min-height:50px}
 .tmeta{font-size:12px;font-weight:700;color:var(--ink);padding-top:2px;
   font-variant-numeric:tabular-nums;letter-spacing:-.01em}
-.tmeta.soft{font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+.tmeta.soft{font-size:9px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;
   color:#9a9ca3;padding-top:4px}
 .v10 .rail{position:relative}
 .v10 .dot{position:absolute;top:5px;left:4px;width:9px;height:9px;border-radius:50%;
@@ -902,6 +902,7 @@ ul{margin:0;padding:0;list-style:none}
 .searchresults.v10 .sectionhead{margin-top:var(--s5)}
 
 @media (max-width:370px){
+  .v10 h1.dayname{font-size:28px}
   .v10 .destcard h3{font-size:27px}
   .v10 .destcard .art{min-width:112px}
   .v10 .destbanner{height:180px}

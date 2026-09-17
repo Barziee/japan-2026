@@ -18,7 +18,7 @@
 export const days = [
   {
     id: "d04", date: "2026-10-04", dow: "Sun", dest: "osaka",
-    title: "Landing, and a soft first day",
+    title: "Landing, then Namba on foot",
     route: [
       { name: "KIX" },
       { name: "Namba", via: "Train or limousine · ~50 min", mode: "train" }
@@ -26,55 +26,76 @@ export const days = [
     plan: [
       { t: { k: "exact", v: "11:40" }, name: "Land at KIX", detail: "Immigration, bags, then the train or airport limousine into the city.", place: "Kansai International Airport" },
       { t: { k: "approx", v: "13:30" }, name: "Meander Osaka", detail: "Drop bags in Namba. Check in when the room is ready.", wallet: "w-meander" },
-      { t: { k: "part", v: "afternoon" }, name: "Namba on foot", detail: "No plan beyond getting our bearings and staying awake." },
-      { t: { k: "part", v: "evening" }, name: "Ura-Namba and Hōzenji", detail: "Authentic izakaya alleys, less touristy than Dōtonbori. A short taste of Dōtonbori too if we feel like it, then a light meal and an early night.", saved: "p-hozenji" }
+      { t: { k: "part", v: "afternoon" }, name: "Dōtonbori and Shinsaibashi", detail: "The canal and the Glico sign, a few minutes from the hotel, then north up the covered Shinsaibashi-suji arcade — 15 to 20 minutes' walk from Namba. Nothing today needs a train.", saved: "p-dotonbori" },
+      { t: { k: "seq" }, name: "Shopping", detail: "UNIQLO's big store is on Shinsaibashi-suji, and there is a smaller one in Namba Walk, the mall under Namba. Namba Parks for konbini and basics. Yodobashi is not in Namba — it is in Umeda, so it is on tomorrow's route. Bic Camera is the Namba equivalent if we want electronics today.", saved: "p-uniqlo" },
+      { t: { k: "seq" }, name: "Food as we go", detail: "Nothing booked until dinner. Gorichan's onigiri are inside Nankai Namba, the station we arrive through. For ramen Noa can eat: MAREN, chicken broth, in Shinsaibashi, or Gyukotsuo, beef broth, about 1.5 km from Namba in Minami-Semba.", saved: "p-maren" },
+      { t: { k: "exact", v: "19:30" }, name: "Dinner · TORA鶏YA", detail: "Booked, two-hour table. Charcoal yakitori a short walk from the hotel. Ask about the one-bite gyoza before ordering them — the filling is not listed. Hōzenji Yokochō's lantern alley is close by for a walk after.", saved: "p-toratoriya" },
+      { t: { k: "part", v: "late" }, name: "Don Quijote, if still standing", detail: "The Dōtonbori branch is open 24 hours, so late is when the crowd has gone. Only if we are still awake after the flight.", saved: "p-donki-dotonbori" }
     ],
-    logistics: ["w-meander", "w-out"],
-    saved: ["p-gorichan"]
+    logistics: ["w-meander", "w-out", "w-toratoriya"],
+    saved: ["p-toratoriya", "p-torikizoku", "p-gorichan", "p-maren", "p-gyukotsuo", "p-dotonbori", "p-uniqlo", "p-nambaparks", "p-doguyasuji", "p-hozenji", "p-donki-dotonbori"]
   },
 
   {
     id: "d05", date: "2026-10-05", dow: "Mon", dest: "osaka",
-    title: "Minoh by day, neighbourhoods by night",
+    title: "Tokito, then the city on foot",
     route: [
-      { name: "Umeda" },
-      { name: "Minoh", via: "Train · ~30 min", mode: "train" },
-      { name: "Katsuō-ji", via: "Bus up the valley", mode: "bus" },
-      { name: "Nakazakichō", via: "Back into the city", mode: "train" }
+      { name: "Namba" },
+      { name: "Karahori", via: "On foot, via Kuromon", mode: "walk" },
+      { name: "Osaka Castle", via: "Tanimachi line, or ~30 min on foot", mode: "train" },
+      { name: "Kitahama", via: "Along the river · ~30 min", mode: "walk" },
+      { name: "Tenjinbashisuji", via: "Over the river, up the arcade", mode: "walk" },
+      { name: "Nakazakichō", via: "On foot · under 1 km", mode: "walk" },
+      { name: "Umeda", via: "On foot · ~15 min", mode: "walk" },
+      { name: "Shinsaibashi", via: "Midosuji line · 3 stops", mode: "train" }
     ],
     plan: [
-      { t: { k: "part", v: "morning" }, name: "Minoh Falls", detail: "Hankyū from Umeda to Minoh-o, about 30 minutes. The gorge trail is an easy paved 2.8 km each way.", saved: "p-minoh" },
-      { t: { k: "seq" }, name: "Katsuō-ji", detail: "The daruma temple further up the valley — bus or taxi from the top of the trail.", saved: "p-katsuoji" },
-      { t: { k: "part", v: "afternoon" }, name: "Back into the city", detail: "Nakazakichō for coffee and small shops." },
-      { t: { k: "part", v: "evening" }, name: "Tenma or Fukushima", detail: "Izakaya hopping. Neither needs booking." }
+      { t: { k: "part", v: "morning" }, name: "Kuromon market, if we are up", detail: "Optional — it is only here because the arrival day was a Sunday, when it is shut. A short walk from the hotel, and about a kilometre from Tokito, so it leads straight into lunch.", saved: "p-kuromon" },
+      { t: { k: "exact", v: "11:00" }, name: "Lunch · Tokito", detail: "Noa's highlight. The wagyu sando is lunch only, 11:00–15:00, walk-in only and made in limited numbers, so we are there when it opens. Tokito posts irregular closing days on its Instagram stories.", saved: "p-tokito" },
+      { t: { k: "part", v: "afternoon" }, name: "Osaka Castle", detail: "A short ride on the Tanimachi line, or about half an hour on foot. The keep is open every day, last entry 17:30. Nishinomaru Garden, in the same grounds, is closed on Mondays — and today is one.", saved: "p-osakacastle" },
+      { t: { k: "seq" }, name: "Kitahama and Nakanoshima", detail: "Half an hour west along the river: architecture on the water. grenier for Noa's choux, and Brooklyn Roasting is in Kitahama too.", saved: "p-grenier" },
+      { t: { k: "seq" }, name: "Tenjinbashisuji", detail: "Over the river and north up the longest shopping arcade in Japan. The food along it is local rather than aimed at visitors.", saved: "p-tenjinbashi" },
+      { t: { k: "seq" }, name: "Nakazakichō", detail: "Cafés, vintage shops and quiet old streets, just west of the top of the arcade. Coffee at Yatt.", saved: "p-yatt" },
+      { t: { k: "part", v: "evening" }, name: "Yodobashi Umeda", detail: "About fifteen minutes on foot from Nakazakichō, in front of Osaka Station's north gate, open until 22:00. Then the Midosuji line three stops south to Shinsaibashi.", saved: "p-yodobashi" },
+      { t: { k: "exact", v: "20:30" }, name: "Dinner · Kibitaki Bettei", detail: "Booked. The chef's seven yakitori skewers, all chicken, so it is fine for Noa. On Shinsaibashi-suji, in the same block as the big UNIQLO.", saved: "p-kibitaki" }
     ],
-    logistics: [],
-    saved: ["p-katsuoji", "p-yatt", "p-tenma", "p-fukushima", "p-donchan"]
+    alts: [
+      { title: "Skip the castle", when: "If the day feels long", body: "Walk straight from Tokito to Kitahama instead — about the same distance. Horie's boutiques and cafés are half a kilometre from the hotel, so they fit any evening." },
+      { title: "If Tokito is closed", when: "Check its Instagram stories the night before", body: "Start at the castle and run the rest of the day as it is. Tokito's lunch is walk-in only, so there is nothing to cancel." },
+      { title: "A wet day", when: "If it rains", body: "Kuromon, the Kaiyukan aquarium, Umeda Sky and the covered Shinsaibashi arcade are all indoors, and Tenjinbashisuji is an arcade too." }
+    ],
+    logistics: ["w-kibitaki"],
+    saved: ["p-tokito", "p-kibitaki", "p-kuromon", "p-osakacastle", "p-grenier", "p-brooklyn", "p-nakanoshima", "p-tenjinbashi", "p-yatt", "p-tenma", "p-yodobashi"]
   },
 
   {
     id: "d06", date: "2026-10-06", dow: "Tue", dest: "osaka",
-    title: "A day we left open",
-    flexible: true,
-    lead: {
-      name: "Stay in Osaka",
-      detail: "Nakanoshima, Tenjinbashisuji, Horie — coffee, arcades, small shops.",
-      place: "Tenjinbashisuji Shopping Street Osaka"
-    },
+    title: "Katsuō-ji first, then down through Minoh",
+    route: [
+      { name: "Namba" },
+      { name: "Minoh-Kayano", via: "Midosuji line, no change · 35–40 min", mode: "train" },
+      { name: "Katsuō-ji", via: "Bus 30 · ~20 min", mode: "bus" },
+      { name: "Minoh Falls", via: "Taxi ~5 min, then a short walk", mode: "car" },
+      { name: "Minoh", via: "Down the gorge on foot · ~2.8 km", mode: "walk" },
+      { name: "Umeda", via: "Hankyū · ~30 min", mode: "train" }
+    ],
     plan: [
-      { t: { k: "part", v: "afternoon" }, name: "Lunch · Ninjomenya Gyukotsuo", detail: "Beef-bone broth rather than pork.", saved: "p-gyukotsuo" },
-      { t: { k: "part", v: "evening" }, name: "Tenma and Don-chan", detail: "Izakaya hopping, ending at Umeda Higashidōri.", saved: "p-tenma" }
+      { t: { k: "part", v: "morning" }, name: "Suitcases to the Meander desk", detail: "Before we leave. Takkyubin to MIRU is next-day, so bags sent today arrive on the 7th. Cabin trolleys stay with us. Only once MIRU have confirmed they will take them.", wallet: "w-luggage" },
+      { t: { k: "approx", v: "08:15" }, name: "Midosuji line to Minoh-Kayano", detail: "Straight through from Namba with no change, 35–40 minutes. Leaving around 08:15 makes the first bus with a margin.", place: "Minoh-Kayano Station" },
+      { t: { k: "exact", v: "09:00" }, name: "Bus 30 to Katsuō-ji", detail: "The first weekday bus. After it they run every 30 minutes until 15:00, about 20 minutes up the hill.", place: "Minoh-Kayano Station" },
+      { t: { k: "approx", v: "09:20" }, name: "Katsuō-ji", detail: "The daruma temple. It opens at 08:00, and early is the point — later in the day there are queues for photos with the daruma.", saved: "p-katsuoji" },
+      { t: { k: "seq" }, name: "Taxi to Dainichi car park", detail: "Taxis wait at the temple bus stop and there are none at the falls end, which is why the temple comes first. About five minutes, roughly ¥1,300 by one visitor's count in October 2025. The alternative is walking along the road, which that visitor calls dangerous.", place: "Dainichi Parking Lot, Minoh" },
+      { t: { k: "seq" }, name: "Minoh Falls", detail: "Ten to fifteen minutes on foot down from the car park.", saved: "p-minoh" },
+      { t: { k: "seq" }, name: "Walk down the gorge", detail: "About 2.8 km beside the river, downhill all the way to Hankyū Minoh station.", place: "Minoh Station" },
+      { t: { k: "part", v: "afternoon" }, name: "Back into the city", detail: "Hankyū to Umeda, about 30 minutes. grenier is in Kitahama if Noa did not get there yesterday." },
+      { t: { k: "part", v: "evening" }, name: "Dinner near the hotel", detail: "Back to Namba for the evening. Tonight is also when we check tomorrow's Kibune plan." }
     ],
     alts: [
-      { title: "Nara · town, garden, no deer", when: "The leading option · 45–60 min by train", body: "Naramachi, the old merchant quarter — machiya, cafés, workshops — then Isuien or Yoshikien, which are quiet gardens where the colour starts early. The edge of Nara Park only in passing, and Tōdai-ji from the outside. This is not a deer day." },
-      { title: "Nara · the forest", when: "If we want the walk instead", body: "Kasugayama Primeval Forest behind Kasuga Taisha: an ancient-woodland loop of about 7–9 km, two to three hours, quiet and almost tourist-free. Pair it with Naramachi for lunch." },
-      { title: "Ikaruga or Asuka", when: "For deep quiet · 1:00–1:20", body: "Hōryū-ji is among the oldest temples anywhere and the area around it is still. Asuka is villages, rice fields, ancient tombs and bicycles — the most off-route thing on the list, and it needs more transport planning." },
-      { title: "Uji", when: "A calmer substitute for Nara · 50–70 min", body: "The tea town. River, Byōdō-in, and a slower pace than Nara centre." },
-      { title: "Ine no Funaya", when: "Only on a genuinely clear day", body: "The fishing village built over the water. Roughly three hours each way, so it takes the whole day and a lot of energy. An organised tour removes the need for a car. Do not add a long drive just because it photographs well." },
-      { title: "A wet day in Osaka", when: "If it rains", body: "Kuromon market, the Kaiyukan aquarium, Umeda Sky and the covered shopping at Shinsaibashi are all indoors." }
+      { title: "Swap with Monday", when: "If Tuesday looks wet", body: "Both are weekdays, so the bus timetable is the same. The suitcases still go to the Meander desk on the morning of the 6th either way, and it is worth checking the Nakazakichō and Kitahama cafés trade on a Tuesday." },
+      { title: "Taxi up for the 08:00 opening", when: "If we want the temple empty", body: "A taxi from Minoh-Kayano instead of the 09:00 bus. We have not checked that fare." }
     ],
-    logistics: [],
-    saved: ["p-gyukotsuo", "p-maren", "p-tokito", "p-grenier", "p-brooklyn", "p-flag", "p-towerknives"]
+    logistics: ["w-luggage"],
+    saved: ["p-katsuoji", "p-minoh", "p-grenier"]
   },
 
   {
@@ -122,7 +143,7 @@ export const days = [
       { t: { k: "seq" }, name: "Nanzen-ji and the aqueduct", detail: "Optional. Only if there is time and appetite left after Eikandō.", place: "Nanzenji Suirokaku Kyoto" },
       { t: { k: "seq" }, name: "Gyōjabashi", detail: "The narrow stone bridge over the Shirakawa near Higashiyama station — not the one over the Kamo.", saved: "p-gyojabashi" },
       { t: { k: "seq" }, name: "Furumonzen into Gion", detail: "Working down towards the river, with time for coffee and the hotel." },
-      { t: { k: "part", v: "evening" }, name: "Dinner · Hikiniku to Come", detail: "If the 1 Sep booking landed. Walking distance from MIRU.", saved: "p-hikiniku" }
+      { t: { k: "part", v: "evening" }, name: "Dinner · Hikiniku to Come", detail: "Not booked — the online seats for today sold out. Only if one of the online chances comes through, or we get a dinner slot from the morning line. Walking distance from MIRU.", saved: "p-hikiniku" }
     ],
     logistics: ["w-miru"],
     saved: ["p-hikiniku", "p-brulee", "p-uru", "p-panel"]
@@ -342,9 +363,9 @@ export const days = [
     title: "Tokyo · the last full day",
     flexible: true, bank: "tokyo",
     plan: [
-      { t: { k: "part", v: "evening" }, name: "Dinner · T, Nakameguro", detail: "Wagyu T-bone, and the last dinner in Japan — if the booking landed.", saved: "p-t-nakameguro" }
+      { t: { k: "exact", v: "20:30" }, name: "Dinner · T, Nakameguro", detail: "Booked, the T Genesis course, with a 2½-hour table. Omi beef T-bone, and the last dinner in Japan. T is across town from the hotel, so the Daikanyama → Nakameguro cluster is the natural last afternoon — it ends right here.", saved: "p-t-nakameguro" }
     ],
-    logistics: [],
+    logistics: ["w-t"],
     saved: ["p-t-nakameguro", "p-yamada", "p-goodmorning"]
   },
 

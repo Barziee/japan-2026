@@ -69,8 +69,8 @@ export const CLIMATE_NOTE = "October average · climate, not forecast";
 
 /* Days whose shape is decided on the forecast the night before. */
 export const weatherDays = [
-  { day: "d06", title: "Flexible day in Osaka", options: "Quiet Nara · Ine · a slow city day" },
-  { day: "d10", title: "Gujō to Matsumoto", options: "Full Nakasendō walk · Kiso without walking · straight through" },
+  { day: "d06", title: "Minoh, or swap it", options: "Minoh as planned · swap with the city day if Tuesday is wet" },
+  { day: "d10", title: "Atera Gorge", options: "The full gorge walk · after heavy rain, a short walk and Narai instead" },
   { day: "d11", title: "The nature day", options: "Kamikōchi · Senjōjiki · Utsukushigahara · Azumino" },
   { day: "d14", title: "The Fuji day", options: "West Izu road trip · lakes · Hakone" }
 ];
