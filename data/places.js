@@ -586,6 +586,19 @@ export const places = [
     maps: "YAKITORI KIBITAKI 別邸 心斎橋",
     note: "Booked for 5 Oct at 20:30, the chef's seven skewers. All chicken from three local breeds — Aizu jidori, Kawamata shamo and Date chicken — and nothing on the menu is pork. In the same block as the big UNIQLO."
   }
+,
+  {
+    id: "p-minato", name: "MINATO", ja: "鉄板ダイニングバルMINATO", kind: "Teppan dining bar", cat: "food",
+    area: "matsumoto", where: "Chūō, near the station", pin: true,
+    maps: "鉄板ダイニングバル MINATO 松本",
+    note: "Booked for 10 Oct at 20:00. A teppan grill: chicken four ways, beef loin steak, roast beef, oysters and a seafood ajillo. For Noa, skip the pork ginger steak and the tonpeiyaki, and ask about the okonomiyaki."
+  },
+  {
+    id: "p-pizzamatsuri", name: "PIZZA MATSURI", ja: "ピッツァ マツリ マツモト", kind: "Neapolitan pizza", cat: "food",
+    area: "matsumoto", where: "Chūō, by the station", pin: true,
+    maps: "PIZZA MATSURI MATSUMOTO 松本",
+    note: "Booked for 11 Oct at 20:00. Neapolitan pizza on dough fermented for more than a day, opened in March 2026, with Shiojiri wine as well as Italian. For Noa, the margherita is safe and the prosciutto one is not. 17:30–22:00, closed Tuesdays."
+  }
 
 ];
 

@@ -210,7 +210,7 @@ export const notes = [
   {
     id: "n-atera-timing", kind: "timing", day: "d10",
     title: "There are about two hours of slack in this day",
-    body: "Gujō to the gorge is 1h30 and the gorge to Matsumoto is 1h36, so even with two hours of walking and a proper lunch we reach Matsumoto by mid-afternoon. Nothing here needs rushing, and dinner is deliberately at 19:30."
+    body: "Gujō to the gorge is 1h30 and the gorge to Matsumoto is 1h36, so even with two hours of walking and a proper lunch we reach Matsumoto by mid-afternoon. Nothing here needs rushing, and dinner is not until 20:00."
   },
   {
     id: "n-atera-saturday", kind: "timing", day: "d10",
@@ -248,13 +248,13 @@ export const notes = [
   /* ---------------- 12 Oct · Matsumoto ---------------- */
   {
     id: "n-matsumoto-book", kind: "food", day: "d10", lead: true,
-    title: "Book the dinners through Jujo",
-    body: "Jujo is a ryokan and its staff routinely book the good restaurants in town, including ones that take no online reservations. Email them with all three evenings. Then TableCheck or the restaurant's own site, then Tabelog filtered by area and open-on-date, then the phone — which Jujo will also dial for you. For the 10th ask explicitly for 19:30–20:00: we arrive around 17:00–18:00 after three hours of walking and three of driving, and want a shower first."
+    title: "Two dinners booked, the 12th still open",
+    body: "MINATO on the 10th and PIZZA MATSURI on the 11th, both at 20:00 and both near Matsumoto station. Jujo is in Asama Onsen, about twenty minutes away by taxi or the Asama Onsen bus, so leave the car: Japan's drink-driving rules are strict. For the 12th, Jujo's staff routinely book restaurants in town, including ones that take no online reservations — worth asking them, because the festival and the holiday fill the town that night."
   },
   {
     id: "n-matsumoto-evenings", kind: "food", day: "d11",
     title: "What each evening wants to be",
-    body: "The 11th is the special one — Shinshu beef as yakiniku or steak, or a light kaiseki — and it is the hardest to get, so book it first. The 12th wants good soba, which Matsumoto is known for, or an izakaya doing Shinshu plates: basashi, mountain vegetables, local sake. Some soba places close in the afternoon or at weekends, so confirm the evening specifically."
+    body: "The 10th is teppan at MINATO and the 11th is pizza at PIZZA MATSURI. The 12th wants good soba, which Matsumoto is known for, or an izakaya doing Shinshu plates: basashi, mountain vegetables, local sake. Some soba places close in the afternoon or at weekends, so confirm the evening specifically."
   },
   {
     id: "n-sportsday", kind: "warning", day: "d12", lead: true,

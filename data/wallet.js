@@ -219,6 +219,32 @@ export const wallet = [
     ]
   },
   {
+    id: "w-minato", kind: "meal", title: "MINATO · Matsumoto",
+    where: "長野県松本市中央2-5-28",
+    from: "2026-10-10T20:00:00+09:00",
+    detail: "20:00 · 2 guests · 2-hour table",
+    ref: null, refPrivate: true, status: "confirmed",
+    price: "Seats only — we order on the night",
+    notes: [
+      "Tel 0263-32-2939.",
+      "Booked through Hot Pepper. Changes and cancellations go through its My Page until midnight at the start of 10 Oct; after that, phone the restaurant.",
+      "For Noa: skip the pork ginger steak and the tonpeiyaki, and ask about the okonomiyaki. The chicken, beef and seafood are fine."
+    ]
+  },
+  {
+    id: "w-pizzamatsuri", kind: "meal", title: "PIZZA MATSURI · Matsumoto",
+    where: "長野県松本市中央1-5-2",
+    from: "2026-10-11T20:00:00+09:00",
+    detail: "20:00 · 2 guests",
+    ref: null, refPrivate: true, status: "confirmed",
+    price: "We order on the night",
+    notes: [
+      "Tel 0263-50-7363 — changes and cancellations are by phone.",
+      "Two minutes from Matsumoto Station's castle exit. Last orders 21:30.",
+      "For Noa: the margherita is safe and the prosciutto pizza is not. Ask about the others."
+    ]
+  },
+  {
     id: "w-t", kind: "meal", title: "T · Nakameguro",
     where: "東京都目黒区上目黒2-37-12 コンフォート中目黒 1F",
     from: "2026-10-19T20:30:00+09:00",
@@ -230,7 +256,6 @@ export const wallet = [
       "It is a set course, so it is worth telling them one guest does not eat pork."
     ]
   }
-
 ];
 
 export const walletById = Object.fromEntries(wallet.map(w => [w.id, w]));
