@@ -192,15 +192,15 @@ export const days = [
       { t: { k: "approx", v: "11:45" }, name: "Lunch in the Kiso valley", detail: "Forespa Kiso is right at the gorge mouth and does a soba set with gohei mochi. Further north there is Shokudō Nakamura in Agematsu for gohei mochi, or Kurumaya on Route 19 at Kiso-Fukushima for proper soba.", saved: "p-forespa" },
       { t: { k: "approx", v: "13:45" }, name: "Narai-juku, if we feel like it", detail: "Optional. It is on the road north and costs about two minutes of driving, so this is purely about appetite. Forty-five minutes to an hour.", saved: "p-narai", opt: 1 },
       { t: { k: "approx", v: "15:40" }, name: "Matsumoto Jujo", detail: "About 14:45 if we skip Narai. Check in, shower, breathe.", wallet: "w-jujo" },
-      { t: { k: "approx", v: "19:30" }, name: "Dinner in Matsumoto", detail: "Booked for 19:30–20:00 deliberately, so the afternoon never has to hurry." }
+      { t: { k: "exact", v: "20:00" }, name: "Dinner · MINATO", detail: "Booked, two-hour table. A teppan bar near Matsumoto station, about twenty minutes from Jujo by taxi — leave the car, we will be drinking. For Noa, skip the pork ginger steak and the tonpeiyaki.", saved: "p-minato" }
     ],
     alts: [
       { title: "The Nakasendō walk, if we change our minds", when: "The old plan for this day", body: "Magome to Tsumago is about 9 km and three hours, and Magome to Tsumago is the easier direction — 600 m up to the 790 m pass, then down to 420 m. Park at Magome and take the bus back to the car, which makes the last bus of the day the thing that matters, not the first. Almost no food on the trail. It is a heritage walking day rather than a nature one, which is why it came off." },
       { title: "If the gorge is wet or the water is high", when: "After heavy rain", body: "Granite goes slippery and the pools stop being inviting. Shorten the walk to the first stretch, eat properly, and put the time into Narai instead — it is covered ground and works in weather." },
       { title: "If Atera runs long", when: "The good problem", body: "Drop Narai and go straight to Matsumoto. There is roughly two hours of slack in this day, so the gorge can overrun without anything breaking." }
     ],
-    logistics: ["w-corolla", "w-fairfield", "w-jujo"],
-    saved: ["p-atera", "p-forespa", "p-nakamura", "p-kurumaya", "p-narai", "p-nakamachi"]
+    logistics: ["w-corolla", "w-fairfield", "w-jujo", "w-minato"],
+    saved: ["p-minato", "p-atera", "p-forespa", "p-nakamura", "p-kurumaya", "p-narai", "p-nakamachi"]
   },
 
   {
@@ -214,7 +214,8 @@ export const days = [
     },
     plan: [
       { t: { k: "part", v: "morning" }, name: "Sawando car park", detail: "Private cars cannot go in. The shuttle is turn-up-and-board.", place: "Sawando parking Kamikochi" },
-      { t: { k: "seq" }, name: "Taishō-ike → Kappa-bashi", detail: "The valley floor walk, flat and slow." }
+      { t: { k: "seq" }, name: "Taishō-ike → Kappa-bashi", detail: "The valley floor walk, flat and slow." },
+      { t: { k: "exact", v: "20:00" }, name: "Dinner · PIZZA MATSURI", detail: "Booked. Neapolitan pizza two minutes from Matsumoto station — a taxi from Jujo, about twenty minutes. For Noa, the margherita is safe and the prosciutto one is not.", saved: "p-pizzamatsuri" }
     ],
     alts: [
       { title: "Senjōjiki Cirque", when: "If Kamikōchi looks crowded or closed", body: "Park at Suganodai (¥500/day), 40 minutes by bus, 8 minutes of ropeway to 2,612 m. A flat loop at the top means you decide up there whether to climb Kisokoma. Expect hour-plus ropeway queues in peak colour, and snow can start mid-October." },
@@ -223,8 +224,8 @@ export const days = [
       { title: "Tsubame Onsen and Myōkō", when: "Only on a clear day that is not the 12th", body: "Two free outdoor baths, Kawara-no-yu and Ōgon-no-yu, about fifteen minutes' walk above the village at 1,100 m, open sunrise to sunset and closed Mondays. But it is 1h40–2h each way, so four hours in the car, and the colour at Myōkō is only starting in mid-October. Leave 08:00, be there 10:00, back by 17:00. Food up there is thin — plan lunch at Myōkō Kōgen or carry it. Imori Pond, a 500 m loop with Myōkō reflected in it, and Naena Falls are the backup if the baths are shut or full." },
       { title: "Norikura", when: "Probably not, on these dates", body: "Tatamidaira is above 2,700 m, private cars are banned so it is park-and-ride from Norikura Kōgen or Suzuran, and first snow is possible. High effort, very weather-dependent." }
     ],
-    logistics: ["w-corolla", "w-jujo"],
-    saved: ["p-tsubame"]
+    logistics: ["w-corolla", "w-jujo", "w-pizzamatsuri"],
+    saved: ["p-pizzamatsuri", "p-tsubame"]
   },
 
   {
