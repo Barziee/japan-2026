@@ -97,7 +97,7 @@ export function renderWalletItem(id) {
     html: `
       <div class="screen">
         <div style="padding-bottom:var(--s3)">
-          <div class="tiny muted">${esc(w.kind === "stay" ? "Accommodation" : w.kind === "car" ? "Car rental" : w.kind === "flight" ? "Flight" : w.kind === "meal" ? "Restaurant booking" : "Logistics")}</div>
+          <div class="tiny muted">${esc(w.kind === "stay" ? "Accommodation" : w.kind === "car" ? "Car rental" : w.kind === "flight" ? "Flight" : w.kind === "meal" ? "Restaurant booking" : w.kind === "train" ? "Train booking" : "Logistics")}</div>
           <h1 class="display" style="font-size:34px;margin-top:6px">${esc(w.title)}</h1>
         </div>
 

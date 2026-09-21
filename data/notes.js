@@ -35,8 +35,8 @@ export const notes = [
   },
   {
     id: "n-firstnight", kind: "timing", day: "d04", lead: true,
-    title: "Keep the first evening light",
-    body: "Dinner is booked at TORA鶏YA at 19:30, a short walk from the hotel, with a two-hour table and Hōzenji next door. After a fourteen-hour door-to-door day that is the right size of evening."
+    title: "The evening runs on one closing time",
+    body: "maren shuts its lunch at 15:00 on a Sunday and reopens at 17:00 until 22:00, so we eat at the reopening and walk in ahead of the queue. The clock that matters is grenier's: it closes at 19:00, twenty minutes down the river. If we would rather not watch it, do grenier first at about 16:45 and eat the pastry on the walk over. Nothing today is booked."
   },
 
   /* ---------------- 5 Oct · the neighbourhoods ---------------- */
@@ -87,7 +87,7 @@ export const notes = [
   {
     id: "n-luggage", kind: "warning", day: "d07",
     title: "Suitcases travel without us",
-    body: "Forwarded from Meander to MIRU on 5–6 Oct. Confirm MIRU will receive and store them before sending. On the 7th we carry cabin trolleys only."
+    body: "Forwarded from Meander to MIRU on the morning of 6 Oct, arriving on the 7th. That day we carry cabin trolleys only."
   },
   {
     id: "n-kibune-season", kind: "timing", day: "d07",
@@ -112,8 +112,8 @@ export const notes = [
 
   {
     id: "n-arrival-noplan", kind: "route", day: "d04",
-    title: "Everything today is on foot",
-    body: "Dōtonbori is a few minutes from the hotel and Shinsaibashi about a kilometre further, so nothing today needs a train, and the only booking is dinner. Yodobashi Camera has no store in Namba — it is in Umeda, so it is on tomorrow's route. Bic Camera is its Namba rival if we want electronics today."
+    title: "Two short rides, nothing booked",
+    body: "Midosuji up to Umeda for maren, and back from Yodoyabashi after grenier. The rest is on foot: Dōtonbori is a few minutes from the hotel and Shinsaibashi about a kilometre further. Yodobashi Camera has no store in Namba — it is in Umeda, so it is on tomorrow's route. Bic Camera is its Namba rival if we want electronics today."
   },
 
   /* ---------------- 8 Oct · East Kyoto ---------------- */
@@ -140,7 +140,7 @@ export const notes = [
   {
     id: "n-hinode", kind: "food", day: "d08", lead: true,
     title: "Hinode Udon is cash only, no bookings",
-    body: "Nanzenji Kitanobōchō 36. Arrive a little before it opens. The whole shape of this day is built around getting there at the right time, so check its hours and closing days before relying on it."
+    body: "Nanzenji Kitanobōchō 36. Open 11:00–15:00 and closed on Sundays, so our Thursday is fine. Arrive a little before it opens — the whole shape of this day is built around getting there at the right time."
   },
   {
     id: "n-gyojabashi", kind: "route", day: "d08",
@@ -157,75 +157,35 @@ export const notes = [
   {
     id: "n-car-pickup", kind: "transport", day: "d09", lead: true,
     title: "Car between 09:00 and 09:30, on the road by 09:45",
-    body: "Toyota Rent a Car, Sanjo Keihan-Kita, 11-2 Magohashichō, Sakyō-ku. Paperwork, the ETC card and loading the boot all take time, so plan the day from 09:45 rather than from the booking slot. Kyoto to Seki is 147.5 km and 2h14, which puts us at the Cutlery Hall around noon."
+    body: "Toyota Rent a Car, Sanjo Keihan-Kita, 11-2 Magohashichō, Sakyō-ku. Paperwork, the ETC card and loading the boot all take time, so plan the day from 09:45 rather than from the booking slot. Ōhara, the bridge and Ōmi-Hachiman, then on to Gujō, add up to about three and a half hours of driving, so the stops are what fill the day."
   },
   {
-    id: "n-mino-free", kind: "route", day: "d09", lead: true,
-    title: "Mino costs one kilometre and three minutes",
-    body: "Via Mino the day is 185.0 km and 2h47; straight past it, 184.0 km and 2h44. It sits directly on the Seki-to-Gujō line, so this is never a routing decision — it is only whether we would rather spend 75 minutes there or 75 more minutes in Gujō."
-  },
-  {
-    id: "n-mino-lunch", kind: "food", day: "d09",
-    title: "Where to eat in Mino, and what to avoid",
-    body: "Yamamizu Honten is the proper option — a Taishō-era udon and teishoku place with its own parking, 11:00–14:30, closed Wednesdays, so open on our Friday. HAPPA STAND is the lighter version, tea in a renovated machiya, 8:00–15:00. Do not aim for みのカフェ makana: it closes on Fridays, which is the day we are there."
-  },
-  {
-    id: "n-seki", kind: "culture", day: "d09", lead: true,
+    id: "n-seki", kind: "culture", day: "d10", lead: true,
     title: "Seki is the knife stop",
     body: "Seven centuries of blade-making, and it is directly on the route. The second and last knife opportunity after Tower Knives in Osaka."
   },
 
   {
-    id: "n-seki-hall", kind: "culture", day: "d09",
+    id: "n-seki-hall", kind: "culture", day: "d10",
     title: "Cutlery Hall, not the sword museum",
-    body: "岐阜関刃物会館 is open 9:00–17:00, closed only over New Year, with about 100 parking spaces. It is a direct sales hall carrying the Seki factories' output — right if the point is to buy. The sword museum next door only runs forging demonstrations on set dates, usually the first Sunday, so a Friday is unlikely to have one."
+    body: "岐阜関刃物会館 is open 9:00–17:00, closed only over New Year, with about 100 parking spaces. It is a direct sales hall carrying the Seki factories' output — right if the point is to buy. The sword museum next door only runs forging demonstrations on set dates, usually the first Sunday, so our Saturday is unlikely to have one."
   },
   {
     id: "n-gujo-light", kind: "timing", day: "d09", lead: true,
-    title: "Either way there is real daylight in Gujō",
-    body: "Sunset is around 17:20. Stopping in Mino puts us in Gujō about 14:40, which still leaves two and a half hours; going straight there lands about 13:20 and gives nearly four. If anything runs long, Mino is the thing to drop — daylight in Gujō is what the early start was for."
+    title: "Gujō in the last of the light, and again in the morning",
+    body: "We reach Gujō Hachiman around 16:30, about an hour before the 17:26 sunset — enough for the water lanes in daylight, and dinner. The proper wander is tomorrow morning, before Seki and the drive to Matsumoto."
   },
   {
-    id: "n-gujo-known", kind: "route", day: "d09",
+    id: "n-gujo-known", kind: "route", day: "d10",
     title: "We have been here before",
     body: "So there is no checklist. Canals, the water lanes, the streets above the river, coffee if we want it. The castle only if it happens to fit, and Monet's pond stays off — it costs daylight in the town we actually came for."
   },
 
   /* ---------------- 10 Oct · Atera Gorge ---------------- */
   {
-    id: "n-atera-cars", kind: "parking", day: "d10", lead: true,
-    title: "Private cars are allowed in on 10 October",
-    body: "Ōkuwa village restricts vehicles between the gorge entrance and the campground in high summer. For 2026 that ran 18 July to 6 September, plus 12–13 September and 19–23 September. Our date sits well outside all of it, so we drive in and park at Akahiko rather than paying ¥1,000 and taking the shuttle. The village publishes this each year, so confirm it nearer the time."
-  },
-  {
-    id: "n-atera-walk", kind: "route", day: "d10", lead: true,
-    title: "Park at Akahiko and walk from there",
-    body: "From the Akahiko monument car park it is about 15 minutes to Tanuki-ga-fuchi and around 30 to Unarijima, with the Nakahatchō suspension bridge looking back down the valley. Turning around there makes a comfortable two hours with real time by the water. Kumaga-fuchi and Ushiga-fuchi are further up the car road — reachable, but they mean driving deeper into the forest for diminishing returns."
-  },
-  {
-    id: "n-atera-water", kind: "warning", day: "d10", lead: true,
-    title: "Feet in, maybe. Do not assume it is swimmable",
-    body: "This is a mountain stream in October and it will be cold. Wet granite is slippery, and pools that look still can be moving underneath. Check recent rainfall, the water level and any local advisory on the day, keep to shallow edges, and stay out of anything deep or fast. Treat a dip as a bonus that might not happen."
-  },
-  {
-    id: "n-atera-timing", kind: "timing", day: "d10",
-    title: "There are about two hours of slack in this day",
-    body: "Gujō to the gorge is 1h30 and the gorge to Matsumoto is 1h36, so even with two hours of walking and a proper lunch we reach Matsumoto by mid-afternoon. Nothing here needs rushing, and dinner is not until 20:00."
-  },
-  {
-    id: "n-atera-saturday", kind: "timing", day: "d10",
-    title: "A Saturday, and the start of a long weekend",
-    body: "Sports Day falls on the Monday, so the 10th is the front of a three-day weekend. The colour at Atera peaks later in October, which should keep the crowd down, but arriving around 09:00 is still the difference between having the water to ourselves and sharing it."
-  },
-  {
     id: "n-takayama", kind: "route", day: "d10",
-    title: "This route already avoids Takayama",
-    body: "The festival is on 9–10 Oct and the old fast line to Matsumoto passed 400 m from the centre. Gujō to Atera on Routes 256 and 257 stays 40 km clear of it, so the problem solves itself."
-  },
-  {
-    id: "n-narai-cheap", kind: "route", day: "d10",
-    title: "Narai costs two minutes",
-    body: "Going Gujō–Atera–Narai–Matsumoto is 198.4 km against 198.1 direct, because Narai sits on the road north anyway. So it is never a driving decision — only whether we want another hour on our feet after the gorge."
+    title: "Via Seki and the expressway, well clear of Takayama",
+    body: "The Takayama festival runs 9–10 Oct, and the northern road to Matsumoto, Routes 472 and 158, passes about 250 m from its centre. The route south past Seki and up the Chūō Expressway is the one Google rates fastest anyway — 3h09 on its own, 3h29 with the Seki stop — and it stays far from Takayama."
   },
 
   /* ---------------- 11 Oct · the big nature day ---------------- */
@@ -275,13 +235,13 @@ export const notes = [
   /* ---------------- 13 Oct · to Gotemba ---------------- */
   {
     id: "n-carswap", kind: "warning", day: "d13", lead: true,
-    title: "The car swap is booked for 14:30 and this route lands at 16:15",
-    body: "Both rentals are timed to 14:30 at Gotemba — the Corolla back and the GR Yaris out. Going via the western lakes gets us there closer to 16:15, so something has to give. Moving both bookings to about 16:30 is one phone call; the alternative is dropping Tanuki and cutting Shiraito short, which takes the point out of the day. Sort it well before the 13th, not on the morning."
+    title: "We will be late for the 14:30 car swap",
+    body: "Both rentals are timed to 14:30 at Gotemba — the Corolla back and the GR Yaris out — and the western-lakes route lands closer to 16:15. The plan is to tell the Gotemba shop (0550-81-0100) we will be one to two hours late. It is the same shop and the same appointment for both cars."
   },
   {
     id: "n-carswap-order", kind: "transport", day: "d13",
-    title: "Three jobs in one stop",
-    body: "Bags into edit×seven first, then the Corolla back, then the Yaris out. Doing it in that order means never carrying luggage that does not fit the car we are picking up."
+    title: "The car swap is one visit",
+    body: "The Corolla goes back and the GR Yaris comes out at the same Gotemba shop. The suitcases fit in the Yaris using the back seats."
   },
   {
     id: "n-d13-route", kind: "route", day: "d13", lead: true,
@@ -302,11 +262,6 @@ export const notes = [
     id: "n-d13-kawaguchiko", kind: "route", day: "d13",
     title: "West of the mountain, not east",
     body: "Kawaguchiko is deliberately not on this route. The western lakes flow naturally into Asagiri and Shiraito; going east would add distance and put us in the busiest part of the Five Lakes for no gain."
-  },
-  {
-    id: "n-yaris-boot", kind: "warning", day: "d13",
-    title: "The suitcases do not fit the Yaris",
-    body: "They stay at the hotel for the two Fuji days, which is why the bags go into edit×seven before the swap rather than after."
   },
 
   /* ---------------- 14 Oct · west Izu ---------------- */
@@ -354,14 +309,14 @@ export const notes = [
   {
     id: "n-fuji-parking", kind: "parking", dest: "fuji",
     title: "The good viewpoints have paid car parks that fill",
-    body: "Ōishi Park, Oshino and Panorama-dai all fill on a fine morning and at weekends. Early or not at all. Hotel parking at edit×seven still needs confirming."
+    body: "Ōishi Park, Oshino and Panorama-dai all fill on a fine morning and at weekends. Early or not at all. Parking at edit×seven itself is free."
   },
 
   /* ---------------- 15 Oct · to Tokyo ---------------- */
   {
     id: "n-yaris-return", kind: "transport", day: "d15", lead: true,
-    title: "Yaris back at 14:30, tank full of high-octane",
-    body: "One last eastern viewpoint in the morning if the mountain is showing. Gotemba to Tokyo is about 1:30–1:45."
+    title: "Yaris back by about 12:00, tank full of high-octane",
+    body: "One last eastern viewpoint in the morning if the mountain is showing. The train leaves Gotemba at 12:48 and the Toyota shop is at the station, so the car goes back two to three hours ahead of its 14:30 booking."
   },
 
   /* ---------------- Tokyo ---------------- */
