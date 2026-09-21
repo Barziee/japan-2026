@@ -12,8 +12,8 @@ export const lists = [
       {
         title: "Documents",
         items: [
-          { id: "c-idp", name: "International driving permit · issued 2026", note: "Must be the 1949 Geneva booklet. Without it there is no car." },
-          { id: "c-vjw", name: "Visit Japan Web", note: "Two profiles. Save both QR codes offline." },
+          { id: "c-idp", name: "International driving permit · issued 2026", note: "Must be the 1949 Geneva booklet. Without it there is no car.", done: true },
+          { id: "c-vjw", name: "Visit Japan Web", note: "Two profiles. Save both QR codes offline.", done: true },
           { id: "c-passports", name: "Passports valid 6+ months", note: "", done: true },
           { id: "c-insurance", name: "Travel insurance", note: "Cover delays and driving." }
         ]
@@ -32,7 +32,7 @@ export const lists = [
         title: "Packing",
         items: [
           { id: "c-layers", name: "Layers for 7–23°", note: "We land in 24° and stand at 2,000 m within ten days." },
-          { id: "c-shoes", name: "Real walking shoes", note: "The Nakasendō is about 9 km, and Kurama is a mountain path." },
+          { id: "c-shoes", name: "Real walking shoes", note: "Kurama is a mountain path, and Atera and Kamikōchi are hours on foot." },
           { id: "c-adapters", name: "Two or three Type A adapters", note: "Plus a USB splitter." },
           { id: "c-meds", name: "Stomach medicine", note: "Loperamide, anti-nausea, probiotics." }
         ]
@@ -69,9 +69,7 @@ export const CLIMATE_NOTE = "October average · climate, not forecast";
 
 /* Days whose shape is decided on the forecast the night before. */
 export const weatherDays = [
-  { day: "d06", title: "Minoh, or swap it", options: "Minoh as planned · swap with the city day if Tuesday is wet" },
-  { day: "d10", title: "Atera Gorge", options: "The full gorge walk · after heavy rain, a short walk and Narai instead" },
-  { day: "d11", title: "The nature day", options: "Kamikōchi · Senjōjiki · Utsukushigahara · Azumino" },
+  { day: "d11", title: "The nature day", options: "Kamikōchi · Atera Gorge · Senjōjiki · Utsukushigahara · Azumino" },
   { day: "d14", title: "The Fuji day", options: "West Izu road trip · lakes · Hakone" }
 ];
 

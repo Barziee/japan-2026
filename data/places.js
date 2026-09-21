@@ -79,10 +79,10 @@ export const places = [
     note: "Beef-bone broth instead of pork, so it is the safe ramen for Noa. Small counter, ticket machine."
   },
   {
-    id: "p-maren", name: "MAREN", ja: "心斎橋", kind: "Ramen · chicken", cat: "food",
-    area: "osaka", where: "Shinsaibashi",
-    maps: "MAREN 心斎橋",
-    note: "Chicken ramen — the second option for Noa after Gyukotsuo. Confirm the chāshū is not pork either."
+    id: "p-maren", name: "maren", ja: "maren 北新地本店", kind: "Ramen · chicken soy sauce", cat: "food",
+    area: "osaka", where: "Kitashinchi", pin: true,
+    maps: "maren 北新地本店",
+    note: "The main branch, in Dōjima — the one we want, not the Shinsaibashi one. Soy-sauce ramen from a washoku chef, built on jidori chicken; the 特製 special version of the chicken soy-sauce ramen is ¥1,550 and the one they push. No reservations, twelve counter seats. Sundays 11:00–15:00 and 17:00–22:00; the rest of the week the evening runs to 05:00. Four minutes from JR Kitashinchi, five from Nishi-Umeda. The broth is chicken, but the five-kinds-of-chāshū mazesoba may not be, so ask for Noa."
   },
   {
     id: "p-gorichan", name: "Onigiri Gorichan", ja: "おにぎりごりちゃん", kind: "Onigiri", cat: "food",
@@ -243,7 +243,7 @@ export const places = [
     id: "p-gujoshokudo", name: "Gujō Hachiman Old Town Hall canteen", ja: "郡上八幡旧庁舎食堂", kind: "Keichan · local set meals", cat: "food",
     area: "gujo", where: "Jōkamachi Plaza, Gujō",
     maps: "郡上八幡旧庁舎食堂",
-    note: "Lunch candidate if we skip Mino. Keichan — chicken fried in miso — is the Gujō dish, and the set is about ¥1,080. Open 10:00–16:00 with parking, right in the middle of town, no booking."
+    note: "Lunch candidate for the Gujō morning on the 10th. Keichan — chicken fried in miso — is the Gujō dish, and the set is about ¥1,080. Open 10:00–16:00 with parking, right in the middle of town, no booking."
   },
   {
     id: "p-izumizaka", name: "Izumizaka", ja: "鉄板料理 泉坂", kind: "Hōba miso on the griddle", cat: "food",
@@ -275,13 +275,13 @@ export const places = [
     id: "p-atera", name: "Atera Gorge", ja: "阿寺渓谷", kind: "Emerald granite gorge", cat: "nature",
     area: "matsumoto", where: "Ōkuwa, Kiso", pin: true,
     maps: "阿寺渓谷",
-    note: "Turquoise water over white granite under cypress forest, about 15 km of valley. Park at the Akahiko monument car park and walk from there — the trail out to Unarijima and the Nakahatchō suspension bridge is the best of it. Private cars are restricted between the entrance and the campground in high summer, but not in October."
+    note: "Turquoise water over white granite under cypress forest, about 15 km of valley. Park at the Akahiko monument car park and walk from there — the trail out to Unarijima and the Nakahatchō suspension bridge is the best of it. Private cars are restricted between the entrance and the campground in high summer, but not in October. About two hours there and back on foot from the car park, and an hour and forty minutes each way from Jujo, so it is a day-trip option for the 11th or 12th."
   },
   {
     id: "p-forespa", name: "Forespa Kiso canteen", ja: "フォレスパ木曽", kind: "Soba set with gohei mochi", cat: "food",
     area: "matsumoto", where: "Ōkuwa, by the gorge",
     maps: "フォレスパ木曽 阿寺荘",
-    note: "Lunch candidate, and the closest one to Atera — it sits at the mouth of the gorge. Soba teishoku that comes with gohei mochi. 10:00–14:00, closed Wednesdays, so open on our Saturday."
+    note: "Lunch candidate, and the closest one to Atera — it sits at the mouth of the gorge. Soba teishoku that comes with gohei mochi. 10:00–14:00, closed Wednesdays, so open on the 11th and 12th."
   },
   {
     id: "p-nakamura", name: "Shokudō Nakamura", ja: "食堂中村", kind: "Gohei mochi", cat: "food",
@@ -481,7 +481,7 @@ export const places = [
     id: "p-sekihall", name: "Gifu Seki Cutlery Hall", ja: "岐阜関刃物会館", kind: "Knives", cat: "shopping",
     area: null, where: "Seki, Gifu", pin: true,
     maps: "岐阜関刃物会館",
-    note: "関市平和通4-12-6, inside the Sekiterrace complex. Open 9:00–17:00 and closed only over New Year, so it is open on the 9th. Around 100 parking spaces. Worth 45–60 minutes — it is a direct sales hall with the output of the Seki factories rather than a museum. (The sword museum next door only runs forging demonstrations on set dates, usually the first Sunday, so not on a Friday.) Tel 0575-22-4941."
+    note: "関市平和通4-12-6, inside the Sekiterrace complex. Open 9:00–17:00 and closed only over New Year, so it is open on the 10th. Around 100 parking spaces. Worth 45–60 minutes — it is a direct sales hall with the output of the Seki factories rather than a museum. (The sword museum next door only runs forging demonstrations on set dates, usually the first Sunday, so not on our Saturday.) Tel 0575-22-4941."
   },
   {
     id: "p-metasequoia", name: "Avenue of Metasequoias", ja: "メタセコイア並木", kind: "Tree avenue", cat: "nature",
@@ -490,10 +490,10 @@ export const places = [
     note: "Need to go on a drive in this area."
   },
   {
-    id: "p-lacollina", name: "La Collina Ōmi-Hachiman", kind: "Bakery park", cat: "do",
-    area: null, where: "Ōmi-Hachiman, Shiga",
+    id: "p-lacollina", name: "La Collina Ōmi-Hachiman", ja: "ラ コリーナ近江八幡", kind: "Bakery park", cat: "do",
+    area: null, where: "Ōmi-Hachiman, Shiga", pin: true,
     maps: "ラ コリーナ近江八幡",
-    note: "Weird looking garden, park and food garage. Odd place, worth a look."
+    note: "Weird looking garden, park and food garage. Odd place, worth a look. It is Taneya's confectionery village under a grass-covered roof, open daily 9:00–18:00: café last orders 17:00, food court 10:00–17:00, and the bakery from 11:00 until it sells out. 650 parking spaces. Lunch stop on 9 Oct."
   },
   {
     id: "p-kuromon", name: "Kuromon Ichiba Market", ja: "黒門市場",
@@ -538,13 +538,6 @@ export const places = [
     note: "A local favourite, with his own caveat: it sits closer to Hommachi than Namba, though never more than about 20 minutes away. It pairs with coffee we have already saved, since grenier and Brooklyn Roasting are both in Kitahama, directly across the water."
   },
   {
-    id: "p-donki-dotonbori", name: "Don Quijote Dotonbori", ja: "ドン・キホーテ道頓堀店",
-    kind: "24-hour discount store", cat: "shopping",
-    area: "osaka", where: "Dotonbori",
-    maps: "ドン・キホーテ道頓堀店",
-    note: "The sharpest tip in the local's whole message: this branch trades 24 hours, so go late and miss the daytime crush entirely. It is the one with the yellow ferris wheel on the front, the same short walk from Meander as Hozenji."
-  },
-  {
     id: "p-yodobashi", name: "Yodobashi Umeda", ja: "ヨドバシカメラ マルチメディア梅田", kind: "Electronics megastore", cat: "shopping",
     area: "osaka", where: "Umeda",
     maps: "ヨドバシカメラ マルチメディア梅田",
@@ -576,9 +569,9 @@ export const places = [
   },
   {
     id: "p-toratoriya", name: "TORA鶏YA", ja: "炭火焼鳥と一口餃子 TORA鶏YA 難波千日前店", kind: "Yakitori · one-bite gyoza", cat: "food",
-    area: "osaka", where: "Sennichimae", pin: true,
+    area: "osaka", where: "Sennichimae",
     maps: "炭火焼鳥と一口餃子 TORA鶏YA 難波千日前店",
-    note: "Booked for 4 Oct at 19:30. Chicken grilled over binchotan and served off the skewer. The one-bite gyoza do not list their filling, so ask before ordering them for Noa."
+    note: "The 4 Oct booking was cancelled in favour of maren. Still an option two minutes from the hotel: chicken grilled over binchotan and served off the skewer. The one-bite gyoza do not list their filling, so ask before ordering them for Noa."
   },
   {
     id: "p-kibitaki", name: "Kibitaki Bettei", ja: "YAKITORI KIBITAKI 別邸", kind: "Yakitori · chef's 7 skewers", cat: "food",
@@ -599,7 +592,31 @@ export const places = [
     maps: "PIZZA MATSURI MATSUMOTO 松本",
     note: "Booked for 11 Oct at 20:00. Neapolitan pizza on dough fermented for more than a day, opened in March 2026, with Shiojiri wine as well as Italian. For Noa, the margherita is safe and the prosciutto one is not. 17:30–22:00, closed Tuesdays."
   }
-
+,
+  {
+    id: "p-hachimanbori", name: "Hachiman-bori", ja: "八幡堀", kind: "Old merchant canal", cat: "do",
+    area: null, where: "Ōmi-Hachiman",
+    maps: "八幡堀",
+    note: "The old merchant canal through Ōmi-Hachiman, lined with storehouses and willows, with benches along the water. Four minutes from La Collina."
+  },
+  {
+    id: "p-ninosuke", name: "Ninosuke Coffee", ja: "仁之助コーヒー", kind: "Siphon coffee", cat: "coffee",
+    area: null, where: "Ōmi-Hachiman",
+    maps: "仁之助コーヒー 近江八幡",
+    note: "Just off the Hachiman-bori in a renovated old townhouse — siphon coffee, toast and sweets. 10:00–18:00, closed Tuesdays and the second Wednesday, so open on our Friday."
+  },
+  {
+    id: "p-ichika", name: "Ibushi-dori Ichika", ja: "いぶし鳥 一香", kind: "Smoked-chicken yakitori", cat: "food",
+    area: "kyoto", where: "Near Kyoto City Hall", pin: true,
+    maps: "いぶし鳥 一香 京都",
+    note: "Booked for 7 Oct, time to confirm. Whole domestic chicken smoked over cherry wood, in a machiya with an open kitchen; the rice is Tanba Koshihikari cooked in a hagama pot. Dinner 17:00–22:00, food last orders 21:00, closed on irregular days. No table charge. For Noa: all chicken, nothing listed as pork — ask about the wontons and the ground-meat omelette."
+  },
+  {
+    id: "p-bigoli", name: "BIGOLI", ja: "BIGOLI 京都本店", kind: "Bolognese · wine bar at night", cat: "food",
+    area: "kyoto", where: "Shijō-Karasuma", pin: true,
+    maps: "BIGOLI 京都本店",
+    note: "Booked for 8 Oct at 20:00. A bolognese-only pasta specialist on thick bigoli noodles, open 11:00–22:30. At night it becomes a wine bar with about 100 wines at a flat rate by the half hour, and the food narrows to their pastas, prosciutto, cheese and nuts. For Noa: their own bolognese lists pork among its ingredients, so ask before ordering."
+  }
 ];
 
 export const CATEGORIES = [

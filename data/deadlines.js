@@ -31,8 +31,7 @@ export const deadlines = [
     id: "dl-final",
     on: "2026-09-28",
     title: "The week-before checks",
-    body: "Foliage forecast for Matsumoto and the Alps (JMA or tenki.jp). Whether the Utsukushigahara Skyline and the mountain roads are open. Typhoons. Visit Japan Web for both of us.",
-    also: "And verify Hinode Udon's hours and closing days, and Eikandō's opening time and price. The whole of 8 Oct is built on those two."
+    body: "Foliage forecast for Matsumoto and the Alps (JMA or tenki.jp). Whether the Utsukushigahara Skyline and the mountain roads are open. Typhoons."
   },
   {
     id: "dl-hikiniku-online",
@@ -50,7 +49,7 @@ export const inTrip = [
   { on: "2026-10-06", title: "Evening: confirm the Kibune plan", body: "Check the forecast for the 7th. Confirm bus 33's weekday October timetable, that the Demachiyanagi lockers are realistic, and that somewhere in Kibune will feed us on a Wednesday." },
   { on: "2026-10-07", title: "Evening: Hikiniku, line or not", body: "If there is still no booking, decide tonight whether to queue at Tatsumi-bashi tomorrow. Being there by about 07:15 is what gives a real shot at dinner, and it pushes Hōnen-in later. Same-day cancellations are posted on X at @hikinikutocomek." },
   { on: "2026-10-10", title: "Evening: pick the 11th", body: "Choose the day trip on the forecast, and confirm that evening's restaurant booking." },
-  { on: "2026-10-12", title: "Evening: plan the 13th afternoon", body: "Cloud cover for the first Fuji loop." },
+  { on: "2026-10-12", title: "Evening: plan the 13th afternoon", body: "Cloud cover for the first Fuji loop. If Toyota Gotemba does not know yet, tell them we will be one to two hours late for the 14:30 swap: 0550-81-0100." },
   { on: "2026-10-13", title: "Evening: decide the 14th", body: "West Izu is an evening-before decision, not a morning one — it starts at 08:30 and is locked to a 17:16 sunset. Check HODOHODO is open on Instagram, Izu road closures on 0558-76-5718, and the west-coast forecast. In fog there is no point going up to the pass: switch to Shuzenji or Hakone.", urgent: true },
   { on: "2026-10-14", title: "Evening: the last Fuji morning", body: "Cloud cover for the 15th, and arrange takkyubin to Tokyo if we are sending bags ahead." }
 ];

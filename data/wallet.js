@@ -16,8 +16,7 @@ export const wallet = [
     ref: null,
     status: "confirmed",
     notes: [
-      "Booked 4–8 originally; the request to shorten to 4–7 still needs confirming — this one is on us, not them.",
-      "Big suitcases get forwarded from here to MIRU Kyoto Gion on 5–6 Oct."
+      "Big suitcases get forwarded from here to MIRU Kyoto Gion on the morning of the 6th."
     ]
   },
   {
@@ -35,7 +34,7 @@ export const wallet = [
       "Two separate bookings: 7–8 Deluxe, 8–9 Superior. They will not merge them and will not hold the same room.",
       "They will move the luggage for us, but we check out and re-check in on the morning of 8 Oct — so pack on the evening of the 7th, not on the way out of the door.",
       "This is what sets the departure time for Hōnen-in at 07:30.",
-      "They are receiving our forwarded suitcases — but confirm it before anything is sent. They already said no once."
+      "They are receiving our forwarded suitcases."
     ]
   },
   {
@@ -61,7 +60,6 @@ export const wallet = [
     ref: null,
     status: "confirmed",
     price: "¥207,900",
-    alert: "Cancellation is only free until 18 Sep.",
     notes: [
       "Cancellation ladder from the hotel (15 Aug): from 19 Sep — 10% (¥20,790). From 4 Oct — 30% (¥62,370). From 7 Oct — 50% (¥103,950). From 9 Oct — 100% (¥207,900).",
       "The no-show percentage was not stated in what they sent. Probably 100%, but do not assume it.",
@@ -79,7 +77,7 @@ export const wallet = [
     detail: "2 nights",
     ref: null,
     status: "confirmed",
-    notes: ["Suitcases stay here on 14 Oct — the GR Yaris boot is small."]
+    notes: ["Free parking, about 50 spaces: a lot by the entrance and a multi-storey across the street."]
   },
   {
     id: "w-edmont",
@@ -91,7 +89,7 @@ export const wallet = [
     detail: "5 nights",
     ref: null,
     status: "confirmed",
-    notes: []
+    notes: ["Five minutes on foot from JR Iidabashi's east exit, two from Tokyo Metro exit A5."]
   },
 
   /* ---------- cars ---------- */
@@ -105,11 +103,9 @@ export const wallet = [
     detail: "Pick up Kyoto 09:30 · drop Gotemba 14:30",
     ref: null, refPrivate: true,
     status: "confirmed",
-    alert: "The 13 Oct return is booked for 14:30, but the western-lakes route reaches Gotemba around 16:15.",
     notes: [
       "Includes NOC and the collision waiver.",
-      "Kyoto → Gujō direct is 180.4 km / 2:40. Going via Seki is 185.3 km / 2:44 — the knife stop costs 4.9 km and five minutes of driving.",
-      "Ask Toyota to move the 13 Oct handover to around 16:30 — both the return and the Yaris pickup are the same appointment.",
+      "The 13 Oct return is booked for 14:30 and the western-lakes route reaches Gotemba around 16:15. Tell the Gotemba shop (0550-81-0100) we will be one to two hours late — the Yaris pickup is the same appointment.",
       "Check the ETC card is in the car before leaving the counter.",
       "Bring the 2026 IDP, the Israeli licence and the passport to the counter."
     ]
@@ -124,13 +120,12 @@ export const wallet = [
     detail: "Gotemba return trip · two days",
     ref: null, refPrivate: true,
     status: "confirmed",
-    alert: "Pickup is booked for 14:30 on 13 Oct; we now plan to arrive about 16:15.",
     notes: [
-      "Swap happens in one visit: bags to edit×seven first, then Corolla back, then Yaris out.",
-      "Small boot. Luggage stays at the hotel.",
-      "Takes high-octane fuel — fill before returning it.",
-      "Bring the IDP, the Israeli licence and the passport to this pickup too.",
-      "Confirm parking at edit×seven — it is still on the open list."
+      "Swap happens in one visit: Corolla back, Yaris out.",
+      "Small boot, but the suitcases fit using the back seats.",
+      "Takes high-octane fuel — fill before returning it.", "Returning around 12:00 on 15 Oct, ahead of the 14:30 booking, for the 12:48 train.",
+      "Pickup is booked for 14:30 on 13 Oct and we arrive around 16:15 — the same call to the Gotemba shop (0550-81-0100) covers it.", "Bring the IDP, the Israeli licence and the passport to this pickup too.",
+      "Parking at edit×seven is free."
     ]
   },
   {
@@ -138,10 +133,10 @@ export const wallet = [
     kind: "car",
     title: "ETC toll card",
     where: "With both rentals",
-    detail: "Confirm it ships with each car",
+    detail: "Booked with both rentals",
     ref: null,
-    status: "todo",
-    notes: ["Without it every expressway exit is a cash queue."]
+    status: "confirmed",
+    notes: ["Listed as an option on both Toyota confirmations.", "Check it is in the car before leaving the counter — without it every expressway exit is a cash queue."]
   },
 
   /* ---------- flights ---------- */
@@ -155,7 +150,7 @@ export const wallet = [
     detail: "Departs 3 Oct 15:00 · lands KIX 4 Oct 11:40",
     ref: null,
     status: "confirmed",
-    notes: ["Etihad. Flight numbers and seat details still need adding here."]
+    notes: ["Etihad. Flight numbers and seats are in the booking email, kept off this public site."]
   },
   {
     id: "w-home",
@@ -168,7 +163,7 @@ export const wallet = [
     status: "confirmed",
     notes: [
       "Knives travel in checked baggage, never carry-on.",
-      "Flight numbers still need adding here."
+      "Flight numbers are in the booking email, kept off this public site."
     ]
   },
 
@@ -184,24 +179,24 @@ export const wallet = [
     ref: null,
     status: "todo",
     notes: [
-      "Osaka to Kyoto is a next-day service, not same-day. Send on the 6th to arrive on the 7th; send on the 5th if we want a margin, but then MIRU hold it an extra night and that needs confirming too.",
+      "Osaka to Kyoto is a next-day service, not same-day. Send on the 6th to arrive on the 7th; send on the 5th if we want a margin, but then MIRU hold it an extra night.",
       "Roughly ¥1,500–2,000 per suitcase, from a convenience store or the Meander desk.",
-      "Confirm MIRU will receive and store it before sending anything.",
       "On 7 Oct we travel with cabin trolleys only — they go in a coin locker at Demachiyanagi.",
       "Optional second leg: forwarding bags from Jujo or Gotemba to the Edmont would take the strain out of the Gotemba→Tokyo train. It usually arrives next day, so plan a night without them."
     ]
   },
   {
-    id: "w-toratoriya", kind: "meal", title: "TORA鶏YA · Sennichimae",
-    where: "大阪府大阪市中央区難波3-4-14 岸田ビル 4F",
-    from: "2026-10-04T19:30:00+09:00",
-    detail: "19:30 · 2 guests · 2-hour table",
+    id: "w-romancecar", kind: "train", title: "Romancecar · Gotemba → Shinjuku",
+    where: "Gotemba Station",
+    from: "2026-10-15T12:48:00+09:00", to: "2026-10-15T14:25:00+09:00",
+    detail: "Mt. Fuji 4 · 12:48 → 14:25 · car 5, seats 6C and 6D",
     ref: null, refPrivate: true, status: "confirmed",
-    price: "Seats only · ¥420 + tax table charge each",
+    price: "¥3,120 for two — the limited-express charge only",
     notes: [
-      "Tel 06-4309-6311.",
-      "Food and drink are paid at the restaurant on the night.",
-      "The one-bite gyoza do not list their filling, and gyoza in Japan are usually pork — ask before ordering them for Noa."
+      "Ticketless: the purchase on the phone is the limited-express ticket.",
+      "Still needed: two paper basic-fare tickets, Gotemba to Odakyu Shinjuku, ¥1,310 each, from the JR ticket office or machine at Gotemba. IC cards do not work across the JR–Odakyu boundary.",
+      "This train has no luggage area. Suitcases go on the overhead racks, or on the floor in front of the seat if the row ahead does not recline.",
+      "Odakyu Sightseeing Service Center: +81-3-5909-0211, 8:00–16:00."
     ]
   },
   {
@@ -216,6 +211,32 @@ export const wallet = [
       "From 24 hours before, cancelling or changing costs the full course price.",
       "Sake is noted as our drink.",
       "All chicken from three local breeds, and nothing on the menu is pork."
+    ]
+  },
+  {
+    id: "w-ichika", kind: "meal", title: "Ibushi-dori Ichika · Kyoto",
+    where: "京都府京都市中京区山本町410",
+    from: "2026-10-07",
+    detail: "Time to confirm · 2 guests · seats only",
+    ref: null, refPrivate: true, status: "confirmed",
+    price: "Seats only — we order on the night; no table charge",
+    notes: [
+      "Tel 075-606-4364.",
+      "Four minutes from Kyoto Shiyakusho-mae station on the Tōzai line.",
+      "For Noa: everything is chicken and nothing on the menu is listed as pork. The two to ask about are the wontons and the omelette with ground-meat sauce, which do not say what the meat is."
+    ]
+  },
+  {
+    id: "w-bigoli", kind: "meal", title: "BIGOLI · Kyoto",
+    where: "京都府京都市中京区阪東屋町664-7",
+    from: "2026-10-08T20:00:00+09:00",
+    detail: "20:00 · 2 guests",
+    ref: null, refPrivate: true, status: "confirmed",
+    price: "At night: flat-rate wine, ¥1,200 for the first 30 minutes and ¥1,000 for each 30 after, plus food",
+    notes: [
+      "Tel 050-1807-8290. Call if we are running late — they may cancel after 30 minutes without hearing from us.",
+      "At night the food is only their pastas, prosciutto, cheese and nuts.",
+      "For Noa: BIGOLI's own bolognese lists pork among its ingredients, alongside beef, and the prosciutto is pork. Ask them before the night whether anything they serve is pork-free."
     ]
   },
   {
