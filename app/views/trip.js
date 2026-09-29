@@ -5,11 +5,12 @@
    and its saved places rather than restating them. */
 
 import { destinations, byId as destById, trip } from "../../data/destinations.js";
-import { days, dayById, daysFor, clusters } from "../../data/days.js";
+import { days, dayById, daysFor } from "../../data/days.js";
 import { places, placeById, mapsUrl } from "../../data/places.js";
 import { notesForDay } from "../../data/notes.js";
 import { walletById } from "../../data/wallet.js";
 import { climate } from "../../data/lists.js";
+import { planBank, dayIdeas, wirePlans } from "./plans.js";
 import {
   svg, esc, timeLabel, isSoft, dLabel, dShort, rangeLabel,
   mapsSearch, dayRoute, NOTE_ICON, CAT_ICON, WALLET_ICON, SKY_ICON
@@ -52,7 +53,7 @@ export function renderTrip() {
           <div class="destination-copy">
             <div class="kicker">${esc(trip.title)} · ${trip.year}</div>
             <h1>Noa &amp; Bar</h1>
-            <p class="subtitle">${esc(rangeLabel(trip.from, trip.to))} · ${trip.nights} nights · Osaka all the way to Tokyo</p>
+            <p class="subtitle">${esc(rangeLabel(trip.from, trip.to))} · ${trip.nights} nights · Kyoto all the way to Tokyo</p>
           </div>
         </div>
         <div class="section">
@@ -70,7 +71,7 @@ export function renderDestination(id) {
   const d = destById[id];
   if (!d) return null;
   const list = daysFor(id);
-  const stay = walletById[d.hotel];
+  const stays = (d.hotels || []).map(h => walletById[h]).filter(Boolean);
   const saved = places.filter(p => p.area === id);
 
   const dayRows = list.map(x => `
@@ -103,15 +104,15 @@ export function renderDestination(id) {
           <div class="drows">${dayRows}</div>
         </div>
 
-        ${stay ? `
+        ${stays.length ? `
           <div class="section">
             ${sectionHead("Staying")}
-            <div class="logistics">
+            <div class="logistics">${stays.map(stay => `
               <a class="lrow" href="#/wallet/${stay.id}">
                 <span class="lic">${svg("bed")}</span>
                 <span><b>${esc(stay.title)}</b><small>${esc(stay.where || "")}${stay.detail ? " · " + esc(stay.detail) : ""}</small></span>
                 <span class="chev">${svg("right")}</span>
-              </a>
+              </a>`).join("")}
             </div>
           </div>` : ""}
 
@@ -190,17 +191,6 @@ export function renderDay(id) {
           ${weatherBox(climate[day.dest])}
         </div>
 
-        ${day.bank && (clusters[day.bank] || []).length ? `
-          <div class="section">
-            ${sectionHead("Pick one cluster")}
-            <div class="bank">${clusters[day.bank].map(c => `
-              <div class="bankrow">
-                <div class="bankhead">${c.star ? `<span class="star">★</span>` : ""}<b>${esc(c.title)}</b></div>
-                <div class="bankwhen">${esc(c.when)}</div>
-                <p>${esc(c.body)}</p>
-              </div>`).join("")}</div>
-          </div>` : ""}
-
         ${day.flexible && day.lead ? `
           <div class="section">
             ${sectionHead("Recommended")}
@@ -223,7 +213,9 @@ export function renderDay(id) {
             </div>
           </div>` : ""}
 
-        ${steps ? `<div class="section">${sectionHead("The plan")}<div class="timeline">${steps}</div></div>` : ""}
+        ${steps ? `<div class="section">${sectionHead(day.bank ? "Booked and fixed" : "The plan")}<div class="timeline">${steps}</div></div>` : ""}
+        ${dayIdeas(day)}
+        ${day.bank ? planBank(day) : ""}
         ${notes}
 
         ${logi.length ? `
@@ -249,6 +241,7 @@ export function renderDay(id) {
           </div>` : ""}
 
         <div style="height:var(--s7)"></div>
-      </div>`
+      </div>`,
+    wire: (root, go) => wirePlans(root, go)
   };
 }

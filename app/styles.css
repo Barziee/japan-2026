@@ -911,3 +911,120 @@ ul{margin:0;padding:0;list-style:none}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
 }
+
+
+/* ============================================================
+   Kyoto flexible days, food filters, Saved search
+   ============================================================ */
+
+/* category tiles and dots — the colour carries the category */
+.sq.k-food{background:var(--c-food-bg);color:var(--c-food)}
+.sq.k-coffee{background:var(--c-coffee-bg);color:var(--c-coffee)}
+.sq.k-do{background:var(--c-do-bg);color:var(--c-do)}
+.sq.k-shopping{background:var(--c-shopping-bg);color:var(--c-shopping)}
+.sq.k-nature{background:var(--c-nature-bg);color:var(--c-nature)}
+
+/* suggested day plans ------------------------------------------------ */
+.plans{display:grid;gap:12px}
+.plan{position:relative;border-radius:18px;background:var(--surface);border:1px solid var(--line);
+  padding:15px 15px 12px;scroll-margin-top:74px;
+  transition:border-color 200ms var(--ease),background 200ms var(--ease)}
+.plan h3{margin:0;font-family:Manrope,Inter,system-ui,sans-serif;font-size:18px;font-weight:800;
+  line-height:1.15;letter-spacing:-.018em;text-wrap:balance}
+.plan h3 .star{color:var(--coral);font-size:12px;margin-right:6px;vertical-align:2px}
+.plan .bankwhen{margin-top:5px;line-height:1.35}
+.plan > p{font-size:12px;line-height:1.55;color:var(--ink2);margin:9px 0 0}
+.pmetas{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.pmeta{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:8px;
+  background:var(--soft);font-size:10.5px;font-weight:700;color:var(--ink2);white-space:nowrap}
+.pmeta svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.9;
+  stroke-linecap:round;stroke-linejoin:round}
+
+/* the picked plan is the one bold thing on the page */
+.plan.picked{background:linear-gradient(150deg,#eef0fc,#f7f8fe 60%);border-color:rgba(78,89,201,.35)}
+.plan-flag{display:inline-flex;align-items:center;gap:5px;margin-bottom:9px;padding:5px 9px;
+  border-radius:8px;background:var(--indigo);color:#fff;font-size:10.5px;font-weight:800}
+.plan-flag svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.6;
+  stroke-linecap:round;stroke-linejoin:round}
+
+.plan-more{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);
+  animation:plan-open 220ms var(--ease)}
+@keyframes plan-open{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.plan-more .timeline{margin-bottom:4px}
+.plan-tip{font-size:11.5px;line-height:1.5;color:#5e564d;background:var(--tint-sand);
+  border:1px solid var(--edge-sand);border-radius:12px;padding:10px 12px;margin-top:10px}
+.plan-tip b{display:block;font-weight:800;color:#4e463d;margin-bottom:2px}
+
+.plan-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+.plan-toggle{display:inline-flex;align-items:center;gap:4px;height:34px;font-size:12px;font-weight:750;
+  color:var(--indigo)}
+.plan-toggle svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2;
+  stroke-linecap:round;stroke-linejoin:round;transition:transform var(--dur) var(--ease)}
+.plan-toggle[aria-expanded="true"] svg{transform:rotate(180deg)}
+.pick{display:inline-flex;align-items:center;gap:5px;height:34px;padding:0 13px;border-radius:999px;
+  border:1.5px solid var(--indigo);color:var(--indigo);font-size:12px;font-weight:800;white-space:nowrap;
+  transition:background 160ms var(--ease),color 160ms var(--ease),transform 120ms var(--ease)}
+.pick:active{transform:scale(.96)}
+.pick[aria-pressed="true"]{background:var(--indigo);color:#fff}
+.pick svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.6;
+  stroke-linecap:round;stroke-linejoin:round}
+
+/* saved places as tappable chips */
+.pchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.pchip{display:inline-flex;align-items:center;gap:6px;max-width:100%;height:28px;padding:0 10px;
+  border-radius:999px;background:var(--surface);border:1px solid var(--line2);
+  font-size:11.5px;font-weight:650;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pchip i{width:7px;height:7px;border-radius:50%;flex:none;background:var(--ink3)}
+.pchip i.k-food{background:var(--c-food)}
+.pchip i.k-coffee{background:var(--c-coffee)}
+.pchip i.k-do{background:var(--c-do)}
+.pchip i.k-shopping{background:var(--c-shopping)}
+.pchip i.k-nature{background:var(--c-nature)}
+
+/* the day's loose ideas */
+.ideas{border-top:1px solid var(--line)}
+.idea{padding:13px 0;border-bottom:1px solid var(--line)}
+.idea b{display:block;font-size:13.5px;font-weight:750;letter-spacing:-.008em}
+.idea p{font-size:11.5px;line-height:1.5;color:var(--ink2);margin-top:4px}
+
+/* Saved: search, food chips, groups -------------------------------------- */
+.savedsearch{display:flex;align-items:center;gap:9px;height:44px;padding:0 6px 0 14px;margin-bottom:12px;
+  background:var(--surface);border:1px solid var(--line2);border-radius:12px;
+  transition:border-color 160ms var(--ease),box-shadow 160ms var(--ease)}
+.savedsearch:focus-within{border-color:var(--indigo);box-shadow:0 0 0 3px var(--tint-indigo)}
+.savedsearch > svg{width:16px;height:16px;flex:none;color:var(--ink3);fill:none;stroke:currentColor;
+  stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.savedsearch input{flex:1;min-width:0;border:0;background:none;font-size:16px;font-weight:500;color:var(--ink)}
+.savedsearch input:focus{outline:none}
+.savedsearch input::-webkit-search-cancel-button{display:none}
+.clearq{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:var(--ink3);flex:none}
+.clearq svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+
+.v10 .pillrow.foods .pill[aria-pressed="true"],
+.searchtypes .pill[aria-pressed="true"]{background:var(--c-food);border-color:var(--c-food);color:#fff}
+.pill .n{margin-left:6px;font-weight:650;opacity:.6;font-variant-numeric:tabular-nums}
+.pill .n:empty{display:none}
+
+.filterline{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  min-height:30px;margin:2px 0 4px;font-size:11px;font-weight:700;color:var(--ink3)}
+.clearall{font-size:11.5px;font-weight:750;color:var(--indigo)}
+.empty .clearall{margin-left:4px}
+
+.sgroup{margin-top:18px}
+.sgroup:first-child{margin-top:6px}
+.sgroup-head{display:flex;align-items:baseline;justify-content:space-between;padding-bottom:8px;
+  font-family:Manrope,Inter,system-ui,sans-serif;font-size:17px;font-weight:800;letter-spacing:-.015em}
+.sgroup-head small{font-family:Inter,system-ui,sans-serif;font-size:11px;font-weight:700;color:var(--ink3)}
+
+.v10 .prow .drawer p.porknote{color:#9a3b2a;font-weight:650}
+
+/* search sheet: the food chips sit under the box */
+.searchtypes{max-width:720px;margin:0 auto;width:100%;padding:0 var(--pad) 6px}
+.searchtypes .pillrow{margin:0 calc(var(--pad) * -1);padding-left:var(--pad);padding-right:var(--pad)}
+
+/* The hidden attribute always wins, whatever display a class sets. */
+[hidden]{display:none !important}
+
+/* the search box gives way before Cancel does, down to 320px */
+.searchbar .box{min-width:0}
+.searchbar #cancel{flex:none}
