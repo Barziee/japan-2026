@@ -218,7 +218,9 @@ export function renderInfo() {
           <span style="font-size:14.5px;font-weight:650">${esc(x.title)}</span>
         </div>
         <p class="muted tiny" style="margin-top:4px">${esc(x.body)}</p>
+        ${x.when ? `<p class="tiny" style="margin-top:4px;font-weight:650">${esc(x.when)}</p>` : ""}
         ${x.also ? `<p class="tiny" style="margin-top:5px;color:var(--ink3)">${esc(x.also)}</p>` : ""}
+        ${x.link ? `<a class="tiny" style="display:inline-block;margin-top:6px;font-weight:700;color:var(--indigo)" href="${esc(x.link.url)}" target="_blank" rel="noopener">${esc(x.link.label)} ↗</a>` : ""}
       </div>`).join("")}` : "";
 
   const block = (title, items) => `

@@ -2,7 +2,11 @@
 
    Most of the planning is flexible; this is the part that is not. Each entry
    is a date something must happen by, and what goes wrong if it does not.
-   Ordered by date, which is the only order that matters here. */
+   Ordered by date, which is the only order that matters here.
+
+   `at` is the exact moment, for the ones that happen at a clock time: those
+   also show on Today from a day and a half before until a few hours after.
+   `when` says that moment in words, and `link` is where to go to act. */
 
 export const deadlines = [
   {
@@ -36,10 +40,13 @@ export const deadlines = [
   {
     id: "dl-hikiniku-online",
     on: "2026-09-30",
-    title: "Hikiniku: the last online chances for 8 Oct",
+    at: "2026-10-01T00:00:00+09:00",
+    when: "Wed 30 Sep · 18:00 Israel time, midnight in Japan",
+    title: "Hikiniku to Come: the free list for Thu 8 Oct opens",
     urgent: true,
-    body: "Until today, priority-ticket holders can cancel for free, so seats can reappear on TableCheck. Worth a look every day or two until then. Tonight at 18:00 Israel time (midnight in Japan), the free standard list for 8 Oct opens, first come first served. If the ¥1,000 priority tickets took every seat, nothing is released.",
-    also: "If only single seats show up, one Redditor booked two singles and was seated together. With five nights in Kyoto, 4, 5 and 6 Oct work too; their free lists opened seven days ahead of each date, so for those it is TableCheck cancellations or the morning line."
+    body: "First come, first served, and only the seats the ¥1,000 priority tickets left. Have TableCheck open a few minutes early with name, phone and email ready — the set meal, ¥1,980 each, is paid when you book.",
+    also: "The lists for 4–6 Oct have already opened, so check those days too; 7 Oct is a Wednesday, when it is closed. Cancelling costs ¥500 a meal from 7 days before and the full price on the day. If only single seats show up, one Redditor booked two singles and was seated together. Same-day cancellations are posted on X, @hikinikutocomek.",
+    link: { label: "Open the booking page", url: "https://www.tablecheck.com/en/shops/hikinikutocome-kyoto/reserve" }
   },
   {
     id: "dl-saihoji",

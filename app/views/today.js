@@ -12,6 +12,7 @@ import { placeById, mapsUrl } from "../../data/places.js";
 import { notesForDay, leadNotes } from "../../data/notes.js";
 import { walletById } from "../../data/wallet.js";
 import { climate } from "../../data/lists.js";
+import { deadlines, inTrip } from "../../data/deadlines.js";
 import { state, save } from "../store.js";
 import { planBank, dayIdeas, wirePlans, pickFor, BANK_LEAD } from "./plans.js";
 import {
@@ -111,6 +112,26 @@ function startCountdown(root) {
   };
   tick();
   cdTimer = setInterval(tick, 1000);
+}
+
+/* ------------------------------------------------------------ reminders */
+/* A deadline with an exact moment — a booking list opening at midnight in
+   Japan — shows here from a day and a half before until three hours after,
+   because Today is the screen that actually gets opened. */
+function reminders() {
+  const now = Date.now(), H = 3600e3;
+  const due = [...deadlines, ...inTrip].filter(x => {
+    if (!x.at) return false;
+    const at = new Date(x.at).getTime();
+    return now >= at - 36 * H && now <= at + 3 * H;
+  });
+  return due.map(x => `
+    <div class="reminder" role="note">
+      <div class="reminder-when">${svg("clock")}${esc(x.when || "")}</div>
+      <h3>${esc(x.title)}</h3>
+      <p>${esc(x.body)}</p>
+      ${x.link ? `<a class="btn reminder-go" href="${esc(x.link.url)}" target="_blank" rel="noopener">${esc(x.link.label)}</a>` : ""}
+    </div>`).join("");
 }
 
 /* ------------------------------------------------------------ header */
@@ -313,6 +334,7 @@ export function render() {
     eyebrow: dLabel(day.date).toUpperCase(),
     html: `
       <div class="screen v10">
+        ${reminders()}
         ${countdown()}
         ${header(day, dest)}
         ${hero(day, idx)}
