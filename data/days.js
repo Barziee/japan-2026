@@ -81,10 +81,9 @@ export const days = [
     title: "The last Kyoto day",
     flexible: true, bank: "kyoto",
     plan: [
-      { t: { k: "part", v: "morning" }, name: "Check out of MIRU and back in", detail: "They would not link the two bookings. Pack the night before; they move the luggage.", wallet: "w-miru" },
-      { t: { k: "exact", v: "20:00" }, name: "Dinner · BIGOLI", detail: "Booked. The bolognese specialist near Shijō-Karasuma, which turns into a wine bar at night — flat-rate wine by the half hour, and the food is just their pastas, prosciutto, cheese and nuts. For Noa: their own bolognese lists pork among its ingredients, so ask them beforehand what she can eat.", saved: "p-bigoli" }
+      { t: { k: "part", v: "morning" }, name: "Check out of MIRU and back in", detail: "They would not link the two bookings. Pack the night before; they move the luggage.", wallet: "w-miru" }
     ],
-    logistics: ["w-miru", "w-bigoli"],
+    logistics: ["w-miru"],
     saved: ["p-bigoli", "p-hikiniku", "p-brulee", "p-uru", "p-panel"]
   },
 

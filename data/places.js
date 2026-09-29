@@ -688,7 +688,7 @@ export const places = [
     food: ["italian"], cid: "5741547070674036186",
     area: "kyoto", where: "Shijō-Karasuma", pin: true,
     maps: "BIGOLI 京都本店",
-    note: "Booked for 8 Oct at 20:00. A bolognese-only pasta specialist on thick bigoli noodles, open 11:00–22:30. At night it becomes a wine bar with about 100 wines at a flat rate by the half hour, and the food narrows to their pastas, prosciutto, cheese and nuts. For Noa: their own bolognese lists pork among its ingredients, so ask before ordering."
+    note: "The 8 Oct booking was cancelled by mistake; we mean to rebook it for another night. A bolognese-only pasta specialist on thick bigoli noodles, open 11:00–22:30. At night it becomes a wine bar with about 100 wines at a flat rate by the half hour, and the food narrows to their pastas, prosciutto, cheese and nuts. For Noa: their own bolognese lists pork among its ingredients, so ask before ordering."
   },
   {
     id: "p-shimokitazawa", name: "Shimokitazawa", ja: "下北沢", kind: "Vintage, records, live houses", cat: "do",

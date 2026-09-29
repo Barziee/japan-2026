@@ -66,8 +66,7 @@ export const wallet = [
     notes: [
       "Cancellation ladder from the hotel (15 Aug): from 19 Sep — 10% (¥20,790). From 4 Oct — 30% (¥62,370). From 7 Oct — 50% (¥103,950). From 9 Oct — 100% (¥207,900).",
       "The no-show percentage was not stated in what they sent. Probably 100%, but do not assume it.",
-      "The most expensive stay of the trip.",
-      "A useful forecast for 10–12 Oct only exists about a week out. 3 Oct is both the last day at 10% and the first day that forecast is worth reading."
+      "The most expensive stay of the trip."
     ]
   },
   {
@@ -196,19 +195,6 @@ export const wallet = [
       "Tel 075-606-4364.",
       "Four minutes from Kyoto Shiyakusho-mae station on the Tōzai line.",
       "For Noa: everything is chicken and nothing on the menu is listed as pork. The two to ask about are the wontons and the omelette with ground-meat sauce, which do not say what the meat is."
-    ]
-  },
-  {
-    id: "w-bigoli", kind: "meal", title: "BIGOLI · Kyoto",
-    where: "京都府京都市中京区阪東屋町664-7",
-    from: "2026-10-08T20:00:00+09:00",
-    detail: "20:00 · 2 guests",
-    ref: null, refPrivate: true, status: "confirmed",
-    price: "At night: flat-rate wine, ¥1,200 for the first 30 minutes and ¥1,000 for each 30 after, plus food",
-    notes: [
-      "Tel 050-1807-8290. Call if we are running late — they may cancel after 30 minutes without hearing from us.",
-      "At night the food is only their pastas, prosciutto, cheese and nuts.",
-      "For Noa: BIGOLI's own bolognese lists pork among its ingredients, alongside beef, and the prosciutto is pork. Ask them before the night whether anything they serve is pork-free."
     ]
   },
   {
