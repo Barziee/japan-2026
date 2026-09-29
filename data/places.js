@@ -616,6 +616,24 @@ export const places = [
     area: "kyoto", where: "Shijō-Karasuma", pin: true,
     maps: "BIGOLI 京都本店",
     note: "Booked for 8 Oct at 20:00. A bolognese-only pasta specialist on thick bigoli noodles, open 11:00–22:30. At night it becomes a wine bar with about 100 wines at a flat rate by the half hour, and the food narrows to their pastas, prosciutto, cheese and nuts. For Noa: their own bolognese lists pork among its ingredients, so ask before ordering."
+  },
+  {
+    id: "p-shimokitazawa", name: "Shimokitazawa", ja: "下北沢", kind: "Vintage, records, live houses", cat: "do",
+    area: "tokyo", where: "Setagaya", pin: true,
+    maps: "下北沢駅",
+    note: "An afternoon into evening of its own, ending at Ittosei or Genki Club. The Shimokitazawa Curry Festival runs 8–25 Oct 2026, so it is on for our whole stay: 110 curry shops and 21 sweets shops serving festival dishes, plus a free stamp rally, with the prize desk open 12:00–20:00. The Moon Art Night flea market ends on 3–4 Oct, before we arrive. The Senrogai flea market runs on irregular dates — last year it was the October long weekend — so check @fleamarket_99 nearer the time. For Noa: a lot of Japanese curry is pork, so check each shop's."
+  },
+  {
+    id: "p-ittosei", name: "Ittosei", ja: "焼鳥とお野菜 一等星", kind: "Yakitori and vegetable izakaya", cat: "food",
+    area: "tokyo", where: "Shimokitazawa", pin: true,
+    maps: "焼鳥とお野菜 一等星 下北沢",
+    note: "Yakitori over Kishū binchōtan charcoal, seasonal vegetables, cocktails and shochu. Dinner 17:00–23:30, last orders 23:00. Closed Mondays, or the Tuesday after when the Monday is a holiday. Books online through its site, ittosei-shimokita.com. About ¥4,000–6,000 a head on Google, and one reviewer mentions an English menu. Two minutes from the station's Central exit. For Noa: the menu is chicken and vegetables, with nothing listed as pork."
+  },
+  {
+    id: "p-genkiclub", name: "Genki Club", ja: "ゲンキクラブ", kind: "Old rock bar, now an izakaya", cat: "food",
+    area: "tokyo", where: "Shimokitazawa", pin: true,
+    maps: "Genki Club 下北沢",
+    note: "Over thirty years in Shimokitazawa. It started as a rock bar, so there are a lot of rare records — 70s–90s J-pop and Western vinyl — plus rare shochu and a long menu of simple home-style dishes. About ¥2,000–3,000 a head. Opens at 18:00; the sources disagree on whether it closes on Wednesdays, which does not touch our days. Four minutes from the station. For Noa: there is no menu online, so ask what is pork."
   }
 ];
 

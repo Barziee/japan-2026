@@ -403,10 +403,16 @@ export const clusters = {
       body: "Nezu and Yanaka, through the back lanes and the cemetery, into Ueno Park, then Ueno itself. The walk between them is the point — do not replace it with a train. Time the day so it ends at Ameyoko and Okachimachi: cheap izakaya, yakitori, street food and a local racket. Sensō-ji at 07:00–08:00 can start the day if it happens, but only then."
     },
     {
+      id: "c-shimokita", star: true,
+      title: "Shimokitazawa",
+      when: "Afternoon into evening",
+      body: "Vintage, records and the live houses, with the Curry Festival on for our whole stay, so a late lunch is curry. The evening ends at one of the two izakayas we saved: Ittosei for charcoal yakitori and vegetables, which takes bookings online and is closed on Mondays, or Genki Club, an old rock bar full of records and rare shochu, cheaper and open from 18:00."
+    },
+    {
       id: "c-west", star: true,
-      title: "West Tokyo",
+      title: "Harajuku → Shibuya",
       when: "A full day",
-      body: "Yoyogi-Uehara for a quiet morning and coffee, then Shimokitazawa as the anchor of the day, then Harajuku, Cat Street and Omotesandō for shopping, closing in Shibuya in the evening. Do not bolt Daikanyama and Nakameguro onto this — they are their own cluster."
+      body: "Yoyogi-Uehara for a quiet morning and coffee, then Harajuku, Cat Street and Omotesandō for shopping, closing in Shibuya in the evening. Do not bolt Daikanyama and Nakameguro onto this — they are their own cluster."
     },
     {
       id: "c-meguro",
@@ -421,10 +427,10 @@ export const clusters = {
       body: "Nakano Broadway is retro and entirely covered. Kōenji is second-hand shops, records, the Pal arcade and bars. The live houses here are the reason to keep an evening loose."
     },
     {
-      id: "c-central",
-      title: "Ginza and shopping",
-      when: "An excellent rainy day",
-      body: "Ginza plus whatever Noa has collected from TikTok and Instagram, konbini hunting and the department stores. Deliberately unstructured."
+      id: "c-central", star: true,
+      title: "Ginza, for Noa",
+      when: "Sat 17 or Sun 18, from 12:00",
+      body: "At weekends Chūō-dōri, from Ginza 1-chōme to 8-chōme, is closed to cars from 12:00 to 17:00. Then whatever Noa has collected from TikTok and Instagram, konbini hunting and the department stores. Deliberately unstructured. The police can call off the car-free street for bad weather, but the department stores still make it a good rainy day."
     },
     {
       id: "c-kagurazaka",

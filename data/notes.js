@@ -364,6 +364,11 @@ export const notes = [
     id: "n-toriki-noa", kind: "food", dest: "osaka",
     title: "At Torikizoku, Noa sticks to the skewers",
     body: "Their allergen table, updated 1 Sep 2026: the tare and the salt contain no pork, and neither does any skewer except the pork belly. Pork is in the signature Toriki karaage, the chicken mayo salad, the chicken hamburg steak, the kids' plates, the chicken paitan noodles, the chicken-salt ramen, the kamameshi, the zosui and the rice set. Of the rice dishes only the two donburi are clear. It is all one kitchen, so shared equipment is possible."
+  },
+  {
+    id: "n-curryfest", kind: "food", dest: "tokyo",
+    title: "The Shimokitazawa Curry Festival is on while we are here",
+    body: "8–25 Oct: 110 curry shops and 21 sweets shops around the station serving festival dishes, and a free stamp rally for prizes, desk open 12:00–20:00. No special event days, so any Shimokitazawa day catches it. A lot of Japanese curry is pork, so Noa checks each shop's."
   }
 ];
 
