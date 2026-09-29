@@ -6,17 +6,21 @@
 export const wallet = [
   /* ---------- stays ---------- */
   {
-    id: "w-meander",
+    id: "w-potel",
     kind: "stay",
-    title: "Meander Osaka",
-    where: "Namba, Osaka",
+    title: "Umekoji Potel Kyoto",
+    where: "Umekōji, Kyoto",
     from: "2026-10-04",
     to: "2026-10-07",
-    detail: "3 nights",
-    ref: null,
+    detail: "3 nights · Garden Room, double bed · check-in from 15:00",
+    ref: null, refPrivate: true,
     status: "confirmed",
+    price: "Prepaid online. The local accommodation tax is paid at the hotel.",
     notes: [
-      "Big suitcases get forwarded from here to MIRU Kyoto Gion on the morning of the 6th."
+      "15 Kankijichō, Shimogyō-ku, beside Umekōji Park. Kyoto Station is 19 minutes on foot (1.4 km); Umekōji-Kyōtonishi, one stop from Kyoto on the JR Sagano line, is closer.",
+      "Check-in 15:00 to midnight — there is no after-hours check-in. Check-out by 11:00.",
+      "No breakfast in the rate. The buffet is about ¥4,500 each if we want it.",
+      "Passports at check-in: Japanese law has hotels record and copy them for every foreign guest."
     ]
   },
   {
@@ -33,8 +37,7 @@ export const wallet = [
     notes: [
       "Two separate bookings: 7–8 Deluxe, 8–9 Superior. They will not merge them and will not hold the same room.",
       "They will move the luggage for us, but we check out and re-check in on the morning of 8 Oct — so pack on the evening of the 7th, not on the way out of the door.",
-      "This is what sets the departure time for Hōnen-in at 07:30.",
-      "They are receiving our forwarded suitcases."
+      "From Umekoji Potel on the 7th, Gion is across town: a taxi with the suitcases is the simple way."
     ]
   },
   {
@@ -63,8 +66,7 @@ export const wallet = [
     notes: [
       "Cancellation ladder from the hotel (15 Aug): from 19 Sep — 10% (¥20,790). From 4 Oct — 30% (¥62,370). From 7 Oct — 50% (¥103,950). From 9 Oct — 100% (¥207,900).",
       "The no-show percentage was not stated in what they sent. Probably 100%, but do not assume it.",
-      "The most expensive stay of the trip.",
-      "A real forecast for 10 Oct only appears around 24 Sep, so the free-cancellation date passes before the weather can say anything."
+      "The most expensive stay of the trip."
     ]
   },
   {
@@ -169,23 +171,6 @@ export const wallet = [
 
   /* ---------- logistics ---------- */
   {
-    id: "w-luggage",
-    kind: "transport",
-    title: "Luggage forwarding",
-    where: "Meander Osaka → MIRU Kyoto Gion",
-    from: "2026-10-05",
-    to: "2026-10-07",
-    detail: "Takkyubin · send 5–6 Oct",
-    ref: null,
-    status: "todo",
-    notes: [
-      "Osaka to Kyoto is a next-day service, not same-day. Send on the 6th to arrive on the 7th; send on the 5th if we want a margin, but then MIRU hold it an extra night.",
-      "Roughly ¥1,500–2,000 per suitcase, from a convenience store or the Meander desk.",
-      "On 7 Oct we travel with cabin trolleys only — they go in a coin locker at Demachiyanagi.",
-      "Optional second leg: forwarding bags from Jujo or Gotemba to the Edmont would take the strain out of the Gotemba→Tokyo train. It usually arrives next day, so plan a night without them."
-    ]
-  },
-  {
     id: "w-romancecar", kind: "train", title: "Romancecar · Gotemba → Shinjuku",
     where: "Gotemba Station",
     from: "2026-10-15T12:48:00+09:00", to: "2026-10-15T14:25:00+09:00",
@@ -200,20 +185,6 @@ export const wallet = [
     ]
   },
   {
-    id: "w-kibitaki", kind: "meal", title: "Kibitaki Bettei · Shinsaibashi",
-    where: "2-1-10 Shinsaibashisuji, SAMBOA Bldg 2F, Chuo-ku, Osaka",
-    from: "2026-10-05T20:30:00+09:00",
-    detail: "20:30 · 2 guests · chef's 7 skewers",
-    ref: null, refPrivate: true, status: "confirmed",
-    price: "¥2,800 × 2 = ¥5,600, paid at the restaurant",
-    notes: [
-      "The card is held as a deposit only; the meal is paid on the night.",
-      "From 24 hours before, cancelling or changing costs the full course price.",
-      "Sake is noted as our drink.",
-      "All chicken from three local breeds, and nothing on the menu is pork."
-    ]
-  },
-  {
     id: "w-ichika", kind: "meal", title: "Ibushi-dori Ichika · Kyoto",
     where: "京都府京都市中京区山本町410",
     from: "2026-10-07",
@@ -224,19 +195,6 @@ export const wallet = [
       "Tel 075-606-4364.",
       "Four minutes from Kyoto Shiyakusho-mae station on the Tōzai line.",
       "For Noa: everything is chicken and nothing on the menu is listed as pork. The two to ask about are the wontons and the omelette with ground-meat sauce, which do not say what the meat is."
-    ]
-  },
-  {
-    id: "w-bigoli", kind: "meal", title: "BIGOLI · Kyoto",
-    where: "京都府京都市中京区阪東屋町664-7",
-    from: "2026-10-08T20:00:00+09:00",
-    detail: "20:00 · 2 guests",
-    ref: null, refPrivate: true, status: "confirmed",
-    price: "At night: flat-rate wine, ¥1,200 for the first 30 minutes and ¥1,000 for each 30 after, plus food",
-    notes: [
-      "Tel 050-1807-8290. Call if we are running late — they may cancel after 30 minutes without hearing from us.",
-      "At night the food is only their pastas, prosciutto, cheese and nuts.",
-      "For Noa: BIGOLI's own bolognese lists pork among its ingredients, alongside beef, and the prosciutto is pork. Ask them before the night whether anything they serve is pork-free."
     ]
   },
   {

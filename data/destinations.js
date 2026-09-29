@@ -1,29 +1,18 @@
 /* Where we sleep, in order. Everything else hangs off these ids.
-   Dates are the nights, not the days present — Osaka 4-7 means three nights
-   with the 7th spent travelling on to Kyoto. */
+   Dates are the nights, not the days present — Kyoto 4-9 means five nights
+   with the 9th spent driving on to Gujō. */
 
 export const destinations = [
-  {
-    id: "osaka",
-    name: "Osaka",
-    ja: "大阪",
-    from: "2026-10-04",
-    to: "2026-10-07",
-    nights: 3,
-    hotel: "w-meander",
-    line: "Food, atmosphere, one day trip out.",
-    places: "Namba · Minoh · Nakazakichō"
-  },
   {
     id: "kyoto",
     name: "Kyoto",
     ja: "京都",
-    from: "2026-10-07",
+    from: "2026-10-04",
     to: "2026-10-09",
-    nights: 2,
-    hotel: "w-miru",
-    line: "Gion in the quiet hours. Not a temple hunt.",
-    places: "Kibune · Kurama · Gion"
+    nights: 5,
+    hotels: ["w-potel", "w-miru"],
+    line: "Five nights, two hotels, and nothing we have to do. Osaka is a day out.",
+    places: "Umekōji · Gion · Osaka for a day"
   },
   {
     id: "gujo",
@@ -32,7 +21,7 @@ export const destinations = [
     from: "2026-10-09",
     to: "2026-10-10",
     nights: 1,
-    hotel: "w-fairfield",
+    hotels: ["w-fairfield"],
     line: "A town with character, not a waypoint.",
     places: "Old town · canals · a slow afternoon"
   },
@@ -43,7 +32,7 @@ export const destinations = [
     from: "2026-10-10",
     to: "2026-10-13",
     nights: 3,
-    hotel: "w-jujo",
+    hotels: ["w-jujo"],
     line: "A flexible base for the city and the mountains.",
     places: "Castle · Nakamachi · the Alps"
   },
@@ -54,7 +43,7 @@ export const destinations = [
     from: "2026-10-13",
     to: "2026-10-15",
     nights: 2,
-    hotel: "w-editseven",
+    hotels: ["w-editseven"],
     line: "Modular. The mountain decides in the morning.",
     places: "Lakes · Izu · the pass at golden hour"
   },
@@ -65,7 +54,7 @@ export const destinations = [
     from: "2026-10-15",
     to: "2026-10-20",
     nights: 5,
-    hotel: "w-edmont",
+    hotels: ["w-edmont"],
     line: "Neighbourhoods, one per day.",
     places: "Yanaka · Nakameguro · Shimokitazawa · Kōenji"
   }
@@ -84,3 +73,13 @@ export const trip = {
 };
 
 export const byId = Object.fromEntries(destinations.map(d => [d.id, d]));
+
+/* Areas are what saved places hang off: every base, plus places we only
+   visit for a day. Osaka is a day out from Kyoto, not somewhere we sleep,
+   so it is an area without being a destination. */
+export const areas = [
+  byId.kyoto,
+  { id: "osaka", name: "Osaka", ja: "大阪", daytrip: true },
+  ...destinations.filter(d => d.id !== "kyoto")
+];
+export const areaById = Object.fromEntries(areas.map(a => [a.id, a]));

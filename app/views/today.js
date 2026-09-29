@@ -6,13 +6,14 @@
    order, the data and every piece of logic are unchanged — this is the same
    Today, composed the way v10 composes it. */
 
-import { days, clusters } from "../../data/days.js";
+import { days } from "../../data/days.js";
 import { byId as destById, trip } from "../../data/destinations.js";
 import { placeById, mapsUrl } from "../../data/places.js";
 import { notesForDay, leadNotes } from "../../data/notes.js";
 import { walletById } from "../../data/wallet.js";
 import { climate } from "../../data/lists.js";
 import { state, save } from "../store.js";
+import { planBank, dayIdeas, wirePlans, pickFor, BANK_LEAD } from "./plans.js";
 import {
   svg, esc, timeLabel, isSoft, minutesOf, dLabel, mapsSearch, mapsDir,
   dayRoute, NOTE_ICON, CAT_ICON, WALLET_ICON, SKY_ICON
@@ -139,11 +140,15 @@ function hero(day, idx) {
   const step = steps[idx];
 
   /* A cluster day or a flexible day has no single next thing, so the hero
-     carries the recommendation instead of a stop. */
+     carries the plan we picked, or the invitation to pick one. */
+  const pick = day.bank ? pickFor(day) : null;
   const lead = day.bank
-    ? { name: destById[day.dest].name, label: "Today is yours",
-        detail: "One cluster and an evening — never two.",
-        when: "Pick one", sub: "", href: `#/day/${day.id}`, dir: null }
+    ? pick
+      ? { name: pick.title, label: "Today’s pick", detail: pick.body,
+          when: "Picked", sub: pick.meta?.[0]?.text || "", href: `#/day/${day.id}`, dir: null }
+      : { name: destById[day.dest].name, label: "Today is yours",
+          detail: BANK_LEAD[day.bank] || "",
+          when: "Pick one", sub: "", href: `#/day/${day.id}`, dir: null }
     : day.flexible && day.lead
       ? { name: day.lead.name, label: "Ideas for today", detail: day.lead.detail,
           when: "Recommended", sub: "", href: `#/day/${day.id}`,
@@ -228,7 +233,7 @@ function timeline(day, activeIdx) {
         </div>
       </div>`;
   }).join("");
-  return `<div class="section">${sectionHead("Today's plan")}<div class="timeline">${rows}</div></div>`;
+  return `<div class="section">${sectionHead(day.bank ? "Booked and fixed" : "Today's plan")}<div class="timeline">${rows}</div></div>`;
 }
 
 /* The editorial moment: the strongest researched note becomes the headline,
@@ -282,18 +287,6 @@ function logistics(day) {
   return `<div class="section">${sectionHead("Logistics")}<div class="logistics">${rows}</div></div>`;
 }
 
-function clusterBank(day) {
-  const bank = clusters[day.bank] || [];
-  if (!bank.length) return "";
-  const rows = bank.map(c => `
-    <div class="bankrow">
-      <div class="bankhead">${c.star ? `<span class="star">★</span>` : ""}<b>${esc(c.title)}</b></div>
-      <div class="bankwhen">${esc(c.when)}</div>
-      <p>${esc(c.body)}</p>
-    </div>`).join("");
-  return `<div class="section">${sectionHead("Pick one")}<div class="bank">${rows}</div></div>`;
-}
-
 function alternatives(day) {
   const n = (day.alts || []).length;
   if (!n) return "";
@@ -323,9 +316,10 @@ export function render() {
         ${countdown()}
         ${header(day, dest)}
         ${hero(day, idx)}
-        ${clusterBank(day)}
         ${routeBlock(day)}
         ${timeline(day, idx)}
+        ${dayIdeas(day)}
+        ${day.bank ? planBank(day) : ""}
         ${context(day)}
         ${savedNearby(day)}
         ${logistics(day)}
@@ -335,6 +329,7 @@ export function render() {
     day,
     wire(root, go) {
       startCountdown(root);
+      wirePlans(root, go);
       root.querySelectorAll("[data-nudge]").forEach(b =>
         b.addEventListener("click", () => {
           nudge(day.id, Number(b.dataset.nudge));

@@ -46,7 +46,7 @@ export const lists = [
       {
         title: "Worth carrying home",
         items: [
-          { id: "c-knife", name: "A Japanese knife", note: "Tower Knives in Osaka on 4–7 Oct, or Seki on the 9th. Checked baggage on the way home." },
+          { id: "c-knife", name: "A Japanese knife", note: "Tower Knives on an Osaka day, or Seki on the 10th. Checked baggage on the way home." },
           { id: "c-ceramics", name: "Ceramics", note: "Nakamachi in Matsumoto, 10–13 Oct." }
         ]
       }

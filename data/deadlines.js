@@ -39,15 +39,22 @@ export const deadlines = [
     title: "Hikiniku: the last online chances for 8 Oct",
     urgent: true,
     body: "Until today, priority-ticket holders can cancel for free, so seats can reappear on TableCheck. Worth a look every day or two until then. Tonight at 18:00 Israel time (midnight in Japan), the free standard list for 8 Oct opens, first come first served. If the ¥1,000 priority tickets took every seat, nothing is released.",
-    also: "If only single seats show up, one Redditor booked two singles and was seated together."
+    also: "If only single seats show up, one Redditor booked two singles and was seated together. With five nights in Kyoto, 4, 5 and 6 Oct work too; their free lists opened seven days ahead of each date, so for those it is TableCheck cancellations or the morning line."
+  },
+  {
+    id: "dl-saihoji",
+    on: "2026-10-01",
+    title: "Saihō-ji, if we want it on the 5th",
+    body: "Bookings for a day close at 23:59 Japan time the night before, but cancelling is free only until 4 days before. For the 5th, booking by today keeps a free way out.",
+    also: "intosaihoji.com. Up to two people per booking, card only."
   }
 ];
 
 /* Verifications that only make sense once we are there. */
 export const inTrip = [
-  { on: "2026-10-04", title: "Evening: is Tokito open tomorrow?", body: "It posts irregular closing days on its Instagram stories (@tokito_karahori). If it is shut, start 5 Oct at the castle instead." },
-  { on: "2026-10-06", title: "Evening: confirm the Kibune plan", body: "Check the forecast for the 7th. Confirm bus 33's weekday October timetable, that the Demachiyanagi lockers are realistic, and that somewhere in Kibune will feed us on a Wednesday." },
-  { on: "2026-10-07", title: "Evening: Hikiniku, line or not", body: "If there is still no booking, decide tonight whether to queue at Tatsumi-bashi tomorrow. Being there by about 07:15 is what gives a real shot at dinner, and it pushes Hōnen-in later. Same-day cancellations are posted on X at @hikinikutocomek." },
+  { on: "2026-10-04", title: "The evening before Osaka: is Tokito open?", body: "It posts irregular closing days on its Instagram stories (@tokito_karahori). If it is shut, the Osaka day moves." },
+  { on: "2026-10-04", title: "The evening before Kibune", body: "Check the forecast, and bus 33's October timetable from Kibune back to Kibuneguchi." },
+  { on: "2026-10-07", title: "Evening: Hikiniku, line or not", body: "If we still want it and have no booking, being at Tatsumi-bashi by about 07:15 is what gives a real shot at a table. Same-day cancellations are posted on X at @hikinikutocomek." },
   { on: "2026-10-10", title: "Evening: pick the 11th", body: "Choose the day trip on the forecast, and confirm that evening's restaurant booking." },
   { on: "2026-10-12", title: "Evening: plan the 13th afternoon", body: "Cloud cover for the first Fuji loop. If Toyota Gotemba does not know yet, tell them we will be one to two hours late for the 14:30 swap: 0550-81-0100." },
   { on: "2026-10-13", title: "Evening: decide the 14th", body: "West Izu is an evening-before decision, not a morning one — it starts at 08:30 and is locked to a 17:16 sunset. Check HODOHODO is open on Instagram, Izu road closures on 0558-76-5718, and the west-coast forecast. In fog there is no point going up to the pass: switch to Shuzenji or Hakone.", urgent: true },
