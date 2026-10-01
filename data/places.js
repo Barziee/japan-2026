@@ -748,11 +748,11 @@ export const places = [
     note: ""
   },
   {
-    id: "p-hafuu", name: "Wagyu Steak Hafuu", kind: "Wagyu steak", cat: "food",
+    id: "p-hafuu", name: "Wagyu Steak Hafuu", ja: "肉専科はふう 本店", kind: "Wagyu steak", cat: "food",
     area: "kyoto", where: "Nakagyō, near Marutamachi",
-    food: ["wagyu"], cid: "9765123227851010420",
+    food: ["wagyu"], cid: "9765123227851010420", pin: true,
     maps: "Wagyu Steak Hafuu Honten Kyoto",
-    note: ""
+    note: "Booked for 8 Oct at 19:30, the main branch. Niku Senka Hafuu: steak and the beef cutlet. Closed on Wednesdays."
   },
   {
     id: "p-issekisancho", name: "Issekisancho", kind: "Yakiniku", cat: "food",

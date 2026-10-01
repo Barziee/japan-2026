@@ -198,6 +198,18 @@ export const wallet = [
     ]
   },
   {
+    id: "w-hafuu", kind: "meal", title: "Niku Senka Hafuu · Kyoto",
+    where: "京都府京都市中京区麩屋町通夷川上ル笹屋町471-1",
+    from: "2026-10-08T19:30:00+09:00",
+    detail: "19:30 · 2 guests · main branch",
+    ref: null, refPrivate: true, status: "confirmed",
+    notes: [
+      "Tel 075-257-1581.",
+      "The main branch on Fuyachō-dōri, south of the Imperial Palace — not the Shōgoin branch.",
+      "For Noa: a beef specialist, but the menu has not been checked for pork. Ask before ordering."
+    ]
+  },
+  {
     id: "w-minato", kind: "meal", title: "MINATO · Matsumoto",
     where: "長野県松本市中央2-5-28",
     from: "2026-10-10T20:00:00+09:00",

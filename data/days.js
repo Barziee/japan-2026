@@ -81,10 +81,11 @@ export const days = [
     title: "The last Kyoto day",
     flexible: true, bank: "kyoto",
     plan: [
-      { t: { k: "part", v: "morning" }, name: "Check out of MIRU and back in", detail: "They would not link the two bookings. Pack the night before; they move the luggage.", wallet: "w-miru" }
+      { t: { k: "part", v: "morning" }, name: "Check out of MIRU and back in", detail: "They would not link the two bookings. Pack the night before; they move the luggage.", wallet: "w-miru" },
+      { t: { k: "exact", v: "19:30" }, name: "Dinner · Niku Senka Hafuu", detail: "Booked for two at the main branch, south of the Imperial Palace. A beef specialist: steak and the beef cutlet. The menu has not been checked for pork yet, so ask before Noa orders.", saved: "p-hafuu", wallet: "w-hafuu" }
     ],
-    logistics: ["w-miru"],
-    saved: ["p-bigoli", "p-hikiniku", "p-brulee", "p-uru", "p-panel"]
+    logistics: ["w-miru", "w-hafuu"],
+    saved: ["p-hafuu", "p-bigoli", "p-hikiniku", "p-brulee", "p-uru", "p-panel"]
   },
 
   {
