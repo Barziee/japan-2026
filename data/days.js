@@ -109,14 +109,15 @@ export const days = [
       { t: { k: "seq" }, name: "Across the Biwako Ōhashi", detail: "Half an hour down to the lake, then over the bridge to the east shore. ¥150 toll, ¥120 on the ETC card.", place: "Biwako Ohashi Bridge" },
       { t: { k: "part", v: "midday" }, name: "Lunch · La Collina Ōmi-Hachiman", detail: "Taneya's sweets village under the grass roof. The food court runs 10:00–17:00 and the bakery opens at 11:00 until it sells out. 650 parking spaces.", saved: "p-lacollina" },
       { t: { k: "seq" }, name: "Coffee on the Hachiman-bori", detail: "Four minutes on, the old merchant canal. Ninosuke Coffee, just off it in an old townhouse, is 10:00–18:00 and closed Tuesdays; Hori Café sits right on the water, 11:30–15:00.", saved: "p-ninosuke" },
-      { t: { k: "approx", v: "16:30" }, name: "Gujō Hachiman", detail: "About 2h15 from Ōmi-Hachiman on the expressways, arriving with about an hour of daylight — sunset is 17:26. The water lanes, then dinner: Daikokuya for wagyu yakiniku if we book it, and Pizzeria Gonza is the real backup.", saved: "p-daikokuya" },
-      { t: { k: "seq" }, name: "Fairfield, Gujō-Yamato", detail: "About fifteen minutes north of the old town.", wallet: "w-fairfield" }
+      { t: { k: "approx", v: "16:30" }, name: "Gujō Hachiman", detail: "About 2h15 from Ōmi-Hachiman on the expressways, arriving with about an hour of daylight — sunset is 17:26. The water lanes while it is light; dinner is back out by the hotel.", saved: "p-igawa" },
+      { t: { k: "seq" }, name: "Fairfield, Gujō-Yamato", detail: "About fifteen minutes north of the old town. Check in and leave the car.", wallet: "w-fairfield" },
+      { t: { k: "exact", v: "20:00" }, name: "Dinner · Daikokuya", detail: "Requested for two in a tatami room — still waiting for the restaurant to accept. Hida beef yakiniku with an English tablet menu, a seven-minute walk from the Fairfield. The menu has not been checked for pork yet, so ask before Noa orders. Pizzeria Gonza is the backup.", saved: "p-daikokuya", wallet: "w-daikokuya" }
     ],
     alts: [
       { title: "The west shore instead", when: "If we want the water rather than the towns", body: "Ukimido at Katata, the temple hall standing in the lake (¥300), then Shirahige Shrine's torii in the water. Photograph it from the viewing deck in front of the shrine office and never cross Route 161 for it — someone was killed doing that in 2021. About the same amount of driving." },
       { title: "Straight to Gujō", when: "If it rains, or we are tired", body: "Kyoto to Gujō Hachiman direct is about 180 km and 2h40, which leaves the whole afternoon in town." }
     ],
-    logistics: ["w-corolla", "w-fairfield"],
+    logistics: ["w-corolla", "w-fairfield", "w-daikokuya"],
     saved: ["p-lacollina", "p-hachimanbori", "p-ninosuke", "p-daikokuya", "p-gonza", "p-igawa"]
   },
 
