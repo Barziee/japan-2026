@@ -43,12 +43,11 @@ export const days = [
     flexible: true, bank: "kyoto",
     plan: [],
     ideas: [
-      { title: "Morning: Saihō-ji, or north to Kibune", body: "Saihō-ji, the moss temple, is booked online by 23:59 Japan time the night before. Kibune is the Kurama plan below, which can just as well be today.", saved: ["p-saihoji", "p-kifune"] },
-      { title: "Evening: Gion, then an izakaya", body: "After dinner, Gion's lanes, then over the river to Kiyamachi for Onikai or Julia, or 365 Sakaba on Kawaramachi.", saved: ["p-onikai", "p-julia", "p-365"] },
+      { title: "The plan for now: Osaka", body: "The Osaka day below, with shopping added: a camera lens, clothes, and eating well along the way.", saved: ["p-tokito", "p-maren"] },
       { title: "It is a Monday", body: "Pizzeria da Ciro is closed on Mondays." }
     ],
     logistics: ["w-potel"],
-    saved: ["p-saihoji", "p-kifune", "p-onikai", "p-julia", "p-365"]
+    saved: ["p-tokito", "p-maren", "p-yatt", "p-grenier"]
   },
 
   {
@@ -56,8 +55,12 @@ export const days = [
     title: "A free day in Kyoto",
     flexible: true, bank: "kyoto",
     plan: [],
+    ideas: [
+      { title: "The plan for now: Kurama and Kibune", body: "The mountain walk below, if the day is dry. If the path is wet, the train to Kibuneguchi and bus 33 reach the village without the climb.", saved: ["p-kuramadera", "p-kifune"] },
+      { title: "Evening: Gion, then an izakaya", body: "Back in town, Gion's lanes, then over the river to Kiyamachi and Kawaramachi.", saved: ["p-onikai", "p-julia", "p-365"] }
+    ],
     logistics: ["w-potel"],
-    saved: []
+    saved: ["p-kuramadera", "p-kifune", "p-onikai", "p-julia", "p-365"]
   },
 
   {

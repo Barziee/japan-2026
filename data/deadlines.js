@@ -60,7 +60,7 @@ export const deadlines = [
 /* Verifications that only make sense once we are there. */
 export const inTrip = [
   { on: "2026-10-04", title: "The evening before Osaka: is Tokito open?", body: "It posts irregular closing days on its Instagram stories (@tokito_karahori). If it is shut, the Osaka day moves." },
-  { on: "2026-10-04", title: "The evening before Kibune", body: "Check the forecast, and bus 33's October timetable from Kibune back to Kibuneguchi." },
+  { on: "2026-10-05", title: "The evening before Kibune", body: "Check the forecast, and bus 33's October timetable from Kibune back to Kibuneguchi." },
   { on: "2026-10-07", title: "Evening: Hikiniku, line or not", body: "If we still want it and have no booking, being at Tatsumi-bashi by about 07:15 is what gives a real shot at a table. Same-day cancellations are posted on X at @hikinikutocomek." },
   { on: "2026-10-10", title: "Evening: pick the 11th", body: "Choose the day trip on the forecast, and confirm that evening's restaurant booking." },
   { on: "2026-10-12", title: "Evening: plan the 13th afternoon", body: "Cloud cover for the first Fuji loop. If Toyota Gotemba does not know yet, tell them we will be one to two hours late for the 14:30 swap: 0550-81-0100." },
