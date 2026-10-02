@@ -21,14 +21,14 @@ const norm = s => String(s || "").toLowerCase();
 /* Pork is the one thing Noa cannot bend on. A restaurant whose note says
    nothing about it says so plainly rather than looking safe by silence. */
 const porkUnchecked = p =>
-  p.cat === "food" && !/pork|noa/i.test(p.note || "") && !/\bbar\b|district/i.test(p.kind || "");
+  p.cat === "food" && !/חזיר|נועה/.test(p.note || "") && !/(^|[\s·])בר([\s·,]|$)|אזור/.test(p.kind || "");
 
 /* Everything a search should find a place by, including its food types.
    Built once per place: the filters run on every keystroke. */
 const HAY = new Map();
 export const haystack = p => {
   if (!HAY.has(p.id)) HAY.set(p.id, norm([
-    p.name, p.ja, p.kind, p.where, p.note, areaById[p.area]?.name,
+    p.name, p.ja, p.kind, p.where, p.note, areaById[p.area]?.name, areaById[p.area]?.he,
     ...(p.food || []).map(foodLabel)
   ].join(" ")));
   return HAY.get(p.id);
@@ -57,15 +57,15 @@ export function placeRow(p) {
         <span class="chev">${svg("chev")}</span>
       </button>
       <div class="drawer"><div><div class="inner">
-        ${p.note ? `<p>${esc(p.note)}</p>` : `<p style="color:var(--ink3)">No note yet.</p>`}
-        ${porkUnchecked(p) ? `<p class="porknote">Pork not checked yet — ask before Noa orders.</p>` : ""}
+        ${p.note ? `<p>${esc(p.note)}</p>` : `<p style="color:var(--ink3)">עוד אין הערה.</p>`}
+        ${porkUnchecked(p) ? `<p class="porknote">לא בדקנו פה חזיר. לשאול לפני שנועה מזמינה.</p>` : ""}
         <div class="acts">
           <a class="btn btn-secondary" href="${mapsUrl(p)}" target="_blank" rel="noopener">
             ${svg("pin")}Google Maps
           </a>
-          ${p.tabelog ? `<a class="btn btn-secondary" href="${esc(p.tabelog)}" target="_blank" rel="noopener">Tabelog ↗</a>` : ""}
+          ${p.tabelog ? `<a class="btn btn-secondary" href="${esc(p.tabelog)}" target="_blank" rel="noopener">Tabelog ↖</a>` : ""}
           <button class="btn btn-secondary" data-pin="${p.id}">
-            ${svg("star")}${pinned ? "Unpin" : "Pin"}
+            ${svg("star")}${pinned ? "להסיר נעיצה" : "לנעוץ"}
           </button>
         </div>
       </div></div></div>
@@ -90,7 +90,7 @@ export function wirePlaceRows(root) {
       const p = placeById[btn.dataset.pin];
       const now = togglePin(p.id, !!p.pin);
       const row = btn.closest(".prow");
-      btn.innerHTML = svg("star") + (now ? "Unpin" : "Pin");
+      btn.innerHTML = svg("star") + (now ? "להסיר נעיצה" : "לנעוץ");
       let mark = row.querySelector(".pin");
       if (now && !mark) {
         mark = document.createElement("span");
@@ -136,22 +136,22 @@ export function renderSaved(query = {}) {
   };
 
   const areaPills = [
-    { id: "all", label: "Everywhere" },
+    { id: "all", label: "הכול" },
     ...areas.map(a => ({ id: a.id, label: a.name })),
-    { id: "pinned", label: "Pinned" }
+    { id: "pinned", label: "נעוצים" }
   ].map(a => `
     <button class="pill" data-area="${a.id}" aria-pressed="${a.id === f.area}">${esc(a.label)}</button>`).join("");
 
-  const catPills = [{ id: "all", label: "All" }, ...CATEGORIES].map(c => `
+  const catPills = [{ id: "all", label: "הכול" }, ...CATEGORIES].map(c => `
     <button class="pill" data-cat="${c.id}" aria-pressed="${c.id === f.cat}">${esc(c.label)}</button>`).join("");
 
-  const foodPills = [{ id: "all", label: "All food" }, ...FOOD_TYPES].map(t => `
+  const foodPills = [{ id: "all", label: "כל האוכל" }, ...FOOD_TYPES].map(t => `
     <button class="pill" data-food="${t.id}" aria-pressed="${t.id === f.food}">
       ${esc(t.label)}${t.id === "all" ? "" : `<span class="n"></span>`}
     </button>`).join("");
 
   /* Grouped by area in trip order, with anything outside the bases last. */
-  const groups = [...areas.map(a => ({ id: a.id, name: a.name })), { id: "", name: "On the road and elsewhere" }]
+  const groups = [...areas.map(a => ({ id: a.id, name: a.name })), { id: "", name: "בדרך ובמקומות אחרים" }]
     .map(g => ({ ...g, list: places.filter(p => (p.area || "") === g.id) }))
     .filter(g => g.list.length);
 
@@ -162,31 +162,31 @@ export function renderSaved(query = {}) {
     </div>`).join("");
 
   return {
-    eyebrow: "Saved places",
+    eyebrow: "מקומות שמורים",
     html: `
       <div class="screen v10">
         <div class="destination">
           <div class="destination-copy">
-            <div class="kicker">${places.length} places</div>
-            <h1>Saved</h1>
+            <div class="kicker">${places.length} מקומות</div>
+            <h1>שמורים</h1>
           </div>
         </div>
         <label class="savedsearch">
           ${svg("search")}
-          <input type="search" id="sq" value="${esc(f.raw)}" placeholder="Search names, food, notes"
+          <input type="search" id="sq" value="${esc(f.raw)}" placeholder="חיפוש: שם, אוכל, הערה"
                  autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search"
-                 aria-label="Search saved places">
-          <button type="button" class="clearq" aria-label="Clear search"${f.raw ? "" : " hidden"}>${svg("close")}</button>
+                 aria-label="חיפוש במקומות השמורים">
+          <button type="button" class="clearq" aria-label="לנקות חיפוש"${f.raw ? "" : " hidden"}>${svg("close")}</button>
         </label>
-        <div class="pillrow areas" role="group" aria-label="Area">${areaPills}</div>
-        <div class="pillrow cats" role="group" aria-label="Category">${catPills}</div>
-        <div class="pillrow foods" role="group" aria-label="Food type">${foodPills}</div>
+        <div class="pillrow areas" role="group" aria-label="אזור">${areaPills}</div>
+        <div class="pillrow cats" role="group" aria-label="קטגוריה">${catPills}</div>
+        <div class="pillrow foods" role="group" aria-label="סוג אוכל">${foodPills}</div>
         <div class="filterline" aria-live="polite">
           <span class="shown"></span>
-          <button type="button" class="clearall">Clear filters</button>
+          <button type="button" class="clearall">לנקות סינון</button>
         </div>
         <div class="savedgroups">${body}</div>
-        <div class="empty" hidden>Nothing saved matches that. <button type="button" class="clearall">Clear filters</button></div>
+        <div class="empty" hidden>אין שמור כזה. <button type="button" class="clearall">לנקות סינון</button></div>
         <div style="height:var(--s7)"></div>
       </div>`,
     wire(root) {
@@ -227,7 +227,7 @@ export function renderSaved(query = {}) {
 
         const filtered = f.area !== "all" || f.cat !== "all" || f.food !== "all" || f.q;
         root.querySelector(".shown").textContent = filtered
-          ? `${shown} of ${places.length} places` : `${places.length} places`;
+          ? `${shown} מתוך ${places.length} מקומות` : `${places.length} מקומות`;
         root.querySelectorAll(".clearall").forEach(b => { b.hidden = !filtered; });
         root.querySelector(".empty").hidden = shown > 0;
         clearq.hidden = !f.raw;

@@ -12,7 +12,7 @@ import { walletById } from "../../data/wallet.js";
 import { climate } from "../../data/lists.js";
 import { planBank, dayIdeas, wirePlans } from "./plans.js";
 import {
-  svg, esc, timeLabel, isSoft, dLabel, dShort, rangeLabel,
+  svg, esc, timeLabel, isSoft, dLabel, dowShort, rangeLabel, nights,
   mapsSearch, dayRoute, NOTE_ICON, CAT_ICON, WALLET_ICON, SKY_ICON
 } from "../ui.js";
 
@@ -25,7 +25,7 @@ const sectionHead = (title, link) => `
 const weatherBox = wx => wx ? `
   <div class="weather">
     <span class="sun">${svg(SKY_ICON[wx.sky] || "partly")}</span>
-    <span><b>${wx.hi}°</b><small>${wx.lo}° low</small></span>
+    <span><b>${wx.hi}°</b><small>מינ׳ ${wx.lo}°</small></span>
   </div>` : "";
 
 /* ------------------------------------------------------------ /trip */
@@ -38,7 +38,7 @@ export function renderTrip() {
         <span class="t">
           <span class="dates">${esc(rangeLabel(d.from, d.to))}</span>
           <h3 class="display">${esc(d.name)}</h3>
-          <span class="n">${d.nights} night${d.nights > 1 ? "s" : ""} · ${n} day${n > 1 ? "s" : ""}</span>
+          <span class="n">${nights(d.nights)} · ${n > 1 ? n + " ימים" : "יום אחד"}</span>
           <span class="l">${esc(d.places)}</span>
         </span>
         <span class="art"><img src="./assets/${d.id}.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -46,18 +46,18 @@ export function renderTrip() {
   }).join("");
 
   return {
-    eyebrow: "Your journey",
+    eyebrow: "המסלול",
     html: `
       <div class="screen v10">
         <div class="destination">
           <div class="destination-copy">
             <div class="kicker">${esc(trip.title)} · ${trip.year}</div>
-            <h1>Noa &amp; Bar</h1>
-            <p class="subtitle">${esc(rangeLabel(trip.from, trip.to))} · ${trip.nights} nights · Kyoto all the way to Tokyo</p>
+            <h1>כל הטיול</h1>
+            <p class="subtitle">${esc(rangeLabel(trip.from, trip.to))} · ${trip.nights} לילות · מ-Kyoto עד Tokyo</p>
           </div>
         </div>
         <div class="section">
-          ${sectionHead("The journey")}
+          ${sectionHead("התחנות")}
           ${cards}
         </div>
         <div style="height:var(--s7)"></div>
@@ -76,10 +76,10 @@ export function renderDestination(id) {
 
   const dayRows = list.map(x => `
     <a class="drow" href="#/day/${x.id}">
-      <span class="dwhen">${esc(x.dow)} ${dShort(x.date).split(" ")[1]}</span>
+      <span class="dwhen">${dowShort(x.date)} ${Number(x.date.slice(8))}</span>
       <span class="dwhat">
         <b>${esc(x.title)}</b>
-        <small>${x.flexible ? "Flexible" : (x.plan || []).length + " stop" + ((x.plan || []).length === 1 ? "" : "s")}</small>
+        <small>${x.flexible ? "גמיש" : (x.plan || []).length === 1 ? "תחנה אחת" : (x.plan || []).length + " תחנות"}</small>
       </span>
       <span class="chev">${svg("right")}</span>
     </a>`).join("");
@@ -92,7 +92,7 @@ export function renderDestination(id) {
         <div class="destbanner"><img src="./assets/${d.id}.jpg" alt="" decoding="async"></div>
         <div class="destination">
           <div class="destination-copy">
-            <div class="kicker">${esc(rangeLabel(d.from, d.to))} · ${d.nights} night${d.nights > 1 ? "s" : ""}</div>
+            <div class="kicker">${esc(rangeLabel(d.from, d.to))} · ${nights(d.nights)}</div>
             <h1>${esc(d.name)}</h1>
             <p class="subtitle">${esc(d.line)}</p>
           </div>
@@ -100,13 +100,13 @@ export function renderDestination(id) {
         </div>
 
         <div class="section">
-          ${sectionHead("Your days")}
+          ${sectionHead("הימים")}
           <div class="drows">${dayRows}</div>
         </div>
 
         ${stays.length ? `
           <div class="section">
-            ${sectionHead("Staying")}
+            ${sectionHead("איפה ישנים")}
             <div class="logistics">${stays.map(stay => `
               <a class="lrow" href="#/wallet/${stay.id}">
                 <span class="lic">${svg("bed")}</span>
@@ -118,7 +118,7 @@ export function renderDestination(id) {
 
         ${saved.length ? `
           <div class="section">
-            ${sectionHead("Saved here", `<a href="#/saved?area=${id}">See all ${saved.length} →</a>`)}
+            ${sectionHead("שמורים פה", `<a href="#/saved?area=${id}">לכל ה-${saved.length} ←</a>`)}
             <div class="savedrows">
               ${saved.slice(0, 4).map(p => `
                 <a class="srow" href="${mapsUrl(p)}" target="_blank" rel="noopener">
@@ -154,7 +154,7 @@ export function renderDay(id) {
         <div class="tbody">
           <h3>${esc(s.name)}</h3>
           ${s.detail ? `<p>${esc(s.detail)}</p>` : ""}
-          ${href ? `<a class="maps" href="${href}" target="_blank" rel="noopener"><span class="arrow">→</span> Maps</a>` : ""}
+          ${href ? `<a class="maps" href="${href}" target="_blank" rel="noopener"><span class="arrow">←</span> מפות</a>` : ""}
         </div>
       </div>`;
   }).join("");
@@ -164,7 +164,7 @@ export function renderDay(id) {
   const [head, ...rest] = all;
   const notes = all.length ? `
     <div class="section">
-      ${sectionHead("Know before you go")}
+      ${sectionHead("טוב לדעת לפני")}
       <div class="context">
         <h3>${esc(head.title)}</h3>
         <p>${esc(head.body)}</p>
@@ -185,7 +185,7 @@ export function renderDay(id) {
       <div class="screen v10">
         <div class="destination">
           <div class="destination-copy">
-            <div class="kicker">Day ${n} of ${days.length} · ${esc(dest.name)}</div>
+            <div class="kicker">יום ${n} מתוך ${days.length} · ${esc(dest.name)}</div>
             <h1 class="dayname">${esc(day.title)}</h1>
           </div>
           ${weatherBox(climate[day.dest])}
@@ -193,7 +193,7 @@ export function renderDay(id) {
 
         ${day.flexible && day.lead ? `
           <div class="section">
-            ${sectionHead("Recommended")}
+            ${sectionHead("ההמלצה")}
             <div class="context">
               <h3>${esc(day.lead.name)}</h3>
               <p>${esc(day.lead.detail)}</p>
@@ -204,8 +204,8 @@ export function renderDay(id) {
           <div class="section route">
             <div class="routebox">
               <div class="routehead">
-                <div class="sectiontitle">Route</div>
-                ${url ? `<a href="${url}" target="_blank" rel="noopener">Open route ↗</a>` : ""}
+                <div class="sectiontitle">המסלול</div>
+                ${url ? `<a href="${url}" target="_blank" rel="noopener">לפתוח במפות ↖</a>` : ""}
               </div>
               <div class="routeflow">${day.route.map((r, i) => (i ? `
                 <span class="connector"><span class="line"></span><small>${esc(r.via || "")}</small></span>` : "")
@@ -213,14 +213,14 @@ export function renderDay(id) {
             </div>
           </div>` : ""}
 
-        ${steps ? `<div class="section">${sectionHead(day.bank ? "Booked and fixed" : "The plan")}<div class="timeline">${steps}</div></div>` : ""}
+        ${steps ? `<div class="section">${sectionHead(day.bank ? "מה שכבר סגור" : "התוכנית")}<div class="timeline">${steps}</div></div>` : ""}
         ${dayIdeas(day)}
         ${day.bank ? planBank(day) : ""}
         ${notes}
 
         ${logi.length ? `
           <div class="section">
-            ${sectionHead("Logistics")}
+            ${sectionHead("לוגיסטיקה")}
             <div class="logistics">${logi.map(w => `
               <a class="lrow" href="#/wallet/${w.id}">
                 <span class="lic">${svg(WALLET_ICON[w.kind] || "doc")}</span>
@@ -231,7 +231,7 @@ export function renderDay(id) {
 
         ${(day.alts || []).length ? `
           <div class="section">
-            ${sectionHead("If plans change")}
+            ${sectionHead("אם התוכניות משתנות")}
             <div class="bank">${day.alts.map(a => `
               <div class="bankrow">
                 <div class="bankhead"><b>${esc(a.title)}</b></div>
