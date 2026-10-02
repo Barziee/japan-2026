@@ -18,7 +18,7 @@ function whenLabel(w) {
   if (!w.from) return w.detail || "";
   const from = dateOf(w);
   const to = w.to ? w.to.slice(0, 10) : null;
-  return to && to !== from ? `${dShort(from)} – ${dShort(to)}` : dShort(from);
+  return to && to !== from ? `${dShort(from)}-${dShort(to)}` : dShort(from);
 }
 
 /* ------------------------------------------------------------ /wallet */
@@ -42,7 +42,7 @@ export function renderWallet(query = {}) {
   let note = "";
   if (filter === "today" && !list.length) {
     list = wallet.filter(upcoming);
-    note = `<div class="tiny muted" style="padding-bottom:var(--s3)">Nothing is live today — showing what is coming up.</div>`;
+    note = `<div class="tiny muted" style="padding-bottom:var(--s3)">אין משהו פעיל היום, אז הנה מה שבדרך.</div>`;
   }
 
   const rows = list.map(w => `
@@ -56,22 +56,22 @@ export function renderWallet(query = {}) {
       <span class="go">${svg("right")}</span>
     </a>`).join("");
 
-  const pills = [["today", "Today"], ["upcoming", "Upcoming"], ["all", "All"]]
+  const pills = [["today", "היום"], ["upcoming", "בקרוב"], ["all", "הכול"]]
     .map(([id, label]) => `<button class="pill" data-f="${id}" aria-pressed="${id === filter}">${label}</button>`)
     .join("");
 
   return {
-    eyebrow: "Travel wallet",
+    eyebrow: "הזמנות",
     back: "#/today",
     html: `
       <div class="screen">
         <div style="padding-bottom:var(--s4)">
-          <h1 class="display" style="font-size:38px">Wallet</h1>
-          <div class="muted tiny" style="margin-top:7px">Bookings, cars, flights and the luggage plan.</div>
+          <h1 class="display" style="font-size:38px">הזמנות</h1>
+          <div class="muted tiny" style="margin-top:7px">מלונות, רכבים, טיסות ומסעדות. כל מה שסגור.</div>
         </div>
         <div class="pillrow">${pills}</div>
         ${note}
-        ${rows || `<div class="empty">Nothing here.</div>`}
+        ${rows || `<div class="empty">אין פה כלום.</div>`}
         <div style="height:var(--s7)"></div>
       </div>`,
     wire(root, go) {
@@ -97,38 +97,38 @@ export function renderWalletItem(id) {
     html: `
       <div class="screen">
         <div style="padding-bottom:var(--s3)">
-          <div class="tiny muted">${esc(w.kind === "stay" ? "Accommodation" : w.kind === "car" ? "Car rental" : w.kind === "flight" ? "Flight" : w.kind === "meal" ? "Restaurant booking" : w.kind === "train" ? "Train booking" : "Logistics")}</div>
+          <div class="tiny muted">${esc(w.kind === "stay" ? "לינה" : w.kind === "car" ? "השכרת רכב" : w.kind === "flight" ? "טיסה" : w.kind === "meal" ? "הזמנה למסעדה" : w.kind === "train" ? "כרטיס רכבת" : "לוגיסטיקה")}</div>
           <h1 class="display" style="font-size:34px;margin-top:6px">${esc(w.title)}</h1>
         </div>
 
         ${w.alert ? `<div class="alert">${svg("warn")}<p>${esc(w.alert)}</p></div>` : ""}
 
         <div style="margin-top:var(--s4)">
-          ${field("When", whenLabel(w) + (w.detail ? " · " + w.detail : ""))}
-          ${field("Where", w.where)}
-          ${field("Reference", w.ref, true)}
-          ${field("Price", w.price)}
+          ${field("מתי", whenLabel(w) + (w.detail ? " · " + w.detail : ""))}
+          ${field("איפה", w.where)}
+          ${field("מספר הזמנה", w.ref, true)}
+          ${field("מחיר", w.price)}
         </div>
 
         <div style="display:flex;gap:var(--s2);flex-wrap:wrap;margin-top:var(--s5)">
-          ${w.where ? `<a class="btn btn-primary" href="${mapsSearch(w.where + ", Japan")}" target="_blank" rel="noopener">${svg("pin")}Open in Maps</a>` : ""}
-          ${w.ref ? `<button class="btn btn-secondary" data-copy="${esc(w.ref)}">${svg("copy")}Copy reference</button>` : ""}
+          ${w.where ? `<a class="btn btn-primary" href="${mapsSearch(w.where + ", Japan")}" target="_blank" rel="noopener">${svg("pin")}לפתוח במפות</a>` : ""}
+          ${w.ref ? `<button class="btn btn-secondary" data-copy="${esc(w.ref)}">${svg("copy")}להעתיק מספר הזמנה</button>` : ""}
         </div>
 
         ${(w.notes || []).length ? `
-          <div class="sect">Notes</div>
+          <div class="sect">הערות</div>
           ${w.notes.map(n => `<p class="muted" style="font-size:13.5px;margin-bottom:11px">${esc(n)}</p>`).join("")}` : ""}
 
         ${!w.ref ? `<p class="tiny" style="color:var(--ink3);margin-top:var(--s5)">
           ${w.refPrivate
-            ? "The booking number is in the confirmation email. It is deliberately not stored here."
-            : `No confirmation number stored yet. Add it to <code>data/wallet.js</code> when the email arrives.`}</p>` : ""}
+            ? "מספר ההזמנה נמצא במייל האישור. בכוונה לא שומרים אותו פה."
+            : "עוד אין פה מספר אישור."}</p>` : ""}
 
         <div style="height:var(--s7)"></div>
       </div>`,
     wire(root) {
       root.querySelectorAll("[data-copy]").forEach(b =>
-        b.addEventListener("click", () => copy(b.dataset.copy, "Reference copied")));
+        b.addEventListener("click", () => copy(b.dataset.copy, "מספר ההזמנה הועתק")));
     }
   };
 }
@@ -151,13 +151,13 @@ export function renderLists() {
       }).join("")}`).join("")}`).join("");
 
   return {
-    eyebrow: "Lists",
+    eyebrow: "רשימות",
     back: "#/today",
     html: `
       <div class="screen">
         <div style="padding-bottom:var(--s2)">
-          <h1 class="display" style="font-size:38px">Lists</h1>
-          <div class="muted tiny" style="margin-top:7px">Ticks are saved on this device.</div>
+          <h1 class="display" style="font-size:38px">רשימות</h1>
+          <div class="muted tiny" style="margin-top:7px">הסימונים נשמרים רק בטלפון הזה.</div>
         </div>
         ${html}
         <div style="height:var(--s7)"></div>
@@ -210,7 +210,7 @@ export function renderInfo() {
   const upcoming = deadlines.filter(x => x.on >= today);
   const dueList = (upcoming.length ? upcoming : deadlines).concat(inTrip.filter(x => x.on >= today));
   const dueRows = dueList.length ? `
-    <div class="sect">What expires, and when</div>
+    <div class="sect">מה פג, ומתי</div>
     ${dueList.map(x => `
       <div style="padding:13px 0;border-bottom:1px solid var(--line)">
         <div style="display:flex;align-items:baseline;gap:8px">
@@ -220,7 +220,7 @@ export function renderInfo() {
         <p class="muted tiny" style="margin-top:4px">${esc(x.body)}</p>
         ${x.when ? `<p class="tiny" style="margin-top:4px;font-weight:650">${esc(x.when)}</p>` : ""}
         ${x.also ? `<p class="tiny" style="margin-top:5px;color:var(--ink3)">${esc(x.also)}</p>` : ""}
-        ${x.link ? `<a class="tiny" style="display:inline-block;margin-top:6px;font-weight:700;color:var(--indigo)" href="${esc(x.link.url)}" target="_blank" rel="noopener">${esc(x.link.label)} ↗</a>` : ""}
+        ${x.link ? `<a class="tiny" style="display:inline-block;margin-top:6px;font-weight:700;color:var(--indigo)" href="${esc(x.link.url)}" target="_blank" rel="noopener">${esc(x.link.label)} ↖</a>` : ""}
       </div>`).join("")}` : "";
 
   const block = (title, items) => `
@@ -232,19 +232,19 @@ export function renderInfo() {
       </div>`).join("")}`;
 
   return {
-    eyebrow: "Useful info",
+    eyebrow: "טוב לדעת",
     back: "#/today",
     html: `
       <div class="screen">
         <div style="padding-bottom:var(--s2)">
-          <h1 class="display" style="font-size:38px">Useful info</h1>
+          <h1 class="display" style="font-size:38px">טוב לדעת</h1>
           <div class="muted tiny" style="margin-top:7px">${esc(CLIMATE_NOTE)}</div>
         </div>
         ${dueRows}
-        <div class="sect">Climate by base</div>${wxRows}
-        <div class="sect">Days decided on the forecast</div>${wd}
-        ${block("Daylight", daylight)}
-        ${block("Autumn colour", foliage)}
+        <div class="sect">אקלים לפי תחנה</div>${wxRows}
+        <div class="sect">ימים שמחליטים לפי התחזית</div>${wd}
+        ${block("אור יום", daylight)}
+        ${block("שלכת", foliage)}
         <div style="height:var(--s7)"></div>
       </div>`
   };

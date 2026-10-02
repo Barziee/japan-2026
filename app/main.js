@@ -54,27 +54,27 @@ function resolve() {
 }
 
 const notFound = () => ({
-  eyebrow: "Not found",
+  eyebrow: "לא נמצא",
   back: "#/today",
-  html: `<div class="screen"><div class="empty">That page does not exist.</div></div>`
+  html: `<div class="screen"><div class="empty">אין פה כלום. העמוד הזה לא קיים.</div></div>`
 });
 
 /* ------------------------------------------------------------ chrome */
 
 const TABS = [
-  ["today", "Today", "today"],
-  ["trip",  "Trip",  "trip"],
-  ["saved", "Saved", "saved"]
+  ["today", "היום",   "today"],
+  ["trip",  "המסלול", "trip"],
+  ["saved", "שמורים", "saved"]
 ];
 
 function topbar(view) {
   return `
     <header class="topbar">
-      ${view.back ? `<button class="iconbtn" data-back aria-label="Back">${svg("left")}</button>` : ""}
+      ${view.back ? `<button class="iconbtn" data-back aria-label="חזרה">${svg("left")}</button>` : ""}
       <div class="eyebrow">${esc(view.eyebrow || "")}</div>
-      <button class="iconbtn" data-search aria-label="Search">${svg("search")}</button>
-      <button class="iconbtn yen" data-fx aria-label="Currency converter">¥</button>
-      <button class="iconbtn more" data-more aria-label="More">${svg("dots")}</button>
+      <button class="iconbtn" data-search aria-label="חיפוש">${svg("search")}</button>
+      <button class="iconbtn yen" data-fx aria-label="המרת מטבע">¥</button>
+      <button class="iconbtn more" data-more aria-label="עוד">${svg("dots")}</button>
     </header>`;
 }
 
@@ -93,7 +93,7 @@ function tabbar(active) {
 let lastPath = null;
 let slideDir = null;      // set by a swipe so the incoming screen moves with it
 
-/* Swipe left and right between the three main tabs.
+/* Swipe between the three main tabs.
 
    Listens on touch first, because that is what iOS Safari delivers, and
    falls back to pointer events for a trackpad. Drags that start inside
@@ -127,7 +127,9 @@ function wireSwipe(root, activeTab) {
     const dx = x - x0, dy = y - y0;
     if (Date.now() - t0 > 800) return;
     if (Math.abs(dx) < 56 || Math.abs(dx) < Math.abs(dy) * 1.6) return;
-    const next = order[at + (dx < 0 ? 1 : -1)];
+    /* The tabs run right to left, so the next one sits on the left and a
+       swipe to the right is what pulls it in. */
+    const next = order[at + (dx > 0 ? 1 : -1)];
     if (!next) return;
     slideDir = dx < 0 ? "from-right" : "from-left";
     go("#/" + next);

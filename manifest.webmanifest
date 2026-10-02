@@ -1,13 +1,13 @@
 {
-  "name": "Japan 2026",
-  "short_name": "Japan 2026",
-  "description": "Our Japan trip — what is relevant right now.",
+  "name": "יפן 2026",
+  "short_name": "יפן 2026",
+  "description": "הטיול שלנו ליפן — מה שרלוונטי עכשיו.",
   "start_url": "./#/today",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "lang": "en",
-  "dir": "ltr",
+  "lang": "he",
+  "dir": "rtl",
   "background_color": "#f7f5f1",
   "theme_color": "#f7f5f1",
   "icons": [

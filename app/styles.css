@@ -71,7 +71,7 @@ body{
   margin:0;
   background:var(--canvas);
   color:var(--ink);
-  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  font-family:Inter,Assistant,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
   font-size:15px;
   line-height:1.45;
   -webkit-font-smoothing:antialiased;
@@ -86,7 +86,7 @@ ul{margin:0;padding:0;list-style:none}
 /* The one display face. Destination and screen titles only — never a
    section heading, never body copy. */
 .display{
-  font-family:Manrope,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  font-family:Manrope,Assistant,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
   font-weight:800;
   letter-spacing:-.032em;
   line-height:1.05;
@@ -233,8 +233,8 @@ ul{margin:0;padding:0;list-style:none}
   background:var(--coral-soft);border:1px solid rgba(232,90,66,.18);
   margin-bottom:var(--s4);
 }
-.countdown .lead{display:flex;align-items:center;gap:6px;padding-right:11px;margin-right:5px;
-  border-right:1px solid rgba(232,90,66,.22)}
+.countdown .lead{display:flex;align-items:center;gap:6px;padding-inline-end:11px;margin-inline-end:5px;
+  border-inline-end:1px solid rgba(232,90,66,.22)}
 .countdown .lead i{width:6px;height:6px;border-radius:50%;background:var(--coral);
   animation:pulse 2.4s ease-in-out infinite}
 .countdown .lead span{font-size:10.5px;font-weight:750;letter-spacing:.07em;
@@ -311,7 +311,7 @@ ul{margin:0;padding:0;list-style:none}
 
 /* timeline ----------------------------------------------------- */
 /* Deliberately not cards: a rail, a dot, and type. */
-.timeline{position:relative;padding-left:2px}
+.timeline{position:relative;padding-inline-start:2px}
 .tl{display:grid;grid-template-columns:62px 20px 1fr;align-items:start;
   padding-bottom:var(--s5);position:relative}
 .tl:last-child{padding-bottom:0}
@@ -347,7 +347,7 @@ ul{margin:0;padding:0;list-style:none}
   border:1px solid transparent}
 .note.k-culture{background:var(--tint-sand);border-color:var(--edge-sand)}
 .note.k-warning{background:var(--tint-coral);border-color:var(--edge-coral)}
-.note.k-culture h4{font-family:Manrope,system-ui,sans-serif;font-size:16px;
+.note.k-culture h4{font-family:Manrope,Assistant,system-ui,sans-serif;font-size:16px;
   font-weight:800;letter-spacing:-.018em}
 .note.k-culture p{line-height:1.62;margin-top:4px}
 .note .g{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;flex:none}
@@ -365,8 +365,8 @@ ul{margin:0;padding:0;list-style:none}
 
 /* place rows --------------------------------------------------- */
 .rows{border-top:1px solid var(--line)}
-.prow{display:block;width:100%;text-align:left;border-bottom:1px solid var(--line)}
-.prow .head{display:flex;align-items:center;gap:12px;padding:13px 0;width:100%;text-align:left}
+.prow{display:block;width:100%;text-align:start;border-bottom:1px solid var(--line)}
+.prow .head{display:flex;align-items:center;gap:12px;padding:13px 0;width:100%;text-align:start}
 .prow .sw{width:42px;height:42px;border-radius:12px;flex:none;
   display:grid;place-items:center;transition:transform 180ms var(--ease)}
 .prow[aria-expanded="true"] .sw{transform:scale(1.06)}
@@ -392,14 +392,14 @@ ul{margin:0;padding:0;list-style:none}
   transition:grid-template-rows var(--dur) var(--ease)}
 .prow[aria-expanded="true"] .drawer{grid-template-rows:1fr}
 .prow .drawer > div{min-height:0}
-.prow .drawer .inner{padding:0 0 16px 52px;opacity:0;transform:translateY(-3px);
+.prow .drawer .inner{padding:0 0 16px;padding-inline-start:52px;opacity:0;transform:translateY(-3px);
   transition:opacity 180ms var(--ease) 40ms,transform 180ms var(--ease) 40ms}
 .prow[aria-expanded="true"] .drawer .inner{opacity:1;transform:none}
 .prow .drawer p{font-size:13.5px;color:var(--ink2);margin-bottom:11px}
 .prow .drawer .acts{display:flex;gap:var(--s2);flex-wrap:wrap}
 
 /* logistics / wallet rows -------------------------------------- */
-.lrow{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line);width:100%;text-align:left}
+.lrow{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line);width:100%;text-align:start}
 .lrow:last-child{border-bottom:0}
 .lrow .ic{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;
   background:var(--surface);border:1px solid var(--line);color:var(--label)}
@@ -421,7 +421,7 @@ ul{margin:0;padding:0;list-style:none}
 .alert p{font-size:13px}
 
 /* "plans changed" --------------------------------------------- */
-.altbtn{display:flex;align-items:center;gap:var(--s3);width:100%;text-align:left;
+.altbtn{display:flex;align-items:center;gap:var(--s3);width:100%;text-align:start;
   padding:14px var(--s4);border-radius:var(--r-card);
   background:var(--surface);border:1px solid var(--line);box-shadow:var(--sh-card);
   transition:transform 160ms var(--ease)}
@@ -501,7 +501,7 @@ ul{margin:0;padding:0;list-style:none}
   margin:0 auto var(--s4)}
 .sheet h3{font-size:17px;font-weight:650;margin-bottom:var(--s4)}
 .sheetrow{display:flex;align-items:center;gap:12px;padding:13px 0;
-  border-bottom:1px solid var(--line);width:100%;text-align:left}
+  border-bottom:1px solid var(--line);width:100%;text-align:start}
 .sheetrow:last-child{border-bottom:0}
 .sheetrow svg{width:18px;height:18px;color:var(--ink2);fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .sheetrow span{font-size:15px;font-weight:550}
@@ -558,7 +558,7 @@ ul{margin:0;padding:0;list-style:none}
 
 /* checklist ------------------------------------------------------ */
 .check{display:flex;align-items:flex-start;gap:12px;padding:12px 0;
-  border-bottom:1px solid var(--line);width:100%;text-align:left}
+  border-bottom:1px solid var(--line);width:100%;text-align:start}
 .check .box{width:21px;height:21px;flex:none;border-radius:6px;margin-top:1px;
   border:1.6px solid var(--line2);display:grid;place-items:center;
   transition:background 160ms var(--ease),border-color 160ms var(--ease)}
@@ -593,7 +593,7 @@ ul{margin:0;padding:0;list-style:none}
 @media (max-width:370px){
   .countdown{padding:8px 10px}
   .countdown .lead span{display:none}
-  .countdown .lead{padding-right:8px;margin-right:3px}
+  .countdown .lead{padding-inline-end:8px;margin-inline-end:3px}
   .cd-cell{min-width:27px}
   .cd-cell b{font-size:16px}
   .cd-cell i{font-size:8px}
@@ -616,7 +616,7 @@ ul{margin:0;padding:0;list-style:none}
 .v10 .sectiontitle{font-size:10.5px;font-weight:800;letter-spacing:.13em;
   text-transform:uppercase;color:var(--ink)}
 .v10 .sectiontitle:before{content:"";display:inline-block;width:17px;height:3px;
-  border-radius:9px;background:var(--coral);margin-right:8px;vertical-align:3px}
+  border-radius:9px;background:var(--coral);margin-inline-end:8px;vertical-align:3px}
 .v10 .sectionhead a{font-size:10.5px;font-weight:700;color:var(--indigo)}
 .v10 .section.route .sectiontitle:before{background:#fff}
 
@@ -645,7 +645,7 @@ ul{margin:0;padding:0;list-style:none}
 .destination-copy{min-width:0}
 .kicker{font-size:10px;font-weight:800;letter-spacing:.15em;color:var(--coral);
   text-transform:uppercase;margin-bottom:4px}
-.destination h1{font-family:Manrope,Inter,system-ui,sans-serif;font-weight:800;font-size:54px;
+.destination h1{font-family:Manrope,Assistant,Inter,system-ui,sans-serif;font-weight:800;font-size:54px;
   line-height:.9;letter-spacing:-.025em;margin:0;overflow-wrap:anywhere}
 .subtitle{font-size:12px;color:var(--ink2);margin-top:9px;max-width:250px;line-height:1.45}
 .weather{display:grid;grid-template-columns:auto auto;gap:8px;align-items:center;
@@ -665,10 +665,10 @@ ul{margin:0;padding:0;list-style:none}
 .hero-image img{width:100%;height:100%;object-fit:cover;display:block}
 .hero-image:after{content:"";position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(10,12,18,.08),rgba(13,16,25,.72))}
-.hero-label{position:absolute;top:13px;left:13px;z-index:2;padding:6px 9px;border-radius:8px;
+.hero-label{position:absolute;top:13px;inset-inline-start:13px;z-index:2;padding:6px 9px;border-radius:8px;
   background:var(--coral);color:#fff;font-size:9px;font-weight:800;letter-spacing:.12em;
   text-transform:uppercase}
-.hero-step{position:absolute;top:12px;right:12px;z-index:2;display:flex;gap:5px}
+.hero-step{position:absolute;top:12px;inset-inline-end:12px;z-index:2;display:flex;gap:5px}
 .hero-step button{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
   background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);color:#fff;
   backdrop-filter:blur(6px);transition:background 160ms var(--ease),transform 120ms var(--ease)}
@@ -677,7 +677,7 @@ ul{margin:0;padding:0;list-style:none}
 .hero-step svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;
   stroke-linecap:round;stroke-linejoin:round}
 .hero-copy{position:absolute;left:16px;right:16px;bottom:14px;z-index:2;color:#fff}
-.hero-copy h2{font-family:Manrope,Inter,system-ui,sans-serif;font-weight:800;font-size:34px;
+.hero-copy h2{font-family:Manrope,Assistant,Inter,system-ui,sans-serif;font-weight:800;font-size:34px;
   line-height:.96;margin:0 0 5px;letter-spacing:-.02em;text-wrap:balance}
 .hero-copy p{font-size:11.5px;line-height:1.45;color:rgba(255,255,255,.84);max-width:310px;margin:0}
 .hero-actions{min-height:83px;background:var(--indigo);display:grid;grid-template-columns:1fr auto;
@@ -704,8 +704,8 @@ ul{margin:0;padding:0;list-style:none}
 .routeflow .stop{font-size:13px;font-weight:800;white-space:nowrap;letter-spacing:-.01em}
 .connector{flex:0 0 auto;min-width:84px;margin:0 12px;text-align:center}
 .connector .line{height:2px;border-radius:9px;background:rgba(255,255,255,.35);position:relative;display:block}
-.connector .line:after{content:"";position:absolute;right:-1px;top:-3px;
-  border-left:6px solid rgba(255,255,255,.58);border-top:4px solid transparent;
+.connector .line:after{content:"";position:absolute;left:-1px;top:-3px;
+  border-right:6px solid rgba(255,255,255,.58);border-top:4px solid transparent;
   border-bottom:4px solid transparent}
 .connector small{display:block;font-size:8.5px;color:rgba(255,255,255,.7);margin-top:6px;
   white-space:nowrap}
@@ -719,13 +719,13 @@ ul{margin:0;padding:0;list-style:none}
 .tmeta.soft{font-size:9px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;
   color:#9a9ca3;padding-top:4px}
 .v10 .rail{position:relative}
-.v10 .dot{position:absolute;top:5px;left:4px;width:9px;height:9px;border-radius:50%;
+.v10 .dot{position:absolute;top:5px;inset-inline-start:4px;width:9px;height:9px;border-radius:50%;
   background:var(--canvas);border:2px solid #aeb0b7;z-index:2}
 .trow.now .dot{background:var(--coral);border-color:var(--coral);
   box-shadow:0 0 0 4px rgba(232,90,66,.16)}
-.linev{position:absolute;top:15px;left:8px;width:1px;bottom:-2px;background:#d7d5d0}
+.linev{position:absolute;top:15px;inset-inline-start:8px;width:1px;bottom:-2px;background:#d7d5d0}
 .trow:last-child .linev{display:none}
-.tbody{padding-left:6px;min-width:0}
+.tbody{padding-inline-start:6px;min-width:0}
 .tbody h3{margin:0;font-size:14.5px;line-height:1.25;font-weight:750;letter-spacing:-.01em}
 .trow.now .tbody h3{color:#c2402a}
 .tbody p{margin:5px 0 0;font-size:11.5px;line-height:1.48;color:var(--ink2)}
@@ -735,10 +735,10 @@ ul{margin:0;padding:0;list-style:none}
 /* context ----------------------------------------------------------- */
 .context{border-radius:18px;background:linear-gradient(140deg,#efe1cc,#f8efe4);
   border:1px solid rgba(159,119,68,.14);padding:18px 16px 16px;position:relative;overflow:hidden}
-.context:after{content:"旅";position:absolute;right:-4px;top:-25px;
+.context:after{content:"旅";position:absolute;inset-inline-end:-4px;top:-25px;
   font-family:Manrope,Inter,sans-serif;font-size:108px;color:rgba(139,98,50,.055);
   transform:rotate(4deg);pointer-events:none}
-.context h3{font-family:Manrope,Inter,system-ui,sans-serif;font-weight:800;font-size:22px;
+.context h3{font-family:Manrope,Assistant,Inter,system-ui,sans-serif;font-weight:800;font-size:22px;
   line-height:1.08;margin:0 0 8px;position:relative;z-index:1;letter-spacing:-.02em}
 .context p{font-size:11.5px;line-height:1.58;color:#62594f;position:relative;z-index:1;margin:0}
 .context .tip{display:flex;gap:9px;margin-top:14px;padding-top:12px;
@@ -759,7 +759,7 @@ ul{margin:0;padding:0;list-style:none}
   stroke-linecap:round;stroke-linejoin:round}
 .srow b{display:block;font-size:13px;font-weight:700}
 .srow small{display:block;font-size:10.5px;color:var(--ink2);line-height:1.35;margin-top:3px}
-.srow .where{font-size:9.5px;color:#9a9ca3;max-width:62px;text-align:right}
+.srow .where{font-size:9.5px;color:#9a9ca3;max-width:62px;text-align:end}
 
 /* logistics --------------------------------------------------------- */
 .logistics{border-radius:17px;background:linear-gradient(130deg,#dff1ee,#edf6f4);
@@ -826,7 +826,7 @@ ul{margin:0;padding:0;list-style:none}
 .v10 .destcard .t > *{display:block}
 .v10 .destcard .dates{font-size:10px;font-weight:800;letter-spacing:.15em;
   text-transform:uppercase;color:var(--coral)}
-.v10 .destcard h3{font-family:Manrope,Inter,system-ui,sans-serif;font-weight:800;
+.v10 .destcard h3{font-family:Manrope,Assistant,Inter,system-ui,sans-serif;font-weight:800;
   font-size:31px;line-height:1;letter-spacing:-.028em;margin:8px 0 5px}
 .v10 .destcard .n{font-size:12px;font-weight:700;color:var(--ink2)}
 .v10 .destcard .l{font-size:11.5px;color:var(--ink3);margin-top:9px;line-height:1.4}
@@ -866,9 +866,9 @@ ul{margin:0;padding:0;list-style:none}
 .noterow p{font-size:11.5px;line-height:1.5;color:var(--ink2);margin-top:4px}
 
 /* Saved rows: the v10 tile and type, keeping the inline drawer -------- */
-.v10 .prow{display:block;width:100%;text-align:left;border-bottom:1px solid var(--line)}
+.v10 .prow{display:block;width:100%;text-align:start;border-bottom:1px solid var(--line)}
 .v10 .prow .head{display:grid;grid-template-columns:44px 1fr auto auto;gap:11px;
-  align-items:center;padding:12px 0;width:100%;text-align:left}
+  align-items:center;padding:12px 0;width:100%;text-align:start}
 .v10 .prow .sq{width:44px;height:44px;border-radius:13px;display:grid;place-items:center}
 .v10 .prow .sq svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;
   stroke-linecap:round;stroke-linejoin:round}
@@ -929,9 +929,9 @@ ul{margin:0;padding:0;list-style:none}
 .plan{position:relative;border-radius:18px;background:var(--surface);border:1px solid var(--line);
   padding:15px 15px 12px;scroll-margin-top:74px;
   transition:border-color 200ms var(--ease),background 200ms var(--ease)}
-.plan h3{margin:0;font-family:Manrope,Inter,system-ui,sans-serif;font-size:18px;font-weight:800;
+.plan h3{margin:0;font-family:Manrope,Assistant,Inter,system-ui,sans-serif;font-size:18px;font-weight:800;
   line-height:1.15;letter-spacing:-.018em;text-wrap:balance}
-.plan h3 .star{color:var(--coral);font-size:12px;margin-right:6px;vertical-align:2px}
+.plan h3 .star{color:var(--coral);font-size:12px;margin-inline-end:6px;vertical-align:2px}
 .plan .bankwhen{margin-top:5px;line-height:1.35}
 .plan > p{font-size:12px;line-height:1.55;color:var(--ink2);margin:9px 0 0}
 .pmetas{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
@@ -988,7 +988,7 @@ ul{margin:0;padding:0;list-style:none}
 .idea p{font-size:11.5px;line-height:1.5;color:var(--ink2);margin-top:4px}
 
 /* Saved: search, food chips, groups -------------------------------------- */
-.savedsearch{display:flex;align-items:center;gap:9px;height:44px;padding:0 6px 0 14px;margin-bottom:12px;
+.savedsearch{display:flex;align-items:center;gap:9px;height:44px;padding:0;padding-inline:14px 6px;margin-bottom:12px;
   background:var(--surface);border:1px solid var(--line2);border-radius:12px;
   transition:border-color 160ms var(--ease),box-shadow 160ms var(--ease)}
 .savedsearch:focus-within{border-color:var(--indigo);box-shadow:0 0 0 3px var(--tint-indigo)}
@@ -1002,19 +1002,19 @@ ul{margin:0;padding:0;list-style:none}
 
 .v10 .pillrow.foods .pill[aria-pressed="true"],
 .searchtypes .pill[aria-pressed="true"]{background:var(--c-food);border-color:var(--c-food);color:#fff}
-.pill .n{margin-left:6px;font-weight:650;opacity:.6;font-variant-numeric:tabular-nums}
+.pill .n{margin-inline-start:6px;font-weight:650;opacity:.6;font-variant-numeric:tabular-nums}
 .pill .n:empty{display:none}
 
 .filterline{display:flex;align-items:center;justify-content:space-between;gap:10px;
   min-height:30px;margin:2px 0 4px;font-size:11px;font-weight:700;color:var(--ink3)}
 .clearall{font-size:11.5px;font-weight:750;color:var(--indigo)}
-.empty .clearall{margin-left:4px}
+.empty .clearall{margin-inline-start:4px}
 
 .sgroup{margin-top:18px}
 .sgroup:first-child{margin-top:6px}
 .sgroup-head{display:flex;align-items:baseline;justify-content:space-between;padding-bottom:8px;
-  font-family:Manrope,Inter,system-ui,sans-serif;font-size:17px;font-weight:800;letter-spacing:-.015em}
-.sgroup-head small{font-family:Inter,system-ui,sans-serif;font-size:11px;font-weight:700;color:var(--ink3)}
+  font-family:Manrope,Assistant,Inter,system-ui,sans-serif;font-size:17px;font-weight:800;letter-spacing:-.015em}
+.sgroup-head small{font-family:Inter,Assistant,system-ui,sans-serif;font-size:11px;font-weight:700;color:var(--ink3)}
 
 .v10 .prow .drawer p.porknote{color:#9a3b2a;font-weight:650}
 
@@ -1035,7 +1035,54 @@ ul{margin:0;padding:0;list-style:none}
 .reminder-when{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:var(--coral)}
 .reminder-when svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;
   stroke-linecap:round;stroke-linejoin:round}
-.reminder h3{margin:7px 0 0;font-family:Manrope,Inter,system-ui,sans-serif;font-size:17px;font-weight:800;
+.reminder h3{margin:7px 0 0;font-family:Manrope,Assistant,Inter,system-ui,sans-serif;font-size:17px;font-weight:800;
   line-height:1.2;letter-spacing:-.015em;text-wrap:balance}
 .reminder p{margin:6px 0 0;font-size:12px;line-height:1.5;color:var(--ink2)}
 .v10 .reminder-go{margin-top:11px;background:var(--coral);color:#fff;height:36px}
+
+
+/* ============================================================
+   Hebrew, right to left
+   The page is dir="rtl", so flex rows, grids and scrollers already run the
+   right way. What is left is type: Hebrew has no capitals, so the wide
+   tracking that made small uppercase Latin labels readable only spreads the
+   letters apart, and the smallest sizes need a point more.
+   ============================================================ */
+
+/* Names are in English. A name on its own lays out left to right even when
+   it starts with a digit or a symbol ("365 Sakaba", "% ARABICA", "TAW."),
+   while a Hebrew title still runs right to left. Times do the same, so an
+   approximate one reads ~10:30. */
+.prow .t b,.srow b,.pchip,.routeflow .stop,.destination h1,.hero-copy h2,.destcard h3,
+.lrow b,.lrow .n,.tbody h3,.plan h3,.bigfield .v,.tmeta,.hero-when b,.topbar .eyebrow,
+.connector small,.display{unicode-bidi:plaintext}
+
+.topbar .eyebrow,.sect,.v10 .sectiontitle,.kicker,.hero-label,.tmeta.soft,
+.destcard .dates,.v10 .destcard .dates,.drow .dwhen,.bigfield .k,.clockpart small{letter-spacing:.02em}
+
+.v10 .sectiontitle{font-size:12px}
+.v10 .sectionhead a,.routehead a{font-size:11.5px}
+.kicker{font-size:11.5px}
+.hero-label{font-size:10.5px}
+.tmeta.soft{font-size:11px;padding-top:3px}
+.clockpart small{font-size:9px}
+.flight-countdown .intro-copy b{font-size:12px}
+.flight-countdown .intro-copy span{font-size:10.5px}
+.weather small{font-size:10.5px}
+.connector small{font-size:10px}
+.srow .where{font-size:10.5px}
+.context .tip div{font-size:11.5px}
+
+/* A name laid out left to right would also start from the left edge. It
+   should still sit on the right, where every row begins. */
+.prow .t b,.srow b,.destination h1,.hero-copy h2,.destcard h3,.lrow b,.lrow .n,.tbody h3,
+.plan h3,.bigfield .v,.tmeta,.hero-when b,.topbar .eyebrow,.display{text-align:right}
+
+/* Reading text: Assistant runs smaller than Inter at the same size, so the
+   paragraphs and the small labels each go up a step. */
+.tbody p,.context p,.bank p,.noterow p,.v10 .prow .drawer p,.idea p,.plan-tip,.hero-copy p,
+.v10 .destcard .l,.plan > p,.reminder p,.subtitle{font-size:13px}
+.srow small,.logistics small,.drow .dwhat small,.v10 .prow .t small,.bankwhen,.hero-when span,
+.v10 .destcard .dates,.drow .dwhen{font-size:11.5px}
+.tbody .maps,.v10 .btn,.resetline,.v10 .prow .drawer .btn,.clearall,.reminder-when{font-size:12.5px}
+.sgroup-head small{font-size:12px}

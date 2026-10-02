@@ -8,8 +8,10 @@ const P = {
   trip:"M9 4 3 6.5v13L9 17l6 2.5 6-2.5v-13L15 6.5 9 4Zm0 0v13m6 2.5v-13",
   saved:"M12 20s-7-4.6-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.4-7 10-7 10Z",
   chev:"M7 10l5 5 5-5",
-  right:"M9 6l6 6-6 6",
-  left:"M15 6l-6 6 6 6",
+  /* Named for meaning, not geometry: "right" is forward and "left" is back,
+     and in a right-to-left app forward points left. */
+  right:"M15 6l-6 6 6 6",
+  left:"M9 6l6 6-6 6",
   out:"M8 16 16 8m0 0H9m7 0v7",
   pin:"M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Zm0-8.6a2.4 2.4 0 1 0 0-4.8 2.4 2.4 0 0 0 0 4.8Z",
   nav:"m21 3-8.5 18-2.2-7.3L3 11.5 21 3Z",
@@ -76,11 +78,12 @@ export const SKY_ICON = { clear:"sun", mixed:"partly", rain:"rain" };
 /* ---------------------------------------------------------------- time */
 /* Research that said "morning" stays morning. Nothing is ever promoted
    to a precise clock time it never had. */
+const PART = { morning: "בוקר", midday: "צהריים", afternoon: "אחה״צ", evening: "ערב" };
 export function timeLabel(t) {
   if (!t) return "";
   if (t.k === "exact")  return t.v;
   if (t.k === "approx") return "~" + t.v;
-  if (t.k === "part")   return t.v.charAt(0).toUpperCase() + t.v.slice(1);
+  if (t.k === "part")   return PART[t.v] || t.v;
   return "";
 }
 export const isSoft = t => !t || t.k === "part" || t.k === "seq";
@@ -93,28 +96,41 @@ export function minutesOf(t) {
     const [h, m] = t.v.split(":").map(Number);
     return h * 60 + m;
   }
-  if (t.k === "part") return { morning: 9 * 60, afternoon: 14 * 60, evening: 19 * 60 }[t.v] ?? null;
+  if (t.k === "part") return { morning: 9 * 60, midday: 12 * 60, afternoon: 14 * 60, evening: 19 * 60 }[t.v] ?? null;
   return null;
 }
 
 /* ---------------------------------------------------------------- dates */
-const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-const DOW = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+/* Dates the way we would say them: "יום ה׳, 8.10". Ranges use a plain hyphen
+   on purpose — between two numbers it keeps them in typed order, where an en
+   dash would let right-to-left layout swap them. */
+const DOW = ["א׳","ב׳","ג׳","ד׳","ה׳","ו׳","שבת"];
+const dm = d => `${d.getDate()}.${d.getMonth() + 1}`;
 
+export function dowLabel(iso) {
+  const n = new Date(iso + "T00:00:00").getDay();
+  return n === 6 ? DOW[6] : "יום " + DOW[n];
+}
+/* Just the letter, for tight columns: "ב׳ 5". */
+export const dowShort = iso => {
+  const n = new Date(iso + "T00:00:00").getDay();
+  return n === 6 ? "ש׳" : DOW[n];
+};
 export function dLabel(iso) {
-  const d = new Date(iso + "T00:00:00");
-  return `${DOW[d.getDay()]}, ${MON[d.getMonth()]} ${d.getDate()}`;
+  return `${dowLabel(iso)}, ${dm(new Date(iso + "T00:00:00"))}`;
 }
 export function dShort(iso) {
-  const d = new Date(iso + "T00:00:00");
-  return `${MON[d.getMonth()]} ${d.getDate()}`;
+  return dm(new Date(iso + "T00:00:00"));
 }
 export function rangeLabel(from, to) {
   const a = new Date(from + "T00:00:00"), b = new Date(to + "T00:00:00");
   return a.getMonth() === b.getMonth()
-    ? `${MON[a.getMonth()]} ${a.getDate()}–${b.getDate()}`
-    : `${MON[a.getMonth()]} ${a.getDate()} – ${MON[b.getMonth()]} ${b.getDate()}`;
+    ? `${a.getDate()}-${dm(b)}`
+    : `${dm(a)}-${dm(b)}`;
 }
+
+/* "3 לילות", with the singular and the dual Hebrew actually uses. */
+export const nights = n => n === 1 ? "לילה אחד" : n === 2 ? "שני לילות" : `${n} לילות`;
 
 /* ---------------------------------------------------------------- links */
 export const mapsSearch = q =>
@@ -150,7 +166,7 @@ export function toast(msg) {
   toastT = setTimeout(() => toastEl.classList.remove("on"), 1900);
 }
 
-export async function copy(text, label = "Copied") {
+export async function copy(text, label = "הועתק") {
   try { await navigator.clipboard.writeText(text); toast(label); }
-  catch { toast("Could not copy"); }
+  catch { toast("לא הצלחתי להעתיק"); }
 }

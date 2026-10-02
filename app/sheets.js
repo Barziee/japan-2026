@@ -65,7 +65,7 @@ export function currencySheet() {
     </div>`;
 
   open(`
-    <h3>Convert</h3>
+    <h3>המרת מטבע</h3>
     ${row("jpy", "JPY")}
     ${row("ils", "ILS")}
     ${row("usd", "USD")}
@@ -117,11 +117,11 @@ export function moreSheet(go) {
     `<button class="sheetrow" data-go="${href}">${svg(icon)}<span>${label}</span></button>`;
 
   open(`
-    <h3>More</h3>
-    ${item("box",  "Travel Wallet", "#/wallet")}
-    ${item("list", "Lists",         "#/lists")}
-    <button class="sheetrow" data-fx-row><span style="width:18px;text-align:center;font-weight:600">¥</span><span>Currency</span></button>
-    ${item("info", "Useful info",   "#/info")}
+    <h3>עוד</h3>
+    ${item("box",  "הזמנות",      "#/wallet")}
+    ${item("list", "רשימות",      "#/lists")}
+    <button class="sheetrow" data-fx-row><span style="width:18px;text-align:center;font-weight:600">¥</span><span>המרת מטבע</span></button>
+    ${item("info", "טוב לדעת",    "#/info")}
   `, {
     wire(el) {
       el.querySelectorAll("[data-go]").forEach(b =>
@@ -145,5 +145,5 @@ export function altsSheet(day) {
       <p style="font-size:13.5px;color:var(--ink2);margin-top:6px">${esc(a.body)}</p>
     </div>`).join("");
 
-  open(`<h3>If plans change</h3>${list}`);
+  open(`<h3>אם התוכניות משתנות</h3>${list}`);
 }

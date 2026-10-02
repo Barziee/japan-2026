@@ -13,243 +13,243 @@ export const notes = [
   /* ---------------- trip-wide ---------------- */
   {
     id: "n-pork", kind: "food", trip: true, lead: true,
-    title: "Noa does not eat pork, and Japan makes that hard",
-    body: "Most ramen is tonkotsu, and chāshū, gyoza and plenty of otherwise neutral broths carry pork too. A non-pork broth does not guarantee a non-pork topping, so ask about both. Two Osaka answers that work: Gyukotsuo on beef bone and MAREN on chicken — verify the chāshū at each. Ramen Nishiki in Kyoto is unverified on both counts."
+    title: "נועה לא אוכלת חזיר, ויפן לא עושה את זה קל",
+    body: "רוב הראמן הוא tonkotsu, וגם בצ׳אשו, בגיוזה ובהרבה מרקים שנראים תמימים יש חזיר. מרק בלי חזיר לא אומר שגם התוספת בלי חזיר, אז שואלים על שניהם. שתי תשובות שעובדות ב-Osaka: Gyukotsuo על עצמות בקר ו-MAREN על עוף. בשניהם לוודא את הצ׳אשו. Ramen Nishiki ב-Kyoto לא נבדק, לא המרק ולא התוספות."
   },
   {
     id: "n-knives", kind: "warning", trip: true,
-    title: "Knives fly checked",
-    body: "Anything bought at Tower Knives or Seki goes in the hold on the way home, never in the cabin."
+    title: "סכינים טסות רק בבטן המטוס",
+    body: "כל מה שקונים ב-Tower Knives או ב-Seki נכנס למזוודה שנשלחת, אף פעם לא לתיק יד."
   },
   {
     id: "n-matsumoto-dinners", kind: "warning", trip: true,
-    title: "Matsumoto dinners are the urgent one",
-    body: "Three evenings on 10, 11 and 12 Oct are still open. The city is hard to walk into without a booking, and we land on a long weekend plus Sports Day plus the soba festival. Act around 8–12 Sep — do not assume availability."
+    title: "ארוחות הערב ב-Matsumoto",
+    body: "ה-10.10 וה-11.10 סגורים, ה-12.10 עוד פתוח. קשה להיכנס שם למסעדה בלי הזמנה: אנחנו נוחתים על סופ״ש ארוך, Sports Day ופסטיבל הסובה ביחד. לא להניח שיהיה מקום."
   },
 
   /* ---------------- Kyoto · 4–8 Oct ---------------- */
   {
     id: "n-room-change", kind: "warning", day: "d08", lead: true,
-    title: "Check out and back in this morning",
-    body: "MIRU refused to link the two bookings, so we pack on the evening of the 7th and check out before leaving. They will move the luggage."
+    title: "הבוקר עושים צ׳ק-אאוט וצ׳ק-אין מחדש",
+    body: "MIRU לא הסכימו לחבר את שתי ההזמנות, אז אורזים בערב של ה-7.10 ועושים צ׳ק-אאוט לפני שיוצאים. את המזוודות הם מעבירים בעצמם."
   },
   {
     id: "n-kyoto-base", kind: "route", dest: "kyoto", lead: true,
-    title: "Five nights, and nothing we have to do",
-    body: "Three nights at Umekoji Potel, then two at MIRU in Gion. Each day holds only what is booked. The day plans are ideas to pick from in the morning — or not at all."
+    title: "חמישה לילות, ואפס חובות",
+    body: "שלושה לילות ב-Umekoji Potel, ואז שניים ב-MIRU ב-Gion. בכל יום מופיע רק מה שכבר סגור. תוכניות היום הן רעיונות לבחור מהם בבוקר, ואפשר גם לא לבחור כלום."
   },
   {
     id: "n-umekoji", kind: "transport", dest: "kyoto",
-    title: "Getting around from Umekōji",
-    body: "Kyoto Station is 19 minutes on foot. Umekōji-Kyōtonishi, one stop from Kyoto on the JR Sagano line, is closer, and bus 207 runs to Shijō and Gion in about 25 minutes."
+    title: "איך זזים מ-Umekōji",
+    body: "Kyoto Station במרחק 19 דקות הליכה. התחנה Umekōji-Kyōtonishi, תחנה אחת מ-Kyoto בקו JR Sagano, קרובה יותר. ואוטובוס 207 מגיע ל-Shijō ול-Gion בערך ב-25 דקות."
   },
   {
     id: "n-hikiniku-risk", kind: "food", dest: "kyoto",
-    title: "Hikiniku: the morning line",
-    body: "Closed Wednesdays, so any night but the 7th. Tickets are handed out at the door from about 09:00, earlier on busy days — Reddit reports 08:30 to 08:35. In 2026 people found 40 in line by 08:34, and one person in line at 08:30 got nothing. From 08:15 to 08:30 on weekdays, some still got dinner. But twice, people in line at 07:45 were offered lunch only, because dinner had already gone online. Expect 40 to 45 minutes in line. One of us can probably hold the place, but both must be there at the table time, and more than 10 minutes late cancels it. The time on the ticket is not a seat — there is more waiting, and the Waiting Bar upstairs is the place to do it. Cashless only. The beef is 100%, which works for Noa."
+    title: "Hikiniku: התור של הבוקר",
+    body: "סגור בימי רביעי, אז כל ערב חוץ מה-7.10. מחלקים כרטיסים בכניסה בערך מ-09:00, ובימים עמוסים מוקדם יותר. ברדיט מדווחים על 08:30 עד 08:35. ב-2026 אנשים ספרו 40 בתור ב-08:34, ומישהו שעמד שם ב-08:30 יצא בלי כלום. בימי חול, מי שהגיע בין 08:15 ל-08:30 עוד קיבל לפעמים ארוחת ערב. אבל היו פעמיים שלאנשים שעמדו בתור ב-07:45 הציעו רק צהריים, כי הערב כבר נגמר אונליין. לצפות ל-40 עד 45 דקות בתור. כנראה שאחד מאיתנו יכול לתפוס מקום, אבל בשעה של השולחן צריך ששנינו נהיה שם, ואיחור של יותר מ-10 דקות מבטל. השעה על הכרטיס היא לא שעת ישיבה. יש עוד המתנה, וה-Waiting Bar למעלה הוא המקום לעשות אותה. רק תשלום בכרטיס, בלי מזומן. הבשר הוא 100% בקר, אז זה מתאים לנועה."
   },
 
   /* ---------------- 9 Oct · Kyoto → Seki → Gujō ---------------- */
   {
     id: "n-car-pickup", kind: "transport", day: "d09", lead: true,
-    title: "Car between 09:00 and 09:30, on the road by 09:45",
-    body: "Toyota Rent a Car, Sanjo Keihan-Kita, 11-2 Magohashichō, Sakyō-ku. Paperwork, the ETC card and loading the boot all take time, so plan the day from 09:45 rather than from the booking slot. Ōhara, the bridge and Ōmi-Hachiman, then on to Gujō, add up to about three and a half hours of driving, so the stops are what fill the day."
+    title: "אוספים את הרכב בין 09:00 ל-09:30, יוצאים לדרך ב-09:45",
+    body: "Toyota Rent a Car, סניף Sanjo Keihan-Kita, בכתובת 11-2 Magohashichō, Sakyō-ku. הניירת, כרטיס ה-ETC והעמסת תא המטען לוקחים זמן, אז מתכננים את היום מ-09:45 ולא מהשעה שבהזמנה. Ōhara, הגשר ו-Ōmi-Hachiman, ואז ההמשך ל-Gujō, יוצאים ביחד בערך שלוש וחצי שעות נהיגה. העצירות הן מה שממלא את היום."
   },
   {
     id: "n-seki", kind: "culture", day: "d10", lead: true,
-    title: "Seki is the knife stop",
-    body: "Seven centuries of blade-making, and it is directly on the route. The second and last knife opportunity after Tower Knives in Osaka."
+    title: "Seki היא העצירה של הסכינים",
+    body: "שבע מאות שנה של ייצור להבים, וזה ממש על המסלול. ההזדמנות השנייה והאחרונה לסכין, אחרי Tower Knives ב-Osaka."
   },
 
   {
     id: "n-seki-hall", kind: "culture", day: "d10",
-    title: "Cutlery Hall, not the sword museum",
-    body: "岐阜関刃物会館 is open 9:00–17:00, closed only over New Year, with about 100 parking spaces. It is a direct sales hall carrying the Seki factories' output — right if the point is to buy. The sword museum next door only runs forging demonstrations on set dates, usually the first Sunday, so our Saturday is unlikely to have one."
+    title: "ה-Cutlery Hall, לא מוזיאון החרבות",
+    body: "岐阜関刃物会館 פתוח 9:00-17:00, סגור רק בראש השנה האזרחית, ויש בערך 100 מקומות חניה. זה אולם מכירה ישירה של המפעלים של Seki, בדיוק מה שצריך אם באים לקנות. מוזיאון החרבות ליד עושה הדגמות חישול רק בתאריכים קבועים, בדרך כלל ביום ראשון הראשון בחודש, אז ביום שבת שלנו כנראה לא תהיה."
   },
   {
     id: "n-gujo-light", kind: "timing", day: "d09", lead: true,
-    title: "Gujō in the last of the light, and again in the morning",
-    body: "We reach Gujō Hachiman around 16:30, about an hour before the 17:26 sunset — enough for the water lanes in daylight. Dinner is at 20:00 by the hotel in Gujō-Yamato, fifteen minutes north. The proper wander is tomorrow morning, before Seki and the drive to Matsumoto."
+    title: "Gujō באור האחרון, ושוב בבוקר",
+    body: "מגיעים ל-Gujō Hachiman בסביבות 16:30, בערך שעה לפני השקיעה ב-17:26. זה מספיק לסמטאות המים באור יום. ארוחת הערב ב-20:00 ליד המלון ב-Gujō-Yamato, רבע שעה צפונה. השיטוט האמיתי הוא מחר בבוקר, לפני Seki והנסיעה ל-Matsumoto."
   },
   {
     id: "n-gujo-known", kind: "route", day: "d10",
-    title: "We have been here before",
-    body: "So there is no checklist. Canals, the water lanes, the streets above the river, coffee if we want it. The castle only if it happens to fit, and Monet's pond stays off — it costs daylight in the town we actually came for."
+    title: "כבר היינו פה",
+    body: "אז אין רשימת משימות. תעלות, סמטאות המים, הרחובות שמעל הנהר, קפה אם בא לנו. הטירה רק אם זה מסתדר, ועל הבריכה של מונה מוותרים. היא אוכלת אור יום בעיירה שבאמת באנו בשבילה."
   },
 
-  /* ---------------- 10 Oct · Atera Gorge ---------------- */
+  /* ---------------- 10 Oct · the drive ---------------- */
   {
     id: "n-takayama", kind: "route", day: "d10",
-    title: "Via Seki and the expressway, well clear of Takayama",
-    body: "The Takayama festival runs 9–10 Oct, and the northern road to Matsumoto, Routes 472 and 158, passes about 250 m from its centre. The route south past Seki and up the Chūō Expressway is the one Google rates fastest anyway — 3h09 on its own, 3h29 with the Seki stop — and it stays far from Takayama."
+    title: "דרך Seki והכביש המהיר, רחוק מ-Takayama",
+    body: "פסטיבל Takayama הוא ב-9-10.10, והדרך הצפונית ל-Matsumoto, כבישים 472 ו-158, עוברת בערך 250 מ׳ ממרכז העיר. הדרך הדרומית, דרך Seki ואז צפונה ב-Chūō Expressway, היא ממילא זו ש-Google מדרג הכי מהירה: 3:09 שעות נטו, 3:29 עם העצירה ב-Seki. והיא נשארת רחוק מ-Takayama."
   },
 
   /* ---------------- 11 Oct · the big nature day ---------------- */
   {
     id: "n-kamikochi-cars", kind: "parking", day: "d11", lead: true,
-    title: "Private cars cannot enter Kamikōchi",
-    body: "Park at Sawando and take the shuttle in. The buses are not reserved — you turn up and board. Reservations only apply to the long-distance coaches from Tokyo and Osaka, which we are not using."
+    title: "ל-Kamikōchi אי אפשר להיכנס עם רכב פרטי",
+    body: "חונים ב-Sawando ונכנסים בשאטל. לא מזמינים מקום באוטובוסים האלה, פשוט באים ועולים. הזמנות יש רק לאוטובוסים הארוכים מ-Tokyo ומ-Osaka, ואנחנו לא עליהם."
   },
   {
     id: "n-kamikochi-season", kind: "timing", day: "d11", lead: true,
-    title: "Colour peaks around mid-October",
-    body: "We are right in the window. Decide the night before on the forecast — this is the day worth spending the good weather on."
+    title: "השלכת בשיא באמצע אוקטובר",
+    body: "אנחנו בדיוק בחלון. מחליטים ערב לפני לפי התחזית. זה היום שעליו שווה לשרוף את מזג האוויר הטוב."
   },
   {
     id: "n-senjojiki", kind: "transport", day: "d11",
-    title: "Senjōjiki is the same shape of day",
-    body: "Park at Suganodai (¥500/day), bus about 40 minutes, then eight minutes of ropeway to 2,612 m. The cirque has a flat loop at the top, so it works without committing to the climb. Two catches: peak autumn means hour-plus ropeway queues, and snow starts falling again mid-October."
+    title: "Senjōjiki זה אותו סוג של יום",
+    body: "חונים ב-Suganodai (¥500 ליום), אוטובוס של בערך 40 דקות, ואז שמונה דקות ברכבל עד 2,612 מ׳. למעלה יש מסלול מעגלי ושטוח, אז זה עובד גם בלי להתחייב לטיפוס. שני דברים לקחת בחשבון: בשיא השלכת יש תורים של שעה ומעלה לרכבל, ובאמצע אוקטובר כבר יכול לרדת שלג."
   },
 
   /* ---------------- 12 Oct · Matsumoto ---------------- */
   {
     id: "n-matsumoto-book", kind: "food", day: "d10", lead: true,
-    title: "Two dinners booked, the 12th still open",
-    body: "MINATO on the 10th and PIZZA MATSURI on the 11th, both at 20:00 and both near Matsumoto station. Jujo is in Asama Onsen, about twenty minutes away by taxi or the Asama Onsen bus, so leave the car: Japan's drink-driving rules are strict. For the 12th, Jujo's staff routinely book restaurants in town, including ones that take no online reservations — worth asking them, because the festival and the holiday fill the town that night."
+    title: "שתי ארוחות ערב סגורות, ה-12.10 עוד פתוח",
+    body: "MINATO ב-10.10 ו-PIZZA MATSURI ב-11.10, שתיהן ב-20:00 ושתיהן ליד תחנת Matsumoto. Jujo נמצא ב-Asama Onsen, בערך עשרים דקות משם במונית או באוטובוס של Asama Onsen. אז משאירים את הרכב: ביפן לא משחקים עם שתייה ונהיגה. ל-12.10 שווה לבקש מהצוות של Jujo. הם מזמינים כל הזמן מסעדות בעיר, כולל כאלה שלא לוקחות הזמנות אונליין, והפסטיבל והחג ממלאים את העיר בערב הזה."
   },
   {
     id: "n-matsumoto-evenings", kind: "food", day: "d11",
-    title: "What each evening wants to be",
-    body: "The 10th is teppan at MINATO and the 11th is pizza at PIZZA MATSURI. The 12th wants good soba, which Matsumoto is known for, or an izakaya doing Shinshu plates: basashi, mountain vegetables, local sake. Some soba places close in the afternoon or at weekends, so confirm the evening specifically."
+    title: "מה מתאים לכל ערב",
+    body: "ב-10.10 טפאן ב-MINATO, וב-11.10 פיצה ב-PIZZA MATSURI. ה-12.10 מבקש סובה טובה, שעליה Matsumoto מפורסמת, או איזקאיה עם מנות של Shinshu: basashi, ירקות הרים, סאקה מקומי. חלק ממקומות הסובה סוגרים אחר הצהריים או בסופי שבוע, אז לוודא ספציפית את הערב."
   },
   {
     id: "n-sportsday", kind: "warning", day: "d12", lead: true,
-    title: "Sports Day and the soba festival, both",
-    body: "The festival runs 10–12 Oct in the castle park and the 12th is a national holiday. The city, the parking and the restaurants are full on exactly our nights."
+    title: "גם Sports Day וגם פסטיבל הסובה",
+    body: "הפסטיבל רץ ב-10-12.10 בפארק של הטירה, וה-12.10 הוא חג לאומי. העיר, החניות והמסעדות מלאות בדיוק בלילות שלנו."
   },
   {
     id: "n-castle-timing", kind: "timing", day: "d12", lead: true,
-    title: "Castle before the midday peak",
-    body: "Then Nawate, then Nakamachi, then a real break. This is a slow day, not a march."
+    title: "לטירה מגיעים לפני העומס של הצהריים",
+    body: "ואז Nawate, ואז Nakamachi, ואז הפסקה אמיתית. זה יום רגוע, לא מסע כומתה."
   },
   {
     id: "n-tsubame-monday", kind: "warning", day: "d12",
-    title: "Tsubame Onsen is shut on Mondays",
-    body: "The free open-air baths close exactly on the day we could otherwise have used them."
+    title: "Tsubame Onsen סגור בימי שני",
+    body: "המרחצאות הפתוחים והחינמיים סוגרים בדיוק ביום שיכולנו להשתמש בהם."
   },
 
   /* ---------------- 13 Oct · to Gotemba ---------------- */
   {
     id: "n-carswap", kind: "warning", day: "d13", lead: true,
-    title: "We will be late for the 14:30 car swap",
-    body: "Both rentals are timed to 14:30 at Gotemba — the Corolla back and the GR Yaris out — and the western-lakes route lands closer to 16:15. The plan is to tell the Gotemba shop (0550-81-0100) we will be one to two hours late. It is the same shop and the same appointment for both cars."
+    title: "נאחר להחלפת הרכבים של 14:30",
+    body: "שתי ההשכרות קבועות ל-14:30 ב-Gotemba, להחזיר את ה-Corolla ולקחת את ה-GR Yaris, והמסלול דרך האגמים המערביים מגיע יותר לכיוון 16:15. התוכנית היא להודיע לסניף ב-Gotemba (0550-81-0100) שנאחר בשעה-שעתיים. זה אותו סניף ואותה פגישה לשני הרכבים."
   },
   {
     id: "n-carswap-order", kind: "transport", day: "d13",
-    title: "The car swap is one visit",
-    body: "The Corolla goes back and the GR Yaris comes out at the same Gotemba shop. The suitcases fit in the Yaris using the back seats."
+    title: "החלפת הרכבים היא ביקור אחד",
+    body: "ה-Corolla חוזרת וה-GR Yaris יוצא, באותו סניף ב-Gotemba. המזוודות נכנסות ל-Yaris עם המושבים האחוריים."
   },
   {
     id: "n-d13-route", kind: "route", day: "d13", lead: true,
-    title: "Two hours to the first lake, then it is all short hops",
-    body: "Matsumoto to Tatego-hama is 125.9 km and about two hours — the long leg is done before the day really starts. After that: Shōji to Motosu is nine minutes, Motosu to Shiraito twenty, Shiraito to Tanuki ten, Tanuki to Gotemba fifty. The whole day with every stop is 212 km and about 3h30 of driving."
+    title: "שעתיים עד האגם הראשון, ומשם רק קפיצות קצרות",
+    body: "מ-Matsumoto ל-Tatego-hama זה 125.9 ק״מ ובערך שעתיים. הקטע הארוך נגמר עוד לפני שהיום באמת מתחיל. אחרי זה: מ-Shōji ל-Motosu תשע דקות, מ-Motosu ל-Shiraito עשרים, מ-Shiraito ל-Tanuki עשר, ומ-Tanuki ל-Gotemba חמישים. כל היום, עם כל העצירות, הוא 212 ק״מ ובערך שלוש וחצי שעות נהיגה."
   },
   {
     id: "n-d13-lunch", kind: "food", day: "d13", lead: true,
-    title: "Eat properly, and early",
-    body: "Leaving at 07:00 means real hunger by 11:00. Three candidates sit on the route: Hiraishiya for Fujinomiya yakisoba right beside Otodome, the Asagiri Food Park buffet on Route 139 for local dairy, and Masu no Ie for trout raised in Fuji spring water. None needs a booking. All three need their Tuesday hours confirmed nearer the time — nothing here is locked in."
+    title: "לאכול כמו שצריך, ומוקדם",
+    body: "מי שיוצא ב-07:00 רעב באמת ב-11:00. יש שלוש אפשרויות על המסלול: Hiraishiya עם יאקיסובה של Fujinomiya ממש ליד Otodome, המזנון של Asagiri Food Park על כביש 139 עם מוצרי חלב מקומיים, ו-Masu no Ie עם פורל שגדל במי המעיינות של ה-Fuji. אף אחת לא צריכה הזמנה. בשלושתן צריך לוודא קרוב לתאריך שהן פתוחות ביום שלישי. שום דבר פה לא נעול."
   },
   {
     id: "n-d13-nakanokura", kind: "route", day: "d13",
-    title: "Not the ¥1,000-note climb",
-    body: "The exact banknote angle is from Nakanokura Pass, which is a solid uphill walk and over an hour of the day. We want the easy shore view near Kōan instead — same lake, same mountain, no climb."
+    title: "לא הטיפוס של שטר ה-¥1,000",
+    body: "הזווית המדויקת מהשטר היא מ-Nakanokura Pass, וזו עלייה רצינית ברגל שלוקחת יותר משעה מהיום. אנחנו רוצים את הנוף הקל מהחוף ליד Kōan. אותו אגם, אותו הר, בלי לטפס."
   },
   {
     id: "n-d13-kawaguchiko", kind: "route", day: "d13",
-    title: "West of the mountain, not east",
-    body: "Kawaguchiko is deliberately not on this route. The western lakes flow naturally into Asagiri and Shiraito; going east would add distance and put us in the busiest part of the Five Lakes for no gain."
+    title: "ממערב להר, לא ממזרח",
+    body: "Kawaguchiko בכוונה לא על המסלול הזה. האגמים המערביים זורמים בטבעיות אל Asagiri ו-Shiraito. לנסוע מזרחה היה מוסיף מרחק ומכניס אותנו לחלק הכי עמוס של חמשת האגמים, בלי שום רווח."
   },
 
   /* ---------------- 14 Oct · west Izu ---------------- */
   {
     id: "n-izu-shape", kind: "route", day: "d14", lead: true,
-    title: "Four stops, and the driving is the point",
-    body: "Forest and waterfall, local coffee, wild coast, mountain pass at sunset. 220 km and about 4h10 measured — plan on five hours behind the wheel, because Izu's roads wind and the routing engine does not price that in."
+    title: "ארבע עצירות, והנהיגה היא העניין",
+    body: "יער ומפל, קפה מקומי, חוף פראי, ומעבר הרים בשקיעה. 220 ק״מ ובערך 4:10 שעות לפי המדידה. לתכנן על חמש שעות מאחורי ההגה, כי הכבישים של Izu מתפתלים ותוכנות הניווט לא מתמחרות את זה."
   },
   {
     id: "n-izu-return", kind: "route", day: "d14", lead: true,
-    title: "Come home the long way over the ridge",
-    body: "Two routes were measured. The direct one drops off the ridge to Route 136 and the expressway: 75.1 km, 1h12. Staying on the Nishi-Izu Skyline to Darumayama and descending to Shuzenji is 81.7 km, 1h21. Nine minutes for a wider road after dark, and neither doubles back down the climb we came up."
+    title: "חוזרים בדרך הארוכה, על הרכס",
+    body: "נמדדו שני מסלולים. הישיר יורד מהרכס לכביש 136 ולכביש המהיר: 75.1 ק״מ, שעה ו-12 דקות. מי שנשאר על ה-Nishi-Izu Skyline עד Darumayama ויורד ל-Shuzenji עושה 81.7 ק״מ, שעה ו-21 דקות. תשע דקות יותר בשביל כביש רחב יותר בחושך, ואף אחד מהם לא חוזר על העלייה שעלינו בה."
   },
   {
     id: "n-izu-sunset", kind: "timing", day: "d14", lead: true,
-    title: "Sunset 17:16 at the pass, golden hour from 16:16",
-    body: "Computed for the pass itself at 897 m with a sea horizon west; 17:12 down at sea level. Arriving 16:15–16:30 lands exactly on the start of the good light rather than chasing the end of it."
+    title: "שקיעה ב-17:16 במעבר, שעת הזהב מ-16:16",
+    body: "מחושב למעבר עצמו, בגובה 897 מ׳ עם אופק של ים במערב. למטה בגובה הים זה 17:12. מי שמגיע בין 16:15 ל-16:30 נוחת בדיוק על תחילת האור הטוב, ולא רודף אחרי הסוף שלו."
   },
   {
     id: "n-izu-coast", kind: "route", day: "d14",
-    title: "Koganezaki over Dōgashima",
-    body: "Koganezaki peaks exactly when we are there — the rock is propylite and turns gold in afternoon light, which is what the name says. Volcanic, free, and 15 minutes below the pass against Dōgashima's 21. Dōgashima's draw is the tombolo out to Sanshirojima, and local sources suggest the daytime low between October and February does not uncover it — but the town's own page just points at a tide table, so treat that as unconfirmed for the 14th rather than settled. Either way it sits on Route 136 going north, so a short viewpoint stop costs nothing."
+    title: "Koganezaki לפני Dōgashima",
+    body: "Koganezaki בשיא בדיוק כשאנחנו שם. הסלע הוא פרופיליט שנצבע בזהב באור של אחר הצהריים, וזה בדיוק מה שהשם אומר. וולקני, בחינם, ו-15 דקות מתחת למעבר, מול 21 דקות מ-Dōgashima. מה שמושך ב-Dōgashima הוא לשון החול שנחשפת עד Sanshirojima, ומקורות מקומיים אומרים שבין אוקטובר לפברואר השפל של היום לא חושף אותה. אבל העמוד של העיירה עצמה רק מפנה לטבלת גאות ושפל, אז ל-14.10 זה לא סגור. בכל מקרה היא יושבת על כביש 136 צפונה, אז עצירה קצרה לתצפית לא עולה כלום."
   },
   {
     id: "n-izu-roads", kind: "warning", day: "d14",
-    title: "Roads to know about",
-    body: "Avoid 旧天城トンネル, the old Amagi tunnel — a single-lane gravel road that navigation apps offer as a tourist route. The correct crossing is the new tunnel on Route 414. The cross-peninsula leg uses prefectural road 15 over the Basara pass: winding, but a proper two-lane road, and we take it in daylight. The climb to the pass is the one narrow, steep stretch of the day and we go up it at 15:55 in full light. Check closures beforehand on 0558-76-5718."
+    title: "כבישים שכדאי להכיר",
+    body: "להתרחק מ-旧天城トンネル, מנהרת Amagi הישנה. זו דרך חצץ של נתיב אחד שאפליקציות ניווט מציעות כמסלול תיירותי. המעבר הנכון הוא המנהרה החדשה בכביש 414. את חציית חצי האי עושים בכביש 15 דרך מעבר Basara: מפותל, אבל כביש אמיתי של שני נתיבים, ואנחנו עושים אותו באור יום. העלייה למעבר היא הקטע היחיד ביום שהוא צר ותלול, ועולים אותו ב-15:55 באור מלא. חסימות בודקים מראש בטלפון 0558-76-5718."
   },
   {
     id: "n-izu-hodohodo", kind: "parking", day: "d14",
-    title: "Four parking spaces at HODOHODO",
-    body: "Open 10:00–16:30 and closed Mondays; the 14th is a Wednesday. Irregular closures are only announced on Instagram."
+    title: "רק ארבעה מקומות חניה ב-HODOHODO",
+    body: "פתוח 10:00-16:30 וסגור בימי שני. ה-14.10 הוא יום רביעי. סגירות לא קבועות מתפרסמות רק באינסטגרם."
   },
 
   {
     id: "n-izu-decide", kind: "timing", day: "d14", lead: true,
-    title: "This one is decided the night before",
-    body: "West Izu starts at 07:45 and is locked to a 17:16 sunset, so it cannot be chosen at 10:00 over breakfast. On the evening of the 13th: check HODOHODO is open on Instagram, check Izu road closures, and check the west-coast forecast. In fog there is no reason to go up to the pass — switch to Shuzenji or Hakone, which stay morning decisions."
+    title: "על היום הזה מחליטים ערב לפני",
+    body: "West Izu מתחיל ב-07:45 ונעול על שקיעה ב-17:16, אז אי אפשר לבחור בו ב-10:00 על ארוחת הבוקר. בערב של ה-13.10: לבדוק באינסטגרם ש-HODOHODO פתוח, לבדוק חסימות כבישים ב-Izu, ולבדוק את התחזית לחוף המערבי. בערפל אין סיבה לעלות למעבר. עוברים ל-Shuzenji או ל-Hakone, שעליהם אפשר להחליט גם בבוקר."
   },
   {
     id: "n-fuji-mornings", kind: "weather", dest: "fuji", lead: true,
-    title: "Fuji is a mountain of mornings",
-    body: "It shows early and hides by afternoon. Sunrise is about 05:50 and sunset 17:00–17:05, so there are roughly eleven hours of light. Check Windy, tenki.jp and the Kawaguchiko live cameras the evening before and again on waking."
+    title: "ה-Fuji הוא הר של בקרים",
+    body: "הוא מתגלה מוקדם ומתחבא עד אחר הצהריים. הזריחה בערך ב-05:50 והשקיעה ב-17:00 עד 17:05, אז יש בערך אחת עשרה שעות של אור. לבדוק את Windy, את tenki.jp ואת המצלמות החיות של Kawaguchiko בערב שלפני, ושוב כשקמים."
   },
   {
     id: "n-fuji-parking", kind: "parking", dest: "fuji",
-    title: "The good viewpoints have paid car parks that fill",
-    body: "Ōishi Park, Oshino and Panorama-dai all fill on a fine morning and at weekends. Early or not at all. Parking at edit×seven itself is free."
+    title: "בתצפיות הטובות החניה בתשלום, והיא מתמלאת",
+    body: "Ōishi Park, Oshino ו-Panorama-dai מתמלאים בבוקר יפה ובסופי שבוע. או מוקדם, או בכלל לא. החניה ב-edit×seven עצמו בחינם."
   },
 
   /* ---------------- 15 Oct · to Tokyo ---------------- */
   {
     id: "n-yaris-return", kind: "transport", day: "d15", lead: true,
-    title: "Yaris back by about 12:00, tank full of high-octane",
-    body: "One last eastern viewpoint in the morning if the mountain is showing. The train leaves Gotemba at 12:48 and the Toyota shop is at the station, so the car goes back two to three hours ahead of its 14:30 booking."
+    title: "מחזירים את ה-Yaris עד 12:00 בערך, עם מיכל מלא בדלק high-octane",
+    body: "עוד תצפית מזרחית אחת בבוקר, אם ההר מתגלה. הרכבת יוצאת מ-Gotemba ב-12:48 והסניף של Toyota נמצא בתחנה, אז הרכב חוזר שעתיים-שלוש לפני ההזמנה של 14:30."
   },
 
   /* ---------------- Tokyo ---------------- */
   {
     id: "n-tokyo-clusters", kind: "route", dest: "tokyo", lead: true,
-    title: "One cluster a day, and never two",
-    body: "The day-by-day Tokyo plan was dropped. Clusters are not assigned to dates — we pick one each morning for the weather, our energy, a booking or whatever is playing. Leave at least half a day genuinely free twice across the five nights."
+    title: "אזור אחד ביום, ואף פעם לא שניים",
+    body: "על התוכנית של Tokyo יום-יום ויתרנו. האזורים לא משובצים לתאריכים. כל בוקר בוחרים אחד לפי מזג האוויר, האנרגיה, הזמנה שיש, או הופעה שרצה. ולהשאיר לפחות חצי יום באמת פנוי, פעמיים במהלך חמשת הלילות."
   },
   {
     id: "n-tokyo-classic", kind: "timing", dest: "tokyo",
-    title: "The famous ones, early or midweek only",
-    body: "Meiji Jingū and Sensō-ji are worth it at 07:00–08:00 or on a weekday, and not otherwise. Bar has done Tokyo before; this is Noa's first time, so a measured taste of the classic city is the point rather than the whole trip."
+    title: "המפורסמים: רק מוקדם או באמצע השבוע",
+    body: "Meiji Jingū ו-Sensō-ji שווים את זה ב-07:00 עד 08:00 או ביום חול, ואחרת לא. בר כבר היה ב-Tokyo, ולנועה זו פעם ראשונה. אז הרעיון הוא טעימה מדודה מהעיר הקלאסית, לא כל הטיול."
   },
   {
     id: "n-tokyo-rain", kind: "weather", dest: "tokyo",
-    title: "Wet-day clusters",
-    body: "Nakano Broadway, Ginza, T-Site and the live houses in Kōenji and Shimokitazawa are all under cover."
+    title: "אזורים ליום גשום",
+    body: "Nakano Broadway, Ginza, T-Site ומועדוני ההופעות ב-Kōenji וב-Shimokitazawa, כולם תחת גג."
   },
   {
     id: "n-kappabashi", kind: "route", dest: "tokyo",
-    title: "Kappabashi is off the list",
-    body: "Dropped deliberately — the kitchenware street stopped being interesting to us."
+    title: "Kappabashi ירד מהרשימה",
+    body: "ירד בכוונה. רחוב כלי המטבח הפסיק לעניין אותנו."
   },
   {
     id: "n-tokyo-lastnight", kind: "food", dest: "tokyo",
-    title: "The last dinner is booked: T, 19 Oct at 20:30",
-    body: "Wagyu T-bone in Nakameguro. The flight home is not until 18:00 on the 20th, so a late dinner costs nothing."
+    title: "ארוחת הערב האחרונה סגורה: T, ב-19.10 ב-20:30",
+    body: "טי-בון וואגיו ב-Nakameguro. הטיסה הביתה רק ב-18:00 ב-20.10, אז ארוחה מאוחרת לא עולה לנו בכלום."
   },
   {
     id: "n-departure", kind: "timing", day: "d20", lead: true,
-    title: "NRT 18:00 — leave Tokyo around 14:30",
-    body: "An easy morning near the hotel, nothing that needs a train across the city."
+    title: "NRT ב-18:00. יוצאים מ-Tokyo בסביבות 14:30",
+    body: "בוקר רגוע ליד המלון. שום דבר שצריך בשבילו רכבת לצד השני של העיר."
   },
   {
     id: "n-curryfest", kind: "food", dest: "tokyo",
-    title: "The Shimokitazawa Curry Festival is on while we are here",
-    body: "8–25 Oct: 110 curry shops and 21 sweets shops around the station serving festival dishes, and a free stamp rally for prizes, desk open 12:00–20:00. No special event days, so any Shimokitazawa day catches it. A lot of Japanese curry is pork, so Noa checks each shop's."
+    title: "פסטיבל הקארי של Shimokitazawa רץ בזמן שאנחנו פה",
+    body: "8-25.10: 110 מסעדות קארי ו-21 מקומות של מתוקים סביב התחנה מגישים מנות של הפסטיבל, ויש ראלי חותמות בחינם עם פרסים. הדלפק פתוח 12:00-20:00. אין ימי אירוע מיוחדים, אז כל יום ב-Shimokitazawa תופס את זה. בהרבה קארי יפני יש חזיר, אז נועה בודקת בכל מקום."
   }
 ];
 

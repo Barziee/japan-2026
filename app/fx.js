@@ -36,14 +36,14 @@ export const toJPYfromUSD = v => v / rate().jpy_usd;
 export function freshness() {
   const fx = rate();
   const at = new Date(fx.at);
-  if (fx.stale) return "Using a stored rate from " + at.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+  const day = `${at.getDate()}.${at.getMonth() + 1}`;
+  if (fx.stale) return "אין רשת, אז זה שער שמור מה-" + day;
 
   const mins = Math.round((Date.now() - at) / 60000);
-  if (mins < 1)   return "Rates updated just now";
-  if (mins < 60)  return `Rates updated ${mins} min ago`;
-  if (mins < 60 * 24) return `Rates updated ${Math.round(mins / 60)} h ago`;
-  return "Using rate from " + at.toLocaleString(undefined,
-    { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
+  if (mins < 1)   return "השער עודכן ממש עכשיו";
+  if (mins < 60)  return `השער עודכן לפני ${mins} דק׳`;
+  if (mins < 60 * 24) return `השער עודכן לפני ${Math.round(mins / 60)} שעות`;
+  return `שער מה-${day}, ${String(at.getHours()).padStart(2, "0")}:${String(at.getMinutes()).padStart(2, "0")}`;
 }
 
 /* Money reads better without trailing noise: ¥1,200 but ₪22.38 */

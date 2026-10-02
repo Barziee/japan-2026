@@ -83,13 +83,13 @@ function countdown() {
     <div class="flight-countdown" id="countdown" role="timer">
       <span class="intro">
         <i class="pip"></i>
-        <span class="intro-copy"><b>Flight in</b><span>Japan ${trip.year}</span></span>
+        <span class="intro-copy"><b>טסים בעוד</b><span>יפן ${trip.year}</span></span>
       </span>
       <span class="clock">
-        ${part("d", p.d, "Days")}<span class="clocksep">:</span>
-        ${part("h", pad(p.h), "Hours")}<span class="clocksep">:</span>
-        ${part("m", pad(p.m), "Min")}<span class="clocksep">:</span>
-        ${part("s", pad(p.s), "Sec")}
+        ${part("d", p.d, "ימים")}<span class="clocksep">:</span>
+        ${part("h", pad(p.h), "שעות")}<span class="clocksep">:</span>
+        ${part("m", pad(p.m), "דק׳")}<span class="clocksep">:</span>
+        ${part("s", pad(p.s), "שנ׳")}
       </span>
     </div>`;
 }
@@ -139,7 +139,7 @@ function reminders() {
 function header(day, dest) {
   const wx = climate[day.dest];
   const n = days.findIndex(d => d.id === day.id) + 1;
-  const kicker = `Day ${n} of ${days.length}${day.flexible ? " · flexible" : ""}`;
+  const kicker = `יום ${n} מתוך ${days.length}${day.flexible ? " · גמיש" : ""}`;
   return `
     <div class="destination">
       <div class="destination-copy">
@@ -149,7 +149,7 @@ function header(day, dest) {
       </div>
       ${wx ? `<div class="weather">
         <span class="sun">${svg(SKY_ICON[wx.sky] || "partly")}</span>
-        <span><b>${wx.hi}°</b><small>${wx.lo}° low</small></span>
+        <span><b>${wx.hi}°</b><small>מינ׳ ${wx.lo}°</small></span>
       </div>` : ""}
     </div>`;
 }
@@ -165,17 +165,17 @@ function hero(day, idx) {
   const pick = day.bank ? pickFor(day) : null;
   const lead = day.bank
     ? pick
-      ? { name: pick.title, label: "Today’s pick", detail: pick.body,
-          when: "Picked", sub: pick.meta?.[0]?.text || "", href: `#/day/${day.id}`, dir: null }
-      : { name: destById[day.dest].name, label: "Today is yours",
+      ? { name: pick.title, label: "הבחירה להיום", detail: pick.body,
+          when: "נבחר", sub: pick.meta?.[0]?.text || "", href: `#/day/${day.id}`, dir: null }
+      : { name: destById[day.dest].name, label: "היום הזה שלכם",
           detail: BANK_LEAD[day.bank] || "",
-          when: "Pick one", sub: "", href: `#/day/${day.id}`, dir: null }
+          when: "מה בא לכם?", sub: "", href: `#/day/${day.id}`, dir: null }
     : day.flexible && day.lead
-      ? { name: day.lead.name, label: "Ideas for today", detail: day.lead.detail,
-          when: "Recommended", sub: "", href: `#/day/${day.id}`,
+      ? { name: day.lead.name, label: "רעיון להיום", detail: day.lead.detail,
+          when: "ההמלצה", sub: "", href: `#/day/${day.id}`,
           dir: day.lead.place ? mapsDir(day.lead.place + ", Japan") : null }
       : step
-        ? { name: step.name, label: "Up next", detail: step.detail || "",
+        ? { name: step.name, label: "הדבר הבא", detail: step.detail || "",
             when: timeLabel(step.t),
             sub: step.place || (step.saved && placeById[step.saved]?.name) || "",
             href: `#/day/${day.id}`, dir: stepDirections(step) }
@@ -189,8 +189,8 @@ function hero(day, idx) {
         <img src="./assets/${day.dest}.jpg" alt="" decoding="async">
         <span class="hero-label">${esc(lead.label)}</span>
         ${canStep ? `<span class="hero-step">
-          <button data-nudge="-1" aria-label="Show previous stop"${idx === 0 ? " disabled" : ""}>${svg("left")}</button>
-          <button data-nudge="1" aria-label="Show next stop"${idx >= steps.length - 1 ? " disabled" : ""}>${svg("right")}</button>
+          <button data-nudge="-1" aria-label="התחנה הקודמת"${idx === 0 ? " disabled" : ""}>${svg("left")}</button>
+          <button data-nudge="1" aria-label="התחנה הבאה"${idx >= steps.length - 1 ? " disabled" : ""}>${svg("right")}</button>
         </span>` : ""}
         <div class="hero-copy">
           <h2>${esc(lead.name)}</h2>
@@ -203,12 +203,12 @@ function hero(day, idx) {
           ${lead.sub ? `<span>${esc(lead.sub)}</span>` : ""}
         </div>
         <div class="hero-btns">
-          ${lead.dir ? `<a class="btn btn-ghost" href="${lead.dir}" target="_blank" rel="noopener">Directions</a>` : ""}
-          <a class="btn btn-light" href="${lead.href}">Details</a>
+          ${lead.dir ? `<a class="btn btn-ghost" href="${lead.dir}" target="_blank" rel="noopener">ניווט</a>` : ""}
+          <a class="btn btn-light" href="${lead.href}">פרטים</a>
         </div>
       </div>
     </div>
-    ${state.stopOffset[day.id] ? `<button class="resetline" data-reset="${day.id}">Reset to schedule</button>` : ""}`;
+    ${state.stopOffset[day.id] ? `<button class="resetline" data-reset="${day.id}">חזרה ללו״ז</button>` : ""}`;
 }
 
 /* ------------------------------------------------------------ sections */
@@ -230,8 +230,8 @@ function routeBlock(day) {
     <div class="section route">
       <div class="routebox">
         <div class="routehead">
-          <div class="sectiontitle">Today's route</div>
-          ${url ? `<a href="${url}" target="_blank" rel="noopener">Open route ↗</a>` : ""}
+          <div class="sectiontitle">המסלול של היום</div>
+          ${url ? `<a href="${url}" target="_blank" rel="noopener">לפתוח במפות ↖</a>` : ""}
         </div>
         <div class="routeflow">${flow}</div>
       </div>
@@ -250,11 +250,11 @@ function timeline(day, activeIdx) {
         <div class="tbody">
           <h3>${esc(s.name)}</h3>
           ${s.detail ? `<p>${esc(s.detail)}</p>` : ""}
-          ${href ? `<a class="maps" href="${href}" target="_blank" rel="noopener"><span class="arrow">→</span> Maps</a>` : ""}
+          ${href ? `<a class="maps" href="${href}" target="_blank" rel="noopener"><span class="arrow">←</span> מפות</a>` : ""}
         </div>
       </div>`;
   }).join("");
-  return `<div class="section">${sectionHead(day.bank ? "Booked and fixed" : "Today's plan")}<div class="timeline">${rows}</div></div>`;
+  return `<div class="section">${sectionHead(day.bank ? "מה שכבר סגור" : "התוכנית להיום")}<div class="timeline">${rows}</div></div>`;
 }
 
 /* The editorial moment: the strongest researched note becomes the headline,
@@ -267,7 +267,7 @@ function context(day) {
   const main = picked[0], tip = picked[1];
   return `
     <div class="section">
-      ${sectionHead("Know before you go", `<a href="#/day/${day.id}">All notes · ${all.length}</a>`)}
+      ${sectionHead("טוב לדעת לפני", `<a href="#/day/${day.id}">כל ההערות · ${all.length}</a>`)}
       <div class="context">
         <h3>${esc(main.title)}</h3>
         <p>${esc(main.body)}</p>
@@ -290,8 +290,8 @@ function savedNearby(day) {
     </a>`).join("");
   return `
     <div class="section">
-      ${sectionHead("Saved near today's plan",
-        (day.saved || []).length > 3 ? `<a href="#/saved?area=${day.dest}">See all →</a>` : "")}
+      ${sectionHead("שמורים בסביבה",
+        (day.saved || []).length > 3 ? `<a href="#/saved?area=${day.dest}">לכולם ←</a>` : "")}
       <div class="savedrows">${rows}</div>
     </div>`;
 }
@@ -305,7 +305,7 @@ function logistics(day) {
       <span><b>${esc(w.title)}</b><small>${esc(w.detail || w.where || "")}</small></span>
       <span class="chev">${svg("right")}</span>
     </a>`).join("");
-  return `<div class="section">${sectionHead("Logistics")}<div class="logistics">${rows}</div></div>`;
+  return `<div class="section">${sectionHead("לוגיסטיקה")}<div class="logistics">${rows}</div></div>`;
 }
 
 function alternatives(day) {
@@ -315,8 +315,8 @@ function alternatives(day) {
     <div class="section">
       <button class="altbtn" data-alts="${day.id}">
         <span class="t">
-          <span class="n">Plans changed?</span>
-          <span class="s">${n} alternative${n > 1 ? "s" : ""}</span>
+          <span class="n">שינוי בתוכניות?</span>
+          <span class="s">${n > 1 ? n + " חלופות" : "חלופה אחת"}</span>
         </span>
         ${svg("right")}
       </button>
