@@ -213,12 +213,11 @@ export const wallet = [
     id: "w-daikokuya", kind: "meal", title: "Daikokuya · Gujō",
     where: "258-1 Tsurugi, Yamato-cho, Gujo, Gifu",
     from: "2026-10-09T20:00:00+09:00",
-    detail: "20:00 · 2 guests · tatami room · waiting to be accepted",
-    ref: null, refPrivate: true, status: "requested",
+    detail: "20:00 · 2 guests · tatami room",
+    ref: null, refPrivate: true, status: "confirmed",
     price: "Seats only — we order on the night",
     notes: [
       "Tel 0575-88-2277.",
-      "A request, not yet a booking: the booking page still has to show it as accepted.",
       "A seven-minute walk from the Fairfield, about 500 m, so the car stays at the hotel.",
       "For Noa: a yakiniku menu that has not been checked for pork. Ask before ordering."
     ]
