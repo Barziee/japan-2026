@@ -69,7 +69,7 @@ export const notes = [
   {
     id: "n-gujo-light", kind: "timing", day: "d09", lead: true,
     title: "Gujō in the last of the light, and again in the morning",
-    body: "We reach Gujō Hachiman around 16:30, about an hour before the 17:26 sunset — enough for the water lanes in daylight, and dinner. The proper wander is tomorrow morning, before Seki and the drive to Matsumoto."
+    body: "We reach Gujō Hachiman around 16:30, about an hour before the 17:26 sunset — enough for the water lanes in daylight. Dinner is at 20:00 by the hotel in Gujō-Yamato, fifteen minutes north. The proper wander is tomorrow morning, before Seki and the drive to Matsumoto."
   },
   {
     id: "n-gujo-known", kind: "route", day: "d10",

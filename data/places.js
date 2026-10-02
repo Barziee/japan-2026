@@ -289,9 +289,9 @@ export const places = [
   {
     id: "p-daikokuya", name: "Daikokuya Gujō", ja: "だいこく家 郡上店", kind: "Wagyu yakiniku", cat: "food",
     food: ["yakiniku","wagyu"], cid: "1760763851590936211",
-    area: "gujo", where: "Gujō Hachiman", pin: true,
+    area: "gujo", where: "Gujō-Yamato, by the hotel", pin: true,
     maps: "だいこく家 郡上",
-    note: "Wagyu yakiniku. First choice for the one Gujō evening — small town, so book it."
+    note: "Requested for 9 Oct at 20:00, a tatami room for two — waiting to be accepted. Hida beef yakiniku with an English tablet menu. In Gujō-Yamato, a seven-minute walk from the Fairfield, not in the old town."
   },
   {
     id: "p-igawa", name: "Igawa Komichi", ja: "いがわ小径", kind: "Water lane", cat: "do",
