@@ -9,11 +9,11 @@ import { days, dayById, daysFor } from "../../data/days.js";
 import { places, placeById, mapsUrl } from "../../data/places.js";
 import { notesForDay } from "../../data/notes.js";
 import { walletById } from "../../data/wallet.js";
-import { climate } from "../../data/lists.js";
 import { planBank, dayIdeas, wirePlans } from "./plans.js";
+import { dayBox, stayBox, rowWx } from "../weather.js";
 import {
   svg, esc, timeLabel, isSoft, dLabel, dowShort, rangeLabel, nights,
-  mapsSearch, dayRoute, longestWord, NOTE_ICON, CAT_ICON, WALLET_ICON, SKY_ICON
+  mapsSearch, dayRoute, longestWord, NOTE_ICON, CAT_ICON, WALLET_ICON
 } from "../ui.js";
 
 const sectionHead = (title, link) => `
@@ -21,12 +21,6 @@ const sectionHead = (title, link) => `
     <div class="sectiontitle">${esc(title)}</div>
     ${link || ""}
   </div>`;
-
-const weatherBox = wx => wx ? `
-  <div class="weather">
-    <span class="sun">${svg(SKY_ICON[wx.sky] || "partly")}</span>
-    <span><b>${wx.hi}°</b><small>מינ׳ ${wx.lo}°</small></span>
-  </div>` : "";
 
 /* ------------------------------------------------------------ /trip */
 
@@ -81,6 +75,7 @@ export function renderDestination(id) {
         <b>${esc(x.title)}</b>
         <small>${x.flexible ? "גמיש" : (x.plan || []).length === 1 ? "תחנה אחת" : (x.plan || []).length + " תחנות"}</small>
       </span>
+      ${rowWx(x)}
       <span class="chev">${svg("right")}</span>
     </a>`).join("");
 
@@ -96,7 +91,7 @@ export function renderDestination(id) {
             <h1 style="--n:${longestWord(d.name)}">${esc(d.name)}</h1>
             <p class="subtitle">${esc(d.line)}</p>
           </div>
-          ${weatherBox(climate[id])}
+          ${stayBox(id)}
         </div>
 
         <div class="section">
@@ -188,7 +183,7 @@ export function renderDay(id) {
             <div class="kicker">יום ${n} מתוך ${days.length} · ${esc(dest.name)}</div>
             <h1 class="dayname">${esc(day.title)}</h1>
           </div>
-          ${weatherBox(climate[day.dest])}
+          ${dayBox(day)}
         </div>
 
         ${day.flexible && day.lead ? `

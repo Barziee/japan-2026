@@ -11,6 +11,7 @@ import * as today from "./views/today.js";
 import * as tripView from "./views/trip.js";
 import * as savedView from "./views/saved.js";
 import * as walletView from "./views/wallet.js";
+import * as weather from "./weather.js";
 import { altsSheet } from "./sheets.js";
 import { dayById } from "../data/days.js";
 
@@ -200,10 +201,17 @@ search = searchView.mount(go);
 if (!location.hash) location.replace("#/today");
 render();
 
+/* The forecast is fetched after the first screen is up, and painted into the
+   boxes already on it. It asks again at most once an hour. */
+const freshenWeather = () => weather.refresh().then(fresh => { if (fresh) weather.paint(); });
+freshenWeather();
+
 /* Re-evaluate Up Next when the app comes back from the background — the
-   relevant stop is usually different by then. */
+   relevant stop is usually different by then, and so may the forecast be. */
 document.addEventListener("visibilitychange", () => {
-  if (!document.hidden && (location.hash === "#/today" || location.hash === "")) render();
+  if (document.hidden) return;
+  if (location.hash === "#/today" || location.hash === "") render();
+  freshenWeather();
 });
 
 if ("serviceWorker" in navigator) {

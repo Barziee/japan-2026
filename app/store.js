@@ -1,7 +1,8 @@
 /* Everything the app remembers between visits, in one place.
 
    Only lightweight UI state lives here: checklist ticks, pinned places, the
-   suggested plan we picked for a flexible day, the last exchange rate. It
+   suggested plan we picked for a flexible day, the last exchange rate and the
+   last weather forecast. It
    lives on this phone only — a pick made on one phone is not on the other. The
    itinerary itself is bundled with the app and never written to.
 
@@ -14,7 +15,8 @@ const empty = {
   pins: {},        // place id -> true (overrides the bundled default)
   chosenAlt: {},   // day id -> id of the suggested plan we picked
   stopOffset: {},  // day id -> manual nudge to Up Next, UI only
-  fx: null         // { jpy_ils, jpy_usd, at }
+  fx: null,        // { jpy_ils, jpy_usd, at }
+  wx: null         // { at, by: { destination id: { date: [high, low, code, rain %] } } }
 };
 
 function load() {

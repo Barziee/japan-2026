@@ -54,8 +54,10 @@ export const lists = [
   }
 ];
 
-/* October climate averages for each base. This is climate, not forecast —
-   it exists to support packing and weather-dependent choices, nothing more. */
+/* October climate averages for each base. The app shows the real forecast
+   (app/weather.js); these stand in only for a date the forecast does not
+   reach yet, or on a phone that has not been online, and are labelled as
+   averages when they do. */
 export const climate = {
   osaka:     { hi: 23, lo: 15, rain: 19, sky: "clear", text: "בהיר, הלחות יורדת" },
   kyoto:     { hi: 22, lo: 13, rain: 19, sky: "clear", text: "בהיר, עם ענן בבוקר" },
@@ -64,8 +66,6 @@ export const climate = {
   fuji:      { hi: 21, lo: 13, rain: 39, sky: "mixed", text: "ההר מתגלה בעיקר בבקרים" },
   tokyo:     { hi: 23, lo: 16, rain: 35, sky: "rain",  text: "מעונן, לצפות ליום גשום אחד" }
 };
-
-export const CLIMATE_NOTE = "ממוצע של אוקטובר · זה אקלים, לא תחזית";
 
 /* Days whose shape is decided on the forecast the night before. */
 export const weatherDays = [

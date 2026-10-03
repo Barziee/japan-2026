@@ -1119,11 +1119,30 @@ ul{margin:0;padding:0;list-style:none}
 
 /* A station name keeps its words whole. --n is the length of its longest
    word, and the size comes down just far enough for that word to fit the
-   column beside the weather ("Matsumoto" was breaking after the t). */
-.destination h1{font-size:min(54px, calc((100vw - 143px) / (var(--n, 5) * .64)))}
+   column beside the weather ("Matsumoto" was breaking after the t). The
+   158px is the page margins, the gap and the weather box at its widest. */
+.destination h1{font-size:min(54px, calc((100vw - 158px) / (var(--n, 5) * .64)))}
 @media (max-width:370px){
-  .destination h1{font-size:min(44px, calc((100vw - 143px) / (var(--n, 5) * .64)))}
+  .destination h1{font-size:min(44px, calc((100vw - 158px) / (var(--n, 5) * .64)))}
 }
+
+/* ============================================================
+   Weather: the forecast per day
+   ============================================================ */
+/* Each line of the box stays on one line: "מינ׳ 19°", and under it the chance
+   of rain when there is one worth knowing about. */
+.weather small{white-space:nowrap}
+/* glyph and high in a row of days; the arrow keeps its place when a day has
+   no forecast yet */
+.drow{grid-template-columns:52px 1fr auto auto}
+.drow .dwx{grid-column:3;display:flex;align-items:center;gap:4px;font-size:12.5px;font-weight:700;
+  color:var(--ink2);font-variant-numeric:tabular-nums}
+.drow .dwx svg{width:15px;height:15px;color:var(--teal);fill:none;stroke:currentColor;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round}
+.drow .chev{grid-column:4}
+.wxfresh{margin-top:7px}
+.wxsrc{color:var(--ink3);margin-top:10px}
+.wxsrc a{color:var(--indigo);font-weight:700}
 
 /* The two arrows on the photo sit 5px apart, so they grow mostly upwards. */
 .hero-step button{position:relative}
