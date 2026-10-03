@@ -1280,6 +1280,85 @@ export const places = [
     food: ["ramen"], cid: "559435638024647332",
     maps: "Enza Cafe & Ramen Enza, 1421-1 Hirao, Yamanochi, Shimotakai District, Nagano 381-0401",
     note: "ראמן עוף מעולה, שווה לנסות."
+  },
+
+  /* ============ Added to the Google Maps list since, imported 3 Oct 2026 ============ */
+  {
+    id: "p-inoichi", name: "Men-ya Inoichi Hanare", ja: "麺屋 猪一 離れ", kind: "ראמן · מרק דגים", cat: "food",
+    area: "kyoto", where: "Shijō-Karasuma",
+    food: ["ramen"], cid: "9308459117682630403",
+    maps: "Men-ya Inoichi Hanare, Kyoto, Shimogyo Ward, Senshojicho, 463",
+    note: "המרק כולו דגים, בלי שומן מהחי. יש dashi soba ברוטב סויה לבן, ויש גרסה עם וואגיו צרוב ברוטב סויה שחור. לנועה: לשאול מה הצ׳אשו במנה הרגילה."
+  },
+  {
+    id: "p-sugari", name: "Wajoryomen Sugari", ja: "和醸良麺 すがり", kind: "ראמן · צוקמן", cat: "food",
+    area: "kyoto", where: "Shijō-Karasuma",
+    food: ["ramen"], cid: "2521468783158862043",
+    maps: "Wajoryomen Sugari, Kyoto, Nakagyo Ward, Kannondocho, 471-1",
+    note: "ידוע בצוקמן עם motsu, כלומר מעיים. לפי מה שמצאנו המרק על עצמות חזיר ודגים, אז לנועה כנראה לא מתאים. לשאול."
+  },
+  {
+    id: "p-roku", name: "Chinese Noodles ROKU", ja: "中華そば 六", kind: "ראמן", cat: "food",
+    area: "kyoto", where: "Kawaramachi",
+    food: ["ramen"], cid: "9020426365839451458",
+    maps: "Chinese Noodles ROKU, Kyoto, Shimogyo Ward, Inaricho, 二丁目318-6 GOOD NATURE STATION 2階",
+    note: "בקומה 2 של GOOD NATURE STATION. מרק צלול מחמישה סוגי עצמות: ברווז, עוף, צבי, בקר וחזיר. סגור בימי רביעי. לנועה: במרק הרגיל יש חזיר. יש להם גם chicken paitan, לשאול אם הוא נקי."
+  },
+  {
+    id: "p-motoigyoza", name: "MOTOI Gyoza", ja: "モトイギョーザ", kind: "גיוזה", cat: "food",
+    area: "kyoto", where: "ליד Nishiki Market",
+    food: ["other"], cid: "13108102059948347991",
+    maps: "MOTOI Gyoza, 470-2 Setoyacho, Nakagyo Ward, Kyoto, 604-8122",
+    note: "מקום הגיוזה של השף של MOTOI, המסעדה הצרפתית עם כוכב המישלן. לנועה: ה-Motoi Gyoza על חזיר. ה-Papa Gyoza היא שרימפס ועירית בלי שום, ועליה לשאול."
+  },
+  {
+    id: "p-taqueria", name: "Taqueria Tacos", ja: "タケリア タコス", kind: "טאקוס", cat: "food",
+    area: "kyoto", where: "ליד Nishiki Market",
+    food: ["other"], cid: "16013147241548043485",
+    maps: "Taqueria Tacos, Kyoto, Nakagyo Ward, Nishiuoyacho, 593",
+    note: ""
+  },
+  {
+    id: "p-maumu", name: "Bistro Maumu", kind: "ביסטרו צרפתי · בר יין", cat: "food",
+    area: "kyoto", where: "Shijō-Karasuma",
+    food: ["other"], cid: "1346641608953121493",
+    maps: "Bistro Maumu, Kyoto, Shimogyo Ward, Ayazaimokucho, １９９番地４",
+    note: "ביסטרו צרפתי עם נגיעות איטלקיות וספרדיות, ויינות שבוחר סומלייה. אפשר קורס ואפשר מנות בודדות. סגור בימי רביעי."
+  },
+  {
+    id: "p-katsugyu", name: "Gyukatsu Kyoto Katsugyu", ja: "牛カツ京都勝牛 先斗町本店", kind: "שניצל בקר", cat: "food",
+    area: "kyoto", where: "Pontochō",
+    food: ["wagyu"], cid: "5588240214050569350",
+    maps: "GYUKATSU Kyoto Katsugyu Pontocho Honten, 188 Zaimokucho, Nakagyo Ward, Kyoto, 604-8017",
+    note: "הסניף המקורי של הרשת. שניצל בקר שמטגנים מדיום-רייר ומסיימים לבד על פלטה בשולחן. ארבעה נתחים, כולם בקר: סרלוין של וואגיו, loin, פילה ולשון. לנועה: המנות עצמן בקר. לשאול רק על רוטב הקארי."
+  },
+  {
+    id: "p-nikuteishin", name: "Gion Nikutei Shin", ja: "祇園肉亭 新", kind: "וואגיו · יקיניקו", cat: "food",
+    area: "kyoto", where: "Gion",
+    food: ["wagyu","yakiniku"], cid: "14770075270920964879",
+    maps: "Gion Nikutei Shin, 366-2 Kiyomotocho, Higashiyama Ward, Kyoto, 605-0084",
+    note: "בקר Ōmi ושאר וואגיו, עם דגים ופירות ים של העונה. מזמינים ב-TableCheck."
+  },
+  {
+    id: "p-esu", name: "Yakiniku Genshu Esu", ja: "やき肉玄趣 江洲", kind: "יקיניקו וואגיו", cat: "food",
+    area: "kyoto", where: "Hyakumanben",
+    food: ["yakiniku","wagyu"], cid: "11805871223651986419",
+    maps: "やき肉玄趣 江洲, 103 Tanaka Monzencho, Sakyo Ward, Kyoto, 606-8225",
+    note: "יקיניקו של בקר Ōmi. כל המקומות בחדרים פרטיים, מול גינה יפנית."
+  },
+  {
+    id: "p-k36", name: "K36 The Bar & Rooftop", kind: "בר על הגג", cat: "food",
+    area: "kyoto", where: "Kiyomizu",
+    food: ["other"], cid: "552495149033616966",
+    maps: "K36 (The Bar & Rooftop), Kyoto, Higashiyama Ward, Kiyomizu, 2 Chome−204-2 4F The Hotel Seiryu",
+    note: "בקומה 4 של The Hotel Seiryu Kyoto Kiyomizu, עם נוף ל-Yasaka Pagoda. המקומות מתמלאים מהר, אז להגיע בפתיחה."
+  },
+  {
+    id: "p-hachimonjiya", name: "Hachimonjiya", ja: "八文字屋", kind: "בר", cat: "food",
+    area: "kyoto", where: "Kiyamachi",
+    food: ["other"], cid: "6503794241573479908",
+    maps: "Hachimonjiya, Kyoto, Nakagyo Ward, Nabeyacho, 209-3 3F",
+    note: "הבר של הצלם Kai Fusayoshi, בקומה 3. מקום מפגש של אנשי תרבות ב-Kyoto."
   }
 ];
 

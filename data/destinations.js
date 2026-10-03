@@ -75,7 +75,7 @@ export const trip = {
   to: "2026-10-20",
   nights: 16,
   /* Wheels-up from TLV. Israel is still on IDT (UTC+3) on 3 October. */
-  departure: "2026-10-03T15:00:00+03:00",
+  departure: "2026-10-03T15:05:00+03:00",
   arrival: "2026-10-04T11:40:00+09:00",
   home: "2026-10-20T18:00:00+09:00"
 };

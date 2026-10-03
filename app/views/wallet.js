@@ -8,10 +8,9 @@ import { lists, climate, weatherDays, daylight, foliage, CLIMATE_NOTE } from "..
 import { deadlines, inTrip } from "../../data/deadlines.js";
 import { dayById } from "../../data/days.js";
 import { destinations } from "../../data/destinations.js";
-import { isChecked, toggleCheck } from "../store.js";
-import { svg, esc, dShort, mapsSearch, copy, WALLET_ICON } from "../ui.js";
+import { isChecked, setCheck } from "../store.js";
+import { svg, esc, dShort, mapsSearch, copy, todayISO, WALLET_ICON } from "../ui.js";
 
-const today = () => new Date().toISOString().slice(0, 10);
 const dateOf = w => (w.from || "").slice(0, 10);
 
 function whenLabel(w) {
@@ -25,7 +24,7 @@ function whenLabel(w) {
 
 export function renderWallet(query = {}) {
   const filter = query.f || "today";
-  const now = today();
+  const now = todayISO();
 
   const relevant = w => {
     const f = dateOf(w), t = (w.to || w.from || "").slice(0, 10);
@@ -169,17 +168,11 @@ export function renderLists() {
           const def = b.dataset.def === "1";
           const now = !isChecked(id, def);
           /* Persist the value, not a flip, so a default-done item behaves. */
-          toggleCheckTo(id, now, def);
+          setCheck(id, now, def);
           b.setAttribute("aria-checked", String(now));
         }));
     }
   };
-}
-
-/* toggleCheck flips; this sets an explicit value against the bundled default */
-function toggleCheckTo(id, value, def) {
-  const cur = isChecked(id, def);
-  if (cur !== value) toggleCheck(id);
 }
 
 /* ------------------------------------------------------------ /info */
@@ -205,10 +198,11 @@ export function renderInfo() {
       </a>`;
   }).join("");
 
-  /* Deadlines first — they are the only part of this screen that expires. */
-  const today = new Date().toISOString().slice(0, 10);
-  const upcoming = deadlines.filter(x => x.on >= today);
-  const dueList = (upcoming.length ? upcoming : deadlines).concat(inTrip.filter(x => x.on >= today));
+  /* Deadlines first — they are the only part of this screen that expires.
+     Once a date has passed it drops off, so what is left is what is still
+     ahead of us; when nothing is, the section goes away. */
+  const today = todayISO();
+  const dueList = [...deadlines, ...inTrip].filter(x => x.on >= today);
   const dueRows = dueList.length ? `
     <div class="sect">מה פג, ומתי</div>
     ${dueList.map(x => `
@@ -220,7 +214,7 @@ export function renderInfo() {
         <p class="muted tiny" style="margin-top:4px">${esc(x.body)}</p>
         ${x.when ? `<p class="tiny" style="margin-top:4px;font-weight:650">${esc(x.when)}</p>` : ""}
         ${x.also ? `<p class="tiny" style="margin-top:5px;color:var(--ink3)">${esc(x.also)}</p>` : ""}
-        ${x.link ? `<a class="tiny" style="display:inline-block;margin-top:6px;font-weight:700;color:var(--indigo)" href="${esc(x.link.url)}" target="_blank" rel="noopener">${esc(x.link.label)} ↖</a>` : ""}
+        ${x.link ? `<a class="tiny hit" style="display:inline-block;margin-top:6px;font-weight:700;color:var(--indigo)" href="${esc(x.link.url)}" target="_blank" rel="noopener">${esc(x.link.label)} ↖</a>` : ""}
       </div>`).join("")}` : "";
 
   const block = (title, items) => `

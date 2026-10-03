@@ -100,6 +100,15 @@ export function minutesOf(t) {
   return null;
 }
 
+/* ---------------------------------------------------------------- now */
+/* The itinerary is written in Japan time, so "today" and "now" are read off
+   Japan's clock, whatever the phone is set to. Japan has no daylight saving,
+   so the offset is fixed. (toISOString alone gives the UTC date, which is
+   still yesterday until 09:00 in Japan.) */
+const japanNow = () => new Date(Date.now() + 9 * 3600e3);
+export const todayISO = () => japanNow().toISOString().slice(0, 10);
+export const nowMinutes = () => { const d = japanNow(); return d.getUTCHours() * 60 + d.getUTCMinutes(); };
+
 /* ---------------------------------------------------------------- dates */
 /* Dates the way we would say them: "יום ה׳, 8.10". Ranges use a plain hyphen
    on purpose — between two numbers it keeps them in typed order, where an en
@@ -128,6 +137,10 @@ export function rangeLabel(from, to) {
     ? `${a.getDate()}-${dm(b)}`
     : `${dm(a)}-${dm(b)}`;
 }
+
+/* The longest word of a name, in letters. The big headers size themselves
+   from it, so that word is never broken across two lines. */
+export const longestWord = s => Math.max(...String(s).split(/\s+/).map(w => w.length));
 
 /* "3 לילות", with the singular and the dual Hebrew actually uses. */
 export const nights = n => n === 1 ? "לילה אחד" : n === 2 ? "שני לילות" : `${n} לילות`;

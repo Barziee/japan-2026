@@ -13,7 +13,7 @@ import { climate } from "../../data/lists.js";
 import { planBank, dayIdeas, wirePlans } from "./plans.js";
 import {
   svg, esc, timeLabel, isSoft, dLabel, dowShort, rangeLabel, nights,
-  mapsSearch, dayRoute, NOTE_ICON, CAT_ICON, WALLET_ICON, SKY_ICON
+  mapsSearch, dayRoute, longestWord, NOTE_ICON, CAT_ICON, WALLET_ICON, SKY_ICON
 } from "../ui.js";
 
 const sectionHead = (title, link) => `
@@ -93,7 +93,7 @@ export function renderDestination(id) {
         <div class="destination">
           <div class="destination-copy">
             <div class="kicker">${esc(rangeLabel(d.from, d.to))} · ${nights(d.nights)}</div>
-            <h1>${esc(d.name)}</h1>
+            <h1 style="--n:${longestWord(d.name)}">${esc(d.name)}</h1>
             <p class="subtitle">${esc(d.line)}</p>
           </div>
           ${weatherBox(climate[id])}
