@@ -4,11 +4,11 @@
    with a phone in one hand, so it is fields and actions, not decoration. */
 
 import { wallet, walletById } from "../../data/wallet.js";
-import { lists, climate, weatherDays, daylight, foliage, CLIMATE_NOTE } from "../../data/lists.js";
+import { lists, weatherDays, daylight, foliage } from "../../data/lists.js";
 import { deadlines, inTrip } from "../../data/deadlines.js";
 import { dayById } from "../../data/days.js";
-import { destinations } from "../../data/destinations.js";
 import { isChecked, setCheck } from "../store.js";
+import { listHtml as forecastList, freshLine } from "../weather.js";
 import { svg, esc, dShort, mapsSearch, copy, todayISO, WALLET_ICON } from "../ui.js";
 
 const dateOf = w => (w.from || "").slice(0, 10);
@@ -178,16 +178,6 @@ export function renderLists() {
 /* ------------------------------------------------------------ /info */
 
 export function renderInfo() {
-  const wxRows = destinations.map(d => {
-    const c = climate[d.id];
-    return `
-      <div class="lrow">
-        <span class="ic">${svg("cloud")}</span>
-        <span class="t"><span class="n">${esc(d.name)}</span><span class="s">${esc(c.text)}</span></span>
-        <span class="go">${c.hi}° / ${c.lo}°</span>
-      </div>`;
-  }).join("");
-
   const wd = weatherDays.map(w => {
     const d = dayById[w.day];
     return `
@@ -232,10 +222,10 @@ export function renderInfo() {
       <div class="screen">
         <div style="padding-bottom:var(--s2)">
           <h1 class="display" style="font-size:38px">טוב לדעת</h1>
-          <div class="muted tiny" style="margin-top:7px">${esc(CLIMATE_NOTE)}</div>
+          ${freshLine()}
         </div>
         ${dueRows}
-        <div class="sect">אקלים לפי תחנה</div>${wxRows}
+        ${forecastList()}
         <div class="sect">ימים שמחליטים לפי התחזית</div>${wd}
         ${block("אור יום", daylight)}
         ${block("שלכת", foliage)}

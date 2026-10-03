@@ -11,13 +11,13 @@ import { byId as destById, trip } from "../../data/destinations.js";
 import { placeById, mapsUrl } from "../../data/places.js";
 import { notesForDay, leadNotes } from "../../data/notes.js";
 import { walletById } from "../../data/wallet.js";
-import { climate } from "../../data/lists.js";
 import { deadlines, inTrip } from "../../data/deadlines.js";
 import { state, save } from "../store.js";
 import { planBank, dayIdeas, wirePlans, pickFor, BANK_LEAD } from "./plans.js";
+import { dayBox } from "../weather.js";
 import {
   svg, esc, timeLabel, isSoft, minutesOf, dLabel, mapsSearch, mapsDir,
-  dayRoute, todayISO, nowMinutes, longestWord, NOTE_ICON, CAT_ICON, WALLET_ICON, SKY_ICON
+  dayRoute, todayISO, nowMinutes, longestWord, NOTE_ICON, CAT_ICON, WALLET_ICON
 } from "../ui.js";
 
 /* Which day the app should be showing. Before departure this is day one, so
@@ -137,7 +137,6 @@ function reminders() {
 /* ------------------------------------------------------------ header */
 
 function header(day, dest) {
-  const wx = climate[day.dest];
   const n = days.findIndex(d => d.id === day.id) + 1;
   const kicker = `יום ${n} מתוך ${days.length}${day.flexible ? " · גמיש" : ""}`;
   return `
@@ -147,10 +146,7 @@ function header(day, dest) {
         <h1 style="--n:${longestWord(dest.name)}">${esc(dest.name)}</h1>
         <p class="subtitle">${esc(day.title)}</p>
       </div>
-      ${wx ? `<div class="weather">
-        <span class="sun">${svg(SKY_ICON[wx.sky] || "partly")}</span>
-        <span><b>${wx.hi}°</b><small>מינ׳ ${wx.lo}°</small></span>
-      </div>` : ""}
+      ${dayBox(day)}
     </div>`;
 }
 

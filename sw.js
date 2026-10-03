@@ -8,7 +8,7 @@
    The exchange-rate call is deliberately never cached — a stale rate served
    silently is worse than the app knowing it is offline and saying so. */
 
-const VERSION = "jp2026-v33-2026-10-03";
+const VERSION = "jp2026-v34-2026-10-03";
 const SHELL = [
   "./",
   "./index.html",
@@ -19,6 +19,7 @@ const SHELL = [
   "./app/store.js",
   "./app/fx.js",
   "./app/sheets.js",
+  "./app/weather.js",
   "./app/views/today.js",
   "./app/views/trip.js",
   "./app/views/saved.js",
@@ -70,6 +71,8 @@ self.addEventListener("fetch", e => {
   /* Live rates always go to the network; fx.js already falls back to the
      stored rate when this fails. */
   if (url.hostname.endsWith("frankfurter.dev")) return;
+  /* The forecast is cross-origin, so it passes straight through below;
+     weather.js keeps the last one it got. */
 
   /* Fonts: use what we have, refresh in the background. */
   if (url.hostname.endsWith("gstatic.com") || url.hostname.endsWith("googleapis.com")) {

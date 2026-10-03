@@ -3,7 +3,9 @@
    with the 9th spent driving on to Gujō.
 
    Names stay in English, as they appear on signs and in Google Maps. `he` is
-   only there so a search typed in Hebrew finds the place. */
+   only there so a search typed in Hebrew finds the place.
+   `at` is where the weather forecast is asked for: the place we sleep,
+   rounded to about a kilometre. */
 
 export const destinations = [
   {
@@ -11,6 +13,7 @@ export const destinations = [
     name: "Kyoto",
     ja: "京都",
     he: "קיוטו",
+    at: [35.00, 135.77],
     from: "2026-10-04",
     to: "2026-10-09",
     nights: 5,
@@ -23,6 +26,7 @@ export const destinations = [
     name: "Gujō Hachiman",
     ja: "郡上八幡",
     he: "גוג׳ו",
+    at: [35.82, 136.90],
     from: "2026-10-09",
     to: "2026-10-10",
     nights: 1,
@@ -35,6 +39,7 @@ export const destinations = [
     name: "Matsumoto",
     ja: "松本",
     he: "מצומוטו",
+    at: [36.26, 137.99],
     from: "2026-10-10",
     to: "2026-10-13",
     nights: 3,
@@ -47,6 +52,7 @@ export const destinations = [
     name: "Fuji · Gotemba",
     ja: "御殿場",
     he: "פוג׳י",
+    at: [35.30, 138.95],
     from: "2026-10-13",
     to: "2026-10-15",
     nights: 2,
@@ -59,6 +65,7 @@ export const destinations = [
     name: "Tokyo",
     ja: "東京",
     he: "טוקיו",
+    at: [35.70, 139.75],
     from: "2026-10-15",
     to: "2026-10-20",
     nights: 5,

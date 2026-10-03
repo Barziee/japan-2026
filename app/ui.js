@@ -73,7 +73,7 @@ export const WALLET_ICON = {
 
 export const MODE_ICON = { train:"train", walk:"walk", car:"car", bus:"bus" };
 
-export const SKY_ICON = { clear:"sun", mixed:"partly", rain:"rain" };
+export const SKY_ICON = { clear:"sun", mixed:"partly", cloud:"cloud", rain:"rain" };
 
 /* ---------------------------------------------------------------- time */
 /* Research that said "morning" stays morning. Nothing is ever promoted
