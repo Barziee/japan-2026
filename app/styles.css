@@ -1086,3 +1086,48 @@ ul{margin:0;padding:0;list-style:none}
 .v10 .destcard .dates,.drow .dwhen{font-size:11.5px}
 .tbody .maps,.v10 .btn,.resetline,.v10 .prow .drawer .btn,.clearall,.reminder-when{font-size:12.5px}
 .sgroup-head small{font-size:12px}
+
+/* ============================================================
+   Thumb-sized targets
+   The small text links keep their look; the area that takes a tap grows
+   around them, so "מפות" under a stop is not an 18px strip to aim for.
+   ============================================================ */
+.tbody .maps,.v10 .sectionhead a,.routehead a,.clearall,.searchbar #cancel,.resetline,.hit{position:relative}
+/* Upwards and downwards only: anything that sticks out sideways would read
+   as a sideways scroller to the tab swipe, and swallow it. */
+.tbody .maps::after,.v10 .sectionhead a::after,.routehead a::after,.clearall::after,
+.searchbar #cancel::after,.resetline::after,.hit::after{content:"";position:absolute;inset:-13px 0}
+.resetline::after{inset:-5px 0 -13px}
+/* Cancel is the narrow one, and it sits outside the swiping screen. */
+.searchbar #cancel::after{inset:-13px -10px}
+/* "שינוי בתוכניות?": the arrow had no size of its own, so it filled the card. */
+.altbtn .t > span{display:block}
+.altbtn svg{width:15px;height:15px;flex:none;color:var(--ink3);fill:none;stroke:currentColor;stroke-width:2.2;
+  stroke-linecap:round;stroke-linejoin:round}
+
+/* Rows in the bookings list and in search results: the arrow and the alert
+   mark had no size either, and collapsed to nothing. */
+.lrow .go svg{display:block;width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;
+  stroke-linecap:round;stroke-linejoin:round}
+.lrow .pin{flex:none;color:var(--coral)}
+.lrow .pin svg{display:block;width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9;
+  stroke-linecap:round;stroke-linejoin:round}
+/* Their second line wraps instead of ending in an ellipsis: cutting a
+   right-to-left line clips the English word at its end from the front,
+   so "Gotemba" was showing as "…ba". */
+.lrow .t .s{white-space:normal;overflow:visible}
+
+/* A station name keeps its words whole. --n is the length of its longest
+   word, and the size comes down just far enough for that word to fit the
+   column beside the weather ("Matsumoto" was breaking after the t). */
+.destination h1{font-size:min(54px, calc((100vw - 143px) / (var(--n, 5) * .64)))}
+@media (max-width:370px){
+  .destination h1{font-size:min(44px, calc((100vw - 143px) / (var(--n, 5) * .64)))}
+}
+
+/* The two arrows on the photo sit 5px apart, so they grow mostly upwards. */
+.hero-step button{position:relative}
+.hero-step button::after{content:"";position:absolute;inset:-9px -2px}
+
+/* The whole search box takes the tap, not only the line of text inside it. */
+.searchbar input{align-self:stretch}

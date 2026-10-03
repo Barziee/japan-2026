@@ -41,8 +41,10 @@ export function freshness() {
 
   const mins = Math.round((Date.now() - at) / 60000);
   if (mins < 1)   return "השער עודכן ממש עכשיו";
+  if (mins < 2)   return "השער עודכן לפני דקה";
   if (mins < 60)  return `השער עודכן לפני ${mins} דק׳`;
-  if (mins < 60 * 24) return `השער עודכן לפני ${Math.round(mins / 60)} שעות`;
+  const hours = Math.round(mins / 60);
+  if (hours < 24) return `השער עודכן לפני ${hours === 1 ? "שעה" : hours === 2 ? "שעתיים" : hours + " שעות"}`;
   return `שער מה-${day}, ${String(at.getHours()).padStart(2, "0")}:${String(at.getMinutes()).padStart(2, "0")}`;
 }
 

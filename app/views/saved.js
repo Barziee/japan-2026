@@ -19,17 +19,21 @@ const foodLabel = id => FOOD_TYPES.find(t => t.id === id)?.label || id;
 const norm = s => String(s || "").toLowerCase();
 
 /* Pork is the one thing Noa cannot bend on. A restaurant whose note says
-   nothing about it says so plainly rather than looking safe by silence. */
+   nothing about it says so plainly rather than looking safe by silence.
+   Only a place that is just a bar, or a whole district, is left out: a
+   "פיצה · בר יין" still puts food on the table. */
+const drinksOnly = kind => /^בר(\s|$)/.test(kind) && !kind.includes("·");
 const porkUnchecked = p =>
-  p.cat === "food" && !/חזיר|נועה/.test(p.note || "") && !/(^|[\s·])בר([\s·,]|$)|אזור/.test(p.kind || "");
+  p.cat === "food" && !/חזיר|נועה/.test(p.note || "") && !drinksOnly(p.kind || "") && !/אזור/.test(p.kind || "");
 
-/* Everything a search should find a place by, including its food types.
+/* Everything a search should find a place by, including its food types, in
+   Hebrew and in English: "ramen" has to find what "ראמן" finds.
    Built once per place: the filters run on every keystroke. */
 const HAY = new Map();
 export const haystack = p => {
   if (!HAY.has(p.id)) HAY.set(p.id, norm([
     p.name, p.ja, p.kind, p.where, p.note, areaById[p.area]?.name, areaById[p.area]?.he,
-    ...(p.food || []).map(foodLabel)
+    ...(p.food || []).flatMap(id => id === "other" ? [] : [foodLabel(id), id])
   ].join(" ")));
   return HAY.get(p.id);
 };

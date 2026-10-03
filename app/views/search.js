@@ -48,7 +48,7 @@ export function results(raw, type = null) {
           <h3 class="display">${esc(area.name)}</h3>
           <span class="n">${nights(area.nights)}</span>
         </span>
-        <span class="art"><span class="ja">${esc(area.ja)}</span></span>
+        <span class="art"><img src="./assets/${area.id}.jpg" alt="" decoding="async"></span>
       </a>`;
   }
 

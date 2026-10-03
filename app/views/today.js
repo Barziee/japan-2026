@@ -17,18 +17,18 @@ import { state, save } from "../store.js";
 import { planBank, dayIdeas, wirePlans, pickFor, BANK_LEAD } from "./plans.js";
 import {
   svg, esc, timeLabel, isSoft, minutesOf, dLabel, mapsSearch, mapsDir,
-  dayRoute, NOTE_ICON, CAT_ICON, WALLET_ICON, SKY_ICON
+  dayRoute, todayISO, nowMinutes, longestWord, NOTE_ICON, CAT_ICON, WALLET_ICON, SKY_ICON
 } from "../ui.js";
 
 /* Which day the app should be showing. Before departure this is day one, so
    Today never becomes an empty pre-trip dashboard. */
 export function currentDay() {
-  const iso = new Date().toISOString().slice(0, 10);
+  const iso = todayISO();
   return days.find(d => d.date === iso)
       || (iso < days[0].date ? days[0] : days[days.length - 1]);
 }
 
-const isLive = day => day.date === new Date().toISOString().slice(0, 10);
+const isLive = day => day.date === todayISO();
 
 /* The step we are probably heading for. Times are generous on purpose: a
    plan is guidance, and nothing here is ever marked complete. */
@@ -37,7 +37,7 @@ function upNextIndex(day) {
   if (!steps.length) return -1;
   let idx = 0;
   if (isLive(day)) {
-    const now = new Date().getHours() * 60 + new Date().getMinutes();
+    const now = nowMinutes();
     const found = steps.findIndex(s => {
       const m = minutesOf(s.t);
       return m !== null && m >= now - 30;
@@ -61,7 +61,7 @@ function stepDirections(step) {
 }
 
 /* ------------------------------------------------------------ countdown */
-/* Target is the real outbound departure: TLV wheels-up at 15:00 Israel time
+/* Target is the real outbound departure: TLV wheels-up at 15:05 Israel time
    on 3 October. Not the KIX arrival, not a midnight boundary. */
 const DEPARTURE = () => new Date(trip.departure).getTime();
 const pad = n => String(n).padStart(2, "0");
@@ -144,7 +144,7 @@ function header(day, dest) {
     <div class="destination">
       <div class="destination-copy">
         <div class="kicker">${esc(kicker)}</div>
-        <h1>${esc(dest.name)}</h1>
+        <h1 style="--n:${longestWord(dest.name)}">${esc(dest.name)}</h1>
         <p class="subtitle">${esc(day.title)}</p>
       </div>
       ${wx ? `<div class="weather">

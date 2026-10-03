@@ -107,10 +107,12 @@ function wireSwipe(root, activeTab) {
 
   let x0 = 0, y0 = 0, t0 = 0, live = false;
 
+  /* Only something a finger can really scroll sideways counts. A card that
+     merely clips a decoration overflows too, and must not swallow the swipe. */
   const startsInScroller = target => {
     let n = target;
     while (n && n !== root) {
-      if (n.scrollWidth > n.clientWidth + 4) return true;
+      if (n.scrollWidth > n.clientWidth + 4 && /auto|scroll/.test(getComputedStyle(n).overflowX)) return true;
       n = n.parentElement;
     }
     return false;

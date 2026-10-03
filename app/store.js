@@ -34,9 +34,11 @@ export function save() {
   }, 120);
 }
 
-export function toggleCheck(id) {
-  state.checks[id] = !state.checks[id];
-  if (!state.checks[id]) delete state.checks[id];
+/* Only a tick that differs from the bundled default is stored, as an explicit
+   true or false, so an item that ships ticked can be unticked and stay so. */
+export function setCheck(id, value, fallback = false) {
+  if (value === fallback) delete state.checks[id];
+  else state.checks[id] = value;
   save();
 }
 
